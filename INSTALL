@@ -1,0 +1,167 @@
+$Id: INSTALL,v 1.2 2001/05/23 17:07:49 pfkeb Exp $
+
+   To build and install CCfits  from source code on a UNIX-like
+(e.g. UNIX, Linux, or Cygwin) platform, take the following steps.  For
+building on a Microsoft Windows platform with Visual Developer Studio,
+or with Mac OS X, see below.
+
+1. Autogen 
+
+If you obtained the source from the CVS repository, you need to do
+this first step.  If you obtained the source from a gzipped tar file,
+skip to the step 2.  
+
+If you want to do a build with a compiler other than GCC, then you
+need to turn off automatic dependency generation which only works with
+GCC.  Edit the Makefile.am file by adding `no-dependencies' to the
+line
+
+	AUTOMAKE_OPTIONS = foreign
+
+If you do not do this, some options will be passed to compiler that it
+might not understand.  At least with the Sun C++ compiler, these
+options are ignored but lead to a warning message for each file that
+is compiled.   Other compiler may treat it as an error.
+
+Type in the following in the toplevel source directory:
+
+> ./autogen
+
+autogen is a UNIX shell script that runs a series of commands in a
+particular order.  It requires automake, autoconf and libtool to be
+installed on your system.   
+
+Note that you will obtain the following message after running
+'autogen':
+
+	configure.in: 36: required file `config/ltconfig' not found
+
+Disregard this message. It is not an error.
+
+
+2. Configure
+ 
+By default, the GCC compiler and linker will be used.  If you want to
+compile and link with a different compiler and linker, you can set
+some environment variable before running the configure script.  For
+example, to use Sun's C++ compiler, do the following if you are a csh
+user...
+
+> setenv CXX CC
+
+and the equivalent if you are not.  You can set the absolute path to
+the compiler you want to use if necessary.   
+
+CCfits requires that the `cfitsio' package, version 2.0 or later, is
+available on your system.  The configure script that you will run
+takes an option to specify the location of the cfitsio package.
+
+If the `cfitsio' package is installed in a directory consisting of a
+`lib' subdirectory with the libcfitsio.a file and a `include'
+subdirectory with the fitsio.h file, then you can run the configure
+script with as single option.  For example, if the cfitsio package is
+installed in this fashion in ``/usr/local/ftools' then the configure
+script option will be...
+
+	--with-cfitsio=/usr/local/ftools
+
+If the `cfitsio' package is not installed in the above manner, then
+you need to run the configure script with two options, one to specify
+the include directory and the other to specify the library directory.
+For example, if the cfitsio package was built in `/home/user/cfitsio'
+then the two options will be...
+
+	--with-cfitsio-include=/home/user/cfitsio 
+	--with-cfitsio-libdir=/home/user/cfitsio
+
+You have the option of carrying out the build in a separate directory
+from the source directory or in hhe same directory as the source.  In
+either case, you need to run the `configure' script in the directory
+where the build will occour.   So for example, if building in the source directory with the `cfitsio' directory in `/usr/local/ftools' then the configure coammand should be issued like this...
+
+> ./configure --with-cfitsio=/usr/local/fttools
+
+If you do the build in separate directory from the source, you may need to issue the configure command something like this...
+
+> ../CCfits//configure --with-cfitsio=/usr/local/fttools
+
+The configure script will create the Makefile with the path to the
+compiler you choose (or GCC by default), and the path to cfitsio
+package.  The configure script has other options, just as the install
+location.  To see this options type
+
+> ./configure --help
+
+Note to developers:
+
+
+3. Build
+
+   Building the C++ shared library and Java classes will be done
+automatically by running make without arguments like thus...
+
+> gmake
+
+Finally, type in the following to generate the html
+documentation...
+
+> make docs
+
+This will create a directory in your current directory called /html,
+and all of the html documentation will be created in this directory.
+The tool `Doxygen' (http://www.doxygen.org) is required to create the
+documentation.
+
+
+4. Install
+
+   To install, type...
+
+> make install
+
+The default install location will be /usr/local/lib for the library
+and /usr/local/include for the header files.  You can change this with
+the --prefix option when you configure, or with something like...
+
+> make DESTDIR=/usr/local/ftools install
+
+
+
+For compiling the code on a Windows system with MicroSoft Visual C++,
+thake the following steps.
+
+1. Compile the C++ code.   
+Before compiling the C++ code, you may need to edit the file
+`fincludes'.  This file has the include path to the cfitsio package
+  If the file
+has the correct path, then open the workspace file `CCfits.dsw'
+from within a Visual C++ Studio session and do a build.
+
+The workspace file was generated automatically by a tool called
+`am2msdev' (ftp::/ftp.slac.stanford.edu/users/pfkeb/automake/am2msdev).  Inputs
+to this tool are the Makefile.am files used by the UNIX-based
+developers to do builds.
+
+
+Author: Paul_Kunz@slac.stanford.edu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

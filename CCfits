@@ -1,0 +1,21 @@
+
+#ifndef CCFITS
+#define CCFITS  20010508
+
+#include <CCfits.h>
+
+#include <FITS.h>
+#include <BinTable.h>
+#include <AsciiTable.h>
+#include <ColumnVectorData.h>
+#include <ColumnData.h>
+#include <ColumnT.h>
+#include <ExtHDUT.h>
+#include <KeywordT.h>
+#include <KeyData.h>
+#include <FitsError.h>
+#include <FITSUtilT.h>
+#include <PHDUT.h>
+
+
+#endif

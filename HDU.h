@@ -1,0 +1,805 @@
+
+//	This is CCfits version 1.0-beta
+
+//	HEASARC
+//	http://heasarc.gsfc.nasa.gov
+//
+//	August 2001 Ben Dorman, Emergent-IT, Inc.
+//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+
+
+#ifndef HDU_H
+#define HDU_H 1
+
+#include <map>
+
+
+#include <list>
+// vector
+#include <vector>
+// Keyword
+#include "Keyword.h"
+// NewKeyword
+#include "NewKeyword.h"
+// FitsError
+#include "FitsError.h"
+// FITSUtil
+#include "FITSUtil.h"
+
+namespace CCfits {
+  class FITS;
+  class FITSBase;
+
+} // namespace CCfits
+
+
+using std::valarray;
+
+
+namespace CCfits {
+        /*! \class HDU
+
+                \brief Base class for all HDU [Header-Data Unit] objects.
+
+                HDU objects in CCfits are either PHDU (Primary HDU objects) or	
+		ExtHDU (Extension HDU) objects. Following the behavior.
+ExtHDUs are further subclassed into ImageExt or Table objects, which are
+finally AsciiTable or BinTable objects.
+
+		HDU's public interface gives access to properties that are
+common to all HDUs, largely required keywords, and functions that  are common
+to all HDUs, principally the manipulation of keywords and their values.
+
+		HDUs must be constructed by HDUCreator objects which are
+called by FITS methods. Each HDU has an embedded pointer to a FITSBase
+object, which is private to FITS [FITSBase is a pointer encapsulating the
+resources of FITS. For details of this coding idiom see Exceptional C++
+by Herb Sutter (2000) and references therein].
+
+		
+        */
+
+
+        /*! \class HDU::InvalidExtensionType
+
+		@ingroup FITSexcept
+                @brief exception to be thrown if user requests extension type that can not be understood as 
+                ImageExt, AsciiTable or BinTable.
+        */
+
+
+/*! \fn HDU::InvalidExtensionType::InvalidExtensionType (const string& diag, bool silent);
+
+        \brief Exception ctor, prefixes the string "Fits Error: Extension Type: " before the specific message.
+                        
+        \param diag A specific diagnostic message
+        \param silent if true, print message whether FITS::verboseMode is set or not.
+
+*/        
+
+        /*! \class HDU::InvalidImageDataType
+
+		@ingroup FITSexcept
+                @brief exception to be thrown if user requests creation of an image of type not
+                supported by cfitsio.
+        */
+        
+/*! \fn HDU::InvalidImageDataType::InvalidImageDataType (const string& diag, bool silent);
+
+        \brief Exception ctor, prefixes the string "Fits Error: Invalid Data Type for Image " before the specific message.
+                        
+        \param diag A specific diagnostic message
+        \param silent if true, print message whether FITS::verboseMode is set or not.
+
+*/        
+
+/*! \class HDU::NoSuchKeyword
+
+		@ingroup FITSexcept
+                @brief exception to be thrown on seek errors for keywords.
+*/
+        
+/*! \fn HDU::NoSuchKeyword::NoSuchKeyword (const string& diag, bool silent);
+
+        \brief Exception ctor, prefixes the string "Fits Error: Keyword not found:  " before the specific message.
+                        
+        \param diag A specific diagnostic message, usually the name of the keyword requested.
+        \param silent if true, print message whether FITS::verboseMode is set or not.
+
+*/        
+
+/*! \class HDU::NoNullValue
+
+		@ingroup FITSexcept
+                @brief exception to be thrown on seek errors for keywords.
+*/
+        
+/*! \fn HDU::NoNullValue::NoNullValue (const string& diag, bool silent);
+
+        \brief Exception ctor, prefixes the string "Fits Error: No Null Pixel Value specified for Image " before the specific message.
+                        
+        \param diag A specific diagnostic message, the name of the HDU if not the primary.
+        \param silent if true, print message whether FITS::verboseMode is set or not.
+
+*/        
+
+        /*! \fn      HDU::HDU(const HDU &right);
+
+        \brief copy constructor
+
+        */
+
+        /*! \fn       virtual HDU::~HDU();
+
+        \brief destructor
+
+        */
+
+
+        /*! \fn       bool HDU::operator==(const HDU &right) const;
+
+        \brief equality operator
+
+        */
+
+        /*! \fn       bool HDU::operator!=(const HDU &right) const;
+
+        \brief inequality operator
+
+        */
+
+           
+        /*! \fn  const string& HDU::getHistory();
+                \brief read the history information from the HDU and add it to the FITS object.
+        
+                The history string found in the header is concatenated and returned
+                to the calling function
+        */                
+
+         /*! \fn  const string& HDU::getComments();
+                \brief read the comments from the HDU and add it to the FITS object.
+                                
+                The comment string found in the header is concatenated and returned
+                to the calling function
+        
+        */   
+                     
+        /*! \fn void HDU::readAllKeys();
+                \brief read all of the keys in the header
+                                
+                This member function reads keys that are not connected with
+                columns or image information, [which are considered to be
+                part of the column or image objects]. Also, history and 
+                comment keys are read and returned by getHistory() and getComment()
+                 
+        
+        */
+              
+         /*! \fn void HDU::writeComment(const string& comment = "Generic Comment");                      
+                \brief write a comment string. 
+                                
+                A default value for the string is given ("Generic Comment String") 
+                so users can put a placeholder call to this function in their code.
+        */
+                        
+        /*! \fn  void HDU::writeHistory (const string& history = "Generic History String");
+                \brief write a history string. 
+        
+                A default value for the string is given ("Generic History String") 
+                so users can put a placeholder call to this function in their code.
+        */            
+                
+        /*! \fn void HDU::writeDate();
+                \brief write a date string to *this.
+        
+        */ 
+                                
+         /*! \fn void HDU::deleteKey(const std::string& doomed)
+                \brief delete a keyword from the header 
+                
+                
+                removes <i>doomed<i> from the FITS file and from the FITS object
+         
+         */
+                                                                                          
+         /*! \fn const string& HDU::history() const;
+                \brief return the history string previously read by getHistory()
+        
+        */  
+
+        /*! \fn const string& HDU::comment() const;
+                \brief return the comment string previously read by getComment()
+        
+        */  
+ 
+                                                                                             
+        /*! \fn   template <typename T> void HDU::readKey(const string& keyName, T& val);
+      
+            
+        \brief read a  keyword of specified type from the header of a disk  FITS file
+and return its value. 
+
+        */
+
+        /*! \fn  template <typename T> void HDU::readKeys(std::vector<string>& keyNames, std::vector<T>& vals);
+
+        \brief read a set of specified keywords of the same data type
+		from the header of a disk  FITS file and return their values
+
+        */
+
+
+        /*! \fn       virtual HDU * HDU::clone (FITSBase* p) const = 0;
+
+        \brief virtual copy constructor, to be implemented in subclasses.
+
+        */
+
+
+        /*! \fn       void HDU::makeThisCurrent () const;
+
+              \brief move the fitsfile pointer to this current HDU. 
+
+		This function should never need to be called by the user
+		since it is called internally whenever required.
+
+        */
+
+
+        /*! \fn       Keyword* HDU::keyWord (const string& keyName);
+
+        \brief  return a (previously read) keyword from the HDU object.
+
+        */
+
+
+        /*! \fn       int HDU::index () const;
+
+        \brief return the HDU number
+
+        */
+
+        /*! \fn       void HDU::index (int value);
+
+        \brief set the HDU number
+
+        */
+
+
+        /*! \fn       const std::map<string,Keyword*>& HDU::keyWord () const;
+
+        \brief  return the associative array containing the HDU Keywords that have been read so far.
+
+        */
+
+        /*! \fn      const Keyword * HDU::keyWord (const string& keyname) const;
+
+        \brief return a (previously read) keyword from the HDU object. const version
+
+        */
+
+        /*! \fn       void HDU::setKeyWord (const string& keyname, Keyword& value);
+
+        \brief set Keyword keyname to specified value
+
+        */
+
+        /*! \fn       HDU::HDU (FITSBase* p = 0) throw (FitsException&);
+
+        \brief default constructor, called by HDU subclasses that read from FITS files.
+
+        */
+
+        /*! \fn       HDU::HDU (FITSBase* p, int bitpix,int naxis, const std::vector<long>& axes) throw (FitsException&);
+
+        \brief constructor for creating new HDU objects, called by HDU subclasses writing to FITS files.
+
+        */
+
+
+
+        /*! \fn       virtual bool HDU::compare (const HDU &right) const;
+
+        \brief internal implementation of equality operations.
+
+        */
+
+
+        /*! \fn       fitsfile* HDU::fitsPointer () const;
+
+        \brief return the fitsfile pointer for the FITS object containing the HDU
+
+        */
+
+        /*! \fn       std::map<string, Keyword*> HDU::keyWord ();
+
+        \brief return the associative  array containing the HDU keywords so far read.
+
+        */
+
+
+
+        /*! \fn       long HDU::axis (size_t index) const;
+
+        \brief return the size of axis numbered index [zero based].
+
+        */
+
+        /*! \fn       void HDU::axes () const;
+
+        \brief  return the number of axes in the HDU data section (always 2 for tables).
+
+        */
+
+
+        /*! \fn       const long HDU::bitpix () const;
+
+        \brief return the data type keyword. 
+
+        Takes values denoting the image data type for images, and takes the fixed value 8 for
+        tables.
+
+        */
+
+        /*! \fn       void HDU::bitpix (long value);
+
+        \brief set the data type keyword
+
+        */
+
+
+        /*! \fn       const FITSBase *& HDU::parent () const;
+
+        \brief return reference to the pointer representing the FITSBase object containing the HDU
+
+        */
+
+
+
+        /*! \fn       std::vector< long >& HDU::naxes ();
+
+        \brief return the HDU data axis array.
+
+
+        */
+
+
+        /*! \fn       long HDU::axis (size_t i) const;
+
+                \brief return the length of HDU data axis i.
+
+        */
+
+        /*! \fn       template <typename T> Keyword& HDU::addKey(const string& name, T value,  const string& comment) throw (FitsException&)
+
+                \brief create a new keyword in the HDU with specified value and comment fields
+
+                the function returns a reference to keyword object just created.
+
+        */
+
+
+                        
+        /*! \fn std::ostream& operator << (std::ostream& s, const CCfits::HDU& right);
+        
+                \brief insertion operator.
+        
+        */  
+
+
+
+
+  class HDU 
+  {
+
+    public:
+
+      class InvalidImageDataType : public FitsException  //## Inherits: <unnamed>%394FBA12005C
+      {
+        public:
+            InvalidImageDataType (const string& diag, bool silent = true);
+
+        protected:
+        private:
+        private: //## implementation
+      };
+
+
+      class InvalidExtensionType : public FitsException  //## Inherits: <unnamed>%3964C1D00352
+      {
+        public:
+            InvalidExtensionType (const string& diag, bool silent = true);
+
+        protected:
+        private:
+        private: //## implementation
+      };
+
+
+      class NoSuchKeyword : public FitsException  //## Inherits: <unnamed>%398865D10264
+      {
+        public:
+            NoSuchKeyword (const string& diag, bool silent = true);
+
+        protected:
+        private:
+        private: //## implementation
+      };
+
+
+      class NoNullValue : public FitsException  //## Inherits: <unnamed>%3B0D58CE0306
+      {
+        public:
+            NoNullValue (const string& diag, bool silent = true);
+
+        protected:
+        private:
+        private: //## implementation
+      };
+
+        HDU(const HDU &right);
+
+        bool operator==(const HDU &right) const;
+
+        bool operator!=(const HDU &right) const;
+
+
+        virtual HDU * clone (FITSBase* p) const = 0;
+
+        fitsfile* fitsPointer () const;
+
+        //	By all means necessary, set the fitsfile pointer so that
+        //	this HDU is the current HDU.
+        //
+        //	This would appear to be a good candidate for the public
+        //	interface.
+        virtual void makeThisCurrent () const;
+
+        std::map<string, Keyword*> keyWord ();
+
+        Keyword& keyWord (const string& keyName) throw (HDU::NoSuchKeyword);
+
+        const string& getHistory ();
+
+        const string& getComments ();
+
+        friend ostream& operator << (ostream& s, const CCfits::HDU& right);
+
+        //	Write a history string. A default value for the string is given
+        //	"Generic History String" so users can put a placeholder call
+        //	to this function in their code before knowing quite what should go in it.
+        void writeHistory (const string& history = "Generic History String");
+
+        //	Write a history string. A default value for the string is given
+        //	"GenericComment" so users can put a placeholder call
+        //	to this function in their code before knowing quite what should go in it.
+        void writeComment (const string& comment = "Generic Comment");
+
+        //	Write a date card.
+        void writeDate ();
+
+        FITSBase* parent () const;
+
+        void readAllKeys ();
+
+        long axes () const;
+
+        long axis (size_t index) const;
+
+        void index (int value);
+
+        void deleteKey (const std::string& doomed);
+
+
+        int index () const;
+
+        const string& history () const;
+
+        const string& comment () const;
+
+
+        const std::map<string,Keyword*>& keyWord () const;
+        const Keyword& keyWord (const string& keyname) const;
+        void setKeyWord (const string& keyname, Keyword& value);
+
+    public:
+      // Additional Public Declarations
+      template <typename T>
+      Keyword& addKey(const string& name, T val,  const string& comment) throw (FitsException&);
+  
+      template <typename T>
+      void readKey(const string& keyName, T& val);
+      
+      template <typename T>
+      void readKeys(std::vector<string>& keyNames, std::vector<T>& vals);
+            
+    protected:
+        //	Functions as the default constructor, which is required for
+        //	the map container class.
+        HDU (FITSBase* p = 0);
+
+        HDU (FITSBase* p, int bitpix, int naxis, const std::vector<long>& axes);
+
+        virtual ~HDU();
+
+
+        Keyword& readKeyword (const string &keyname);
+
+        void readKeywords (std::list<string>& keynames);
+
+        virtual ostream & put (ostream &s) const = 0;
+
+
+        long& naxis ();
+        void naxis (const long& value);
+
+        long bitpix () const;
+        void bitpix (long value);
+
+        //	Flags whether there were any null values found in the
+        //	last read operation.
+        bool& anynul ();
+        void anynul (const bool& value);
+
+
+        FITSBase*& parent ();
+
+        std::vector<long>& naxes ();
+        long& naxes (size_t index);
+        void naxes (size_t index, const long& value);
+
+      // Additional Protected Declarations
+
+    private:
+
+        //	clear the FITS Keyword map. To be called by
+        //	the dtor and the copy/assignment operations.
+        void clearKeys ();
+
+        virtual void initRead () = 0;
+
+        void readHduInfo ();
+
+        Keyword* addKeyword (Keyword* newKey);
+
+        virtual bool compare (const HDU &right) const;
+
+        //	clear the FITS Keyword map. To be called by
+        //	the dtor and the copy/assignment operations.
+        void copyKeys (const HDU& right);
+
+        string getNamedLines (const string& name) throw (FitsException&);
+
+      // Additional Private Declarations
+
+    private: //## implementation
+      // Data Members for Class Attributes
+
+        long m_naxis;
+
+        long m_bitpix;
+
+        int m_index;
+
+        bool m_anynul;
+
+        string m_history;
+
+        string m_comment;
+
+      // Data Members for Associations
+
+        std::map<string,Keyword*> m_keyWord;
+
+        FITSBase* m_parent;
+
+        std::vector<long> m_naxes;
+
+      // Additional Implementation Declarations
+      friend fitsfile* Keyword::fitsPointer() const;
+      friend Keyword* KeywordCreator::getKeyword(const string& keyname, HDU* p);
+      friend Keyword* KeywordCreator::getKeyword(const string& keyname, ValueType keyType, HDU* p);
+  };
+
+  inline std::ostream& operator << (std::ostream &s, const CCfits::HDU &right)
+  {
+     return right.put(s);
+  }
+
+  template <typename T>
+  Keyword& HDU::addKey(const string& name, T value,  const string& comment) throw (CCfits::FitsException&)
+  {
+              NewKeyword<T> keyCreator(this,value);
+              Keyword& newKey = *(addKeyword(keyCreator.createKeyword(name,comment)));
+              return newKey;
+  } 
+
+  template <typename T>
+  void HDU::readKey(const string& keyName, T& val)
+  {
+          Keyword& key = readKeyword(keyName);
+          key.value(val);
+  }
+
+  template <typename T>
+  void HDU::readKeys(std::vector<string>& keyNames, std::vector<T>& vals)
+  {
+          size_t nRead = keyNames.size();
+
+          std::list<string> valKeys;
+          std::list<T>      valList;
+          for (size_t i = 0; i < nRead; i++) valKeys.push_back(keyNames[i]);
+          // read all the keys requested, rejecting those that don't exist.
+
+          readKeywords(valKeys);
+
+          // get the values of all of the requested keys, rejecting those of the
+          // wrong type.
+
+          T current;
+          std::list<string>::iterator it = valKeys.begin(); 
+          while (it != valKeys.end())
+          {
+                  try
+                  {
+                          m_keyWord[*it]->value(current);
+                          valList.push_back(current);       
+			  it++;
+                  }
+                  catch ( Keyword::WrongKeywordValueType )
+                  {
+                          it = valKeys.erase(it);                         
+                  }
+          }
+
+          keyNames.erase(keyNames.begin(),keyNames.end());       
+
+          if (!valList.empty())
+          {
+                  if (valList.size() != vals.size()) vals.resize(valList.size());
+
+                  size_t i=0;
+                  for (std::list<T>::const_iterator it1 = valList.begin(); it1 != valList.end(); ++it1,++i)
+                  {
+                          vals[i] = *it1;
+                  }
+                  for (std::list<T>::const_iterator it1= valKeys.begin(); it1 != valKeys.end(); ++it1)
+                  {
+                          keyNames.push_back(*it1);
+                  }
+          }
+
+  }
+
+  // Class CCfits::HDU::InvalidImageDataType 
+
+  // Class CCfits::HDU::InvalidExtensionType 
+
+  // Class CCfits::HDU::NoSuchKeyword 
+
+  // Class CCfits::HDU::NoNullValue 
+
+  // Class CCfits::HDU 
+
+
+  inline std::map<string, Keyword*> HDU::keyWord ()
+  {
+
+    return m_keyWord;
+  }
+
+  inline Keyword& HDU::keyWord (const string& keyName) throw (HDU::NoSuchKeyword)
+  {
+  std::map<string,Keyword*>::iterator key = m_keyWord.find(keyName);
+  if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyName);
+  return *((*key).second);
+  }
+
+
+  inline long HDU::axes () const
+  {
+
+    return m_naxis;
+  }
+
+  inline long HDU::axis (size_t index) const
+  {
+
+    return m_naxes[index];
+  }
+
+  inline void HDU::index (int value)
+  {
+
+    m_index = value;
+  }
+
+
+  inline long& HDU::naxis ()
+  {
+    return m_naxis;
+  }
+
+  inline void HDU::naxis (const long& value)
+  {
+    m_naxis = value;
+  }
+
+  inline long HDU::bitpix () const
+  {
+    return m_bitpix;
+  }
+
+  inline void HDU::bitpix (long value)
+  {
+    m_bitpix = value;
+  }
+
+  inline int HDU::index () const
+  {
+    return m_index;
+  }
+
+  inline bool& HDU::anynul ()
+  {
+    return m_anynul;
+  }
+
+  inline void HDU::anynul (const bool& value)
+  {
+    m_anynul = value;
+  }
+
+  inline const string& HDU::history () const
+  {
+    return m_history;
+  }
+
+  inline const string& HDU::comment () const
+  {
+    return m_comment;
+  }
+
+
+  inline const std::map<string,Keyword*>& HDU::keyWord () const
+  {
+    return m_keyWord;
+  }
+
+  inline const Keyword& HDU::keyWord (const string& keyname) const
+  {
+  std::map<string,Keyword*>::const_iterator key = m_keyWord.find(keyname);
+  if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyname);
+  return *((*key).second);
+  }
+
+  inline void HDU::setKeyWord (const string& keyname, Keyword& value)
+  {
+  m_keyWord[keyname] = &value;
+  }
+
+  inline FITSBase*& HDU::parent ()
+  {
+    return m_parent;
+  }
+
+  inline std::vector<long>& HDU::naxes ()
+  {
+    return m_naxes;
+  }
+
+  inline long& HDU::naxes (size_t index)
+  {
+    return m_naxes[index];
+  }
+
+  inline void HDU::naxes (size_t index, const long& value)
+  {
+    m_naxes[index] = value;
+  }
+
+} // namespace CCfits
+
+
+
+#endif
