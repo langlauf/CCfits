@@ -1,16 +1,33 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef TABLE_H
 #define TABLE_H 1
 
+
+// ExtHDU
+#include "ExtHDU.h"
+// FitsError
+#include "FitsError.h"
+
+namespace CCfits {
+  class Column;
+
+} // namespace CCfits
+
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -22,16 +39,6 @@ using std::ostrstream;
 #else
 #include <sstream>
 #endif
-
-// ExtHDU
-#include "ExtHDU.h"
-// FitsError
-#include "FitsError.h"
-
-namespace CCfits {
-  class Column;
-
-} // namespace CCfits
 
 
 
@@ -111,7 +118,7 @@ namespace CCfits {
 */
 
 
-/*!   \fn Column& Table::column (const string& colName) const throw (Table::NoSuchColumn);
+/*!   \fn Column& Table::column (const string& colName) const;
 
      \brief  return a reference to the column of name colName.
         
@@ -121,7 +128,7 @@ namespace CCfits {
 */
  
  
-/*!  \fn    Column& Table::column (int colIndex) const throw (Table::NoSuchColumn);
+/*!  \fn    Column& Table::column (int colIndex) const;
 
         \brief return a reference to the column identified by colIndex
         
@@ -280,10 +287,14 @@ namespace CCfits {
 
 
 
+
+
   class Table : public ExtHDU  //## Inherits: <unnamed>%3804A126EB10
   {
 
     public:
+
+
 
       class NoSuchColumn : public FitsException  //## Inherits: <unnamed>%397CB0970174
       {
@@ -296,6 +307,8 @@ namespace CCfits {
         private:
         private: //## implementation
       };
+
+
 
 
       class InvalidColumnSpecification : public FitsException  //## Inherits: <unnamed>%3B1E52D703B0
@@ -316,10 +329,10 @@ namespace CCfits {
         const std::map<string,Column*>& column () const;
 
         //	! return reference to a column given by column name.
-        virtual Column& column (const string& colName) const throw (FitsException&);
+        virtual Column& column (const string& colName) const;
 
         virtual Column& column (int colIndex	// ! return reference to a column given by a column index number
-        ) const throw (FitsException&);
+        ) const;
 
         virtual long rows () const;
 
@@ -362,8 +375,6 @@ namespace CCfits {
         void init (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
 
         virtual void column (const string& colname, Column* value);
-
-        virtual void checkExtensionType () const;
 
         void reindex ();
 
@@ -423,12 +434,6 @@ namespace CCfits {
   {
 
     naxes(1) = numRows;
-  }
-
-  inline void Table::checkExtensionType () const
-  {
-    // nothing to do if we got here.
-
   }
 
 

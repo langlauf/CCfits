@@ -1,20 +1,19 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef COLUMNCREATOR_H
 #define COLUMNCREATOR_H 1
 
 #include <iostream>
-
-#include <string>
-#include <vector>
 
 // ColumnVectorData
 #include "ColumnVectorData.h"
@@ -27,11 +26,16 @@ namespace CCfits {
 
 } // namespace CCfits
 
+#include <string>
+#include <vector>
+
 
 using std::string;
 
 
 namespace CCfits {
+
+
 
 
 
@@ -53,7 +57,7 @@ namespace CCfits {
 
         //	createColumn is for specifying input data for creating
         //	new columns in tables.
-        Column * createColumn (int number, ValueType type, const string &name, const string &format, const string &unit, long repeat = 1, long width = 1, double scaleFactor = 1., double offset = 0., const string &comment = "");
+        Column * createColumn (int number, ValueType type, const string &name, const string &format, const string &unit, long repeat = 1, long width = 1, double scaleFactor = 1., double offset = 0, const string &comment = "");
 
       // Additional Public Declarations
 
@@ -67,6 +71,9 @@ namespace CCfits {
       // Additional Protected Declarations
 
     private:
+
+        void getScaling (int index, int& type, long& repeat, long& width, double& tscale, double& tzero);
+
 
         const Table* parent () const;
         void parent (Table* value);

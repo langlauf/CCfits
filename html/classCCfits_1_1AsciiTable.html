@@ -21,23 +21,14 @@
 </map>
 <a href="classCCfits_1_1AsciiTable-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="a0" doxytag="CCfits::AsciiTable::clone"></a>
-virtual AsciiTable*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#a0">clone</a> (FITSBase *p) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>virtual copy constructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual AsciiTable*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#a0">clone</a> (FITSBase *p) const</td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#a1">readData</a> (bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read columns and keys specified in the input array.</em> <a href="#a1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#a2">addColumn</a> (ValueType type, const string &amp;columnName, long repeatWidth, const string &amp;colUnit=string(""), long decimals=-1, size_t columnNumber=0)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>add a new column to an existing table <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b0">AsciiTable</a> (FITSBase *p, const string &amp;hduName=string(""), bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>reading constructor: Construct a <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> extension from an extension of an existing disk file.</em> <a href="#b0">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b1">AsciiTable</a> (FITSBase *p, const string &amp;hduName, int rows, const std::vector&lt; ValueType &gt; &amp;columnType=std::vector&lt; ValueType &gt;(), const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>writing constructor: create new Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> object with the specified columns.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b1">AsciiTable</a> (FITSBase *p, const string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b2">AsciiTable</a> (FITSBase *p, int number)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> with <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number <code>number</code> from existing file.</em> <a href="#b2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b3" doxytag="CCfits::AsciiTable::~AsciiTable"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b3">~AsciiTable</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1AsciiTable.html#b3">~AsciiTable</a> ()</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Class Representing Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> Extensions.
@@ -150,12 +141,6 @@ int <em>rows</em>,
         <tr>
           <td></td>
           <td><b>
-const std::vector&lt; ValueType &gt; &amp; <em>columnType</em> = std::vector&lt;ValueType&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
 const std::vector&lt; string &gt; &amp; <em>columnName</em> = std::vector&lt;string&gt;(), 
           </b></td>
         </tr>
@@ -194,7 +179,7 @@ writing constructor: create new Ascii <a class="el" href="classCCfits_1_1Table.h
 <p>
 
 <p>
-  The constructor creates a valid <a class="el" href="classCCfits_1_1HDU.html">HDU</a> which is ready for <a class="el" href="classCCfits_1_1Column.html#a23">Column::write</a> or insertRows operations. The disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file is update accordingly.<dl compact><dt>
+  The constructor creates a valid <a class="el" href="classCCfits_1_1HDU.html">HDU</a> which is ready for <a class="el" href="classCCfits_1_1Column.html#a30">Column::write</a> or insertRows operations. The disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file is update accordingly. The data type of each column is determined by the columnFmt argument (TFORM keywords). See cfitsio documentation for acceptable values.<dl compact><dt>
 <b>Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>hduName</em>
@@ -203,16 +188,13 @@ name of <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> objec
 <tr><td valign=top><em>rows</em>
 &nbsp;</td><td>
 number of rows in the table (NAXIS2) </td></tr>
-<tr><td valign=top><em>columnType</em>
-&nbsp;</td><td>
-(optional) array of data types for columns to be inserted into the table on construction.</td></tr>
 <tr><td valign=top><em>columnName</em>
 &nbsp;</td><td>
-(optional) array of column names for columns to be constructed. </td></tr>
+array of column names for columns to be constructed. </td></tr>
 <tr><td valign=top><em>columnFmt</em>
 &nbsp;</td><td>
-(optional) array of column formats for columns to be constructed. </td></tr>
-<tr><td valign=top><em>columnType</em>
+array of column formats for columns to be constructed. </td></tr>
+<tr><td valign=top><em>columnUnit</em>
 &nbsp;</td><td>
 (optional) array of units for data in columns. </td></tr>
 <tr><td valign=top><em>version</em>
@@ -226,7 +208,7 @@ number of rows in the table (NAXIS2) </td></tr>
 
 <p>
 <dl compact><dt>
-<b><a class="el" href="todo.html#_todo000001">Todo: </a></b><dd>
+<b><a class="el" href="todo.html#_todo000002">Todo: </a></b><dd>
 {enforce equal dimensions for arrays input to <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a>, <a class="el" href="classCCfits_1_1BinTable.html">BinTable</a> writing ctor}</dl>     </td>
   </tr>
 </table>
@@ -269,24 +251,17 @@ read <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> with <a 
  This is used internally by methods that need to access HDUs for which no EXTNAME [or equivalent] keyword exists.     </td>
   </tr>
 </table>
-<hr><h2>Member Function Documentation</h2>
-<a name="a1" doxytag="CCfits::AsciiTable::readData"></a><p>
+<a name="b3" doxytag="CCfits::AsciiTable::~AsciiTable"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::AsciiTable::readData (
+CCfits::AsciiTable::~AsciiTable (
           </b></td>
           <td valign="bottom"><b>
-bool <em>readFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)<code> [virtual]</code>
+)<code> [protected]</code>
           </b></td>
         </tr>
 
@@ -302,15 +277,12 @@ const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt
     <td>
 
 <p>
-read columns and keys specified in the input array.
+destructor.
 <p>
-
-<p>
- See <a class="el" href="classCCfits_1_1Table.html">Table</a> class documentation for further details. 
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a2">CCfits::ExtHDU</a>.    </td>
+    </td>
   </tr>
 </table>
+<hr><h2>Member Function Documentation</h2>
 <a name="a2" doxytag="CCfits::AsciiTable::addColumn"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -398,9 +370,83 @@ optional parameter specifying column number to be created. If not specified the 
 Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a9">CCfits::ExtHDU</a>.    </td>
   </tr>
 </table>
+<a name="a0" doxytag="CCfits::AsciiTable::clone"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+AsciiTable * CCfits::AsciiTable::clone (
+          </b></td>
+          <td valign="bottom"><b>
+FITSBase * <em>p</em>&nbsp;) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+virtual copy constructor.
+<p>
+
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a4">CCfits::ExtHDU</a>.    </td>
+  </tr>
+</table>
+<a name="a1" doxytag="CCfits::AsciiTable::readData"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::AsciiTable::readData (
+          </b></td>
+          <td valign="bottom"><b>
+bool <em>readFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read columns and keys specified in the input array.
+<p>
+
+<p>
+ See <a class="el" href="classCCfits_1_1Table.html">Table</a> class documentation for further details. 
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a2">CCfits::ExtHDU</a>.    </td>
+  </tr>
+</table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>AsciiTable.h<li>AsciiTable.cxx</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:52 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:09 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

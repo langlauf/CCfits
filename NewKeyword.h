@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef NEWKEYWORD_H
 #define NEWKEYWORD_H 1
-
 
 
 // KeywordCreator
@@ -22,7 +23,10 @@
 
 
 
+
 namespace CCfits {
+
+
 
 
 
@@ -85,7 +89,6 @@ namespace CCfits {
   }
 
   // Parameterized Class CCfits::NewKeyword 
-
 
   template <typename T>
   NewKeyword<T>::NewKeyword (HDU* p, T value)

@@ -17,92 +17,56 @@
 <map name="CCfits::HDU_map">
 <area href="classCCfits_1_1ExtHDU.html" alt="CCfits::ExtHDU" shape="rect" coords="60,56,171,80">
 <area href="classCCfits_1_1PHDU.html" alt="CCfits::PHDU" shape="rect" coords="181,56,292,80">
-<area href="classCCfits_1_1ImageExt.html" alt="CCfits::ImageExt" shape="rect" coords="0,112,111,136">
-<area href="classCCfits_1_1Table.html" alt="CCfits::Table" shape="rect" coords="121,112,232,136">
-<area href="classCCfits_1_1AsciiTable.html" alt="CCfits::AsciiTable" shape="rect" coords="60,168,171,192">
-<area href="classCCfits_1_1BinTable.html" alt="CCfits::BinTable" shape="rect" coords="181,168,292,192">
+<area href="classCCfits_1_1Table.html" alt="CCfits::Table" shape="rect" coords="60,112,171,136">
+<area href="classCCfits_1_1AsciiTable.html" alt="CCfits::AsciiTable" shape="rect" coords="0,168,111,192">
+<area href="classCCfits_1_1BinTable.html" alt="CCfits::BinTable" shape="rect" coords="121,168,232,192">
 </map>
 <a href="classCCfits_1_1HDU-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a0">HDU</a> (const HDU &amp;right)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy constructor.</em> <a href="#a0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a1">operator==</a> (const HDU &amp;right) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>equality operator.</em> <a href="#a1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a2">operator!=</a> (const HDU &amp;right) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>inequality operator.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual HDU*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a3">clone</a> (FITSBase *p) const=0</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>virtual copy constructor, to be implemented in subclasses.</em> <a href="#a3">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>fitsfile*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a4">fitsPointer</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the fitsfile pointer for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a4">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a5">makeThisCurrent</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a5">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>std::map&lt;string, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>*&gt;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a6">keyWord</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> keywords so far read.</em> <a href="#a6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a7">keyWord</a> (const string &amp;keyName)  throw (HDU::NoSuchKeyword)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a (previously read) keyword from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> object.</em> <a href="#a7">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a7">keyWord</a> (const string &amp;keyName)</td></tr>
 <tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a8">getHistory</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read the history information from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.</em> <a href="#a8">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a9">getComments</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read the comments from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.</em> <a href="#a9">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a10">writeHistory</a> (const string &amp;history="Generic History String")</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write a history string.</em> <a href="#a10">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a11">writeComment</a> (const string &amp;comment="Generic Comment")</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write a comment string.</em> <a href="#a11">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a12" doxytag="CCfits::HDU::writeDate"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a12">writeDate</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write a date string to *this.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a12">writeDate</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>FITSBase*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a13">parent</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return reference to the pointer representing the FITSBase object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a13">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a14">readAllKeys</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read all of the keys in the header.</em> <a href="#a14">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a15">axes</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the number of axes in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data section (always 2 for tables).</em> <a href="#a15">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a16">axis</a> (size_t index) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the length of <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data axis i.</em> <a href="#a16">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a17">index</a> (int value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number.</em> <a href="#a17">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a18">deleteKey</a> (const std::string &amp;doomed)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>delete a keyword from the header.</em> <a href="#a18">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a19">index</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number.</em> <a href="#a19">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a20" doxytag="CCfits::HDU::history"></a>
-const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a20">history</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the history string previously read by <a class="el" href="classCCfits_1_1HDU.html#a8">getHistory</a>().</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a21" doxytag="CCfits::HDU::comment"></a>
-const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a21">comment</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the comment string previously read by getComment().</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>const std::map&lt;string,<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a22">keyWord</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> Keywords that have been read so far.</em> <a href="#a22">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a23">keyWord</a> (const string &amp;keyname) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a (previously read) keyword from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> object. const version.</em> <a href="#a23">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a24">setKeyWord</a> (const string &amp;keyname, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp;value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> keyname to specified value.</em> <a href="#a24">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename T&gt; <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a25">addKey</a> (const string &amp;name, T val, const string &amp;comment)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>create a new keyword in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> with specified value and comment fields.</em> <a href="#a25">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a26">readKey</a> (const string &amp;keyName, T &amp;val)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read a keyword of specified type from the header of a disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and return its value.</em> <a href="#a26">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a27">readKeys</a> (std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read a set of specified keywords of the same data type from the header of a disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and return their values.</em> <a href="#a27">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a19">bitpix</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a20">bitpix</a> (long value)</td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a21">index</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a22">history</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a23">comment</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>virtual double&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a24">zero</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>virtual double&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a26">scale</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>const std::map&lt;string,<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a28">keyWord</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a29">keyWord</a> (const string &amp;keyname) const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a30">setKeyWord</a> (const string &amp;keyname, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp;value)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename T&gt; <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a31">addKey</a> (const string &amp;name, T val, const string &amp;comment)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a32">readKey</a> (const string &amp;keyName, T &amp;val)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a33">readKeys</a> (std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b0">HDU</a> (FITSBase *p=0)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>default constructor, called by <a class="el" href="classCCfits_1_1HDU.html">HDU</a> subclasses that read from <a class="el" href="classCCfits_1_1FITS.html">FITS</a> files.</em> <a href="#b0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b1">HDU</a> (FITSBase *p, int bitpix, int naxis, const std::vector&lt; long &gt; &amp;axes)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>constructor for creating new <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects, called by <a class="el" href="classCCfits_1_1HDU.html">HDU</a> subclasses writing to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> files.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b2">~HDU</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em> <a href="#b2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b8">bitpix</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the data type keyword.</em> <a href="#b8">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b9">bitpix</a> (long value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the data type keyword.</em> <a href="#b9">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>std::vector&lt;long&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b13">naxes</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data axis array.</em> <a href="#b13">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>std::vector&lt;long&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b11">naxes</a> ()</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Base class for all <a class="el" href="classCCfits_1_1HDU.html">HDU</a> [Header-Data Unit] objects.
 <p>
 
 <p>
- <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects in CCfits are either <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> (Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects) or  <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> (Extension <a class="el" href="classCCfits_1_1HDU.html">HDU</a>) objects. Following the behavior. ExtHDUs are further subclassed into <a class="el" href="classCCfits_1_1ImageExt.html">ImageExt</a> or <a class="el" href="classCCfits_1_1Table.html">Table</a> objects, which are finally <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> or <a class="el" href="classCCfits_1_1BinTable.html">BinTable</a> objects.
+ <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects in CCfits are either <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> (Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects) or  <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> (Extension <a class="el" href="classCCfits_1_1HDU.html">HDU</a>) objects. Following the behavior. ExtHDUs are further subclassed into ImageExt or <a class="el" href="classCCfits_1_1Table.html">Table</a> objects, which are finally <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> or <a class="el" href="classCCfits_1_1BinTable.html">BinTable</a> objects.
 <p>
 <a class="el" href="classCCfits_1_1HDU.html">HDU</a>'s public interface gives access to properties that are common to all HDUs, largely required keywords, and functions that are common to all HDUs, principally the manipulation of keywords and their values.
 <p>
@@ -260,17 +224,33 @@ destructor.
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
-<a name="a1" doxytag="CCfits::HDU::operator=="></a><p>
+<a name="a31" doxytag="CCfits::HDU::addKey"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td colspan="2"><b>
+template&lt;typename T&gt;           </b></td>
+        </tr>
+        <tr>
           <td nowrap valign="top"><b> 
-bool CCfits::HDU::operator== (
+<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; CCfits::HDU::addKey (
           </b></td>
           <td valign="bottom"><b>
-const HDU &amp; <em>right</em>&nbsp;) const
+const string &amp; <em>name</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+T <em>value</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const string &amp; <em>comment</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -286,401 +266,36 @@ const HDU &amp; <em>right</em>&nbsp;) const
     <td>
 
 <p>
-equality operator.
+create a new keyword in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> with specified value and comment fields.
 <p>
 
 <p>
-     </td>
-  </tr>
+ the function returns a reference to keyword object just created.
+<p>
+Parameters: <dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>name</em>
+&nbsp;</td><td>
+(std::string) The keyword name </td></tr>
+<tr><td valign=top><em>value</em>
+&nbsp;</td><td>
+(T = std::string, float, std::complex&lt;float&gt;, int, or bool </td></tr>
+<tr><td valign=top><em>comment</em>
+&nbsp;</td><td>
+(std::string) the keyword value
+<p>
+</td></tr>
 </table>
-<a name="a2" doxytag="CCfits::HDU::operator!="></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-bool CCfits::HDU::operator!= (
-          </b></td>
-          <td valign="bottom"><b>
-const HDU &amp; <em>right</em>&nbsp;) const
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
+</dl>Note the limitations on T, which arise for historical reasons (i.e. since keywords do not contain explicit type information, routines in CCfits must assign a type). The limitation may be removed in a future release
 <p>
-inequality operator.
+It is possible however to create a keyword of any of the allowed data types in fitsio (see the cfitsio manual section 4.3). The required calls are, e.g. for a floating point double valued keyword:
 <p>
-
+NewKeyword&lt;double&gt; keyCreate( hdu, double val1 ); <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>* key1 = <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> keyCreate.MakeKeyword(keyName1, const string&amp; comment); keyCreate.keyData(val2); <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>* key2 = <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> keyCreate.MakeKeyword(keyName2, const string&amp; comment);
 <p>
-     </td>
-  </tr>
-</table>
-<a name="a3" doxytag="CCfits::HDU::clone"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-HDU * CCfits::HDU::clone (
-          </b></td>
-          <td valign="bottom"><b>
-FITSBase * <em>p</em>&nbsp;) const<code> [pure virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
+key1-&gt;write(); key2-&gt;write();
 <p>
-virtual copy constructor, to be implemented in subclasses.
-<p>
-
-<p>
- 
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a0">CCfits::AsciiTable</a>, <a class="el" href="classCCfits_1_1BinTable.html#a0">CCfits::BinTable</a>, <a class="el" href="classCCfits_1_1ExtHDU.html#a4">CCfits::ExtHDU</a>, <a class="el" href="classCCfits_1_1ImageExt.html#a2">CCfits::ImageExt</a>, and <a class="el" href="classCCfits_1_1PHDU.html#a2">CCfits::PHDU</a>.    </td>
-  </tr>
-</table>
-<a name="a4" doxytag="CCfits::HDU::fitsPointer"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-fitsfile * CCfits::HDU::fitsPointer (
-          </b></td>
-          <td valign="bottom"><b>
-) const
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return the fitsfile pointer for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a5" doxytag="CCfits::HDU::makeThisCurrent"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::HDU::makeThisCurrent (
-          </b></td>
-          <td valign="bottom"><b>
-) const<code> [virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
-<p>
-
-<p>
- This function should never need to be called by the user since it is called internally whenever required. 
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1ExtHDU.html#a5">CCfits::ExtHDU</a>.    </td>
-  </tr>
-</table>
-<a name="a6" doxytag="CCfits::HDU::keyWord"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-std::map&lt; string, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> *&gt; CCfits::HDU::keyWord (
-          </b></td>
-          <td valign="bottom"><b>
-)<code> [inline]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> keywords so far read.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a7" doxytag="CCfits::HDU::keyWord"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; CCfits::HDU::keyWord (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>keyName</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1HDU_1_1NoSuchKeyword.html">HDU::NoSuchKeyword</a>)<code> [inline]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return a (previously read) keyword from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> object.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a8" doxytag="CCfits::HDU::getHistory"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-const string &amp; CCfits::HDU::getHistory (
-          </b></td>
-          <td valign="bottom"><b>
-)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read the history information from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
-<p>
-The history string found in the header is concatenated and returned to the calling function     </td>
-  </tr>
-</table>
-<a name="a9" doxytag="CCfits::HDU::getComments"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-const string &amp; CCfits::HDU::getComments (
-          </b></td>
-          <td valign="bottom"><b>
-)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read the comments from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
-<p>
-The comment string found in the header is concatenated and returned to the calling function     </td>
-  </tr>
-</table>
-<a name="a10" doxytag="CCfits::HDU::writeHistory"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::HDU::writeHistory (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>history</em> = "Generic History String"&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-write a history string.
-<p>
-A default value for the string is given ("Generic History String")  so users can put a placeholder call to this function in their code.     </td>
-  </tr>
-</table>
-<a name="a11" doxytag="CCfits::HDU::writeComment"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::HDU::writeComment (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>comment</em> = "Generic Comment"&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-write a comment string.
-<p>
-A default value for the string is given ("Generic Comment String")  so users can put a placeholder call to this function in their code.     </td>
-  </tr>
-</table>
-<a name="a13" doxytag="CCfits::HDU::parent"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-FITSBase * CCfits::HDU::parent (
-          </b></td>
-          <td valign="bottom"><b>
-) const
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return reference to the pointer representing the FITSBase object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a14" doxytag="CCfits::HDU::readAllKeys"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::HDU::readAllKeys (
-          </b></td>
-          <td valign="bottom"><b>
-)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read all of the keys in the header.
-<p>
-This member function reads keys that are not connected with columns or image information, [which are considered to be part of the column or image objects]. Also, history and  comment keys are read and returned by <a class="el" href="classCCfits_1_1HDU.html#a8">getHistory</a>() and getComment()     </td>
+... which is essentially what addKey does for its allowed types.     </td>
   </tr>
 </table>
 <a name="a15" doxytag="CCfits::HDU::axes"></a><p>
@@ -749,17 +364,17 @@ return the length of <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data a
      </td>
   </tr>
 </table>
-<a name="a17" doxytag="CCfits::HDU::index"></a><p>
+<a name="a20" doxytag="CCfits::HDU::bitpix"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::HDU::index (
+void CCfits::HDU::bitpix (
           </b></td>
           <td valign="bottom"><b>
-int <em>value</em>&nbsp;)<code> [inline]</code>
+long <em>value</em>&nbsp;)<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -775,11 +390,110 @@ int <em>value</em>&nbsp;)<code> [inline]</code>
     <td>
 
 <p>
-set the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number.
+set the data type keyword.
 <p>
 
 <p>
      </td>
+  </tr>
+</table>
+<a name="a19" doxytag="CCfits::HDU::bitpix"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+long CCfits::HDU::bitpix (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the data type keyword.
+<p>
+
+<p>
+ Takes values denoting the image data type for images, and takes the fixed value 8 for tables.     </td>
+  </tr>
+</table>
+<a name="a3" doxytag="CCfits::HDU::clone"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+HDU * CCfits::HDU::clone (
+          </b></td>
+          <td valign="bottom"><b>
+FITSBase * <em>p</em>&nbsp;) const<code> [pure virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+virtual copy constructor, to be implemented in subclasses.
+<p>
+
+<p>
+ 
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a0">CCfits::AsciiTable</a>, <a class="el" href="classCCfits_1_1BinTable.html#a0">CCfits::BinTable</a>, <a class="el" href="classCCfits_1_1ExtHDU.html#a4">CCfits::ExtHDU</a>, and <a class="el" href="classCCfits_1_1PHDU.html#a2">CCfits::PHDU</a>.    </td>
+  </tr>
+</table>
+<a name="a23" doxytag="CCfits::HDU::comment"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::HDU::comment (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the comment string previously read by getComment().
+<p>
+    </td>
   </tr>
 </table>
 <a name="a18" doxytag="CCfits::HDU::deleteKey"></a><p>
@@ -813,7 +527,133 @@ delete a keyword from the header.
 removes <em>doomed<em> from the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and from the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object     </td>
   </tr>
 </table>
-<a name="a19" doxytag="CCfits::HDU::index"></a><p>
+<a name="a4" doxytag="CCfits::HDU::fitsPointer"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+fitsfile * CCfits::HDU::fitsPointer (
+          </b></td>
+          <td valign="bottom"><b>
+) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the fitsfile pointer for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a9" doxytag="CCfits::HDU::getComments"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::HDU::getComments (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read the comments from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
+<p>
+The comment string found in the header is concatenated and returned to the calling function     </td>
+  </tr>
+</table>
+<a name="a8" doxytag="CCfits::HDU::getHistory"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::HDU::getHistory (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read the history information from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> and add it to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
+<p>
+The history string found in the header is concatenated and returned to the calling function     </td>
+  </tr>
+</table>
+<a name="a22" doxytag="CCfits::HDU::history"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::HDU::history (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the history string previously read by <a class="el" href="classCCfits_1_1HDU.html#a8">getHistory</a>().
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a21" doxytag="CCfits::HDU::index"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -846,17 +686,17 @@ return the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number.
      </td>
   </tr>
 </table>
-<a name="a22" doxytag="CCfits::HDU::keyWord"></a><p>
+<a name="a17" doxytag="CCfits::HDU::index"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-const std::map&lt; string, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> *&gt; &amp; CCfits::HDU::keyWord (
+void CCfits::HDU::index (
           </b></td>
           <td valign="bottom"><b>
-) const<code> [inline]</code>
+int <em>value</em>&nbsp;)<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -872,14 +712,14 @@ const std::map&lt; string, <a class="el" href="classCCfits_1_1Keyword.html">Keyw
     <td>
 
 <p>
-return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> Keywords that have been read so far.
+set the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number.
 <p>
 
 <p>
      </td>
   </tr>
 </table>
-<a name="a23" doxytag="CCfits::HDU::keyWord"></a><p>
+<a name="a29" doxytag="CCfits::HDU::keyWord"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -912,23 +752,17 @@ return a (previously read) keyword from the <a class="el" href="classCCfits_1_1H
      </td>
   </tr>
 </table>
-<a name="a24" doxytag="CCfits::HDU::setKeyWord"></a><p>
+<a name="a28" doxytag="CCfits::HDU::keyWord"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::HDU::setKeyWord (
+const std::map&lt; string, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> *&gt; &amp; CCfits::HDU::keyWord (
           </b></td>
           <td valign="bottom"><b>
-const string &amp; <em>keyname</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; <em>value</em>&nbsp;)<code> [inline]</code>
+) const<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -944,40 +778,24 @@ const string &amp; <em>keyname</em>,
     <td>
 
 <p>
-set <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> keyname to specified value.
+return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> Keywords that have been read so far.
 <p>
 
 <p>
      </td>
   </tr>
 </table>
-<a name="a25" doxytag="CCfits::HDU::addKey"></a><p>
+<a name="a7" doxytag="CCfits::HDU::keyWord"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td colspan="2"><b>
-template&lt;typename T&gt;           </b></td>
-        </tr>
-        <tr>
           <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; CCfits::HDU::addKey (
+<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; CCfits::HDU::keyWord (
           </b></td>
           <td valign="bottom"><b>
-const string &amp; <em>name</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-T <em>value</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const string &amp; <em>comment</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
+const string &amp; <em>keyName</em>&nbsp;)<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -993,14 +811,247 @@ const string &amp; <em>comment</em>&nbsp;)  throw (<a class="el" href="classCCfi
     <td>
 
 <p>
-create a new keyword in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> with specified value and comment fields.
+return a (previously read) keyword from the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> object.
 <p>
 
 <p>
- the function returns a reference to keyword object just created.     </td>
+     </td>
   </tr>
 </table>
-<a name="a26" doxytag="CCfits::HDU::readKey"></a><p>
+<a name="a6" doxytag="CCfits::HDU::keyWord"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+std::map&lt; string, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> *&gt; CCfits::HDU::keyWord (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the associative array containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> keywords so far read.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a5" doxytag="CCfits::HDU::makeThisCurrent"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::HDU::makeThisCurrent (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+
+<p>
+ This function should never need to be called by the user since it is called internally whenever required. 
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1ExtHDU.html#a5">CCfits::ExtHDU</a>.    </td>
+  </tr>
+</table>
+<a name="b11" doxytag="CCfits::HDU::naxes"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+std::vector&lt; long &gt; &amp; CCfits::HDU::naxes (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data axis array.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a2" doxytag="CCfits::HDU::operator!="></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+bool CCfits::HDU::operator!= (
+          </b></td>
+          <td valign="bottom"><b>
+const HDU &amp; <em>right</em>&nbsp;) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+inequality operator.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a1" doxytag="CCfits::HDU::operator=="></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+bool CCfits::HDU::operator== (
+          </b></td>
+          <td valign="bottom"><b>
+const HDU &amp; <em>right</em>&nbsp;) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+equality operator.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a13" doxytag="CCfits::HDU::parent"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+FITSBase * CCfits::HDU::parent (
+          </b></td>
+          <td valign="bottom"><b>
+) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return reference to the pointer representing the FITSBase object containing the <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a14" doxytag="CCfits::HDU::readAllKeys"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::HDU::readAllKeys (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read all of the keys in the header.
+<p>
+This member function reads keys that are not meta data for columns or image information, [which are considered to be part of the column or image objects]. Also, history and  comment keys are read and returned by <a class="el" href="classCCfits_1_1HDU.html#a8">getHistory</a>() and getComment().
+<p>
+Note that readAllKeys can only construct keys of type string, float, complex&lt;float&gt;, integer, and bool because the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> header records do not encode exact type information.     </td>
+  </tr>
+</table>
+<a name="a32" doxytag="CCfits::HDU::readKey"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1040,10 +1091,10 @@ read a keyword of specified type from the header of a disk <a class="el" href="c
 <p>
 
 <p>
-     </td>
+ T is one of the types std::string, float, int, std::complex&lt;float&gt;, and bool.     </td>
   </tr>
 </table>
-<a name="a27" doxytag="CCfits::HDU::readKeys"></a><p>
+<a name="a33" doxytag="CCfits::HDU::readKeys"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1083,20 +1134,20 @@ read a set of specified keywords of the same data type from the header of a disk
 <p>
 
 <p>
-     </td>
+ T is one of the types std::string, float, int, std::complex&lt;float&gt;, and bool.     </td>
   </tr>
 </table>
-<a name="b8" doxytag="CCfits::HDU::bitpix"></a><p>
+<a name="a26" doxytag="CCfits::HDU::scale"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-long CCfits::HDU::bitpix (
+double CCfits::HDU::scale (
           </b></td>
           <td valign="bottom"><b>
-) const<code> [inline, protected]</code>
+) const<code> [inline, virtual]</code>
           </b></td>
         </tr>
 
@@ -1112,24 +1163,32 @@ long CCfits::HDU::bitpix (
     <td>
 
 <p>
-return the data type keyword.
+return the BSCALE keyword value.
 <p>
 
 <p>
- Takes values denoting the image data type for images, and takes the fixed value 8 for tables.     </td>
+ 
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1PHDU.html#a6">CCfits::PHDU</a>.    </td>
   </tr>
 </table>
-<a name="b9" doxytag="CCfits::HDU::bitpix"></a><p>
+<a name="a30" doxytag="CCfits::HDU::setKeyWord"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::HDU::bitpix (
+void CCfits::HDU::setKeyWord (
           </b></td>
           <td valign="bottom"><b>
-long <em>value</em>&nbsp;)<code> [inline, protected]</code>
+const string &amp; <em>keyname</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+<a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; <em>value</em>&nbsp;)<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -1145,24 +1204,24 @@ long <em>value</em>&nbsp;)<code> [inline, protected]</code>
     <td>
 
 <p>
-set the data type keyword.
+set <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> keyname to specified value.
 <p>
 
 <p>
      </td>
   </tr>
 </table>
-<a name="b13" doxytag="CCfits::HDU::naxes"></a><p>
+<a name="a11" doxytag="CCfits::HDU::writeComment"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-std::vector&lt; long &gt; &amp; CCfits::HDU::naxes (
+void CCfits::HDU::writeComment (
           </b></td>
           <td valign="bottom"><b>
-)<code> [inline, protected]</code>
+const string &amp; <em>comment</em> = "Generic Comment"&nbsp;)
           </b></td>
         </tr>
 
@@ -1178,16 +1237,111 @@ std::vector&lt; long &gt; &amp; CCfits::HDU::naxes (
     <td>
 
 <p>
-return the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> data axis array.
+write a comment string.
+<p>
+A default value for the string is given ("Generic Comment String")  so users can put a placeholder call to this function in their code.     </td>
+  </tr>
+</table>
+<a name="a12" doxytag="CCfits::HDU::writeDate"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::HDU::writeDate (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write a date string to *this.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a10" doxytag="CCfits::HDU::writeHistory"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::HDU::writeHistory (
+          </b></td>
+          <td valign="bottom"><b>
+const string &amp; <em>history</em> = "Generic History String"&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write a history string.
+<p>
+A default value for the string is given ("Generic History String")  so users can put a placeholder call to this function in their code.     </td>
+  </tr>
+</table>
+<a name="a24" doxytag="CCfits::HDU::zero"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+double CCfits::HDU::zero (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline, virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the BZERO keyword value.
 <p>
 
 <p>
-     </td>
+ 
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1PHDU.html#a5">CCfits::PHDU</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>HDU.h<li>FITS.h<li>HDU.cxx</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:55 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:11 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

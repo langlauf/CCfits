@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef IMAGEEXT_H
 #define IMAGEEXT_H 1
-
 
 
 // ExtHDU
@@ -21,92 +22,14 @@
 #include "Image.h"
 // FITSUtil
 #include "FITSUtil.h"
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
+
 
 
 
 namespace CCfits {
-/*! \class ImageExt
-
-     \brief   Templated concrete class representing Image Extension HDUs.
-     
-    
-     
-
-     
-*/
-
-
-/*! \fn      ImageExt<T>::ImageExt(const ImageExt< T > &right);
-
-\brief copy constructor.
-
-*/
-
-
-/*! \fn       ImageExt<T>::ImageExt(FITSBase* p, const string &hduName, bool readDataFlag = false, const std::vector<string>& keys = std::vector<string>(), int version = 0) throw (FitsException&);
-
-\brief  construct and read Image Extension from disk fitsfile by name.
-
-*/
-
-
-/*! \fn       ImageExt<T>::ImageExt(FITSBase* p, const string &hduName, int bpix, int  naxis, const std::vector<long>& naxes, int version = 0) throw (FitsException&);
-
-\brief construct new image extension in FITS object p.
-
-*/
-
-
-/*! \fn       ImageExt<T>::~ImageExt();
-
-\brief destructor.
-
-*/
-
-
-
-/*! \fn       virtual ImageExt<T> * ImageExt<T>::clone (FITSBase* p) const;
-
-\brief virtual copy constructor.
-
-*/
-
-
-/*! \fn       virtual void ImageExt<T>::readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
-	
-\brief Read data reads the image if readFlag is true and optional keywords if supplied. 
-       Thus, with no arguments, readData() does nothing.
-
-
-*/
-
-
-/*! \fn       virtual void ImageExt<T>::readImage (long first, long last, T* nullValue) throw (FitsException&);
-
-\brief read parts of image specified between first and last. Null value can be specified optionally.
-
-
-*/
-
-
-/*! \fn       const std::valarray< T >& ImageExt<T>::image () const;
-  
-\brief return a const reference to the image array
-
-*/
-
-    
-/*! \fn       void ImageExt<T>::image (const std::valarray< T >& value);
-
-\brief set the image array.
-
-*/
-
-
-
-
-
-
 
 
 
@@ -128,42 +51,50 @@ namespace CCfits {
 
         void setImage (const std::valarray<T>& inData);
 
+        virtual void zero (double value);
+
+        virtual void scale (double value);
+
+        virtual double zero () const;
+
+        virtual double scale () const;
+
       // Additional Public Declarations
 
     protected:
-        ImageExt (FITSBase* p, const string &hduName, bool readDataFlag = false, const std::vector<string>& keys = std::vector<string>(), int version = 0) throw (FitsException&);
+        ImageExt (FITSBase* p, const string &hduName, bool readDataFlag = false, const std::vector<string>& keys = std::vector<string>(), int version = 0);
 
-        ImageExt (FITSBase* p, const string &hduName, int bpix, int  naxis, const std::vector<long>& naxes, int version = 0) throw (FitsException&);
+        ImageExt (FITSBase* p, const string &hduName, int bpix, int  naxis, const std::vector<long>& naxes, int version = 0);
 
       // Additional Protected Declarations
-
+        virtual void checkExtensionType() const;
     private:
 
         virtual void initRead ();
 
         virtual ostream & put (ostream &s) const;
 
-        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) throw (FitsException&);
+        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (long first, long nElements, T* nullValue) throw (FitsException&);
+        virtual const std::valarray<T>& readImage (long first, long nElements, T* nullValue);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue) throw (FitsException&);
+        virtual const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0) throw (FitsException&);
+        virtual void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData) throw (FitsException&);
+        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData);
 
 
         const Image<T>& data () const;
@@ -218,7 +149,6 @@ namespace CCfits {
 
   // Parameterized Class CCfits::ImageExt 
 
-
   template <typename T>
   ImageExt<T>::ImageExt(const ImageExt<T> &right)
       : ExtHDU(right), m_data(right.m_data)
@@ -226,24 +156,42 @@ namespace CCfits {
   }
 
   template <typename T>
-  ImageExt<T>::ImageExt (FITSBase* p, const string &hduName, bool readDataFlag, const std::vector<string>& keys, int version) throw (FitsException&)
+  ImageExt<T>::ImageExt (FITSBase* p, const string &hduName, bool readDataFlag, const std::vector<string>& keys, int version)
       : ExtHDU(p,ImageHdu,hduName,version),  m_data()
   {
-  unsigned int zero = 0;
   initRead();
-  
-  if (readDataFlag || keys.size() > zero) readData(readDataFlag,keys);  
-    
-    
+  if (readDataFlag || keys.size() ) readData(readDataFlag,keys);  
   }
 
   template <typename T>
-  ImageExt<T>::ImageExt (FITSBase* p, const string &hduName, int bpix, int  naxis, const std::vector<long>& naxes, int version) throw (FitsException&)
+  ImageExt<T>::ImageExt (FITSBase* p, const string &hduName, int bpix, int  naxis, const std::vector<long>& naxes, int version)
       : ExtHDU(p,ImageHdu,hduName,bpix,naxis,naxes,version), m_data()
   {
   // resize m_image according to naxes, and data according to m_image,
   // and equate them. Valarray = must be performed on items of the same
   // size according to the standard.
+  int status (0);
+  FITSUtil::CVarray<long> convert;
+  FITSUtil::auto_array_ptr<long> axis(convert(naxes));
+  static char EXTNAME[] = "EXTNAME";
+  static char HDUVERS[] = "HDUVERS";
+  
+          if ( fits_create_img(fitsPointer(), bpix, naxis, axis.get(), &status) )
+          {
+
+                throw FitsError(status);
+          } 
+          else
+          {
+                char * comment = 0;
+                if (fits_write_key(fitsPointer(),Tstring,EXTNAME,
+                                const_cast<char*>(hduName.c_str()), comment,&status)) 
+                {
+                        throw FitsError(status);
+                }                
+                if (version != 0 && fits_write_key(fitsPointer(),Tint,HDUVERS,&version,
+                                        comment,&status)) throw FitsError(status);     
+          }      
   }
 
 
@@ -268,7 +216,7 @@ namespace CCfits {
   }
 
   template <typename T>
-  void ImageExt<T>::readData (bool readFlag, const std::vector<string>& keys) throw (FitsException&)
+  void ImageExt<T>::readData (bool readFlag, const std::vector<string>& keys)
   {
   // Default reading mode. Read everything if readFlag is true.
   // this is identical to the equivalent method for PrimaryHDU<T>,
@@ -314,33 +262,75 @@ namespace CCfits {
   }
 
   template <typename T>
-  const std::valarray<T>& ImageExt<T>::readImage (long first, long nElements, T* nullValue) throw (FitsException&)
+  const std::valarray<T>& ImageExt<T>::readImage (long first, long nElements, T* nullValue)
   {
-    makeThisCurrent();
+    checkExtensionType();
     return m_data.readImage(fitsPointer(),first,nElements,nullValue,naxes(),anynul());
   }
 
   template <typename T>
-  const std::valarray<T>& ImageExt<T>::readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue) throw (FitsException&)
+  const std::valarray<T>& ImageExt<T>::readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue)
   {
-    makeThisCurrent();
+    checkExtensionType();
     return m_data.readImage(fitsPointer(),firstVertex,lastVertex,stride,nullValue,naxes(),anynul());
   }
 
   template <typename T>
-  void ImageExt<T>::writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue) throw (FitsException&)
+  void ImageExt<T>::writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue)
   {
+    checkExtensionType();
     m_data.writeImage(fitsPointer(),first,nElements,inData,naxes(),nullValue);
   }
 
   template <typename T>
-  void ImageExt<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData) throw (FitsException&)
+  void ImageExt<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData)
   {
+    checkExtensionType();
     m_data.writeImage(fitsPointer(),firstVertex,lastVertex,inData,naxes());
   }
 
-  // Additional Declarations
+  template <typename T>
+  void ImageExt<T>::zero (double value)
+  {
+    HDU::zero(value);
+    if (naxis())
+    {
+        int status(0);
+        if (fits_set_bscale(fitsPointer(),scale(),value,&status)) throw FitsError(status);
+    }
+  }
 
+  template <typename T>
+  void ImageExt<T>::scale (double value)
+  {
+    HDU::scale(value);
+    if (naxis())
+    {
+        int status(0);
+        if (fits_set_bscale(fitsPointer(),value,zero(),&status)) throw FitsError(status);
+    } 
+  }
+
+  template <typename T>
+  double ImageExt<T>::zero () const
+  {
+
+    return HDU::zero();
+  }
+
+  template <typename T>
+  double ImageExt<T>::scale () const
+  {
+
+    return HDU::scale();
+  }
+
+  // Additional Declarations
+    template <typename T>
+    inline void ImageExt<T>::checkExtensionType() const
+    {
+            
+    }
 } // namespace CCfits
 
 

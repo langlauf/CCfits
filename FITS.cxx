@@ -1,28 +1,29 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
-#include <unistd.h>
 
 
+// Table
+#include "Table.h"
 // PHDU
 #include "PHDU.h"
+// FITSBase
+#include "FITSBase.h"
 // HDUCreator
 #include "HDUCreator.h"
 // PrimaryHDU
 #include "PrimaryHDU.h"
-// Table
-#include "Table.h"
 // FITS
 #include "FITS.h"
-// FITSBase
-#include "FITSBase.h"
 
 
 
@@ -86,13 +87,12 @@ namespace CCfits {
 
   bool FITS::s_verboseMode = false;
 
-
   FITS::FITS(const FITS &right)
     : m_FITSImpl(right.m_FITSImpl->clone())
   {
   }
 
-  FITS::FITS (const string &name, RWmode mode, bool readDataFlag, const std::vector<string>& primaryKeys) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, bool readDataFlag, const std::vector<string>& primaryKeys)
   : m_FITSImpl(new FITSBase(name,mode))
   {
  
@@ -133,7 +133,7 @@ namespace CCfits {
           }
   }
 
-  FITS::FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version)
   : m_FITSImpl(new FITSBase(name,mode))
   {
           open(mode);
@@ -151,7 +151,7 @@ namespace CCfits {
           read(hduName, readDataFlag, hduKeys,version);
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag, const std::vector<string>& primaryKey) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag, const std::vector<string>& primaryKey)
   : m_FITSImpl(new FITSBase(name,mode))
   {
 
@@ -166,8 +166,14 @@ namespace CCfits {
     : m_FITSImpl(new FITSBase(fileName,Write))
   {
           
-    create();
-    
+    if (create() )
+    {
+            // create returns true if the file is either new
+            // or overwritten, in which case we need to create 
+            // and write a new primary which is a clone of the source PHDU.
+
+            pHDU(static_cast<PHDU*>(source.pHDU().clone(m_FITSImpl)));       
+    }    
     int status(0);
     
     source.pHDU().makeThisCurrent();
@@ -176,7 +182,7 @@ namespace CCfits {
   
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag, const std::vector<string>& primaryKeys, const std::vector<int>& hduVersions) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag, const std::vector<string>& primaryKeys, const std::vector<int>& hduVersions)
   : m_FITSImpl(new FITSBase(name,mode))
   {
           
@@ -197,7 +203,7 @@ namespace CCfits {
           read(hduNames, hduKeys, readDataFlag, hduVersions);
   }
 
-  FITS::FITS (const string& name, int bitpix, int naxis, long *naxes) throw (FitsException&, std::exception&)
+  FITS::FITS (const string& name, int bitpix, int naxis, long *naxes)
   : m_FITSImpl(new FITSBase(name,Write))
   {
 
@@ -213,7 +219,7 @@ namespace CCfits {
         pHDU(makePrimary.createImage(bitpix,naxis,va_naxes));
   }
 
-  FITS::FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey)
   : m_FITSImpl(new FITSBase(name,mode))
   {
 
@@ -227,7 +233,7 @@ namespace CCfits {
   
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version) throw (FitsException&, std::exception&)
+  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version)
   : m_FITSImpl(new FITSBase(name,mode))
   {
           
@@ -256,18 +262,18 @@ namespace CCfits {
 
   void FITS::unmapExtension (ExtHDU& doomed)
   {
-    const string& doomedName(doomed.name());
+    const string& doomedName = doomed.name();
     if ( extension().count(doomedName) == 1 )
     {
-        ExtMapIt x(extension().lower_bound(doomedName));
+        ExtMapIt x = extension().lower_bound(doomedName);
         delete (*x).second;       
         extension().erase(x);
     }
     else
     {
-            std::pair<ExtMapIt,ExtMapIt> named(extension().equal_range(doomedName));
+            std::pair<ExtMapIt,ExtMapIt> named = extension().equal_range(doomedName);
 
-            ExtMapIt x(named.first);
+            ExtMapIt x = named.first;
 
             while ( x != named.second)
             {
@@ -323,7 +329,7 @@ namespace CCfits {
 
   }
 
-  void FITS::read (const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version) throw (FitsException&)
+  void FITS::read (const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version)
   {
        HDUCreator create(m_FITSImpl);
    
@@ -404,7 +410,7 @@ namespace CCfits {
 
   }
 
-  void FITS::open (RWmode mode) throw (FITS::CantOpen, FitsError)
+  void FITS::open (RWmode mode)
   {
   int status=0;
   // unused:  bool silentMode = true;
@@ -419,7 +425,7 @@ namespace CCfits {
 
   }
 
-  bool FITS::create () throw (FitsException&)
+  bool FITS::create ()
   {
 
           int status(0);
@@ -434,7 +440,7 @@ namespace CCfits {
           // otherwise create it. We let cfitsio worry about what
           // happens if open-with-write-mode or create fails.
           // but we must know whether the file exists.
-          string fName(m_FITSImpl->name());
+          string fName = m_FITSImpl->name();
           if (m_FITSImpl->name()[0] == '!') 
           {
           	  m_FITSImpl->name() = fName.substr(1);
@@ -455,7 +461,7 @@ namespace CCfits {
                   else if (status) throw FitsError(status);
                   return true; 
           }
-          catch (FitsException& )
+          catch ( CantCreate )
           {
 		  // try again, to see if the error  was a pre-existing file.
 		  // open( RWmode ) throws CantOpen and FitsError.
@@ -467,7 +473,7 @@ namespace CCfits {
 
   }
 
-  int FITS::close ()
+  int FITS::close () throw ()
   {
   int   status=0;
   if (m_FITSImpl == 0) return 0;
@@ -481,12 +487,12 @@ namespace CCfits {
   return new FITS(*this);
   }
 
-  const ExtHDU& FITS::extension (int i) const throw (FITS::NoSuchHDU)
+  const ExtHDU& FITS::extension (int i) const
   {
 
   const ExtMap& ext = m_FITSImpl->extension();
-  ExtMapConstIt hduByNum(ext.begin());
-  ExtMapConstIt endOfList(ext.end());
+  ExtMapConstIt hduByNum = ext.begin();
+  ExtMapConstIt endOfList = ext.end();
   while (hduByNum != endOfList)
   {
           if ((*hduByNum).second->index() == i) break;
@@ -533,11 +539,11 @@ namespace CCfits {
     return m_FITSImpl->fptr();
   }
 
-  ExtHDU& FITS::extension (int i) throw (FITS::NoSuchHDU)
+  ExtHDU& FITS::extension (int i)
   {
   ExtMap& ext = m_FITSImpl->extension();
-  ExtMapIt hduByNum(ext.begin());
-  ExtMapIt endOfList(ext.end());
+  ExtMapIt hduByNum = ext.begin();
+  ExtMapIt endOfList = ext.end();
   
   while (hduByNum != endOfList)
   {
@@ -559,7 +565,7 @@ namespace CCfits {
   return *((*hduByNum).second);    
   }
 
-  const ExtHDU& FITS::extension (const string& hduName, int version) const throw (FITS::NoSuchHDU)
+  const ExtHDU& FITS::extension (const string& hduName, int version) const
   {
    
   return extbyVersion(hduName,version);
@@ -629,7 +635,7 @@ namespace CCfits {
 
   }
 
-  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<string> &keys) throw (FitsException&)
+  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<string> &keys)
   {
          HDUCreator create(m_FITSImpl);
    
@@ -694,19 +700,19 @@ namespace CCfits {
    }
   }
 
-  Table* FITS::addTable (string& hduName, int rows, const std::vector<ValueType>& colType, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, HduType type, int version)
+  Table* FITS::addTable (string& hduName, int rows, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, HduType type, int version)
   {
     // use std::auto_ptr<T> to make ownership explicit.
    HDUCreator newTable(m_FITSImpl);
-   Table* newHDU(static_cast<Table*>(newTable.createTable(hduName, type, rows, 
-                                           colType, columnName, columnFmt,  columnUnit, version)));   
+   Table* newHDU = static_cast<Table*>(newTable.createTable(hduName, type, rows,
+                                                 columnName, columnFmt,  columnUnit, version));   
    return static_cast<Table*>(addExtension(newHDU));
   }
 
   ExtHDU* FITS::addImage (const string& hduName, int bpix, std::vector<long>& naxes, int version)
   {
    HDUCreator newImage(m_FITSImpl);
-   ExtHDU* newHDU(newImage.createImage(hduName, bpix, naxes.size(), naxes,  version));  
+   ExtHDU* newHDU = newImage.createImage(hduName, bpix, naxes.size(), naxes,  version);  
    return addExtension(newHDU);
   }
 
@@ -745,7 +751,7 @@ namespace CCfits {
    return (*added).second;
   }
 
-  void FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, int version) throw (FitsException&)
+  void FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, int version)
   {
   int totalHDUs = 1;
   int status = 0;
@@ -782,9 +788,12 @@ namespace CCfits {
            while (vi != viEnd && gotIt)
 	   {
 
-	      if (vi->size())
+	      if (vi->length())
 	      {
-		   gotIt = (lowerCase(testResults[k]) == lowerCase(*vi));
+                   // we can at least ignore whitespace
+                   size_t first (testResults[k].find_first_not_of(" \t"));
+                   size_t last  (testResults[k].find_last_not_of(" \t"));
+		   gotIt = (lowerCase(testResults[k].substr(first,last+first+1)) == lowerCase(*vi));
 	      }
               ++k,++vi;
 	   }
@@ -795,8 +804,11 @@ namespace CCfits {
 	      else
 	      {
 		 int extver = 1;
-		 testHDU->readKey("EXTVER",extver);
-                                        
+#ifdef TEMPLATE_AMBIG_DEFECT
+		 testHDU->readKeyMS("EXTVER",extver);
+#else
+		 testHDU->readKey("EXTVER",extver);                                        
+#endif
 		 if (extver == version) break;
 		 else gotIt = false;
 	      }
@@ -830,6 +842,7 @@ namespace CCfits {
      int extver = 0;
      ExtHDU::readHduName(m_FITSImpl->fptr(),hduIndex,extname,extver);
      read(extname,readDataFlag,hduKeys,extver);
+     currentExtensionName(extname);
   }
      
   else
@@ -858,7 +871,7 @@ namespace CCfits {
     return m_FITSImpl->extension();
   }
 
-  void FITS::resetPosition () throw (FitsError)
+  void FITS::resetPosition ()
   {
     int status(0);
     if (fits_movabs_hdu(fitsPointer(),1,0,&status)) throw FitsError(status);
@@ -918,12 +931,12 @@ namespace CCfits {
        try
        {
                Table& table = dynamic_cast<Table&>(inputTable);
-               fitsfile* inputFitsPointer(inputTable.fitsPointer());
+               fitsfile* inputFitsPointer = inputTable.fitsPointer() ;
                FITSUtil::auto_array_ptr<char> pName1(new char[FLEN_FILENAME]);
                FITSUtil::auto_array_ptr<char> pName2(new char[FLEN_FILENAME]);
-               string tableName(table.name());
+               string tableName = table.name();
                int tableVersion(table.version());
-               char* cExpression(const_cast<char*>(expression.c_str()));
+               char* cExpression = const_cast<char*>(expression.c_str());
                int status(0);
                
                
@@ -1040,7 +1053,7 @@ namespace CCfits {
     return extension(num - 1);
   }
 
-  string FITS::nameOfUnmapped (int hduNum) const throw (FitsError)
+  string FITS::nameOfUnmapped (int hduNum) const
   {
           
     // return the name of HDUs not yet mapped.    
@@ -1054,7 +1067,7 @@ namespace CCfits {
     if (fits_movabs_hdu(fitsPointer(),hduNum,0,&status)) throw FitsError(status);
     
     FITSUtil::auto_array_ptr<char> pTestKey(new char[FLEN_VALUE]);
-    char* testKey(pTestKey.get());
+    char* testKey = pTestKey.get();
     
     if (fits_read_key_str(fitsPointer(),EXTNAME,testKey,0,&status) == 0)
     {
@@ -1086,7 +1099,7 @@ namespace CCfits {
     
   }
 
-  void FITS::cloneHeader (const ExtHDU& source) throw (FitsError)
+  void FITS::cloneHeader (const ExtHDU& source)
   {
     // raw copy header info from source to a new HDU in *this.
           
@@ -1094,7 +1107,7 @@ namespace CCfits {
     // check that source is current HDU in whichever file it is
     source.makeThisCurrent();
     
-    fitsfile* sourcePointer(source.fitsPointer());
+    fitsfile* sourcePointer = source.fitsPointer();
     int nKeys(0);
     int dum(0);
     int status(0);
@@ -1104,26 +1117,29 @@ namespace CCfits {
     // don't care what key will be read next, so keynum argument is dummy.
     if (fits_get_hdrpos(sourcePointer,&nKeys,&dum,&status)) throw FitsError(status);
     FITSUtil::auto_array_ptr<char> pCard(new char[FLEN_CARD]);
-    char* card(pCard.get());
+    char* card = pCard.get();
   
     // Must copy the keys of the source before creating the new HDU
     // because one cannot movabs to a raw HDU created by create_hdu:
     // the required keywords are not there and it returns an error.
     if (sourcePointer == fitsPointer())
     {
-        std::vector<string> cards(nKeys);     
-        for (int j = 1; j <= nKeys; ++j)
-        {
-                if (fits_read_record(sourcePointer,j,card,&status)) 
-                        throw FitsError(status);  
-                cards[j-1] = string(card);     
+        std::vector<string> cards(nKeys);
+        {     
+                for (int j = 1; j <= nKeys; ++j)
+                {
+                        if (fits_read_record(sourcePointer,j,card,&status)) throw FitsError(status);  
+                        cards[j-1] = string(card);     
+                }
         }      
     // fits_create_hdu makes a new HDU and makes it current.
         if (fits_create_hdu(fitsPointer(),&status)) throw FitsError(status);
-        for (int j = 1; j <= nKeys; ++j)
         {
-             if (fits_write_record(fitsPointer(),cards[j-1].c_str(),&status)) 
-                        throw FitsError(status);       
+                for (int j = 1; j <= nKeys; ++j)
+                {
+                        if (fits_write_record(fitsPointer(),cards[j-1].c_str(),&status)) 
+                                                                        throw FitsError(status);       
+                }
         }  
     }
   

@@ -14,91 +14,44 @@
 <p>
 <a href="classCCfits_1_1FITS-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a0">FITS</a> (const string &amp;name, RWmode mode=Read, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKeys=std::vector&lt; string &gt;())  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>basic constructor.</em> <a href="#a0">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a1">FITS</a> (const string &amp;name, RWmode mode, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Open a <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and read a single specified <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a1">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a2">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;hduNames, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Open an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and read specified HDUs.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a0">FITS</a> (const string &amp;name, RWmode mode=Read, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKeys=std::vector&lt; string &gt;())</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a1">FITS</a> (const string &amp;name, RWmode mode, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a2">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;hduNames, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a3">FITS</a> (const string &amp;fileName, const FITS &amp;source)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>create a new <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and corresponding file with copy of the primary header of the source.</em> <a href="#a3">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a4">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; string &gt; &gt; &amp;hduKeys, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKeys=std::vector&lt; string &gt;(), const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em><a class="el" href="classCCfits_1_1FITS.html">FITS</a> read constructor in full generality.</em> <a href="#a4">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a5">FITS</a> (const string &amp;name, int bitpix, int naxis, long *naxes)  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Constructor for creating new <a class="el" href="classCCfits_1_1FITS.html">FITS</a> objects containing images.</em> <a href="#a5">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a6">FITS</a> (const string &amp;name, RWmode mode, int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read a single numbered <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a7">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)  throw (FitsException&amp;, std::exception&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>open fits file and read <a class="el" href="classCCfits_1_1HDU.html">HDU</a> which contains supplied keywords with [optional] specified values (sometimes one just wants to know that the keyword is present).</em> <a href="#a7">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a8" doxytag="CCfits::FITS::~FITS"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a8">~FITS</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a4">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; string &gt; &gt; &amp;hduKeys, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKeys=std::vector&lt; string &gt;(), const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a5">FITS</a> (const string &amp;name, int bitpix, int naxis, long *naxes)</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a6">FITS</a> (const string &amp;name, RWmode mode, int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a7">FITS</a> (const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a8">~FITS</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a9">deleteExtension</a> (const std::string &amp;doomed, int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Delete extension specified by name and version number.</em> <a href="#a9">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a10">read</a> (const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=0)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>get data from single <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from disk file.</em> <a href="#a10">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a10">read</a> (const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=0)</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a11">read</a> (const std::vector&lt; string &gt; &amp;hduNames, bool readDataFlag=false)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>get data from a set of HDUs from disk file.</em> <a href="#a11">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a12">read</a> (const std::vector&lt; string &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; string &gt; &gt; &amp;keys, bool readDataFlag=false, const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>get data from a set of HDUs from disk file, specifying keys and version numbers.</em> <a href="#a12">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a13" doxytag="CCfits::FITS::clone"></a>
-FITS*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a13">clone</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>clone function: to allow implementation later of reference counting.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a14" doxytag="CCfits::FITS::extension"></a>
-const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a14">extension</a> (int i) const  throw (FITS::NoSuchHDU)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. N.B. The input index number is currently defined as enumerating extensions, so the extension(1) returns <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number 2.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a15" doxytag="CCfits::FITS::extension"></a>
-<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a15">extension</a> (int i)  throw (FITS::NoSuchHDU)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. non-const version. see const version for details.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a16" doxytag="CCfits::FITS::extension"></a>
-const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a16">extension</a> (const string &amp;hduName, int version=1) const  throw (FITS::NoSuchHDU)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a17" doxytag="CCfits::FITS::pHDU"></a>
-const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a17">pHDU</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a const reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a18" doxytag="CCfits::FITS::pHDU"></a>
-<a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a18">pHDU</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a19" doxytag="CCfits::FITS::extension"></a>
-<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a19">extension</a> (const string &amp;hduName, int version=1)  throw (FITS::NoSuchHDU)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a20">read</a> (int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> specified by index number.</em> <a href="#a20">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a21">addTable</a> (string &amp;hduName, int rows, const std::vector&lt; ValueType &gt; &amp;colType=std::vector&lt; ValueType &gt;(), const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), HduType type=BinaryTbl, int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Add a table extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. Add extension to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object for file with w or rw access.</em> <a href="#a21">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>FITS*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a13">clone</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a14">extension</a> (int i) const</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a15">extension</a> (int i)</td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a16">extension</a> (const string &amp;hduName, int version=1) const</td></tr>
+<tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a17">pHDU</a> () const</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a18">pHDU</a> ()</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a19">extension</a> (const string &amp;hduName, int version=1)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a20">read</a> (int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a21">addTable</a> (string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), HduType type=BinaryTbl, int version=1)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a22">addImage</a> (const string &amp;hduName, int bpix, std::vector&lt; long &gt; &amp;naxes, int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Add an image extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. (File with w or rw access).</em> <a href="#a22">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a23">destroy</a> ()  throw ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Erase <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and close corresponding file.</em> <a href="#a23">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a24">currentExtensionName</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the name of the extension that the fitsfile is currently addressing.</em> <a href="#a24">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a25">read</a> (const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read method for read header or <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that contains specified keywords.</em> <a href="#a25">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a25">read</a> (const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)</td></tr>
 <tr><td nowrap align=right valign=top>const std::multimap&lt;string,<br>
 <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a26">extension</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return const reference to the extension container.</em> <a href="#a26">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a27" doxytag="CCfits::FITS::resetPosition"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a27">resetPosition</a> ()  throw (FitsError)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>explicit call to set the fits file pointer to the primary.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a29" doxytag="CCfits::FITS::name"></a>
-const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a29">name</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return filename of file corresponding to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a27">resetPosition</a> ()</td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a29">name</a> () const</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a30">copy</a> (const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp;source)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.</em> <a href="#a30">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a31">filter</a> (const string &amp;expression, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;inputTable, bool overwrite=true, bool readData=false)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Filter the rows of the inputTable with the condition expression, and return a reference to the resulting <a class="el" href="classCCfits_1_1Table.html">Table</a>.</em> <a href="#a31">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a32" doxytag="CCfits::FITS::currentExtension"></a>
-<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a32">currentExtension</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a non-const reference to whichever is the current extension.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a32">currentExtension</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a33">deleteExtension</a> (int doomed)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Delete extension specified by extension number.</em> <a href="#a33">More...</a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#d0">clearErrors</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>clear the error stack and set status to zero.</em> <a href="#d0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#d1">verboseMode</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return verbose setting for library.</em> <a href="#d1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#d2">setVerboseMode</a> (bool value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set verbose setting for library.</em> <a href="#d2">More...</a><em></em></font><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Memory object representation of a disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file.
@@ -142,7 +95,7 @@ bool <em>readDataFlag</em> = false,
         <tr>
           <td></td>
           <td><b>
-const std::vector&lt; string &gt; &amp; <em>primaryKeys</em> = std::vector&lt;string&gt;()&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+const std::vector&lt; string &gt; &amp; <em>primaryKeys</em> = std::vector&lt;string&gt;()&nbsp;)
           </b></td>
         </tr>
 
@@ -239,7 +192,7 @@ const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;str
         <tr>
           <td></td>
           <td><b>
-int <em>version</em> = 1&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+int <em>version</em> = 1&nbsp;)
           </b></td>
         </tr>
 
@@ -315,7 +268,7 @@ bool <em>readDataFlag</em> = false,
         <tr>
           <td></td>
           <td><b>
-const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;string&gt;()&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;string&gt;()&nbsp;)
           </b></td>
         </tr>
 
@@ -330,8 +283,6 @@ const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;str
     </td>
     <td>
 
-<p>
-Open an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and read specified HDUs.
 <p>
 This is intended as a convenience where the file consists of single versions of HDUs and data only, not keys are to be read. <dl compact><dt>
 <b>Parameters: </b><dd>
@@ -438,7 +389,7 @@ const std::vector&lt; string &gt; &amp; <em>primaryKeys</em> = std::vector&lt;st
         <tr>
           <td></td>
           <td><b>
-const std::vector&lt; int &gt; &amp; <em>hduVersions</em> = std::vector&lt;int&gt;()&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+const std::vector&lt; int &gt; &amp; <em>hduVersions</em> = std::vector&lt;int&gt;()&nbsp;)
           </b></td>
         </tr>
 
@@ -497,7 +448,7 @@ int <em>naxis</em>,
         <tr>
           <td></td>
           <td><b>
-long * <em>naxes</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+long * <em>naxes</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -578,7 +529,7 @@ const std::vector&lt; string &gt; &amp; <em>hduKeys</em> = std::vector&lt;string
         <tr>
           <td></td>
           <td><b>
-const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;string&gt;()&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;string&gt;()&nbsp;)
           </b></td>
         </tr>
 
@@ -658,7 +609,7 @@ const std::vector&lt; string &gt; &amp; <em>primaryKey</em> = std::vector&lt;str
         <tr>
           <td></td>
           <td><b>
-int <em>version</em> = 1&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;, std::exception&amp;)
+int <em>version</em> = 1&nbsp;)
           </b></td>
         </tr>
 
@@ -684,7 +635,7 @@ Optional parameters allows the reading of specified primary <a class="el" href="
 The name of the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file to be read </td></tr>
 <tr><td valign=top><em>mode</em>
 &nbsp;</td><td>
-The read/write mode: must be Read or ReadWrite </td></tr>
+The read/write mode: must be Read or Write </td></tr>
 <tr><td valign=top><em>searchKeys</em>
 &nbsp;</td><td>
 A string vector of keywords to search for in each header</td></tr>
@@ -714,7 +665,183 @@ Optional version number. If specified, checks the EXTVERS keyword.</td></tr>
 </dl>    </td>
   </tr>
 </table>
+<a name="a8" doxytag="CCfits::FITS::~FITS"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::FITS::~FITS (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+destructor.
+<p>
+    </td>
+  </tr>
+</table>
 <hr><h2>Member Function Documentation</h2>
+<a name="a22" doxytag="CCfits::FITS::addImage"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> * CCfits::FITS::addImage (
+          </b></td>
+          <td valign="bottom"><b>
+const string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>bpix</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+std::vector&lt; long &gt; &amp; <em>naxes</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add an image extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. (File with w or rw access).
+<p>
+Does not make primary images, which are built in the constructor for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file. The image data is not added here: it can be added by a second call.
+<p>
+<dl compact><dt>
+<b><a class="el" href="todo.html#_todo000004">Todo: </a></b><dd>
+ Add a function for replacing the primary image </dl>     </td>
+  </tr>
+</table>
+<a name="a21" doxytag="CCfits::FITS::addTable"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1Table.html">Table</a> * CCfits::FITS::addTable (
+          </b></td>
+          <td valign="bottom"><b>
+string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>rows</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>columnName</em> = std::vector&lt;string&gt;(), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>columnFmt</em> = std::vector&lt;string&gt;(), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>columnUnit</em> = std::vector&lt;string&gt;(), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+HduType <em>type</em> = BinaryTbl, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a table extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. Add extension to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object for file with w or rw access.
+<p>
+<dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>rows</em>
+&nbsp;</td><td>
+The number of rows in the table to be created. </td></tr>
+<tr><td valign=top><em>columnName</em>
+&nbsp;</td><td>
+A vector containing the table column names </td></tr>
+<tr><td valign=top><em>columnFmt</em>
+&nbsp;</td><td>
+A vector containing the table column formats </td></tr>
+<tr><td valign=top><em>columnUnit</em>
+&nbsp;</td><td>
+(Optional) a vector giving the units of the columns. </td></tr>
+<tr><td valign=top><em>HduType</em>
+&nbsp;</td><td>
+The table type - AsciiTbl or BinaryTbl (defaults to BinaryTbl) the lists of columns are optional - one can create an empty table extension but if supplied, colType, columnName and colFmt must have equal dimensions.
+<p>
+</td></tr>
+</table>
+</dl>
+<p>
+<dl compact><dt>
+<b><a class="el" href="todo.html#_todo000003">Todo: </a></b><dd>
+the code should one day check that the version keyword is higher than any other versions already added to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object (although cfitsio doesn't do this either).</dl>     </td>
+  </tr>
+</table>
 <a name="d0" doxytag="CCfits::FITS::clearErrors"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -746,6 +873,163 @@ clear the error stack and set status to zero.
 
 <p>
      </td>
+  </tr>
+</table>
+<a name="a13" doxytag="CCfits::FITS::clone"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+FITS * CCfits::FITS::clone (
+          </b></td>
+          <td valign="bottom"><b>
+) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+clone function: to allow implementation later of reference counting.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a30" doxytag="CCfits::FITS::copy"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::copy (
+          </b></td>
+          <td valign="bottom"><b>
+const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp; <em>source</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
+<p>
+This function adds a copy of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from another file into *this. It does not create a duplicate of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> in the file associated with *this.     </td>
+  </tr>
+</table>
+<a name="a32" doxytag="CCfits::FITS::currentExtension"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::currentExtension (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return a non-const reference to whichever is the current extension.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a24" doxytag="CCfits::FITS::currentExtensionName"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::FITS::currentExtensionName (
+          </b></td>
+          <td valign="bottom"><b>
+) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the name of the extension that the fitsfile is currently addressing.
+<p>
+If the extension in question does not have an EXTNAME or HDUNAME keyword, then the function returns $<a class="el" href="classCCfits_1_1HDU.html">HDU</a>$n, where n is the sequential <a class="el" href="classCCfits_1_1HDU.html">HDU</a> index number (primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> = 0).     </td>
+  </tr>
+</table>
+<a name="a33" doxytag="CCfits::FITS::deleteExtension"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::deleteExtension (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>doomed</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Delete extension specified by extension number.
+<p>
+
+<p>
+ \overload     </td>
   </tr>
 </table>
 <a name="a9" doxytag="CCfits::FITS::deleteExtension"></a><p>
@@ -807,344 +1091,6 @@ an optional version number, the EXTVER keyword, defaults to 1</td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a10" doxytag="CCfits::FITS::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::FITS::read (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>hduName</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-bool <em>readDataFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>version</em> = 0&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-get data from single <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from disk file.
-<p>
-This is provided to allow the adding of additional HDUs to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object after construction of the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. After the <a class="el" href="classCCfits_1_1FITS.html#a10">read</a>() functions have been called for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object, subsequent read method to the Primary, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>, and <a class="el" href="classCCfits_1_1Column.html">Column</a> objects will retrieve data from the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object in memory (those methods can be called to read data in those <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects that was not read when the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects were constructed.
-<p>
-All the read functions will throw <a class="el" href="classCCfits_1_1FITS_1_1NoSuchHDU.html">NoSuchHDU</a> exceptions  on seek errors since they involve constructing <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects.
-<p>
-The parameter definitions are as documented for the corresponding constructor.     </td>
-  </tr>
-</table>
-<a name="a11" doxytag="CCfits::FITS::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::FITS::read (
-          </b></td>
-          <td valign="bottom"><b>
-const std::vector&lt; string &gt; &amp; <em>hduNames</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-bool <em>readDataFlag</em> = false&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-get data from a set of HDUs from disk file.
-<p>
-This is provided to allow reading of HDUs after construction.  see above for parameter definitions.     </td>
-  </tr>
-</table>
-<a name="a12" doxytag="CCfits::FITS::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::FITS::read (
-          </b></td>
-          <td valign="bottom"><b>
-const std::vector&lt; string &gt; &amp; <em>hduNames</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; std::vector&lt; string &gt; &gt; &amp; <em>keys</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-bool <em>readDataFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; int &gt; &amp; <em>hduVersions</em> = std::vector&lt;int&gt;()&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-get data from a set of HDUs from disk file, specifying keys and version numbers.
-<p>
-This is provided to allow reading of HDUs after construction.  see above for parameter definitions.     </td>
-  </tr>
-</table>
-<a name="a20" doxytag="CCfits::FITS::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::FITS::read (
-          </b></td>
-          <td valign="bottom"><b>
-int <em>hduIndex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-bool <em>readDataFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> specified by index number.
-<p>
-
-<p>
- This is provided to allow reading of HDUs after construction. see above for parameter definitions.     </td>
-  </tr>
-</table>
-<a name="a21" doxytag="CCfits::FITS::addTable"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Table.html">Table</a> * CCfits::FITS::addTable (
-          </b></td>
-          <td valign="bottom"><b>
-string &amp; <em>hduName</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>rows</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; ValueType &gt; &amp; <em>colType</em> = std::vector&lt;ValueType&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>columnName</em> = std::vector&lt;string&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>columnFmt</em> = std::vector&lt;string&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>columnUnit</em> = std::vector&lt;string&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-HduType <em>type</em> = BinaryTbl, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>version</em> = 1&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Add a table extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. Add extension to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object for file with w or rw access.
-<p>
-<dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>rows</em>
-&nbsp;</td><td>
-The number of rows in the table to be created. </td></tr>
-<tr><td valign=top><em>colType</em>
-&nbsp;</td><td>
-A vector of data type ValueTypes for the columns to be in the table </td></tr>
-<tr><td valign=top><em>columnName</em>
-&nbsp;</td><td>
-A vector containing the table column names </td></tr>
-<tr><td valign=top><em>columnFmt</em>
-&nbsp;</td><td>
-A vector containing the table column formats </td></tr>
-<tr><td valign=top><em>columnUnit</em>
-&nbsp;</td><td>
-(Optional) a vector giving the units of the columns. </td></tr>
-<tr><td valign=top><em>HduType</em>
-&nbsp;</td><td>
-The table type - AsciiTbl or BinaryTbl (defaults to BinaryTbl) the lists of columns are optional - one can create an empty table extension but if supplied, colType, columnName and colFmt must have equal dimensions.
-<p>
-</td></tr>
-</table>
-</dl>
-<p>
-<dl compact><dt>
-<b><a class="el" href="todo.html#_todo000002">Todo: </a></b><dd>
-the code should one day check that the version keyword is higher than any other versions already added to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object (although cfitsio doesn't do this either).</dl>     </td>
-  </tr>
-</table>
-<a name="a22" doxytag="CCfits::FITS::addImage"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> * CCfits::FITS::addImage (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>hduName</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>bpix</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-std::vector&lt; long &gt; &amp; <em>naxes</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>version</em> = 1&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Add an image extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. (File with w or rw access).
-<p>
-Does not make primary images, which are built in the constructor for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file. The image data is not added here: it can be added by a second call.
-<p>
-<dl compact><dt>
-<b><a class="el" href="todo.html#_todo000003">Todo: </a></b><dd>
- Add a function for replacing the primary image </dl>     </td>
-  </tr>
-</table>
 <a name="a23" doxytag="CCfits::FITS::destroy"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -1180,116 +1126,6 @@ Erase <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and close co
 destroy is public to allow users to reuse a symbol for a new file, but it is identical in operation to the destructor.     </td>
   </tr>
 </table>
-<a name="a24" doxytag="CCfits::FITS::currentExtensionName"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-const string &amp; CCfits::FITS::currentExtensionName (
-          </b></td>
-          <td valign="bottom"><b>
-) const
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return the name of the extension that the fitsfile is currently addressing.
-<p>
-If the extension in question does not have an EXTNAME or HDUNAME keyword, then the function returns $<a class="el" href="classCCfits_1_1HDU.html">HDU</a>$n, where n is the sequential <a class="el" href="classCCfits_1_1HDU.html">HDU</a> index number (primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> = 0).     </td>
-  </tr>
-</table>
-<a name="a25" doxytag="CCfits::FITS::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::FITS::read (
-          </b></td>
-          <td valign="bottom"><b>
-const std::vector&lt; string &gt; &amp; <em>searchKeys</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>searchValues</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-bool <em>readDataFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>hduKeys</em> = std::vector&lt;string&gt;(), 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>version</em> = 1&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read method for read header or <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that contains specified keywords.
-<p>
-
-<p>
- <dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>searchKeys</em>
-&nbsp;</td><td>
-A string vector of keywords to search for in each header</td></tr>
-<tr><td valign=top><em>searchValues</em>
-&nbsp;</td><td>
-A string vector of values those keywords are required to have for success. Note that the keys must be of type string. If any value does not need to be checked the corresponding searchValue element can be empty. </td></tr>
-<tr><td valign=top><em>readDataFlag</em>
-&nbsp;</td><td>
-boolean: if true, read data if <a class="el" href="classCCfits_1_1HDU.html">HDU</a> is found  </td></tr>
-<tr><td valign=top><em>hduKeys</em>
-&nbsp;</td><td>
-Allows optional reading of keys in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that is searched for if it  is successfully found </td></tr>
-<tr><td valign=top><em>primaryKeys</em>
-&nbsp;</td><td>
-Allows optional reading of primary header keys on construction </td></tr>
-<tr><td valign=top><em>version</em>
-&nbsp;</td><td>
-Optional version number. If specified, checks the EXTVERS keyword. </td></tr>
-</table>
-</dl>    </td>
-  </tr>
-</table>
 <a name="a26" doxytag="CCfits::FITS::extension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -1321,17 +1157,23 @@ return const reference to the extension container.
 This is useful for such operations as <a class="el" href="classCCfits_1_1FITS.html#a26">extension</a>().size() etc.     </td>
   </tr>
 </table>
-<a name="a30" doxytag="CCfits::FITS::copy"></a><p>
+<a name="a19" doxytag="CCfits::FITS::extension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::FITS::copy (
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension (
           </b></td>
           <td valign="bottom"><b>
-const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp; <em>source</em>&nbsp;)
+const string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;)<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -1347,9 +1189,108 @@ const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp; <em>source</em>
     <td>
 
 <p>
-copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
+return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number.
 <p>
-This function adds a copy of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from another file into *this. It does not create a duplicate of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> in the file associated with *this.     </td>
+    </td>
+  </tr>
+</table>
+<a name="a16" doxytag="CCfits::FITS::extension"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension (
+          </b></td>
+          <td valign="bottom"><b>
+const string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a15" doxytag="CCfits::FITS::extension"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>i</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. non-const version. see const version for details.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a14" doxytag="CCfits::FITS::extension"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>i</em>&nbsp;) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. N.B. The input index number is currently defined as enumerating extensions, so the extension(1) returns <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number 2.
+<p>
+    </td>
   </tr>
 </table>
 <a name="a31" doxytag="CCfits::FITS::filter"></a><p>
@@ -1405,17 +1346,17 @@ Filter the rows of the inputTable with the condition expression, and return a re
 [N.B. the "append" functionality described below does not work when linked with cfitsio 2.202 or prior because of a known issue with that version of the library. This causes the output to be a new extension with a correct header copy and version number but without the filtered data]. If the inputTable is an Extension <a class="el" href="classCCfits_1_1HDU.html">HDU</a> of this <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object, then if overwrite is true the operation will overwrite the inputTable with the filtered version, otherwise it will append a new <a class="el" href="classCCfits_1_1HDU.html">HDU</a> with the same extension name but the next highest version (EXTVER) number available.     </td>
   </tr>
 </table>
-<a name="a33" doxytag="CCfits::FITS::deleteExtension"></a><p>
+<a name="a29" doxytag="CCfits::FITS::name"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::FITS::deleteExtension (
+const string &amp; CCfits::FITS::name (
           </b></td>
           <td valign="bottom"><b>
-int <em>doomed</em>&nbsp;)
+) const
           </b></td>
         </tr>
 
@@ -1431,24 +1372,22 @@ int <em>doomed</em>&nbsp;)
     <td>
 
 <p>
-Delete extension specified by extension number.
+return filename of file corresponding to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.
 <p>
-
-<p>
- \overload     </td>
+    </td>
   </tr>
 </table>
-<a name="d1" doxytag="CCfits::FITS::verboseMode"></a><p>
+<a name="a18" doxytag="CCfits::FITS::pHDU"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-bool CCfits::FITS::verboseMode (
+<a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp; CCfits::FITS::pHDU (
           </b></td>
           <td valign="bottom"><b>
-)<code> [inline, static]</code>
+)
           </b></td>
         </tr>
 
@@ -1464,11 +1403,334 @@ bool CCfits::FITS::verboseMode (
     <td>
 
 <p>
-return verbose setting for library.
+return a reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a17" doxytag="CCfits::FITS::pHDU"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp; CCfits::FITS::pHDU (
+          </b></td>
+          <td valign="bottom"><b>
+) const
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return a const reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a25" doxytag="CCfits::FITS::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::read (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; string &gt; &amp; <em>searchKeys</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>searchValues</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+bool <em>readDataFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>hduKeys</em> = std::vector&lt;string&gt;(), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read method for read header or <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that contains specified keywords.
 <p>
 
 <p>
- If true, all messages that are reported by exceptions are printed to std::cerr.     </td>
+ <dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>searchKeys</em>
+&nbsp;</td><td>
+A string vector of keywords to search for in each header</td></tr>
+<tr><td valign=top><em>searchValues</em>
+&nbsp;</td><td>
+A string vector of values those keywords are required to have for success. Note that the keys must be of type string. If any value does not need to be checked the corresponding searchValue element can be empty. </td></tr>
+<tr><td valign=top><em>readDataFlag</em>
+&nbsp;</td><td>
+boolean: if true, read data if <a class="el" href="classCCfits_1_1HDU.html">HDU</a> is found  </td></tr>
+<tr><td valign=top><em>hduKeys</em>
+&nbsp;</td><td>
+Allows optional reading of keys in the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that is searched for if it  is successfully found </td></tr>
+<tr><td valign=top><em>primaryKeys</em>
+&nbsp;</td><td>
+Allows optional reading of primary header keys on construction </td></tr>
+<tr><td valign=top><em>version</em>
+&nbsp;</td><td>
+Optional version number. If specified, checks the EXTVERS keyword. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a20" doxytag="CCfits::FITS::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::read (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>hduIndex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+bool <em>readDataFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> specified by index number.
+<p>
+
+<p>
+ This is provided to allow reading of HDUs after construction. see above for parameter definitions.     </td>
+  </tr>
+</table>
+<a name="a12" doxytag="CCfits::FITS::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::read (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; string &gt; &amp; <em>hduNames</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; std::vector&lt; string &gt; &gt; &amp; <em>keys</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+bool <em>readDataFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; int &gt; &amp; <em>hduVersions</em> = std::vector&lt;int&gt;()&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+get data from a set of HDUs from disk file, specifying keys and version numbers.
+<p>
+This is provided to allow reading of HDUs after construction.  see above for parameter definitions.     </td>
+  </tr>
+</table>
+<a name="a11" doxytag="CCfits::FITS::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::read (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; string &gt; &amp; <em>hduNames</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+bool <em>readDataFlag</em> = false&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+get data from a set of HDUs from disk file.
+<p>
+This is provided to allow reading of HDUs after construction.  see above for parameter definitions.     </td>
+  </tr>
+</table>
+<a name="a10" doxytag="CCfits::FITS::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::read (
+          </b></td>
+          <td valign="bottom"><b>
+const string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+bool <em>readDataFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;(), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 0&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+get data from single <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from disk file.
+<p>
+This is provided to allow the adding of additional HDUs to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object after construction of the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. After the <a class="el" href="classCCfits_1_1FITS.html#a10">read</a>() functions have been called for the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object, subsequent read method to the Primary, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>, and <a class="el" href="classCCfits_1_1Column.html">Column</a> objects will retrieve data from the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object in memory (those methods can be called to read data in those <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects that was not read when the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects were constructed.
+<p>
+All the read functions will throw <a class="el" href="classCCfits_1_1FITS_1_1NoSuchHDU.html">NoSuchHDU</a> exceptions  on seek errors since they involve constructing <a class="el" href="classCCfits_1_1HDU.html">HDU</a> objects.
+<p>
+The parameter definitions are as documented for the corresponding constructor.     </td>
+  </tr>
+</table>
+<a name="a27" doxytag="CCfits::FITS::resetPosition"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::resetPosition (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+explicit call to set the fits file pointer to the primary.
+<p>
+    </td>
   </tr>
 </table>
 <a name="d2" doxytag="CCfits::FITS::setVerboseMode"></a><p>
@@ -1504,9 +1766,42 @@ set verbose setting for library.
      </td>
   </tr>
 </table>
+<a name="d1" doxytag="CCfits::FITS::verboseMode"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+bool CCfits::FITS::verboseMode (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [inline, static]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return verbose setting for library.
+<p>
+
+<p>
+ If true, all messages that are reported by exceptions are printed to std::cerr.     </td>
+  </tr>
+</table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>FITS.h<li>FITS.cxx</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:54 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:11 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

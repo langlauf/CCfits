@@ -1,10 +1,12 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 #ifndef EXTHDUT_H
 #define EXTHDUT_H
 #include "ImageExt.h"
@@ -14,9 +16,9 @@
 namespace CCfits 
 {
         template <typename S>
-        void ExtHDU::read (std::valarray<S>& image) throw (FitsException&)  
+        void ExtHDU::read (std::valarray<S>& image) 
         {
-                checkExtensionType();
+                makeThisCurrent();
                 long init(1);
                 long nElements(std::accumulate(naxes().begin(),naxes().end(),init,
                                 std::multiplies<long>()));
@@ -29,18 +31,16 @@ namespace CCfits
 
         template <typename S>
         void ExtHDU::read (std::valarray<S>& image, long first,long nElements) 
-                                                                throw (FitsException&)  
         {
-                checkExtensionType();
+                makeThisCurrent();
                 read(image, first,nElements,static_cast<S*>(0));
         }
         
         template <typename S>
         void ExtHDU::read (std::valarray<S>& image, long first, long nElements,  S* nulValue) 
-                                                                        throw (FitsException&) 
         {
-                checkExtensionType();
                 
+                makeThisCurrent();                
                 try
                 {
                         // proceed if cast is successful.
@@ -81,38 +81,48 @@ namespace CCfits
                         } 
                         else if (bitpix() == Ilong)
                         {
-                                ImageExt<long>& extimage = dynamic_cast<ImageExt<long>&>(*this);
-                                long nulVal(0);
-                                if (nulValue) nulVal = static_cast<long>(*nulValue);                                 
-                                FITSUtil::fill(image,
+                                if ( zero() == ULBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned long>& extimage 
+                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
+                                        unsigned long nulVal(0);
+                                        if (nulValue) nulVal 
+                                                = static_cast<unsigned long>(*nulValue);                                 
+                                        FITSUtil::fill(image,
                                                 extimage.readImage(first,nElements,&nulVal));
+                                }
+                                else
+                                {
+                                        ImageExt<long>& extimage 
+                                                        = dynamic_cast<ImageExt<long>&>(*this);
+                                        long nulVal(0);
+                                        if (nulValue) nulVal = static_cast<long>(*nulValue);                                 
+                                        FITSUtil::fill(image,
+                                                extimage.readImage(first,nElements,&nulVal));
+                                }
                         }    
                         else if (bitpix() == Ishort)
                         {
-                                ImageExt<short>& extimage = dynamic_cast<ImageExt<short>&>(*this);
-                                short nulVal(0);
-                                if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
-                        }          
-                        else if (bitpix() == Iulong)
-                        {
-                                ImageExt<unsigned long>& extimage 
-                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
-                                unsigned long nulVal(0);
-                                if (nulValue) nulVal = static_cast<unsigned long>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
-                        }    
-                        else if (bitpix() == Iushort)
-                        {
-                                ImageExt<unsigned short>& extimage
+                                if ( zero() == USBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned short>& extimage
                                                 = dynamic_cast<ImageExt<unsigned short>&>(*this);
-                                unsigned short nulVal(0);
-                                if (nulValue) nulVal = static_cast<unsigned short>(*nulValue);                                 
-                                FITSUtil::fill(image,
+                                        unsigned short nulVal(0);
+                                        if (nulValue) nulVal 
+                                                = static_cast<unsigned short>(*nulValue);                                 
+                                        FITSUtil::fill(image,
                                                 extimage.readImage(first,nElements,&nulVal));
-                        }     
+                                }
+                                else
+                                {
+                                        ImageExt<short>& extimage 
+                                                        = dynamic_cast<ImageExt<short>&>(*this);
+                                        short nulVal(0);
+                                        if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
+                                        FITSUtil::fill(image,
+                                                extimage.readImage(first,nElements,&nulVal));
+                                }
+                        }          
                         else 
                         {
                                 throw CCfits::FitsFatal(" casting image types ");
@@ -124,9 +134,9 @@ namespace CCfits
         template<typename S>
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& first,
 				long nElements, 
-				S* nulValue) throw (FitsException&) 
+				S* nulValue)
         {
-                checkExtensionType();
+                makeThisCurrent();
                 long firstElement(0);
                 long dimSize(1);
                 std::vector<long> inputDimensions(naxis(),1);
@@ -149,9 +159,9 @@ namespace CCfits
 
         template<typename S>
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& first, 
-				long nElements) throw (FitsException&) 
+				long nElements) 
         {
-                checkExtensionType();
+                makeThisCurrent();
                 read(image, firstElement,nElements,static_cast<S*>(0));
                    
         } 
@@ -160,10 +170,9 @@ namespace CCfits
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
 				const std::vector<long>& stride, 
-				S* nulValue) throw (FitsException&) 
+				S* nulValue)
         {
-                checkExtensionType();
-                
+                makeThisCurrent();
                 try
                 {
                         ImageExt<S>& extimage = dynamic_cast<ImageExt<S>&>(*this);
@@ -202,38 +211,47 @@ namespace CCfits
                         } 
                         else if (bitpix() == Ilong)
                         {
-                                ImageExt<long>& extimage = dynamic_cast<ImageExt<long>&>(*this);
-                                long nulVal(0);
-                                if (nulValue) nulVal = static_cast<long>(*nulValue);                                 
-                                FITSUtil::fill(image,
+                                if ( zero() == ULBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned long>& extimage 
+                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
+                                        unsigned long nulVal(0);
+                                        if (nulValue) 
+                                                nulVal = static_cast<unsigned long>(*nulValue);                                 
+                                        FITSUtil::fill(image,
                                          extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                }
+                                else
+                                {
+                                        ImageExt<long>& extimage = dynamic_cast<ImageExt<long>&>(*this);
+                                        long nulVal(0);
+                                        if (nulValue) nulVal = static_cast<long>(*nulValue);                                 
+                                        FITSUtil::fill(image,
+                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                }
                         }    
                         else if (bitpix() == Ishort)
                         {
-                                ImageExt<short>& extimage = dynamic_cast<ImageExt<short>&>(*this);
-                                short nulVal(0);
-                                if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
-                        }          
-                        else if (bitpix() == Iulong)
-                        {
-                                ImageExt<unsigned long>& extimage 
-                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
-                                unsigned long nulVal(0);
-                                if (nulValue) nulVal = static_cast<unsigned long>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
-                        }    
-                        else if (bitpix() == Iushort)
-                        {
-                                ImageExt<unsigned short>& extimage 
+                                if ( zero() == USBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned short>& extimage 
                                                 = dynamic_cast<ImageExt<unsigned short>&>(*this);
-                                unsigned short nulVal(0);
-                                if (nulValue) nulVal = static_cast<unsigned short>(*nulValue);                                 
-                                FITSUtil::fill(image,
+                                        unsigned short nulVal(0);
+                                        if (nulValue) nulVal 
+                                                = static_cast<unsigned short>(*nulValue);                                 
+                                        FITSUtil::fill(image,
                                          extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
-                        }     
+                                }
+                                else
+                                {        
+                                        ImageExt<short>& extimage 
+                                                        = dynamic_cast<ImageExt<short>&>(*this);
+                                        short nulVal(0);
+                                        if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
+                                        FITSUtil::fill(image,
+                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                }
+                        }          
                         else 
                         {
                                 throw CCfits::FitsFatal(" casting image types ");
@@ -244,9 +262,9 @@ namespace CCfits
         template<typename S>
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
-				const std::vector<long>& stride) throw (FitsException&) 
+				const std::vector<long>& stride) 
         {
-                checkExtensionType();
+                makeThisCurrent();
                 read(image, firstVertex,lastVertex,stride,static_cast<S*>(0));
         }  
 
@@ -257,15 +275,11 @@ namespace CCfits
                         S* nulValue)
         {                
                 // throw if we called image read/write operations on a table.
-                checkExtensionType();
-                                
+                makeThisCurrent();
                 try
                 {
-
                         ImageExt<S>& image = dynamic_cast<ImageExt<S>&>(*this);
                         image.writeImage(first,nElements,data,nulValue);
-
-                        
                 }
                 catch (std::bad_cast)
                 {
@@ -310,93 +324,101 @@ namespace CCfits
                         } 
                         else if (bitpix() == Ilong)
                         {                               
-                                ImageExt<long>& imageExt = dynamic_cast<ImageExt<long>&>(*this);
-                                std::valarray<long> __tmp;                                 
-                                long  blankVal(0);                                
-                                try 
-                                {
+                                if ( zero() == ULBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned long>& imageExt
+                                               = dynamic_cast<ImageExt<unsigned long>&>(*this);
+                                        std::valarray<unsigned long> __tmp;
+                                        unsigned long blankVal(0);                                
+                                        try 
+                                        {
 
-                                        readKey("BLANK",blankVal);
-                                        std::valarray<S> copyData(data);
-                                        std::replace(&copyData[0],&copyData[data.size()],
-                                                        static_cast<long>(*nulValue),blankVal);
-       
-                                        FITSUtil::fill(__tmp,copyData);                                        
-                                        imageExt.writeImage(first,nElements,__tmp);                          
+                                                readKey("BLANK",blankVal);
+                                                std::valarray<S> copyData(data);
+                                                std::replace(&copyData[0],&copyData[data.size()],
+                                                     static_cast<unsigned long>(*nulValue),blankVal);
+
+                                                FITSUtil::fill(__tmp,copyData);                                        
+                                                imageExt.writeImage(first,nElements,__tmp);                          
+                                        }
+                                        catch (HDU::NoSuchKeyword)
+                                        {
+                                                throw NoNullValue("Primary");
+                                        }   
                                 }
-                                catch (HDU::NoSuchKeyword)
-                                {
-                                        throw NoNullValue("Primary");
+                                else
+                                {                        
+                                        ImageExt<long>& imageExt 
+                                                        = dynamic_cast<ImageExt<long>&>(*this);
+                                        std::valarray<long> __tmp;                                 
+                                        long  blankVal(0);                                
+                                        try 
+                                        {
+
+                                                readKey("BLANK",blankVal);
+                                                std::valarray<S> copyData(data);
+                                                std::replace(&copyData[0],&copyData[data.size()],
+                                                                static_cast<long>(*nulValue),blankVal);
+
+                                                FITSUtil::fill(__tmp,copyData);                                        
+                                                imageExt.writeImage(first,nElements,__tmp);                          
+                                        }
+                                        catch (HDU::NoSuchKeyword)
+                                        {
+                                                throw NoNullValue("Primary");
+                                        }
                                 }                        
                         }    
                         else if (bitpix() == Ishort)
                         {
-                                ImageExt<short>& imageExt 
-                                                = dynamic_cast<ImageExt<short>&>(*this);
-                                std::valarray<short> __tmp; 
-                                short blankVal(0);                               
-                                try 
-                                {
-                                        readKey("BLANK",blankVal);
-                                        std::valarray<S> copyData(data);
-                                        std::replace(&copyData[0],&copyData[data.size()],
-                                                       static_cast<short>(*nulValue),blankVal);
-       
-                                        FITSUtil::fill(__tmp,copyData);                                        
-                                        imageExt.writeImage(first,nElements,__tmp);                          
-                                }
-                                catch (HDU::NoSuchKeyword)
-                                {
-                                        throw NoNullValue("Primary");
-                                }   
-                        }        
-                        else if (bitpix() == Iulong)
-                        {
-                                ImageExt<unsigned long>& imageExt
-                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
-                                std::valarray<unsigned long> __tmp;
-                                unsigned long blankVal(0);                                
-                                try 
-                                {
+                                if ( zero() == USBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned short>& imageExt
+                                                 = dynamic_cast<ImageExt<unsigned short>&>(*this);
+                                        std::valarray<unsigned short> __tmp;
+                                        unsigned short blankVal(0);
+                                        try 
+                                        {
+                                                readKey("BLANK",blankVal);
+                                                std::valarray<S> copyData(data);
+                                                std::replace(&copyData[0],&copyData[data.size()],
+                                                    static_cast<unsigned short>(*nulValue),blankVal);
 
-                                        readKey("BLANK",blankVal);
-                                        std::valarray<S> copyData(data);
-                                        std::replace(&copyData[0],&copyData[data.size()],
-                                             static_cast<unsigned long>(*nulValue),blankVal);
-       
-                                        FITSUtil::fill(__tmp,copyData);                                        
-                                        imageExt.writeImage(first,nElements,__tmp);                          
+                                                FITSUtil::fill(__tmp,copyData);                                        
+                                                imageExt.writeImage(first,nElements,__tmp);                          
+                                        }
+                                        catch (HDU::NoSuchKeyword)
+                                        {
+                                                throw NoNullValue("Primary");
+                                        }      
                                 }
-                                catch (HDU::NoSuchKeyword)
-                                {
-                                        throw NoNullValue("Primary");
-                                }                           
-                        }    
-                        else if (bitpix() == Iushort)
+                                else
+                                {             
+                                        ImageExt<short>& imageExt 
+                                                        = dynamic_cast<ImageExt<short>&>(*this);
+                                        std::valarray<short> __tmp; 
+                                        short blankVal(0);                               
+                                        try 
+                                        {
+                                                readKey("BLANK",blankVal);
+                                                std::valarray<S> copyData(data);
+                                                std::replace(&copyData[0],&copyData[data.size()],
+                                                          static_cast<short>(*nulValue),blankVal);
+
+                                                FITSUtil::fill(__tmp,copyData);                                        
+                                                imageExt.writeImage(first,nElements,__tmp);                          
+                                        }
+                                        catch (HDU::NoSuchKeyword)
+                                        {
+                                                throw NoNullValue("Primary");
+                                        }  
+                                } 
+                        }        
+                        else
                         {
-                                ImageExt<unsigned short>& imageExt
-                                                = dynamic_cast<ImageExt<unsigned short>&>(*this);
-                                std::valarray<unsigned short> __tmp;
-                                unsigned short blankVal(0);
-                                try 
-                                {
-                                        readKey("BLANK",blankVal);
-                                        std::valarray<S> copyData(data);
-                                        std::replace(&copyData[0],&copyData[data.size()],
-                                            static_cast<unsigned short>(*nulValue),blankVal);
-       
-                                        FITSUtil::fill(__tmp,copyData);                                        
-                                        imageExt.writeImage(first,nElements,__tmp);                          
-                                }
-                                catch (HDU::NoSuchKeyword)
-                                {
-                                        throw NoNullValue("Primary");
-                                }                           
-                        }     
-                        else 
-                        {
-                                throw CCfits::FitsFatal(" casting image types ");
-                        }     
+                                FITSUtil::MatchType<S> errType;                                
+                                throw FITSUtil::UnrecognizedType(FITSUtil::FITSType2String(errType()));
+                        }        
                 }
         }
 
@@ -405,8 +427,7 @@ namespace CCfits
                             long nElements,const std::valarray<S>& data)
         {                
                 
-                checkExtensionType();
-                
+                makeThisCurrent();
                 try
                 {
                         ImageExt<S>& image = dynamic_cast<ImageExt<S>&>(*this);
@@ -439,40 +460,47 @@ namespace CCfits
                         } 
                         else if (bitpix() == Ilong)
                         {                               
-                                ImageExt<long>& imageExt = dynamic_cast<ImageExt<long>&>(*this);
-                                std::valarray<long> __tmp;   
-                                FITSUtil::fill(__tmp,data);                                        
-                                imageExt.writeImage(first,nElements,__tmp);                          
+                                if ( zero() == ULBASE && scale() == 1)
+                                {
+                                        ImageExt<unsigned long>& imageExt
+                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
+                                        std::valarray<unsigned long> __tmp;
+                                        FITSUtil::fill(__tmp,data);                                        
+                                        imageExt.writeImage(first,nElements,__tmp); 
+                                }
+                                else
+                                {                 
+                                        ImageExt<long>& imageExt 
+                                                        = dynamic_cast<ImageExt<long>&>(*this);
+                                        std::valarray<long> __tmp;   
+                                        FITSUtil::fill(__tmp,data);                                        
+                                        imageExt.writeImage(first,nElements,__tmp);   
+                                }
                         }    
                         else if (bitpix() == Ishort)
                         {
-                                ImageExt<short>& imageExt 
-                                                = dynamic_cast<ImageExt<short>&>(*this);
-                                std::valarray<short> __tmp;   
-                                FITSUtil::fill(__tmp,data);                                        
-                                imageExt.writeImage(first,nElements,__tmp);                          
-                        }        
-                        else if (bitpix() == Iulong)
-                        {
-                                ImageExt<unsigned long>& imageExt
-                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
-                                std::valarray<unsigned long> __tmp;
-                                FITSUtil::fill(__tmp,data);                                        
-                                imageExt.writeImage(first,nElements,__tmp);                          
-                        }    
-                        else if (bitpix() == Iushort)
-                        {
-                                ImageExt<unsigned short>& imageExt
+                                if ( zero() == USBASE && scale() == 1)
+                                {
+                                        ImageExt<unsigned short>& imageExt
                                                 = dynamic_cast<ImageExt<unsigned short>&>(*this);
-                                std::valarray<unsigned short> __tmp;
-                                FITSUtil::fill(__tmp,data);                                        
-                                imageExt.writeImage(first,nElements,__tmp); 
-                         
-                        }     
-                        else 
+                                        std::valarray<unsigned short> __tmp;
+                                        FITSUtil::fill(__tmp,data);                                        
+                                        imageExt.writeImage(first,nElements,__tmp); 
+                                }
+                                else
+                                {
+                                        ImageExt<short>& imageExt 
+                                                = dynamic_cast<ImageExt<short>&>(*this);
+                                        std::valarray<short> __tmp;   
+                                        FITSUtil::fill(__tmp,data);                                        
+                                        imageExt.writeImage(first,nElements,__tmp);  
+                                }                        
+                        }        
+                        else
                         {
-                                throw CCfits::FitsFatal(" casting image types ");
-                        }     
+                                FITSUtil::MatchType<S> errType;                                
+                                throw FITSUtil::UnrecognizedType(FITSUtil::FITSType2String(errType()));
+                        }        
                 }
         }
         
@@ -483,8 +511,7 @@ namespace CCfits
                         S* nulValue)
         {        
                 // throw if we called image read/write operations on a table.
-                checkExtensionType();
-                                
+                makeThisCurrent();
                 size_t n(first.size());
                 long firstElement(0);
                 long dimSize(1);
@@ -504,8 +531,7 @@ namespace CCfits
                         const std::valarray<S>& data)
         {        
                 // throw if we called image read/write operations on a table.
-                checkExtensionType();
-                                
+                makeThisCurrent();
                 size_t n(first.size());
                 long firstElement(0);
                 long dimSize(1);
@@ -526,9 +552,7 @@ namespace CCfits
                         const std::vector<long>& lastVertex,
                         const std::valarray<S>& data)
         {
-                // throw if we called image read/write operations on a table.
-                checkExtensionType();                
-                
+                makeThisCurrent();
                 try
                 {
                         ImageExt<S>& ExtHDU = dynamic_cast<ImageExt<S>&>(*this);
@@ -567,42 +591,51 @@ namespace CCfits
                         } 
                         else if (bitpix() == Ilong)
                         {
-                                ImageExt<long>& ExtHDU = dynamic_cast<ImageExt<long>&>(*this);
-                                size_t n(data.size());
-                                std::valarray<long> __tmp(n);
-                                for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
-                                ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);                               
+                                if ( zero() == ULBASE && scale() == 1)
+                                {                                
+                                        ImageExt<unsigned long>& ExtHDU 
+                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
+                                        size_t n(data.size());
+                                        std::valarray<unsigned long> __tmp(n);
+                                        for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
+                                        ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);    
+                                }
+                                else                              
+                                {
+                                        ImageExt<long>& ExtHDU 
+                                                        = dynamic_cast<ImageExt<long>&>(*this);
+                                        size_t n(data.size());
+                                        std::valarray<long> __tmp(n);
+                                        for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
+                                        ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);
+                                }                              
                         }    
                         else if (bitpix() == Ishort)
                         {
-                                ImageExt<short>& ExtHDU = dynamic_cast<ImageExt<short>&>(*this);
-                                size_t n(data.size());
-                                std::valarray<short> __tmp(n);
-                                for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
-                                ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);                         
+                                if ( zero() == USBASE && scale() == 1)
+                                {
+                                        ImageExt<unsigned short>& ExtHDU 
+                                                = dynamic_cast<ImageExt<unsigned short>&>(*this);
+                                        size_t n(data.size());
+                                        std::valarray<unsigned short> __tmp(n);
+                                        for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
+                                        ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);  
+                                }
+                                else
+                                {                    
+                                        ImageExt<short>& ExtHDU 
+                                                        = dynamic_cast<ImageExt<short>&>(*this);
+                                        size_t n(data.size());
+                                        std::valarray<short> __tmp(n);
+                                        for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
+                                        ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);     
+                                }                             
                         }          
-                        else if (bitpix() == Iulong)
+                        else
                         {
-                                ImageExt<unsigned long>& ExtHDU 
-                                                = dynamic_cast<ImageExt<unsigned long>&>(*this);
-                                size_t n(data.size());
-                                std::valarray<unsigned long> __tmp(n);
-                                for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
-                                ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);                              
-                        }    
-                        else if (bitpix() == Iushort)
-                        {
-                                ImageExt<unsigned short>& 
-                                        ExtHDU = dynamic_cast<ImageExt<unsigned short>&>(*this);
-                                size_t n(data.size());
-                                std::valarray<unsigned short> __tmp(n);
-                                for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
-                                ExtHDU.writeImage(firstVertex,lastVertex,stride,__tmp);                               
-                        }     
-                        else 
-                        {
-                                throw CCfits::FitsFatal(" casting image types ");
-                        }     
+                                FITSUtil::MatchType<S> errType;                                
+                                throw FITSUtil::UnrecognizedType(FITSUtil::FITSType2String(errType()));
+                        }        
                 }  
         }  
         

@@ -20,50 +20,36 @@
 <a href="classCCfits_1_1PHDU-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>virtual PHDU*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a2">clone</a> (FITSBase *p) const=0</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>virtual copy constructor, to be implemented in subclasses.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a3">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.</em> <a href="#a3">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a4">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array to image starting with a specified pixel and allowing undefined data to be processed.</em> <a href="#a4">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a5" doxytag="CCfits::PHDU::write"></a>
-template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a5">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array starting from specified n-tuple, without undefined data processing.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a6">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array starting from specified pixel number, without undefined data processing.</em> <a href="#a6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a7">write</a> (const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write a subset (generalize slice) of data to the image.</em> <a href="#a7">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a9">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image section starting at a specified pixel.</em> <a href="#a9">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a10">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read part of an image array, processing null values.</em> <a href="#a10">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a11" doxytag="CCfits::PHDU::read"></a>
-template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a11">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image section starting at a location specified by an n-tuple.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a12">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read part of an image array, processing null values.</em> <a href="#a12">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a13">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image subset.</em> <a href="#a13">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a14">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image subset into valarray image, processing null values.</em> <a href="#a14">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a3">zero</a> (double value)</td></tr>
+<tr><td nowrap align=right valign=top>virtual double&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a5">zero</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>virtual double&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a6">scale</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a7">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a8">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a9">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a10">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a11">write</a> (const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::valarray&lt; S &gt; &amp;data)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a13">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a14">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a15">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a16">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a17">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#a18">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, S *nullValue)</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#b0">PHDU</a> (const PHDU &amp;right)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy constructor.</em> <a href="#b0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#b1">PHDU</a> (FITSBase *p, int bpix, int naxis, const std::vector&lt; long &gt; &amp;axes)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Writing Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> constructor, called by PrimaryHDU&lt;T&gt; class.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1PHDU.html#b2">PHDU</a> (FITSBase *p=0)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Reading Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> constructor.</em> <a href="#b2">More...</a><em></em></font><br><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 class representing the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> for a <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file.
 <p>
 A <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> object is automatically instantiated and added to a <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object when a <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file is accessed in any way. If a new file is created without specifying the data type for the header, CCfits assumes that the file is to be used for table extensions and creates a dummy header. <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> instances are <em>only</em> created by <a class="el" href="classCCfits_1_1FITS.html">FITS</a> ctors. In the first release of CCfits, the Primary cannot be changed once declared.
 <p>
-<a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> and <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> provide the same interface to writing images: multiple overloads of the templated <a class="el" href="classCCfits_1_1PHDU.html#a9">PHDU::read</a> and <a class="el" href="classCCfits_1_1PHDU.html#a3">PHDU::write</a> operations provide for (a) writing image data specified in a number of ways [C-array, std::vector,  std::valarray] and with input location specified by initial pixel, by n-tuple, and by rectangular subset [generalized slice]; (b) reading image data specified similarly to the write options into a std::valarray.
+<a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> and <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> provide the same interface to writing images: multiple overloads of the templated <a class="el" href="classCCfits_1_1PHDU.html#a13">PHDU::read</a> and <a class="el" href="classCCfits_1_1PHDU.html#a7">PHDU::write</a> operations provide for (a) writing image data specified in a number of ways [C-array, std::vector,  std::valarray] and with input location specified by initial pixel, by n-tuple, and by rectangular subset [generalized slice]; (b) reading image data specified similarly to the write options into a std::valarray.
 <p>
 
 <p>
 <dl compact><dt>
-<b><a class="el" href="todo.html#_todo000004">Todo: </a></b><dd>
+<b><a class="el" href="todo.html#_todo000005">Todo: </a></b><dd>
 Implement functions that allow replacement of the primary image</dl> 
 <p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
@@ -216,7 +202,7 @@ virtual copy constructor, to be implemented in subclasses.
 Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a3">CCfits::HDU</a>.    </td>
   </tr>
 </table>
-<a name="a3" doxytag="CCfits::PHDU::write"></a><p>
+<a name="a18" doxytag="CCfits::PHDU::read"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -227,9 +213,131 @@ template&lt;typename S&gt;           </b></td>
         </tr>
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::write (
+void CCfits::PHDU::read (
           </b></td>
           <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>stride</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nullValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image subset into valarray image, processing null values.
+<p>
+
+<p>
+ The image subset is defined by two vertices and a stride indicating the 'denseness' of the values to be picked in each dimension (a stride = (1,1,1,...) means picking every  pixel in every dimension, whereas stride = (2,2,2,...) means picking every other value in each dimension.     </td>
+  </tr>
+</table>
+<a name="a17" doxytag="CCfits::PHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::PHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>stride</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image subset.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a16" doxytag="CCfits::PHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::PHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
 const std::vector&lt; long &gt; &amp; <em>first</em>, 
           </b></td>
         </tr>
@@ -242,12 +350,6 @@ long <em>nElements</em>,
         <tr>
           <td></td>
           <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
 S * <em>nullValue</em>&nbsp;)
           </b></td>
         </tr>
@@ -264,30 +366,21 @@ S * <em>nullValue</em>&nbsp;)
     <td>
 
 <p>
-Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.
+read part of an image array, processing null values.
 <p>
 
 <p>
- All the overloaded versions of <a class="el" href="classCCfits_1_1PHDU.html#a3">PHDU::write</a> perform operations on *this if it is an image and throw a WrongExtensionType exception if not. Where appropriate, alternate versions allow undefined data to be processed<dl compact><dt>
+ As above except for<dl compact><dt>
 <b>Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>first</em>
 &nbsp;</td><td>
-an n-tuple of dimension equal to the image dimension specifying the  first pixel in the range to be written </td></tr>
-<tr><td valign=top><em>nElements</em>
-&nbsp;</td><td>
-number of pixels to be written </td></tr>
-<tr><td valign=top><em>data</em>
-&nbsp;</td><td>
-array of data to be written </td></tr>
-<tr><td valign=top><em>pointer</em>
-&nbsp;</td><td>
-to null value (data with this value written as undefined; needs the BLANK keyword to have been specified). </td></tr>
+a vector&lt;long&gt; representing an n-tuple giving the coordinates in the image of the first pixel. </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a4" doxytag="CCfits::PHDU::write"></a><p>
+<a name="a15" doxytag="CCfits::PHDU::read"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -298,9 +391,62 @@ template&lt;typename S&gt;           </b></td>
         </tr>
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::write (
+void CCfits::PHDU::read (
           </b></td>
           <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image section starting at a location specified by an n-tuple.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a14" doxytag="CCfits::PHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::PHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
 long <em>first</em>, 
           </b></td>
         </tr>
@@ -308,12 +454,6 @@ long <em>first</em>,
           <td></td>
           <td><b>
 long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>, 
           </b></td>
         </tr>
         <tr>
@@ -335,14 +475,30 @@ S * <em>nullValue</em>&nbsp;)
     <td>
 
 <p>
-write array to image starting with a specified pixel and allowing undefined data to be processed.
+read part of an image array, processing null values.
 <p>
 
 <p>
- parameters after the first are as for version with n-tuple specifying first element. these two version are equivalent, except that it is possible for the first pixel number to exceed the range of 32-bit integers, which is how long datatype is commonly implemented.     </td>
+ Implicit data conversion is supported (i.e. user does not need to know the  type of the data stored. A WrongExtensionType extension is thrown if *this is not an image.<dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>image</em>
+&nbsp;</td><td>
+The receiving container, a std::valarray reference  </td></tr>
+<tr><td valign=top><em>first</em>
+&nbsp;</td><td>
+The first pixel from the array to read [a long value] </td></tr>
+<tr><td valign=top><em>nElements</em>
+&nbsp;</td><td>
+The number of values to read </td></tr>
+<tr><td valign=top><em>nullValue</em>
+&nbsp;</td><td>
+A pointer containing the value in the table to be  considered as undefined. See cfitsio for details </td></tr>
+</table>
+</dl>    </td>
   </tr>
 </table>
-<a name="a6" doxytag="CCfits::PHDU::write"></a><p>
+<a name="a13" doxytag="CCfits::PHDU::read"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -353,22 +509,22 @@ template&lt;typename S&gt;           </b></td>
         </tr>
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::write (
+void CCfits::PHDU::read (
           </b></td>
           <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
 long <em>first</em>, 
           </b></td>
         </tr>
         <tr>
           <td></td>
           <td><b>
-long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
+long <em>nElements</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -384,14 +540,49 @@ const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
     <td>
 
 <p>
-write array starting from specified pixel number, without undefined data processing.
+read an image section starting at a specified pixel.
 <p>
 
 <p>
      </td>
   </tr>
 </table>
-<a name="a7" doxytag="CCfits::PHDU::write"></a><p>
+<a name="a6" doxytag="CCfits::PHDU::scale"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+double CCfits::PHDU::scale (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the BSCALE keyword value.
+<p>
+
+<p>
+ 
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a26">CCfits::HDU</a>.    </td>
+  </tr>
+</table>
+<a name="a11" doxytag="CCfits::PHDU::write"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -453,7 +644,7 @@ The data to be written </td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a9" doxytag="CCfits::PHDU::read"></a><p>
+<a name="a10" doxytag="CCfits::PHDU::write"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -464,64 +655,9 @@ template&lt;typename S&gt;           </b></td>
         </tr>
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::read (
+void CCfits::PHDU::write (
           </b></td>
           <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read an image section starting at a specified pixel.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a10" doxytag="CCfits::PHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::PHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
 long <em>first</em>, 
           </b></td>
         </tr>
@@ -534,7 +670,7 @@ long <em>nElements</em>,
         <tr>
           <td></td>
           <td><b>
-S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
+const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -550,32 +686,14 @@ S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsExc
     <td>
 
 <p>
-read part of an image array, processing null values.
-<p>
-throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;) ;
+write array starting from specified pixel number, without undefined data processing.
 <p>
 
 <p>
- Implicit data conversion is supported (i.e. user does not need to know the  type of the data stored. A WrongExtensionType extension is thrown if *this is not an image.<dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>image</em>
-&nbsp;</td><td>
-The receiving container, a std::valarray reference  </td></tr>
-<tr><td valign=top><em>first</em>
-&nbsp;</td><td>
-The first pixel from the array to read [a long value] </td></tr>
-<tr><td valign=top><em>nElements</em>
-&nbsp;</td><td>
-The number of values to read </td></tr>
-<tr><td valign=top><em>nullValue</em>
-&nbsp;</td><td>
-A pointer containing the value in the table to be  considered as undefined. See cfitsio for details </td></tr>
-</table>
-</dl>    </td>
+     </td>
   </tr>
 </table>
-<a name="a12" doxytag="CCfits::PHDU::read"></a><p>
+<a name="a9" doxytag="CCfits::PHDU::write"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -586,15 +704,9 @@ template&lt;typename S&gt;           </b></td>
         </tr>
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::read (
+void CCfits::PHDU::write (
           </b></td>
           <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
 const std::vector&lt; long &gt; &amp; <em>first</em>, 
           </b></td>
         </tr>
@@ -607,7 +719,7 @@ long <em>nElements</em>,
         <tr>
           <td></td>
           <td><b>
-S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
+const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -623,53 +735,148 @@ S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsExc
     <td>
 
 <p>
-read part of an image array, processing null values.
+write array starting from specified n-tuple, without undefined data processing.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a8" doxytag="CCfits::PHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::PHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nullValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write array to image starting with a specified pixel and allowing undefined data to be processed.
 <p>
 
 <p>
- As above except for<dl compact><dt>
+ parameters after the first are as for version with n-tuple specifying first element. these two version are equivalent, except that it is possible for the first pixel number to exceed the range of 32-bit integers, which is how long datatype is commonly implemented.     </td>
+  </tr>
+</table>
+<a name="a7" doxytag="CCfits::PHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::PHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; long &gt; &amp; <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nullValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.
+<p>
+
+<p>
+ All the overloaded versions of <a class="el" href="classCCfits_1_1PHDU.html#a7">PHDU::write</a> perform operations on *this if it is an image and throw a WrongExtensionType exception if not. Where appropriate, alternate versions allow undefined data to be processed<dl compact><dt>
 <b>Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
 <tr><td valign=top><em>first</em>
 &nbsp;</td><td>
-a vector&lt;long&gt; representing an n-tuple giving the coordinates in the image of the first pixel. </td></tr>
+an n-tuple of dimension equal to the image dimension specifying the  first pixel in the range to be written </td></tr>
+<tr><td valign=top><em>nElements</em>
+&nbsp;</td><td>
+number of pixels to be written </td></tr>
+<tr><td valign=top><em>data</em>
+&nbsp;</td><td>
+array of data to be written </td></tr>
+<tr><td valign=top><em>pointer</em>
+&nbsp;</td><td>
+to null value (data with this value written as undefined; needs the BLANK keyword to have been specified). </td></tr>
 </table>
 </dl>    </td>
   </tr>
 </table>
-<a name="a13" doxytag="CCfits::PHDU::read"></a><p>
+<a name="a5" doxytag="CCfits::PHDU::zero"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::read (
+double CCfits::PHDU::zero (
           </b></td>
           <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>stride</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
+) const<code> [virtual]</code>
           </b></td>
         </tr>
 
@@ -685,52 +892,26 @@ const std::vector&lt; long &gt; &amp; <em>stride</em>&nbsp;)  throw (<a class="e
     <td>
 
 <p>
-read an image subset.
+return the BZERO keyword value.
 <p>
 
 <p>
-     </td>
+ 
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a24">CCfits::HDU</a>.    </td>
   </tr>
 </table>
-<a name="a14" doxytag="CCfits::PHDU::read"></a><p>
+<a name="a3" doxytag="CCfits::PHDU::zero"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
           <td nowrap valign="top"><b> 
-void CCfits::PHDU::read (
+void CCfits::PHDU::zero (
           </b></td>
           <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>stride</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
+double <em>value</em>&nbsp;)<code> [virtual]</code>
           </b></td>
         </tr>
 
@@ -746,16 +927,14 @@ S * <em>nullValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsExc
     <td>
 
 <p>
-read an image subset into valarray image, processing null values.
+Private: called by ctor. 
 <p>
-
-<p>
- The image subset is defined by two vertices and a stride indicating the 'denseness' of the values to be picked in each dimension (a stride = (1,1,1,...) means picking every  pixel in every dimension, whereas stride = (2,2,2,...) means picking every other value in each dimension.     </td>
+Reimplemented from <a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>PHDU.h<li>PHDU.cxx<li>PHDUT.h</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:56 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,18 +1,19 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef COLUMN_H
 #define COLUMN_H 1
 
 #include <iostream>
-
 
 // string
 #include <string>
@@ -25,6 +26,8 @@
 
 
 
+
+#include <complex>
 using std::string;
 using std::ostream;
 
@@ -248,7 +251,7 @@ namespace CCfits {
 
 */
 
-/*!   \fn  template <typename S> void Column::read(std::vector<S>& vals, size_t first, size_t last) throw (FitsException&);
+/*!   \fn  template <typename S> void Column::read(std::vector<S>& vals, long first, long last);
         
         \brief Retrieve data from a scalar column into a std::vector
         
@@ -260,7 +263,7 @@ namespace CCfits {
         
 */
   
-/*!   \fn  template <typename S> void Column::read(std::vector<S>& vals, size_t first, size_t last, S* nullValue) throw (FitsException&);
+/*!   \fn  template <typename S> void Column::read(std::vector<S>& vals, long first, long last, S* nullValue) ;
         
         \brief Retrieve data from a scalar column into a std::vector, setting nullvalue
         
@@ -274,7 +277,7 @@ namespace CCfits {
         \param nullValue, pointer to integer value regarded as undefined
         
 */
-         /*!  \fn   template <typename S> void Column::read(std::valarray<S>& vals, size_t first, size_t last) throw (FitsException&);
+         /*!  \fn   template <typename S> void Column::read(std::valarray<S>& vals, long first, long last) ;
 
         \brief Retrieve data from a scalar column into a std::valarray
         
@@ -284,7 +287,7 @@ namespace CCfits {
 
 */    
   
-/*!  \fn   template <typename S> void Column::read(std::valarray<S>& vals, size_t first, size_t last, S* nullValue) throw (FitsException&);
+/*!  \fn   template <typename S> void Column::read(std::valarray<S>& vals, long first, long last, S* nullValue) ;
 
         \brief Retrieve data from a scalar column into a std::valarray, setting undefined values 
         
@@ -294,7 +297,7 @@ namespace CCfits {
 
 */
                         
-/*!  \fn template <typename S> void Column::read(std::valarray<S>& vals, size_t rows) throw (FitsException&);
+/*!  \fn template <typename S> void Column::read(std::valarray<S>& vals, long rows) ;
 
         \brief return a single row of a vector column into a std::valarray
                         
@@ -302,14 +305,13 @@ namespace CCfits {
         \param rows The row number to be retrieved (starting at 1).
 */
                 
-/*!  \fn  template <typename S> void Column::read(std::valarray<S>& vals, size_t rows, S* nullValue) throw (FitsException&);
+/*!  \fn  template <typename S> void Column::read(std::valarray<S>& vals, long rows, S* nullValue) ;
 
         \brief return a single row of a vector column into a std::valarray, setting undefined values
 
 */
                         
-/*!  \fn    template <typename S> void Column::read(std::vector<std::valarray<S> >& vals, size_t first,size_t last) 
-                                                                      throw (FitsException&);
+/*!  \fn    template <typename S> void Column::readArrays(std::vector<std::valarray<S> >& vals, long first,long last);
 
         \brief return a set of rows of a vector column into a vector of valarrays
 
@@ -317,8 +319,7 @@ namespace CCfits {
         \param first,last the span of row numbers to read.
 */
         
-/*!  \fn  template <typename S>  void Column::read(std::vector<std::valarray<S> >& vals, size_t first, size_t last, S* nullValue) 
-                                                                        throw (FitsException&);
+/*!  \fn  template <typename S>  void Column::readArrays(std::vector<std::valarray<S> >& vals, long first, long last, S* nullValue);
         \brief return a set of rows of a vector column into a container, setting undefined values
 
         \param vals The output container. The function will resize this as necessary
@@ -489,14 +490,14 @@ namespace CCfits {
 
 */
                 
-/*!   \fn   template <typename S> void Column::write (const std::vector<std::valarray<S> >& indata, long firstRow); 
+/*!   \fn   template <typename S> void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow); 
 
         \brief write a vector of valarray objects to the column, starting at row firstRow >= 1
 
 
 */
                         
-/*!   \fn   template <typename S>  void Column::write (const std::vector<std::valarray<S> >& indata, long firstRow, S* nullValue);  
+/*!   \fn   template <typename S>  void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow, S* nullValue);  
 
         \brief write a vector of valarray objects to the column, starting at row firstRow >= 1, processing undefined values
 
@@ -504,7 +505,7 @@ namespace CCfits {
 */              
                     
 
-/*! \fn         template <typename T>   void Column::addNullValue(T nullVal);
+/*! \fn         template <typename T>   void Column::addNullValue(T nullVal);
 
                 \brief Set the TNULLn keyword for the column
                                 
@@ -619,9 +620,6 @@ namespace CCfits {
 /*!        \fn const std::string& Column::unit () const;
 
       \brief get units of data in Column (TUNITn keyword)
-
-
-      
 */
 
 
@@ -677,8 +675,7 @@ namespace CCfits {
 
       \brief return number of rows in the Column
       
-      \todo Ensure Column::rows() is in sync with the HDU entry.
-
+ 
 
 
 */
@@ -719,7 +716,7 @@ namespace CCfits {
 */      
 
 
-/*!        \fn string& Column::display ();
+/*!        \fn string& Column::display () const;
 
       \brief return TDISPn keyword
       
@@ -729,7 +726,7 @@ namespace CCfits {
 
 */
 
-/*!        \fn string& Column::dimen ();
+/*!        \fn string& Column::dimen () const;
 
       \brief return TDIMn keyword
       
@@ -763,10 +760,14 @@ namespace CCfits {
 
 
 
+
+
   class Column 
   {
 
     public:
+
+
 
       class RangeError : public FitsException  //## Inherits: <unnamed>%3946526D031A
       {
@@ -777,6 +778,8 @@ namespace CCfits {
         private:
         private: //## implementation
       };
+
+
 
 
       class InvalidDataType : public FitsException  //## Inherits: <unnamed>%3947CF30033E
@@ -790,6 +793,8 @@ namespace CCfits {
       };
 
 
+
+
       class InvalidRowParameter : public FitsException  //## Inherits: <unnamed>%39B5310F01A0
       {
         public:
@@ -799,6 +804,8 @@ namespace CCfits {
         private:
         private: //## implementation
       };
+
+
 
 
       class WrongColumnType : public FitsException  //## Inherits: <unnamed>%39B545780082
@@ -812,6 +819,8 @@ namespace CCfits {
       };
 
 
+
+
       class UnspecifiedLengths : public FitsException  //## Inherits: <unnamed>%3A018C9D007D
       {
         public:
@@ -821,6 +830,8 @@ namespace CCfits {
         private:
         private: //## implementation
       };
+
+
 
 
       class InvalidRowNumber : public FitsException  //## Inherits: <unnamed>%3B0A850F0307
@@ -834,6 +845,8 @@ namespace CCfits {
       };
 
 
+
+
       class InsufficientElements : public FitsException  //## Inherits: <unnamed>%3B0BE611010A
       {
         public:
@@ -845,6 +858,8 @@ namespace CCfits {
       };
 
 
+
+
       class NoNullValue : public FitsException  //## Inherits: <unnamed>%3B0D589A0092
       {
         public:
@@ -854,6 +869,8 @@ namespace CCfits {
         private:
         private: //## implementation
       };
+
+
 
 
       class InvalidNumberOfRows : public FitsException  //## Inherits: <unnamed>%3B20EB8B0205
@@ -888,8 +905,6 @@ namespace CCfits {
 
         friend std::ostream& operator << (std::ostream& s, const Column& right);
 
-        static void getType (Table* p, int index, int *type, long *repeat, long *width, double* scale, unsigned int* zero);
-
         //	Inequality operators for imposing sort order on columns.
         friend bool operator < (const Column& left, const Column& right);
 
@@ -907,6 +922,9 @@ namespace CCfits {
         bool isRead () const;
         void isRead (bool value);
 
+        long width () const;
+        void width (long value);
+
         size_t repeat () const;
 
         bool varLength () const;
@@ -917,10 +935,29 @@ namespace CCfits {
         double zero () const;
         void zero (double value);
 
+        const string& display () const;
+
+        const string& dimen () const;
+
+        ValueType type () const;
+        void type (ValueType value);
+
+        static const string& TFORM ();
+
+        static const string& TDISP ();
+
+        static const string& TSCAL ();
+
+        static const string& TZERO ();
+
+        static const string& TDIM ();
+
 
         const std::string& name () const;
 
         const std::string& unit () const;
+
+        const std::string& format () const;
 
     public:
       // Additional Public Declarations
@@ -932,8 +969,16 @@ namespace CCfits {
         template <typename S>                   
         void write (const std::vector<S>& indata, long firstRow);
 
+        void write (const std::vector<std::complex<float> >& indata, long firstRow);
+        
+        void write (const std::vector<std::complex<double> >& indata, long firstRow);
+
         template <typename S>                   
         void write (const std::valarray<S>& indata, long firstRow);
+        
+        void write (const std::valarray<std::complex<float> >& indata, long firstRow);
+
+        void write (const std::valarray<std::complex<double> >& indata, long firstRow);
 
         template <typename S>                   
         void write (S* indata, long nRows, long firstRow);
@@ -953,20 +998,33 @@ namespace CCfits {
         // object which is how the data are stored in the ColumnVectorData object. 
         // this last one is also used internally to implement the variable lengths versions.
         
+        // fixed length write to binary table from valarray.
        
                     
         template <typename S>
         void write (const std::valarray<S>& indata, long nRows, long firstRow);
+
+        void write (const std::valarray<std::complex<float> >& indata, long nRows, long firstRow);
+        
+        void write (const std::valarray<std::complex<double> >& indata, long nRows, long firstRow);
+
         
         template <typename S>
         void write (const std::vector<S>& indata, long nRows, long firstRow);
 
+        void write (const std::vector<std::complex<float> >& indata, long nRows, long firstRow);
+        
+        void write (const std::vector<std::complex<double> >& indata, long nRows, long firstRow);
+        
+        
+        
         template <typename S>
         void write (S* indata, long nElements, long nRows, long firstRow);
 
         
         template <typename S>
         void write (const std::valarray<S>& indata, long nRows, long firstRow, S* nullValue);
+
         
         template <typename S>
         void write (const std::vector<S>& indata, long nRows, long firstRow, S* nullValue);
@@ -974,16 +1032,35 @@ namespace CCfits {
         template <typename S>
         void write (S* indata, long nElements, long nRows, long firstRow, S* nullValue);
         
+        // variable-length write to vector column from valarray or vector.
+        
         template <typename S>
         void write (const std::valarray<S>& indata,  
                         const std::vector<long>& vectorLengths, 
                         long firstRow);        
         
+        void write (const std::valarray<std::complex<float> >& indata,  
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow);        
+
+        void write (const std::valarray<std::complex<double> >& indata,  
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow);      
+          
         template <typename S>
         void write (const std::vector<S>& indata, 
                         const std::vector<long>& vectorLengths, 
                         long firstRow);
 
+
+        
+        void write (const std::vector<std::complex<float> >& indata, 
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow);
+        
+        void write (const std::vector<std::complex<double> >& indata, 
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow);
 
         template <typename S>
         void write (S* indata, long nElements,  
@@ -991,51 +1068,71 @@ namespace CCfits {
                         long firstRow);
         
         template <typename S>
-        void write (const std::vector<std::valarray<S> >& indata, long firstRow); 
+        void writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow); 
+
+        void writeArrays (const std::vector<std::valarray<std::complex<float> > >& indata, long firstRow); 
         
+        void writeArrays (const std::vector<std::valarray<std::complex<double> > >& indata, long firstRow); 
+                        
 	template <typename S>
-        void write (const std::vector<std::valarray<S> >& indata, long firstRow, S* nullValue);  
+        void writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow, S* nullValue);  
               
         // get specified elements of a scalar column, returned as a std::vector
         // S is NOT the type of the column data itself, it is the type of the returned
         // data.
                     
         template <typename S>
-        void read(std::vector<S>& vals, size_t first, size_t last) throw (FitsException&);
+        void read(std::vector<S>& vals, long first, long last) ;
         
-        void read(std::vector<string>& vals, size_t first, size_t last) throw (FitsException&);
+        // VC++, at least, won't compile these as template covering std::complex instances.
+        void read(std::vector< std::complex<float> >& , long first, long last);
+        
+        void read(std::vector< std::complex<double> >& , long first, long last);
+        
+        void read(std::vector<string>& vals, long first, long last);
   
         // return a set of rows from a scalar column as a valarray.
         template <typename S>
-        void read(std::valarray<S>& vals, size_t first, size_t last) throw (FitsException&);
+        void read(std::valarray<S>& vals, long first, long last) ;
 
+        void read(std::valarray<std::complex<float> >& vals, long first, long last) ;
+        
+        void read(std::valarray<std::complex<double> >& vals, long first, long last) ;
+        
         // return a single  row of a vector column.
         template <typename S>
-        void read(std::valarray<S>& vals, size_t rows) throw (FitsException&);
+        void read(std::valarray<S>& vals, long rows) ;
         
+        void read(std::valarray<std::complex<float> >& vals, long rows) ;
+        
+        void read(std::valarray<std::complex<double> >& vals, long rows) ;
+
         // get a set of rows from a vector column.
         template <typename S>
-        void read(std::vector<std::valarray<S> >& vals, size_t first,size_t last) 
-                                                                        throw (FitsException&);
+        void readArrays(std::vector<std::valarray<S> >& vals, long first, long last) ;
 
+        void readArrays(std::vector<std::valarray<std::complex<float> > >& vals, long first, long last) ;
+        
+        void readArrays(std::vector<std::valarray<std::complex<double> > >& vals, long first, long last) ;
+        
+        // nullValue has no meaning when the target column has floating point/std::complex
+        // type. Also, implict conversion of std::complex to pure real is not supported
+        // by cfitsio.
         
         template <typename S>
-        void read(std::vector<S>& vals, size_t first, size_t last, S* nullValue) 
-                                                                        throw (FitsException&);
+        void read(std::vector<S>& vals, long first, long last, S* nullValue) ;
   
         // return a set of rows from a scalar column as a valarray.
         template <typename S>
-        void read(std::valarray<S>& vals, size_t first, size_t last, S* nullValue) 
-                                                                        throw (FitsException&);
+        void read(std::valarray<S>& vals, long first, long last, S* nullValue);
 
         // return a single  row of a vector column.
         template <typename S>
-        void read(std::valarray<S>& vals, size_t rows, S* nullValue) throw (FitsException&);
+        void read(std::valarray<S>& vals, long rows, S* nullValue) ;
         
         // get a set of rows from a vector column.
         template <typename S>
-        void read(std::vector<std::valarray<S> >& vals, size_t first, size_t last, S* nullValue) 
-                                                                        throw (FitsException&);
+        void readArrays(std::vector<std::valarray<S> >& vals, long first, long last, S* nullValue);
                 
         // add a null value to the column 
         template <typename T>
@@ -1074,38 +1171,18 @@ namespace CCfits {
 
         virtual std::ostream& put (std::ostream& s) const;
 
-        static bool isScaled (Table* p, int index, int* type, long* repeat, long* width, double *tscale, unsigned int *tzero);
-
         Table* parent () const;
+
+        void dimen (const string& value);
 
         void varLength (bool value);
 
-
-        long width () const;
-        void width (long value);
-
-        string display ();
-
-        string dimen ();
-
-        ValueType type () const;
-        void type (ValueType value);
 
         static const string& TBCOL ();
 
         static const string& TTYPE ();
 
-        static const string& TFORM ();
-
-        static const string& TDISP ();
-
         static const string& TUNIT ();
-
-        static const string& TSCAL ();
-
-        static const string& TZERO ();
-
-        static const string& TDIM ();
 
         static const string& TNULL ();
 
@@ -1117,8 +1194,6 @@ namespace CCfits {
 
         static const string& TDMIN ();
 
-
-        const std::string& format () const;
 
         const std::string& comment () const;
         void comment (const std::string& value);
@@ -1143,6 +1218,8 @@ namespace CCfits {
         void name (const string& value);
 
         void format (const string& value);
+
+        long numberOfElements (long& first, long& last);
 
       // Data Members for Class Attributes
 
@@ -1251,20 +1328,6 @@ namespace CCfits {
 
   };
 
-        inline std::ostream& operator << (std::ostream& s, const Column& right)
-        {
-                return right.put(s);   
-        }
-
-        inline bool operator< (const Column& left, const Column& right)
-        {
-                return left.m_index < right.m_index;
-        }
-
-        inline bool operator> (const Column& left, const Column& right)
-        {
-                return left.m_index > right.m_index;
-        }
 
   // Class CCfits::Column::RangeError 
 
@@ -1292,8 +1355,23 @@ namespace CCfits {
   // default implementation: do nothing. Overridden by ColumnVectorData.
   }
 
+  inline std::ostream& operator << (std::ostream& s, const Column& right)
+  {
 
+    return right.put(s);
+  }
 
+  inline bool operator < (const Column& left, const Column& right)
+  {
+
+    return left.m_index < right.m_index;
+  }
+
+  inline bool operator > (const Column& left, const Column& right)
+  {
+
+    return left.m_index > right.m_index;
+  }
 
 
   inline int Column::index () const
@@ -1344,6 +1422,8 @@ namespace CCfits {
   inline void Column::scale (double value)
   {
     m_scale = value;
+    int status(0);
+    if (fits_set_tscale(fitsPointer(),m_index,value,m_zero,&status)) throw FitsError(status);
   }
 
   inline double Column::zero () const
@@ -1356,12 +1436,12 @@ namespace CCfits {
     m_zero = value;
   }
 
-  inline string Column::display ()
+  inline const string& Column::display () const
   {
     return m_display;
   }
 
-  inline string Column::dimen ()
+  inline const string& Column::dimen () const
   {
     return m_dimen;
   }

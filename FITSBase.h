@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef FITSBASE_H
 #define FITSBASE_H 1
-
 
 
 // map
@@ -29,10 +30,13 @@ namespace CCfits {
 } // namespace CCfits
 
 
+
 using std::string;
 
 
 namespace CCfits {
+
+
 
 
 

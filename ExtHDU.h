@@ -1,18 +1,18 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef EXTHDU_H
 #define EXTHDU_H 1
 
-
-#include "KeywordT.h"
 
 // string
 #include <string>
@@ -25,6 +25,8 @@ namespace CCfits {
   class Column;
 
 } // namespace CCfits
+
+#include "KeywordT.h"
 
 
 
@@ -106,7 +108,7 @@ namespace CCfits {
 
 */
                         
-/*! \fn  virtual Column& ExtHDU::column (const string& colName) const throw (FitsException&);
+/*! \fn  virtual Column& ExtHDU::column (const string& colName) const ;
 
         \brief return a reference to a Table column specified by name. 
                         
@@ -118,7 +120,7 @@ namespace CCfits {
                         
 */
                         
-/*! \fn  virtual Column& ExtHDU::column (int colIndex) const throw (FitsException&);
+/*! \fn  virtual Column& ExtHDU::column (int colIndex) const;
 
         \brief return a reference to a Table column specified by column index. 
                         
@@ -208,7 +210,7 @@ namespace CCfits {
         \exceptions  WrongExtensionType if extension is an image.
 */
                         
-/*! \fn      template <typename S> void ExtHDU::read (std::valarray<S>& image) throw (FitsException&); 
+/*! \fn      template <typename S> void ExtHDU::read (std::valarray<S>& image); 
                         
         \brief Read image data into container.
                         
@@ -222,8 +224,7 @@ namespace CCfits {
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                         long first,
                                         long nElements, 
-                                        S* nullValue) 
-                                        throw (FitsException&) ; 
+                                        S* nullValue) ; 
         
                 \brief read part of an image array, processing null values.
                                 
@@ -243,7 +244,7 @@ namespace CCfits {
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first, 
 		                long nElements, 
-                                S* nullValue)  throw (FitsException&) ;
+                                S* nullValue)  ;
                                 
              \brief read part of an image array, processing null values.
                              
@@ -258,7 +259,7 @@ namespace CCfits {
                                 const std::vector<long>& firstVertex, 
 		                const std::vector<long>& lastVertex, 
 		                const std::vector<long>& stride, 
-                                S* nullValue)   throw (FitsException&); 
+                                S* nullValue) ; 
                                 
                                 
              \brief read an image subset into valarray image, processing null values
@@ -273,7 +274,7 @@ namespace CCfits {
 */      
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 long first,
-                                long nElements)  throw (FitsException&); 
+                                long nElements) ; 
                         
               \brief read an image section starting at a specified pixel
 
@@ -281,14 +282,14 @@ namespace CCfits {
                 
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first,
-                                long nElements)  throw (FitsException&); 
+                                long nElements); 
                                                    
               \brief read an image section starting at a location specified by an n-tuple
 */      
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& firstVertex, 
 		                const std::vector<long>& lastVertex, 
-		                const std::vector<long>& stride)    throw (FitsException&);    
+		                const std::vector<long>& stride) ;    
 
 
                 \brief read an image subset
@@ -400,10 +401,14 @@ namespace CCfits {
 
 
 
+
+
   class ExtHDU : public HDU  //## Inherits: <unnamed>%38048213E7A8
   {
 
     public:
+
+
 
       class WrongExtensionType : public FitsException  //## Inherits: <unnamed>%39E61E630349
       {
@@ -434,7 +439,7 @@ namespace CCfits {
 
         const string& name () const;
 
-        virtual ExtHDU * clone (FITSBase* p) const = 0;
+        virtual HDU * clone (FITSBase* p) const = 0;
 
         //	By all means necessary, set the fitsfile pointer so that
         //	this HDU is the current HDU.
@@ -443,9 +448,9 @@ namespace CCfits {
         //	interface.
         virtual void makeThisCurrent () const;
 
-        virtual Column& column (const string& colName) const throw (FitsException&);
+        virtual Column& column (const string& colName) const;
 
-        virtual Column& column (int colIndex) const throw (FitsException&);
+        virtual Column& column (int colIndex) const;
 
         virtual long rows () const;
 
@@ -504,42 +509,42 @@ namespace CCfits {
       // the user to perform the operation EXT.column({name,index}).read(...)
       
       template <typename S>
-      void read (std::valarray<S>& image)  throw (FitsException&); 
+      void read (std::valarray<S>& image) ; 
 
       template<typename S> 
       void read (std::valarray<S>& image, 
                       long first,
                       long nElements, 
-                      S* nullValue)  throw (FitsException&); 
+                      S* nullValue) ; 
 
       template<typename S>
       void read (std::valarray<S>& image, 
                       const std::vector<long>& first, 
 		      long nElements, 
-                      S* nullValue)  throw (FitsException&); 
+                      S* nullValue) ; 
 
       template<typename S>
       void read (std::valarray<S>& image, 
                       const std::vector<long>& firstVertex, 
 		      const std::vector<long>& lastVertex, 
-		      const std::vector<long>& stride)   throw (FitsException&); 
+		      const std::vector<long>& stride) ; 
       
       template<typename S>
       void read (std::valarray<S>& image, 
                       long first,
-                      long nElements)  throw (FitsException&); 
+                      long nElements) ; 
 
       template<typename S>
       void read (std::valarray<S>& image, 
                       const std::vector<long>& first,
-                      long nElements)   throw (FitsException&); 
+                      long nElements) ; 
       
       template<typename S>
       void read (std::valarray<S>& image, 
                       const std::vector<long>& firstVertex, 
 		      const std::vector<long>& lastVertex, 
 		      const std::vector<long>& stride, 
-                      S* nullValue)   throw (FitsException&); 
+                      S* nullValue) ; 
                       
       
     protected:

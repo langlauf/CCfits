@@ -16,102 +16,50 @@
 <p><center><img src="classCCfits_1_1ExtHDU.gif" usemap="#CCfits::ExtHDU_map" border="0"></center>
 <map name="CCfits::ExtHDU_map">
 <area href="classCCfits_1_1HDU.html" alt="CCfits::HDU" shape="rect" coords="60,0,171,24">
-<area href="classCCfits_1_1ImageExt.html" alt="CCfits::ImageExt" shape="rect" coords="0,112,111,136">
-<area href="classCCfits_1_1Table.html" alt="CCfits::Table" shape="rect" coords="121,112,232,136">
-<area href="classCCfits_1_1AsciiTable.html" alt="CCfits::AsciiTable" shape="rect" coords="60,168,171,192">
-<area href="classCCfits_1_1BinTable.html" alt="CCfits::BinTable" shape="rect" coords="181,168,292,192">
+<area href="classCCfits_1_1Table.html" alt="CCfits::Table" shape="rect" coords="60,112,171,136">
+<area href="classCCfits_1_1AsciiTable.html" alt="CCfits::AsciiTable" shape="rect" coords="0,168,111,192">
+<area href="classCCfits_1_1BinTable.html" alt="CCfits::BinTable" shape="rect" coords="121,168,232,192">
 </map>
 <a href="classCCfits_1_1ExtHDU-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="a0" doxytag="CCfits::ExtHDU::ExtHDU"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a0">ExtHDU</a> (const ExtHDU &amp;right)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy constructor.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a1" doxytag="CCfits::ExtHDU::~ExtHDU"></a>
-virtual&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a1">~ExtHDU</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a0">ExtHDU</a> (const ExtHDU &amp;right)</td></tr>
+<tr><td nowrap align=right valign=top>virtual&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a1">~ExtHDU</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a2">readData</a> (bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())=0</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read data from <a class="el" href="classCCfits_1_1HDU.html">HDU</a> depending on readFlag and keys.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a3" doxytag="CCfits::ExtHDU::name"></a>
-const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a3">name</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the name of the extension.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a4" doxytag="CCfits::ExtHDU::clone"></a>
-virtual ExtHDU*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a4">clone</a> (FITSBase *p) const=0</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>virtual copy constructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a3">name</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1HDU.html">HDU</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a4">clone</a> (FITSBase *p) const=0</td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a5">makeThisCurrent</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a5">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a6">column</a> (const string &amp;colName) const  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by name.</em> <a href="#a6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a7">column</a> (int colIndex) const  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by column index.</em> <a href="#a7">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a6">column</a> (const string &amp;colName) const</td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a7">column</a> (int colIndex) const</td></tr>
 <tr><td nowrap align=right valign=top>virtual long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a8">rows</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the number of rows in the extension.</em> <a href="#a8">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a9">addColumn</a> (ValueType type, const string &amp;columnName, long repeatWidth, const string &amp;colUnit=string(""), long decimals=-1, size_t columnNumber=0)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>add a new column to an existing table <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.</em> <a href="#a9">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a10">deleteColumn</a> (const string &amp;columnName)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>delete a column in a <a class="el" href="classCCfits_1_1Table.html">Table</a> extension by name.</em> <a href="#a10">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a11" doxytag="CCfits::ExtHDU::version"></a>
-int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a11">version</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the extension version number.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a12" doxytag="CCfits::ExtHDU::version"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a12">version</a> (int value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the extension version number.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a13" doxytag="CCfits::ExtHDU::name"></a>
-std::string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a13">name</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set/return the extension name.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a11">version</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a12">version</a> (int value)</td></tr>
+<tr><td nowrap align=right valign=top>std::string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a13">name</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a14">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.</em> <a href="#a14">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a15">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array to image starting with a specified pixel and allowing undefined data to be processed.</em> <a href="#a15">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a16" doxytag="CCfits::ExtHDU::write"></a>
-template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a16">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array starting from specified n-tuple, without undefined data processing.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a16">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
 <tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a17">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write array starting from specified pixel number, without undefined data processing.</em> <a href="#a17">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a18">write</a> (const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::valarray&lt; S &gt; &amp;data)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>write a subset (generalize slice) of data to the image.</em> <a href="#a18">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a19">read</a> (std::valarray&lt; S &gt; &amp;image)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Read image data into container.</em> <a href="#a19">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a20">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read part of an image array, processing null values.</em> <a href="#a20">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a21">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read part of an image array, processing null values.</em> <a href="#a21">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a22">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image subset.</em> <a href="#a22">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a23">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image section starting at a specified pixel.</em> <a href="#a23">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a24" doxytag="CCfits::ExtHDU::read"></a>
-template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a24">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image section starting at a location specified by an n-tuple.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a25">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, S *nullValue)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read an image subset into valarray image, processing null values.</em> <a href="#a25">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a19">read</a> (std::valarray&lt; S &gt; &amp;image)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a20">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a21">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a22">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a23">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a24">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename S&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#a25">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, S *nullValue)</td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#d0">readHduName</a> (const fitsfile *fptr, int hduIndex, string &amp;hduName, int &amp;hduVersion)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>read extension name.</em> <a href="#d0">More...</a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="b0" doxytag="CCfits::ExtHDU::ExtHDU"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b0">ExtHDU</a> (FITSBase *p=0, HduType xtype=AnyHdu, const string &amp;hduName=string(""), int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>default constructor, required as Standard Library Container content.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b0">ExtHDU</a> (FITSBase *p=0, HduType xtype=AnyHdu, const string &amp;hduName=string(""), int version=1)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b1">ExtHDU</a> (FITSBase *p, HduType xtype, const string &amp;hduName, int bitpix, int naxis, const std::vector&lt; long &gt; &amp;axes, int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>writing constructor.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b2">ExtHDU</a> (FITSBase *p, HduType xtype, int number)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> constructor for getting ExtHDUs by number.</em> <a href="#b2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b7" doxytag="CCfits::ExtHDU::pcount"></a>
-long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b7">pcount</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return required pcount keyword value.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b8" doxytag="CCfits::ExtHDU::pcount"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b8">pcount</a> (long value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set required pcount keyword value.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b9" doxytag="CCfits::ExtHDU::gcount"></a>
-long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b9">gcount</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return required gcount keyword value.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b10" doxytag="CCfits::ExtHDU::gcount"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b10">gcount</a> (long value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set required gcount keyword value.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b7">pcount</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b8">pcount</a> (long value)</td></tr>
+<tr><td nowrap align=right valign=top>long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b9">gcount</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b10">gcount</a> (long value)</td></tr>
 <tr><td nowrap align=right valign=top>HduType&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b11">xtension</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the extension type.</em> <a href="#b11">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b12" doxytag="CCfits::ExtHDU::xtension"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b12">xtension</a> (HduType value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the extension type.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ExtHDU.html#b12">xtension</a> (HduType value)</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 base class for all <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension HDUs, i.e. Image Extensions and Tables.
@@ -121,6 +69,117 @@ base class for all <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extens
  <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> needs to have the combined public interface of <a class="el" href="classCCfits_1_1Table.html">Table</a> objects and images. It achieves this by providing the same set of read and write operations as <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>, and also providing the same operations for extracting columns from the extension as does <a class="el" href="classCCfits_1_1Table.html">Table</a> [after which the column interface is accessible]. Differentiation between extension types operates by exception handling: .i.e. attempting to access image data structures on a <a class="el" href="classCCfits_1_1Table.html">Table</a> object through the <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> interface will or trying to return a <a class="el" href="classCCfits_1_1Column.html">Column</a> reference from an Image extension will both throw an exception 
 <p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a name="a0" doxytag="CCfits::ExtHDU::ExtHDU"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::ExtHDU::ExtHDU (
+          </b></td>
+          <td valign="bottom"><b>
+const ExtHDU &amp; <em>right</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+copy constructor.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a1" doxytag="CCfits::ExtHDU::~ExtHDU"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::ExtHDU::~ExtHDU (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+destructor.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="b0" doxytag="CCfits::ExtHDU::ExtHDU"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::ExtHDU::ExtHDU (
+          </b></td>
+          <td valign="bottom"><b>
+FITSBase * <em>p</em> = 0, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+HduType <em>xtype</em> = AnyHdu, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const string &amp; <em>hduName</em> = string(""), 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>version</em> = 1&nbsp;)<code> [protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+default constructor, required as Standard Library Container content.
+<p>
+    </td>
+  </tr>
+</table>
 <a name="b1" doxytag="CCfits::ExtHDU::ExtHDU"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -232,255 +291,6 @@ Necessary since EXTNAME is a reserved, not required, keyword. But a synthetic na
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
-<a name="d0" doxytag="CCfits::ExtHDU::readHduName"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::readHduName (
-          </b></td>
-          <td valign="bottom"><b>
-const fitsfile * <em>fptr</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int <em>hduIndex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-string &amp; <em>hduName</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-int &amp; <em>hduVersion</em>&nbsp;)<code> [static]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read extension name.
-<p>
-Used primarily to allow extensions to be specified by <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number and provide their name for the associative array that contains them. Alternatively, if there is no name keyword in the extension, one is synthesized from the  index.     </td>
-  </tr>
-</table>
-<a name="a2" doxytag="CCfits::ExtHDU::readData"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::readData (
-          </b></td>
-          <td valign="bottom"><b>
-bool <em>readFlag</em> = false, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)<code> [pure virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read data from <a class="el" href="classCCfits_1_1HDU.html">HDU</a> depending on readFlag and keys.
-<p>
-
-<p>
- 
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a1">CCfits::AsciiTable</a>, and <a class="el" href="classCCfits_1_1BinTable.html#a1">CCfits::BinTable</a>.    </td>
-  </tr>
-</table>
-<a name="a5" doxytag="CCfits::ExtHDU::makeThisCurrent"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void makeThisCurrent (
-          </b></td>
-          <td valign="bottom"><b>
-) const<code> [virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
-<p>
-
-<p>
- This function should never need to be called by the user since it is called internally whenever required. 
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a5">CCfits::HDU</a>.    </td>
-  </tr>
-</table>
-<a name="a6" doxytag="CCfits::ExtHDU::column"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::ExtHDU::column (
-          </b></td>
-          <td valign="bottom"><b>
-const string &amp; <em>colName</em>&nbsp;) const  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by name.
-<p>
-
-<p>
-  The overridden base class implementation <a class="el" href="classCCfits_1_1ExtHDU.html#a6">ExtHDU::column</a> throws an exception, which is thus the action to be taken if self is an image extension<dl compact><dt>
-<b>Exceptions: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>WrongExtensionType</em>
-&nbsp;</td><td>
- see above </td></tr>
-</table>
-</dl>
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a3">CCfits::Table</a>.    </td>
-  </tr>
-</table>
-<a name="a7" doxytag="CCfits::ExtHDU::column"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::ExtHDU::column (
-          </b></td>
-          <td valign="bottom"><b>
-int <em>colIndex</em>&nbsp;) const  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by column index.
-<p>
-
-<p>
- This version is provided for convenience; the 'return by name' version is more efficient because columns are stored in an associative array sorted by name.<dl compact><dt>
-<b>Exceptions: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>WrongExtensionType</em>
-&nbsp;</td><td>
- thrown if *this is an image extension. </td></tr>
-</table>
-</dl>
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a4">CCfits::Table</a>.    </td>
-  </tr>
-</table>
-<a name="a8" doxytag="CCfits::ExtHDU::rows"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-long CCfits::ExtHDU::rows (
-          </b></td>
-          <td valign="bottom"><b>
-) const<code> [virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return the number of rows in the extension.
-<p>
-<dl compact><dt>
-<b>Exceptions: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>WrongExtensionType</em>
-&nbsp;</td><td>
- thrown if *this is an image extension. </td></tr>
-</table>
-</dl>
-<p>
-Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a5">CCfits::Table</a>.    </td>
-  </tr>
-</table>
 <a name="a9" doxytag="CCfits::ExtHDU::addColumn"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -568,6 +378,125 @@ optional parameter specifying column number to be created. If not specified the 
 Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a2">CCfits::AsciiTable</a>, and <a class="el" href="classCCfits_1_1BinTable.html#a2">CCfits::BinTable</a>.    </td>
   </tr>
 </table>
+<a name="a4" doxytag="CCfits::ExtHDU::clone"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1HDU.html">HDU</a> * CCfits::ExtHDU::clone (
+          </b></td>
+          <td valign="bottom"><b>
+FITSBase * <em>p</em>&nbsp;) const<code> [pure virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+virtual copy constructor.
+<p>
+
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a3">CCfits::HDU</a>.
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a0">CCfits::AsciiTable</a>, and <a class="el" href="classCCfits_1_1BinTable.html#a0">CCfits::BinTable</a>.    </td>
+  </tr>
+</table>
+<a name="a7" doxytag="CCfits::ExtHDU::column"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::ExtHDU::column (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>colIndex</em>&nbsp;) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by column index.
+<p>
+
+<p>
+ This version is provided for convenience; the 'return by name' version is more efficient because columns are stored in an associative array sorted by name.<dl compact><dt>
+<b>Exceptions: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>WrongExtensionType</em>
+&nbsp;</td><td>
+ thrown if *this is an image extension. </td></tr>
+</table>
+</dl>
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a4">CCfits::Table</a>.    </td>
+  </tr>
+</table>
+<a name="a6" doxytag="CCfits::ExtHDU::column"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::ExtHDU::column (
+          </b></td>
+          <td valign="bottom"><b>
+const string &amp; <em>colName</em>&nbsp;) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by name.
+<p>
+
+<p>
+  The overridden base class implementation <a class="el" href="classCCfits_1_1ExtHDU.html#a6">ExtHDU::column</a> throws an exception, which is thus the action to be taken if self is an image extension<dl compact><dt>
+<b>Exceptions: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>WrongExtensionType</em>
+&nbsp;</td><td>
+ see above </td></tr>
+</table>
+</dl>
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a3">CCfits::Table</a>.    </td>
+  </tr>
+</table>
 <a name="a10" doxytag="CCfits::ExtHDU::deleteColumn"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -615,6 +544,1014 @@ The name of the column to be deleted.</td></tr>
 </dl>
 <p>
 Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a8">CCfits::Table</a>.    </td>
+  </tr>
+</table>
+<a name="b10" doxytag="CCfits::ExtHDU::gcount"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::gcount (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>value</em>&nbsp;)<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set required gcount keyword value.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="b9" doxytag="CCfits::ExtHDU::gcount"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+long CCfits::ExtHDU::gcount (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return required gcount keyword value.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a5" doxytag="CCfits::ExtHDU::makeThisCurrent"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void makeThisCurrent (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+move the fitsfile pointer to this current <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.
+<p>
+
+<p>
+ This function should never need to be called by the user since it is called internally whenever required. 
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#a5">CCfits::HDU</a>.    </td>
+  </tr>
+</table>
+<a name="a13" doxytag="CCfits::ExtHDU::name"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+std::string &amp; CCfits::ExtHDU::name (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set/return the extension name.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a3" doxytag="CCfits::ExtHDU::name"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+const string &amp; CCfits::ExtHDU::name (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the name of the extension.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="b8" doxytag="CCfits::ExtHDU::pcount"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::pcount (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>value</em>&nbsp;)<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set required pcount keyword value.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="b7" doxytag="CCfits::ExtHDU::pcount"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+long CCfits::ExtHDU::pcount (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return required pcount keyword value.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a25" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>stride</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nulValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image subset into valarray image, processing null values.
+<p>
+
+<p>
+ The image subset is defined by two vertices and a stride indicating the 'denseness' of the values to be picked in each dimension (a stride = (1,1,1,...) means picking every  pixel in every dimension, whereas stride = (2,2,2,...) means picking every other value in each dimension.     </td>
+  </tr>
+</table>
+<a name="a24" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image section starting at a location specified by an n-tuple.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a23" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image section starting at a specified pixel.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a22" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>stride</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read an image subset.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a21" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nulValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read part of an image array, processing null values.
+<p>
+
+<p>
+ As above except for<dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>first</em>
+&nbsp;</td><td>
+a vector&lt;long&gt; representing an n-tuple giving the coordinates in the image of the first pixel. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a20" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nulValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read part of an image array, processing null values.
+<p>
+
+<p>
+ Implicit data conversion is supported (i.e. user does not need to know the  type of the data stored. A <a class="el" href="classCCfits_1_1ExtHDU_1_1WrongExtensionType.html">WrongExtensionType</a> extension is thrown if *this is not an image.<dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>image</em>
+&nbsp;</td><td>
+The receiving container, a std::valarray reference  </td></tr>
+<tr><td valign=top><em>first</em>
+&nbsp;</td><td>
+The first pixel from the array to read [a long value] </td></tr>
+<tr><td valign=top><em>nElements</em>
+&nbsp;</td><td>
+The number of values to read </td></tr>
+<tr><td valign=top><em>nullValue</em>
+&nbsp;</td><td>
+A pointer containing the value in the table to be  considered as undefined. See cfitsio for details </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a19" doxytag="CCfits::ExtHDU::read"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::read (
+          </b></td>
+          <td valign="bottom"><b>
+std::valarray&lt; S &gt; &amp; <em>image</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Read image data into container.
+<p>
+
+<p>
+ The container image contains the entire image array after the call. This and all the other variants of <a class="el" href="classCCfits_1_1ExtHDU.html#a19">read</a>() throw a <a class="el" href="classCCfits_1_1ExtHDU_1_1WrongExtensionType.html">WrongExtensionType</a> exception if called for a <a class="el" href="classCCfits_1_1Table.html">Table</a> object.     </td>
+  </tr>
+</table>
+<a name="a2" doxytag="CCfits::ExtHDU::readData"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::readData (
+          </b></td>
+          <td valign="bottom"><b>
+bool <em>readFlag</em> = false, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt;()&nbsp;)<code> [pure virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read data from <a class="el" href="classCCfits_1_1HDU.html">HDU</a> depending on readFlag and keys.
+<p>
+
+<p>
+ 
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1AsciiTable.html#a1">CCfits::AsciiTable</a>, and <a class="el" href="classCCfits_1_1BinTable.html#a1">CCfits::BinTable</a>.    </td>
+  </tr>
+</table>
+<a name="d0" doxytag="CCfits::ExtHDU::readHduName"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::readHduName (
+          </b></td>
+          <td valign="bottom"><b>
+const fitsfile * <em>fptr</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int <em>hduIndex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+string &amp; <em>hduName</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+int &amp; <em>hduVersion</em>&nbsp;)<code> [static]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+read extension name.
+<p>
+Used primarily to allow extensions to be specified by <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number and provide their name for the associative array that contains them. Alternatively, if there is no name keyword in the extension, one is synthesized from the  index.     </td>
+  </tr>
+</table>
+<a name="a8" doxytag="CCfits::ExtHDU::rows"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+long CCfits::ExtHDU::rows (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the number of rows in the extension.
+<p>
+<dl compact><dt>
+<b>Exceptions: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>WrongExtensionType</em>
+&nbsp;</td><td>
+ thrown if *this is an image extension. </td></tr>
+</table>
+</dl>
+<p>
+Reimplemented in <a class="el" href="classCCfits_1_1Table.html#a5">CCfits::Table</a>.    </td>
+  </tr>
+</table>
+<a name="a12" doxytag="CCfits::ExtHDU::version"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::version (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>value</em>&nbsp;)<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set the extension version number.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a11" doxytag="CCfits::ExtHDU::version"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+int CCfits::ExtHDU::version (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the extension version number.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a18" doxytag="CCfits::ExtHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write a subset (generalize slice) of data to the image.
+<p>
+
+<p>
+ A generalized slice/subset is a subset of the image (e.g. one plane of a data cube of size &lt;= the dimension of the cube). It is specified by two opposite vertices. The equivalent cfitsio call does not support undefined data processing so there is no version that allows a null value to be specified.<dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>firstVertex</em>
+&nbsp;</td><td>
+the coordinates specifying lower and upper vertices of the n-dimensional slice  </td></tr>
+<tr><td valign=top><em>lastVertex</em>
+&nbsp;</td><td>
+</td></tr>
+<tr><td valign=top><em>data</em>
+&nbsp;</td><td>
+The data to be written </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="a17" doxytag="CCfits::ExtHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write array starting from specified pixel number, without undefined data processing.
+<p>
+
+<p>
+     </td>
+  </tr>
+</table>
+<a name="a16" doxytag="CCfits::ExtHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+const std::vector&lt; long &gt; &amp; <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write array starting from specified n-tuple, without undefined data processing.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a15" doxytag="CCfits::ExtHDU::write"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td colspan="2"><b>
+template&lt;typename S&gt;           </b></td>
+        </tr>
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::ExtHDU::write (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>first</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+long <em>nElements</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+const std::valarray&lt; S &gt; &amp; <em>data</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+S * <em>nulValue</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+write array to image starting with a specified pixel and allowing undefined data to be processed.
+<p>
+
+<p>
+ parameters after the first are as for version with n-tuple specifying first element. these two version are equivalent, except that it is possible for the first pixel number to exceed the range of 32-bit integers, which is how long datatype is commonly implemented.     </td>
   </tr>
 </table>
 <a name="a14" doxytag="CCfits::ExtHDU::write"></a><p>
@@ -688,39 +1625,17 @@ to null value (data with this value written as undefined; needs the BLANK keywor
 </dl>    </td>
   </tr>
 </table>
-<a name="a15" doxytag="CCfits::ExtHDU::write"></a><p>
+<a name="b12" doxytag="CCfits::ExtHDU::xtension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
           <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::write (
+void CCfits::ExtHDU::xtension (
           </b></td>
           <td valign="bottom"><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-S * <em>nulValue</em>&nbsp;)
+HduType <em>value</em>&nbsp;)<code> [inline, protected]</code>
           </b></td>
         </tr>
 
@@ -736,459 +1651,9 @@ S * <em>nulValue</em>&nbsp;)
     <td>
 
 <p>
-write array to image starting with a specified pixel and allowing undefined data to be processed.
+set the extension type.
 <p>
-
-<p>
- parameters after the first are as for version with n-tuple specifying first element. these two version are equivalent, except that it is possible for the first pixel number to exceed the range of 32-bit integers, which is how long datatype is commonly implemented.     </td>
-  </tr>
-</table>
-<a name="a17" doxytag="CCfits::ExtHDU::write"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::write (
-          </b></td>
-          <td valign="bottom"><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
     </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-write array starting from specified pixel number, without undefined data processing.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a18" doxytag="CCfits::ExtHDU::write"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::write (
-          </b></td>
-          <td valign="bottom"><b>
-const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::valarray&lt; S &gt; &amp; <em>data</em>&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-write a subset (generalize slice) of data to the image.
-<p>
-
-<p>
- A generalized slice/subset is a subset of the image (e.g. one plane of a data cube of size &lt;= the dimension of the cube). It is specified by two opposite vertices. The equivalent cfitsio call does not support undefined data processing so there is no version that allows a null value to be specified.<dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>firstVertex</em>
-&nbsp;</td><td>
-the coordinates specifying lower and upper vertices of the n-dimensional slice  </td></tr>
-<tr><td valign=top><em>lastVertex</em>
-&nbsp;</td><td>
-</td></tr>
-<tr><td valign=top><em>data</em>
-&nbsp;</td><td>
-The data to be written </td></tr>
-</table>
-</dl>    </td>
-  </tr>
-</table>
-<a name="a19" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Read image data into container.
-<p>
-
-<p>
- The container image contains the entire image array after the call. This and all the other variants of <a class="el" href="classCCfits_1_1ExtHDU.html#a19">read</a>() throw a <a class="el" href="classCCfits_1_1ExtHDU_1_1WrongExtensionType.html">WrongExtensionType</a> exception if called for a <a class="el" href="classCCfits_1_1Table.html">Table</a> object.     </td>
-  </tr>
-</table>
-<a name="a20" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-S * <em>nulValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read part of an image array, processing null values.
-<p>
-throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;) ;
-<p>
-
-<p>
- Implicit data conversion is supported (i.e. user does not need to know the  type of the data stored. A <a class="el" href="classCCfits_1_1ExtHDU_1_1WrongExtensionType.html">WrongExtensionType</a> extension is thrown if *this is not an image.<dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>image</em>
-&nbsp;</td><td>
-The receiving container, a std::valarray reference  </td></tr>
-<tr><td valign=top><em>first</em>
-&nbsp;</td><td>
-The first pixel from the array to read [a long value] </td></tr>
-<tr><td valign=top><em>nElements</em>
-&nbsp;</td><td>
-The number of values to read </td></tr>
-<tr><td valign=top><em>nullValue</em>
-&nbsp;</td><td>
-A pointer containing the value in the table to be  considered as undefined. See cfitsio for details </td></tr>
-</table>
-</dl>    </td>
-  </tr>
-</table>
-<a name="a21" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-S * <em>nulValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read part of an image array, processing null values.
-<p>
-
-<p>
- As above except for<dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>first</em>
-&nbsp;</td><td>
-a vector&lt;long&gt; representing an n-tuple giving the coordinates in the image of the first pixel. </td></tr>
-</table>
-</dl>    </td>
-  </tr>
-</table>
-<a name="a22" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>stride</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read an image subset.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a23" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>nElements</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read an image section starting at a specified pixel.
-<p>
-
-<p>
-     </td>
-  </tr>
-</table>
-<a name="a25" doxytag="CCfits::ExtHDU::read"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2"><b>
-template&lt;typename S&gt;           </b></td>
-        </tr>
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::ExtHDU::read (
-          </b></td>
-          <td valign="bottom"><b>
-std::valarray&lt; S &gt; &amp; <em>image</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>firstVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>lastVertex</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-const std::vector&lt; long &gt; &amp; <em>stride</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-S * <em>nulValue</em>&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-read an image subset into valarray image, processing null values.
-<p>
-
-<p>
- The image subset is defined by two vertices and a stride indicating the 'denseness' of the values to be picked in each dimension (a stride = (1,1,1,...) means picking every  pixel in every dimension, whereas stride = (2,2,2,...) means picking every other value in each dimension.     </td>
   </tr>
 </table>
 <a name="b11" doxytag="CCfits::ExtHDU::xtension"></a><p>
@@ -1224,7 +1689,7 @@ allowed values are ImageHDU, AsciiTbl, and BinaryTbl     </td>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>ExtHDU.h<li>ExtHDU.cxx<li>ExtHDUT.h<li>FITS.h</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:53 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:10 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

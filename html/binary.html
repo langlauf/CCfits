@@ -15,8 +15,8 @@ The interface supports writing to vector tables the following data structures:  
 The function below exercises the following functionality:
 <p>
 <ul>
-<li>Create a BinTable extension<li>Write vector rows to the table<li>Insert table rows <li>Insert Table columns<li>Delete Table rows<li>Write HISTORY and COMMENT cards to the Table</ul>
-<div class="fragment"><pre><font class="keywordtype">int</font> writeBinaryTable ( <font class="keywordtype">void</font> )
+<li>Create a BinTable extension<li>Write vector rows to the table<li>Insert table rows <li>Write complex data to both scalar and vector columns.<li>Insert Table columns<li>Delete Table rows<li>Write HISTORY and COMMENT cards to the Table</ul>
+<div class="fragment"><pre><font class="keywordtype">int</font> writeBinary ()
 
     <font class="comment">//*********************************************************************</font>
     <font class="comment">// Create a BINARY table extension and write and manipulate vector rows </font>
@@ -38,80 +38,115 @@ The function below exercises the following functionality:
         
     <font class="keywordtype">unsigned</font> <font class="keywordtype">long</font> rows(3);     
     string hduName(<font class="stringliteral">"TABLE_BINARY"</font>);          
-    std::vector&lt;string&gt; colName(3,<font class="stringliteral">""</font>);
-    std::vector&lt;string&gt; colForm(3,<font class="stringliteral">""</font>);
-    std::vector&lt;string&gt; colUnit(3,<font class="stringliteral">""</font>);
-    std::vector&lt;ValueType&gt; colType(3);
+    std::vector&lt;string&gt; colName(7,<font class="stringliteral">""</font>);
+    std::vector&lt;string&gt; colForm(7,<font class="stringliteral">""</font>);
+    std::vector&lt;string&gt; colUnit(7,<font class="stringliteral">""</font>);
+    
     
     colName[0] = <font class="stringliteral">"numbers"</font>;
     colName[1] = <font class="stringliteral">"sequences"</font>;
     colName[2] = <font class="stringliteral">"powers"</font>;
+    colName[3] = <font class="stringliteral">"big-integers"</font>;
+    colName[4] = <font class="stringliteral">"dcomplex-roots"</font>;
+    colName[5] = <font class="stringliteral">"fcomplex-roots"</font>;
+    colName[6] = <font class="stringliteral">"scalar-complex"</font>;
 
     colForm[0] = <font class="stringliteral">"8A"</font>;
     colForm[1] = <font class="stringliteral">"20J"</font>;
     colForm[2] = <font class="stringliteral">"20D"</font>;
+    colForm[3] = <font class="stringliteral">"20V"</font>;
+    colForm[4] = <font class="stringliteral">"20M"</font>;
+    colForm[5] = <font class="stringliteral">"20C"</font>;
+    colForm[6] = <font class="stringliteral">"1M"</font>;
 
-    colUnit[0] = <font class="stringliteral">""</font>;
-    colUnit[1] = <font class="stringliteral">""</font>;
-    colUnit[2] = <font class="stringliteral">""</font>;    
-
-    colType[0] = Tstring;
-    colType[1] = Tlong;
-    colType[2] = Tdouble;
-
+    colUnit[0] = <font class="stringliteral">"magnets"</font>;
+    colUnit[1] = <font class="stringliteral">"bulbs"</font>;
+    colUnit[2] = <font class="stringliteral">"batteries"</font>;  
+    colUnit[3] = <font class="stringliteral">"mulberries"</font>;  
+    colUnit[4] = <font class="stringliteral">""</font>;  
+    colUnit[5] = <font class="stringliteral">""</font>;
+    colUnit[6] = <font class="stringliteral">"pico boo"</font>;
+    
     std::vector&lt;string&gt; numbers(rows);
     
     <font class="keyword">const</font> string num(<font class="stringliteral">"NUMBER-"</font>);
-    <font class="keywordflow">for</font> (size_t j = 0; j &lt; 3; ++j)
+    <font class="keywordflow">for</font> (size_t j = 0; j &lt; rows; ++j)
     {
-        std::ostringstream pStr;
-        pStr &lt;&lt; num &lt;&lt; j+1;
-        numbers[j] = pStr.str();
+<font class="preprocessor">#ifdef HAVE_STRSTREAM</font>
+<font class="preprocessor"></font>        std::ostrstream pStr;
+<font class="preprocessor">#else</font>
+<font class="preprocessor"></font>        std::ostringstream pStr;
+<font class="preprocessor">#endif</font>
+<font class="preprocessor"></font>        pStr &lt;&lt; num &lt;&lt; j+1;
+        numbers[j] = string(pStr.str());
     }
                     
     <font class="keyword">const</font> size_t OFFSET(20);
     
     <font class="comment">// write operations take in data as valarray&lt;T&gt;, vector&lt;T&gt; , and </font>
     <font class="comment">// vector&lt;valarray&lt;T&gt; &gt;, and T* C-arrays. Create arrays to exercise the C++</font>
-    <font class="comment">// containers.</font>
+    <font class="comment">// containers. Check complex I/O for both float and double complex types.</font>
    
     std::valarray&lt;long&gt; sequence(60);
     std::vector&lt;long&gt; sequenceVector(60);
     std::vector&lt;std::valarray&lt;long&gt; &gt; sequenceVV(3);
     
-    <font class="keywordflow">for</font> (size_t j = 0; j &lt; 3; ++j)
+    
+    <font class="keywordflow">for</font> (size_t j = 0; j &lt; rows; ++j)
     {
         
         sequence[OFFSET*j] = 1 + j;
         sequence[OFFSET*j+1] = 1 + j;
         sequenceVector[OFFSET*j] = sequence[OFFSET*j];
         sequenceVector[OFFSET*j+1] = sequence[OFFSET*j+1];
+        <font class="comment">// generate Fibonacci numbers.</font>
         <font class="keywordflow">for</font> (size_t i = 2; i &lt; OFFSET; ++i)
         {
-                sequence[OFFSET*j + i] = sequence[OFFSET*j+i-1] + sequence[OFFSET*j+i - 2];
-                sequenceVector[OFFSET*j + i] = sequence[OFFSET*j + i] ;
+                size_t elt (OFFSET*j +i);
+                sequence[elt] = sequence[elt-1] + sequence[elt - 2];
+                sequenceVector[elt] = sequence[elt] ;
         }
         sequenceVV[j].resize(OFFSET);
         sequenceVV[j] = sequence[std::slice(OFFSET*j,OFFSET,1)];
+         
     }
+    
+        
+    std::valarray&lt;unsigned long&gt; unsignedData(60);
+    <font class="keywordtype">unsigned</font> <font class="keywordtype">long</font> base (1 &lt;&lt; 31);
     std::valarray&lt;double&gt; powers(60);
     std::vector&lt;double&gt; powerVector(60);
     std::vector&lt;std::valarray&lt;double&gt; &gt; powerVV(3);
+    std::valarray&lt;std::complex&lt;double&gt; &gt; croots(60);
+    std::valarray&lt;std::complex&lt;float&gt; &gt; fcroots(60);
+    std::vector&lt;std::complex&lt;float&gt; &gt; fcroots_vector(60);
+    std::vector&lt;std::valarray&lt;std::complex&lt;float&gt; &gt; &gt; fcrootv(3);
     
-    <font class="keywordflow">for</font> (size_t j = 0; j &lt; 3; ++j)
+    <font class="comment">// create complex data as 60th roots of unity.</font>
+    <font class="keywordtype">double</font> PIBY = M_PI/30.;
+    
+    <font class="keywordflow">for</font> (size_t j = 0; j &lt; rows; ++j)
     {
         <font class="keywordflow">for</font> (size_t i = 0; i &lt; OFFSET; ++i)
         {
-                powers[OFFSET*j + i] = pow(i+1,j+1);
-                powerVector[OFFSET*j + i] = powers[OFFSET*j+i];
+                size_t elt (OFFSET*j+i);
+                unsignedData[elt] = sequence[elt];
+                croots[elt] = std::complex&lt;double&gt;(std::cos(PIBY*elt),std::sin(PIBY*elt));
+                fcroots[elt] = std::complex&lt;float&gt;(croots[elt].real(),croots[elt].imag());
+                <font class="keywordtype">double</font> x = i+1;
+                powers[elt] = pow(x,j+1);
+                powerVector[elt] = powers[elt];
         }
         powerVV[j].resize(OFFSET);
         powerVV[j] = powers[std::slice(OFFSET*j,OFFSET,1)];
     }
     
+    FITSUtil::fill(fcroots_vector,fcroots[std::slice(0,20,1)]);
+    
+    unsignedData += base;
     <font class="comment">// syntax identical to Binary Table</font>
     
-    Table* newTable = pFits-&gt;addTable(hduName,rows,colType,colName,colForm,colUnit);
+    Table* newTable = pFits-&gt;addTable(hduName,rows,colName,colForm,colUnit);
     
     <font class="comment">// numbers is a scalar column</font>
     
@@ -120,19 +155,29 @@ The function below exercises the following functionality:
     <font class="comment">// write valarrays to vector column: note signature change</font>
     newTable-&gt;column(colName[1]).write(sequence,rows,1);
     newTable-&gt;column(colName[2]).write(powers,rows,1);
-    
+    newTable-&gt;column(colName[3]).write(unsignedData,rows,1);    
+    newTable-&gt;column(colName[4]).write(croots,rows,1);    
+    newTable-&gt;column(colName[5]).write(fcroots,rows,3);    
+    newTable-&gt;column(colName[6]).write(fcroots_vector,1);    
     <font class="comment">// write vectors to column: note signature change</font>
     
     newTable-&gt;column(colName[1]).write(sequenceVector,rows,4);
     newTable-&gt;column(colName[2]).write(powerVector,rows,4);
+    
+    std::cout &lt;&lt; *newTable &lt;&lt; std::endl;
+   
+    <font class="keywordflow">for</font> (size_t j = 0; j &lt; 3 ;  ++j)
+    {
+            fcrootv[j].resize(20);
+            fcrootv[j] = fcroots[std::slice(20*j,20,1)];
+    } 
 
     <font class="comment">// write vector&lt;valarray&gt; object to column.</font>
     
-    newTable-&gt;column(colName[1]).write(sequenceVV,7);
-    newTable-&gt;column(colName[2]).write(powerVV,7);
+    newTable-&gt;column(colName[1]).writeArrays(sequenceVV,7);
+    newTable-&gt;column(colName[2]).writeArrays(powerVV,7);
 
-    std::cout &lt;&lt; *newTable &lt;&lt; std::endl;
-
+ 
     
     <font class="comment">// create a new vector column in the Table</font>
 
@@ -141,11 +186,11 @@ The function below exercises the following functionality:
 
     <font class="comment">// add data entries to it.</font>
 
-    newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).write(powerVV,1);
+    newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).writeArrays(powerVV,1);
     newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).write(powerVector,rows,4);
+    newTable-&gt;column(<font class="stringliteral">"dcomplex-roots"</font>).write(croots,rows,4);
     newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).write(sequenceVector,rows,7);
     
-    <font class="comment">// we now should have 9 rows. Check:</font>
 
     std::cout &lt;&lt; *newTable &lt;&lt; std::endl;
     
@@ -164,7 +209,8 @@ The function below exercises the following functionality:
     <font class="comment">// now, in the new column, write 3 rows (sequenceVV.size() = 3). This</font>
     <font class="comment">// will place data in rows 3,4,5 of this column,overwriting them.</font>
     
-    newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).write(sequenceVV,3);
+    newTable-&gt;column(<font class="stringliteral">"powerSeq"</font>).writeArrays(sequenceVV,3);
+    newTable-&gt;column(<font class="stringliteral">"fcomplex-roots"</font>).writeArrays(fcrootv,3);
 
     <font class="comment">// delete 3 rows starting with row 2. A Table:: method, so the same</font>
     <font class="comment">// code is called for all Table objects. We should now have 11 rows.</font>
@@ -195,7 +241,7 @@ The function below exercises the following functionality:
     <font class="keywordflow">return</font> 0;
 }</pre></div>
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

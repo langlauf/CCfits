@@ -1,13 +1,19 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 // FITSUtil
 #include "FITSUtil.h"
@@ -15,9 +21,12 @@
 #include "FitsError.h"
 #include "FITS.h"
 #include <algorithm>
+using std::string;
 
 
 namespace CCfits {
+  const unsigned long USBASE = 1 << 15;
+  const unsigned long ULBASE = 1 << 31;
 
   namespace FITSUtil {
   InvalidConversion::InvalidConversion (const string& diag, bool silent)
@@ -41,6 +50,15 @@ namespace CCfits {
       
       return c;      
   }
+#if TEMPLATE_AMBIG_DEFECT || TEMPLATE_AMBIG7_DEFECT
+  void fillMSvsvs (std::vector<string>& outArray, const std::vector<string>& inArray, size_t first, size_t last)
+  {
+          // recall behavior of iterators: last has to be one-past-the-last entry.
+          // if last == first, this will still do something. the "first-1" is a zero based indexing
+          // correction. 
+          outArray.assign(inArray.begin()+first-1,inArray.begin()+last);  
+  }        
+#endif
 
   void fill (std::vector<string>& outArray, const std::vector<string>& inArray, size_t first, size_t last)
   {
@@ -73,6 +91,63 @@ namespace CCfits {
                  outputString[l] = toupper(inputString[l]);          
         }
         return outputString;  
+  }
+  
+  string FITSType2String ( int typeInt )
+  {
+    string keyString("");
+    
+    switch (typeInt)        
+    {
+        default:
+        case Tnull:
+                keyString = "Unknown";
+                break;
+        case Tbit:
+                keyString = "bit";
+                break;
+        case Tbyte:
+                keyString = "byte";
+                break;
+        case Tlogical:
+                keyString = "logical";
+                break;
+        case Tstring:
+                keyString = "string";
+                break;
+        case Tushort:
+                keyString = "unsigned short";
+                break;
+        case Tshort:
+                keyString = "short";
+                break;
+        case Tuint:
+                keyString = "unsigned integer";
+                break;
+        case Tint:
+                keyString = "integer";
+                break;
+        case Tulong:
+                keyString = "unsigned long";
+                break;
+        case Tlong:
+                keyString = "long";
+                break;
+        case Tfloat:
+                keyString = "float";
+                break;
+        case Tdouble:
+                keyString = "double";
+                break;
+        case Tcomplex:
+                keyString = "float complex";
+                break;
+        case Tdblcomplex:
+                keyString = "double complex";
+                break;
+    }
+          
+    return keyString;     
   }
   
   bool MatchStem::operator()(const string& left, const string& right) const
@@ -145,7 +220,8 @@ namespace CCfits {
           /* 0 = primary array, 1 = ASCII table, 2 = binary table */
           outPtr->Fptr->maxhdu = inPtr->Fptr->maxhdu;     
           /* highest numbered HDU known to exist in the file */
-          for (size_t i = 0; i < MAX_COMPRESS_DIM; i++) 
+		  size_t i = 0;
+          for ( ; i < MAX_COMPRESS_DIM; i++) 
           {
                   outPtr->Fptr->headstart[i] = inPtr->Fptr->headstart[i];
           }
@@ -172,7 +248,7 @@ namespace CCfits {
           outPtr->Fptr->compressimg = inPtr->Fptr->compressimg; 
 
           /* compression type string */
-          for (size_t i = 0; i < 12; ++i)
+          for ( i = 0; i < 12; ++i)
           {
                outPtr->Fptr->zcmptype[i] = inPtr->Fptr->zcmptype[i];
           }
@@ -184,12 +260,12 @@ namespace CCfits {
           outPtr->Fptr->zndim = inPtr->Fptr->zndim;		
 
            /* length of each axis */
-          for (size_t i = 0; i < MAX_COMPRESS_DIM; i++) 
+          for ( i = 0; i < MAX_COMPRESS_DIM; i++) 
           {
                   outPtr->Fptr->znaxis[i] = inPtr->Fptr->znaxis[i];
           }
           /* size of compression tiles */
-          for (size_t i = 0; i < MAX_COMPRESS_DIM; i++) 
+          for ( i = 0; i < MAX_COMPRESS_DIM; i++) 
           {
                   outPtr->Fptr->tilesize[i] = inPtr->Fptr->tilesize[i];
           }
@@ -223,17 +299,17 @@ namespace CCfits {
 
 
           /* column name = FITS TTYPEn keyword; */
-          for (size_t i = 0; i < 70; ++i)
+          for ( i = 0; i < 70; ++i)
           {
              outPtr->Fptr->tableptr->ttype[i] = inPtr->Fptr->tableptr->ttype[i];
           }
           /* FITS null value string for ASCII table columns */
-          for (size_t i = 0; i < 20; ++i)
+          for ( i = 0; i < 20; ++i)
           {
              outPtr->Fptr->tableptr->strnull[i] = inPtr->Fptr->tableptr->strnull[i];
           }
           /* FITS tform keyword value  */
-          for (size_t i = 0; i < 10; ++i)
+          for ( i = 0; i < 10; ++i)
           {
              outPtr->Fptr->tableptr->tform[i] = inPtr->Fptr->tableptr->tform[i];
           }
@@ -255,71 +331,354 @@ namespace CCfits {
         return outPtr;
           
   }      
-                  
+ 
+// VF<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSvfvf(std::vector<std::complex<float> >& outArray, const std::vector<std::complex<float> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+
+				}
+	}
+#else
+
+	void 
+	fill(std::vector<std::complex<float> >& outArray, const std::vector<std::complex<float> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+                }
+	}
+#endif
+
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+// VF<-VD
+	void 
+	fillMSvfvd(std::vector<std::complex<float> >& outArray, const std::vector<std::complex<double> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = std::complex<float>(inArray[j].real(),
+                                                inArray[j].imag());
+                }
+	}
+#else
+
+// VF<-VD
+	void 
+	fill(std::vector<std::complex<float> >& outArray, const std::vector<std::complex<double> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = std::complex<float>(inArray[j].real(),
+                                                inArray[j].imag());
+                }
+	}
+#endif
+
+// VD<-VD  
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSvdvd(std::vector<std::complex<double> >& outArray, const std::vector<std::complex<double> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+                }
+
+	}  
+#else
+	void 
+	fill(std::vector<std::complex<double> >& outArray, const std::vector<std::complex<double> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+                }
+
+	}
+#endif
+
+// VD<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSvdvf(std::vector<std::complex<double> >& outArray, const std::vector<std::complex<float> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = std::complex<double>(inArray[j].real(),
+                                                inArray[j].imag());
+                }
+	}  
+#else
+	void 
+	fill(std::vector<std::complex<double> >& outArray, const std::vector<std::complex<float> >& inArray, 
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = std::complex<double>(inArray[j].real(),
+                                                inArray[j].imag());
+                }
+	}  
+#endif
+
+// AF<-VF
+
+// AF<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSafvf(std::valarray<std::complex<float> >& outArray, 
+                        const std::vector<std::complex<float> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1 ] = inArray[j];
+                }
+	} 
+#else
+	void 
+	fill(std::valarray<std::complex<float> >& outArray, 
+                        const std::vector<std::complex<float> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1 ] = inArray[j];
+                }
+	}
+#endif
+
+// AF<-VD
+ 	void 
+	fill(std::valarray<std::complex<float> >& outArray, 
+                        const std::vector<std::complex<double> >& inArray,
+                        size_t first, size_t last)
+        {                
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1 ] 
+                                        = std::complex<float>(inArray[j].real(),inArray[j].imag());
+                }
+	}                  
+// AD<-VD
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSadvd(std::valarray<std::complex<double> >& outArray, 
+                        const std::vector<std::complex<double> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+                }
+	}
+#else
+	void 
+	fill(std::valarray<std::complex<double> >& outArray, 
+                        const std::vector<std::complex<double> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1] = inArray[j];
+                }
+	}                  
+#endif
+
+// AD<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+	void 
+	fillMSadvf(std::valarray<std::complex<double> >& outArray, 
+                        const std::vector<std::complex<float> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1 ] 
+                                        = std::complex<float>(inArray[j].real(),inArray[j].imag());
+                }
+	}
+#else
+	void 
+	fill(std::valarray<std::complex<double> >& outArray, 
+                        const std::vector<std::complex<float> >& inArray,
+                        size_t first, size_t last)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t range = last - first + 1;
+                if (outArray.size() != range) outArray.resize(range);
+                for (size_t j = first - 1; j < last; ++j)
+                {
+                        outArray[j - first + 1 ] 
+                                        = std::complex<float>(inArray[j].real(),inArray[j].imag());
+                }
+	}
+#endif
+// AF<-AF
+	void 
+	fill(std::valarray<std::complex<float> >& outArray, 
+                        const std::valarray<std::complex<float> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                outArray = inArray;
+	}   
+        
+// AD<-AD        
+	void 
+	fill(std::valarray<std::complex<double> >& outArray, 
+                        const std::valarray<std::complex<double> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                outArray = inArray;
+	}  
+                        
+// AF<-AD
+	void 
+	fill(std::valarray<std::complex<float> >& outArray, 
+                        const std::valarray<std::complex<double> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j ) 
+                {
+                        outArray[j] = std::complex<float>(inArray[j].real(),inArray[j].imag());
+                }
+	}                  
+// AD<-AF        
+	void 
+	fill(std::valarray<std::complex<double> >& outArray, 
+                        const std::valarray<std::complex<float> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j ) 
+                {
+                        outArray[j] = std::complex<double>(inArray[j].real(),inArray[j].imag());
+                }
+	}                  
+                 
+// VF<-AF
+	void 
+	fill(std::vector<std::complex<float> >& outArray, 
+                        const std::valarray<std::complex<float> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j) outArray[j] = inArray[j];
+	}   
+        
+// VD<-AD        
+	void 
+	fill(std::vector<std::complex<double> >& outArray, 
+                        const std::valarray<std::complex<double> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j) outArray[j] = inArray[j];
+	}  
+                        
+// VF<-AD
+	void 
+	fill(std::vector<std::complex<float> >& outArray, 
+                        const std::valarray<std::complex<double> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j ) 
+                {
+                        outArray[j] = std::complex<float>(inArray[j].real(),inArray[j].imag());
+                }
+	}                  
+// VD<-AF        
+	void 
+	fill(std::vector<std::complex<double> >& outArray, 
+                        const std::valarray<std::complex<float> >& inArray)
+	{
+       		// vector to vector assign. stdlib takes care of deletion.
+                size_t N (inArray.size());
+                if (outArray.size() != N) outArray.resize(N);
+                for (size_t j = 0; j < N; ++j ) 
+                {
+                        outArray[j] = std::complex<double>(inArray[j].real(),inArray[j].imag());
+                }
+	}       
 
     // Parameterized Class CCfits::FITSUtil::FitsNullValue 
 
+    // Class CCfits::FITSUtil::UnrecognizedType 
+
+    UnrecognizedType::UnrecognizedType (string diag, bool silent)
+      : FitsException(" Invalid type for FITS I/O ",silent)
+    {
+        std::cerr << diag << '\n';
+    }
+
+
   } // namespace FITSUtil
 } // namespace CCfits
-
-
-/*  
-  template <class T> class complex<T>
-  T* FITSUtil::Carray<complex<T> >::operator () (const std::vector<complex<T> >& inArray)
-  {
-      size_t n = inArray.size();
-
-      T *c = new T[2*n];
-      for (size_t i = 0; i < n; i++)
-      {
-	 c[2*i] = inArray.at(i).real();
-         c[2*i+1] = inArray.at(i).imag();
-      }   
-      return c;
-  }
-
-  
-  template <class T> class complex<T>
-  T* FITSUtil::Carray<complex<T> >::operator () (const std::vector< std::valarray<complex<T> > >& inArray)
-  {
-      cout << "cutils vector<valarray>" << endl;
-      size_t           i=0;
-      size_t           sz=0;
-      size_t  n = inArray.size();
-      // there's got to be a better way than this...
-
-      for (i=0; i<n; i++)
-	 sz += inArray[i].size();
-
-      T*  c = new T[2*sz];
-
-      size_t k=0;
-      for (size_t i = 0; i < n; i++)
-      {
-	 sz = inArray[i].size();
-	 for (size_t j = 0; j < sz; j++)
-	    c[2*k] = inArray[i].at(j).real();
-	    c[2*k + 1] = inArray[i].at(j).imag();
-            k++;
-      }
-
-      return c;
-  }
-
-    
-  template <class T> class complex<T>
-  T* FITSUtil::Carray<complex<T> >::operator () (const std::valarray<complex<T> >& inArray)
-  {
-      cout << "cutils valarray" << endl;
-      size_t n = inArray.size();
-      T *c = new T[2*n];
-      for (size_t i=0; i<n; i++)
-      {       
-	 c[2*i] = inArray.at(i).real();
-	 c[2*i + 1] = inArray.at(i).imag();
-      }
-      return c;
-  }
-
-*/
 

@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef PRIMARYHDU_H
 #define PRIMARYHDU_H 1
-
 
 
 // valarray
@@ -24,6 +25,7 @@
 // FITS
 #include "FITS.h"
 
+
 #include "CCfits.h"
 #include <functional>
 #include <numeric>
@@ -35,18 +37,24 @@ namespace CCfits {
 
 
 
+
+
   template <typename T>
   class PrimaryHDU : public PHDU  //## Inherits: <unnamed>%394E6F870338
   {
 
     public:
 
+#ifdef CLONE_DEFECT
+        virtual HDU * clone ( FITSBase * p ) const;
+#else
         virtual PrimaryHDU<T> * clone (FITSBase* p) const;
+#endif
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) throw (FitsException&);
+        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
 
         const std::valarray<T>& image () const;
 
@@ -57,22 +65,22 @@ namespace CCfits {
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (long first, long nElements, T* nullValue) throw (FitsException&);
+        virtual const std::valarray<T>& readImage (long first, long nElements, T* nullValue);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue) throw (FitsException&);
+        virtual const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0) throw (FitsException&);
+        virtual void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData) throw (FitsException&);
+        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData);
 
       // Additional Public Declarations
 
@@ -122,10 +130,20 @@ namespace CCfits {
     " Bitpix: " << bitpix() << " naxis = " << axes() << "\n";
   s << "Axis Lengths: \n";
     
-  
+ 
   
   for (int i=0; i < axes(); i++)
      s  << " axis[" << i << "] " << axis(i) << "\n";
+  
+ s << "\nNumber of keywords read: " << keyWord().size() <<  "\n";
+  
+  for (std::map<string,Keyword*>::const_iterator ki = keyWord().begin();
+        ki != keyWord().end(); ki++)
+  {
+        s << *((*ki).second) << std::endl;              
+  }  
+  
+  
   s << " HISTORY: " << history() << '\n';
   s << " COMMENTS: " <<comment() << '\n';
   return s;  
@@ -139,7 +157,6 @@ namespace CCfits {
   }
 
   // Parameterized Class CCfits::PrimaryHDU 
-
 
   template <typename T>
   PrimaryHDU<T>::PrimaryHDU(const PrimaryHDU<T> &right)
@@ -157,10 +174,9 @@ namespace CCfits {
   PrimaryHDU<T>::PrimaryHDU (FITSBase* p, bool readFlag, const std::vector<string>& keys)
         : PHDU(p), m_data()
   {
-  unsigned int zero = 0;
   initRead();
   
-  if (readFlag || keys.size() > zero) readData(readFlag,keys);  
+  if (readFlag || keys.size()) readData(readFlag,keys);  
     
     
   }
@@ -168,7 +184,11 @@ namespace CCfits {
 
 
   template <typename T>
+#ifdef CLONE_DEFECT
+  HDU * PrimaryHDU<T>::clone (FITSBase* p) const
+#else
   PrimaryHDU<T> * PrimaryHDU<T>::clone (FITSBase* p) const
+#endif
   {
   PrimaryHDU<T>* cloned = new PrimaryHDU<T>(*this);
   cloned->parent() = p;
@@ -176,7 +196,7 @@ namespace CCfits {
   }
 
   template <typename T>
-  void PrimaryHDU<T>::readData (bool readFlag, const std::vector<string>& keys) throw (FitsException&)
+  void PrimaryHDU<T>::readData (bool readFlag, const std::vector<string>& keys)
   {
     
   // Default reading mode. Read everything if readFlag is true.
@@ -227,27 +247,27 @@ namespace CCfits {
   }
 
   template <typename T>
-  const std::valarray<T>& PrimaryHDU<T>::readImage (long first, long nElements, T* nullValue) throw (FitsException&)
+  const std::valarray<T>& PrimaryHDU<T>::readImage (long first, long nElements, T* nullValue)
   {
     makeThisCurrent();
     return m_data.readImage(fitsPointer(),first,nElements,nullValue,naxes(),anynul());
   }
 
   template <typename T>
-  const std::valarray<T>& PrimaryHDU<T>::readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue) throw (FitsException&)
+  const std::valarray<T>& PrimaryHDU<T>::readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue)
   {
     makeThisCurrent();
     return m_data.readImage(fitsPointer(),firstVertex,lastVertex,stride,nullValue,naxes(),anynul());
   }
 
   template <typename T>
-  void PrimaryHDU<T>::writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue) throw (FitsException&)
+  void PrimaryHDU<T>::writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue)
   {
     m_data.writeImage(fitsPointer(),first,nElements,inData,naxes(),nullValue);
   }
 
   template <typename T>
-  void PrimaryHDU<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData) throw (FitsException&)
+  void PrimaryHDU<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData)
   {
     m_data.writeImage(fitsPointer(),firstVertex,lastVertex,inData,naxes());
   }

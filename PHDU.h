@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef PHDU_H
 #define PHDU_H 1
-
 
 
 // valarray
@@ -26,6 +27,11 @@ namespace CCfits {
   class FITSBase;
 
 } // namespace CCfits
+
+// for CLONE_DEFECT
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
 
 
 
@@ -80,7 +86,7 @@ namespace CCfits {
         \brief destructor
 */
 
-/* !\fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) throw (FitsException&) = 0;
+/* !\fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>())  = 0;
         \brief read primary HDU data
                         
         Called by FITS ctor, not intended for general use.
@@ -108,8 +114,7 @@ namespace CCfits {
 /*! \fn      template<typename S> void PHDU::read (std::valarray<S>& image, 
                                         long first,
                                         long nElements, 
-                                        S* nullValue) 
-                                        throw (FitsException&) ; 
+                                        S* nullValue) ; 
         
                 \brief read part of an image array, processing null values.
                                 
@@ -129,7 +134,7 @@ namespace CCfits {
 /*! \fn      template<typename S> void PHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first, 
 		                long nElements, 
-                                S* nullValue)  throw (FitsException&) ;
+                                S* nullValue) ;
                                 
              \brief read part of an image array, processing null values.
                              
@@ -144,7 +149,7 @@ namespace CCfits {
                                 const std::vector<long>& firstVertex, 
 		                const std::vector<long>& lastVertex, 
 		                const std::vector<long>& stride, 
-                                S* nullValue)   throw (FitsException&); 
+                                S* nullValue) ; 
                                 
                                 
              \brief read an image subset into valarray image, processing null values
@@ -159,7 +164,7 @@ namespace CCfits {
 */      
 /*! \fn      template<typename S> void PHDU::read (std::valarray<S>& image, 
                                 long first,
-                                long nElements)  throw (FitsException&); 
+                                long nElements); 
                         
               \brief read an image section starting at a specified pixel
 
@@ -167,14 +172,14 @@ namespace CCfits {
                 
 /*! \fn      template<typename S> void PHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first,
-                                long nElements)  throw (FitsException&); 
+                                long nElements); 
                                                    
               \brief read an image section starting at a location specified by an n-tuple
 */      
 /*! \fn      template<typename S> void PHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& firstVertex, 
 		                const std::vector<long>& lastVertex, 
-		                const std::vector<long>& stride)    throw (FitsException&);    
+		                const std::vector<long>& stride);    
 
 
                 \brief read an image subset
@@ -258,6 +263,8 @@ namespace CCfits {
 
 
 
+
+
   class PHDU : public HDU  //## Inherits: <unnamed>%394E6F9800C3
   {
 
@@ -268,9 +275,17 @@ namespace CCfits {
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) throw (FitsException&) = 0;
+        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) = 0;
 
         virtual PHDU * clone (FITSBase* p) const = 0;
+
+        virtual void zero (double value);
+
+        virtual void scale (double value);
+
+        virtual double zero () const;
+
+        virtual double scale () const;
 
     public:
       // Additional Public Declarations
@@ -321,35 +336,31 @@ namespace CCfits {
         // because the type conversion needs to allocate a new object in general.
         
         template<typename S>
-        void read(std::valarray<S>& image)  throw (FitsException&) ; 
+        void read(std::valarray<S>& image) ; 
             
  	template<typename S>
-        void  read (std::valarray<S>& image, long first,long nElements)  throw (FitsException&) ; 
+        void  read (std::valarray<S>& image, long first,long nElements); 
                               
 	template<typename S>
-        void read (std::valarray<S>& image, long first,long nElements, S* nullValue) 
-                                        throw (FitsException&) ; 
+        void read (std::valarray<S>& image, long first,long nElements, S* nullValue) ; 
 
 	template<typename S>
-        void read (std::valarray<S>& image, const std::vector<long>& first,long nElements) 
-                                                                throw (FitsException&) ; 
+        void read (std::valarray<S>& image, const std::vector<long>& first,long nElements)  ; 
         
 	template<typename S>
         void read (std::valarray<S>& image, const std::vector<long>& first, long nElements, 
-                                        S* nullValue)   throw (FitsException&) ; 
+                                        S* nullValue); 
         
         template<typename S>
         void read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
-				const std::vector<long>& stride)   
-                                                throw (FitsException&) ;      
+				const std::vector<long>& stride)  ;      
          
         template<typename S>
         void read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
 				const std::vector<long>& stride, 
-                                S* nullValue)   
-                                throw (FitsException&) ; 
+                                S* nullValue) ; 
 
         
         

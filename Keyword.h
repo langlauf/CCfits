@@ -1,11 +1,13 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef KEYWORD_H
@@ -13,7 +15,6 @@
 
 #include "CCfits.h"
 using namespace CCfits;
-
 
 // string
 #include <string>
@@ -24,6 +25,7 @@ namespace CCfits {
   class HDU;
 
 } // namespace CCfits
+
 
 
 using std::string;
@@ -152,10 +154,14 @@ namespace CCfits {
 
 
 
+
+
   class Keyword 
   {
 
     public:
+
+
 
       class WrongKeywordValueType : public FitsException  //## Inherits: <unnamed>%39B0221700E2
       {
@@ -186,6 +192,8 @@ namespace CCfits {
 
         virtual void write () = 0;
 
+        fitsfile* fitsPointer () const;
+
 
         const std::string& name () const;
 
@@ -203,8 +211,6 @@ namespace CCfits {
         virtual void copy (const Keyword& right);
 
         virtual bool compare (const Keyword &right) const;
-
-        fitsfile* fitsPointer () const;
 
 
         ValueType keytype () const;

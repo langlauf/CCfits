@@ -1,14 +1,21 @@
 ## Process this file with automake to produce Makefile.in
 #
-# $Id: Makefile.am,v 2.14 2001/08/10 18:12:04 dorman Exp $
+# $Id: Makefile.am,v 3.0 2002/06/18 14:44:35 dorman Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
-# The following set,  else would follow GNU conventions
-AUTOMAKE_OPTIONS = foreign no-dependencies
+# The following set, else would follow GNU conventions.  Add
+# "no-dependencies" if your compiler doesn't support dependency
+# generation like gcc does
+AUTOMAKE_OPTIONS = foreign
+
 
 # Trick to add options to aclocal command
 ACLOCAL = aclocal -I config/m4
+
+## Subsitution from pfkeb_cxx_lib_path
+CXX_LIB_PATH = @CXX_LIB_PATH@
+
 
 EXTRA_DIST = config
 
@@ -17,6 +24,7 @@ bin_PROGRAMS = cookbook
 cookbook_SOURCES = cookbook.cxx
 
 cookbook_LDADD = libCCfits.la
+cookbook_LDFLAGS = -R $(CXX_LIB_PATH)
 
 ## The following is needed for compiling cookbook.cxx
 INCLUDES = -I$(top_srcdir)/..
@@ -38,7 +46,6 @@ libCCfits_la_SOURCES =				\
 	FitsError.cxx				\
 	HDU.cxx					\
 	HDUCreator.cxx				\
-	Image.cxx				\
 	KeyData.cxx				\
         Keyword.cxx				\
 	KeywordCreator.cxx			\
@@ -48,6 +55,7 @@ libCCfits_la_SOURCES =				\
 # This will tell shared library which STD C++ library to use without
 # needing the user to use LD_LIBRARY_PATH environment variable
 libCCfits_la_LIBADD = $(LIBSTDCPP)
+libCCfits_la_LDFLAGS = -R $(CXX_LIB_PATH)
 
 libCCfits_ladir = $(pkgincludedir)
 
@@ -84,7 +92,7 @@ libCCfits_la_HEADERS =				\
 	Table.h
 
 run_cookbook:
-	cookbook
+	cookbook.C
 
 ## The following is for Mac OS X.  
 ## It has not yet been tested.

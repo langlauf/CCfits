@@ -1,22 +1,18 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef FITS_H
 #define FITS_H 1
 
-
-//class PHDU;
-extern "C"
-{
-#       include <sys/stat.h>
-}           
 
 // exception
 #include <exception>
@@ -37,6 +33,12 @@ namespace CCfits {
   class Table;
 
 } // namespace CCfits
+
+//class PHDU;
+extern "C"
+{
+#       include <sys/stat.h>
+}           
 
 
 #include <memory>
@@ -186,7 +188,7 @@ namespace CCfits {
 
 
 
-/*!      \fn  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 0) throw (FitsException&);
+/*!      \fn  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 0);
       \brief open fits file and read HDU which contains supplied keywords
            with [optional] specified values (sometimes one just wants to know that the keyword is present).
 
@@ -194,7 +196,7 @@ namespace CCfits {
         specified columns and keywords in the HDU of interest.
                           
       \param name The name of the FITS file to be read
-      \param mode The read/write mode: must be Read or ReadWrite
+      \param mode The read/write mode: must be Read or Write
       \param searchKeys A string vector of keywords to search for in each header
       
       \param searchValues A string vector of values those keywords are required to have for success.
@@ -213,7 +215,7 @@ namespace CCfits {
 */
 
   
-/*!   \fn FITS::FITS(const string &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version) throw (FitsException&)
+/*!   \fn FITS::FITS(const string &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version);
       \brief Open a FITS file and read a single specified HDU.      
       
       This and similar constructor variants support reading table data.
@@ -234,8 +236,7 @@ namespace CCfits {
 */
 
 
-  /*! \fn FITS::FITS(const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag, const std::vector<string>& primaryKey) throw (FitsException&)
-     \brief Open an existing FITS file and read specified HDUs.
+  /*! \fn FITS::FITS(const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag, const std::vector<string>& primaryKey);
      
      This is intended as a convenience where the file consists of single versions of
      HDUs and data only, not keys are to be read.
@@ -243,7 +244,7 @@ namespace CCfits {
      see above for other parameter definitions.
   */
 
-  /*! \fn FITS::FITS(const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag, const std::vector<string>& primaryKeys, const std::vector<int>& hduVersions) throw (FitsException&)
+  /*! \fn FITS::FITS(const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag, const std::vector<string>& primaryKeys, const std::vector<int>& hduVersions);
       \brief FITS read constructor in full generality.
       
       \param hduVersions an optional version number for each HDU to be read
@@ -251,7 +252,7 @@ namespace CCfits {
      see above for other parameter definitions.
   */  
   
-    /*! \fn FITS::FITS(const string& name, int bitpix, int naxis, long *naxes) throw (FitsException&, std::exception& )
+    /*! \fn FITS::FITS(const string& name, int bitpix, int naxis, long *naxes) ;
       \brief Constructor for creating new FITS objects containing images.
       
       This constructor is only called for creating new files (mode is not an argument)
@@ -275,10 +276,9 @@ namespace CCfits {
             i.e. the primary header is empty.
      extensions can be added arbitrarily to the file after this constructor is
      called. The constructors should write header information to disk:
-     \todo keeping the data state updated on disk is not yet implemented (2000/7/6)
-  */
+ */
   
-    /*! \fn FITS::FITS(const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey) throw (FitsException&)
+    /*! \fn FITS::FITS(const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey) ;
       \brief read a single numbered HDU. 
       
       Constructor analogous to the version that reads by name. This is required since
@@ -334,7 +334,7 @@ namespace CCfits {
          
     
         
-   /*! \fn void FITS::read(const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version) throw (FitsException&)
+   /*! \fn void FITS::read(const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version) ;
        \brief get data from single HDU from disk file.
        
        This is provided to allow the adding of additional HDUs to the FITS
@@ -350,7 +350,7 @@ namespace CCfits {
        The parameter definitions are as documented for the corresponding constructor.
    */     
  
- /*!      \fn  FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys,  int version) throw (FitsException&); 
+ /*!      \fn  FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys,  int version) ;
 
         \brief read method for read header or HDU that contains specified  keywords.
       
@@ -392,8 +392,7 @@ namespace CCfits {
       see above for parameter definitions. 
   */ 
 
-    /*! \fn void FITS::read (int hduIndex, bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>()) throw (FitsException&);
-
+    /*! \fn void FITS::read (int hduIndex, bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>()) ;
    
        \brief read an HDU specified by index number.
       
@@ -412,16 +411,16 @@ namespace CCfits {
   */ 
 
   
-  /*! \fn void FITS::open(RWmode mode= Read) throw (FITS::CantOpen, FITSError);
+  /*! \fn void FITS::open(RWmode mode= Read) ;
       \brief open the file with mode as specified on construction.
   */ 
 
-  /*! \fn bool FITS::create() throw (FitsException&);
+  /*! \fn bool FITS::create() ;
       \brief create new fits file on disk and construct the fitsfile pointer
   */ 
 
-  /*! \fn void FITS::close()
-      \brief close the file
+  /*! \fn void FITS::close() throw();
+      \brief close the file. 
   */ 
 
   /*! \fn FITS * FITS::clone() const
@@ -434,7 +433,7 @@ namespace CCfits {
       extensions, so the extension(1) returns HDU number 2.
   */ 
   
-  /*! \fn  FITS::ExtHDU&  FITS::extension(int i) throw (FITS::NoSuchHDU);
+  /*! \fn  FITS::ExtHDU&  FITS::extension(int i) ;
       \brief return FITS extension by index number. non-const version.
       see const version for details.
   */ 
@@ -474,8 +473,7 @@ namespace CCfits {
   
    /*! \fn  Table* FITS::addTable (string& hduName, 
 			int rows, 
-			const std::vector<ValueType>& colType, 
-			const std::vector<string>& columnName,
+                        const std::vector<string>& columnName,
         		const std::vector<string>& columnFmt,
         		const std::vector<string>& columnUnit,
         		HduType type, 
@@ -484,7 +482,6 @@ namespace CCfits {
        \brief Add a table extension to an existing FITS object. 
        Add extension to FITS object for file with w or rw access.
        \param rows    The number of rows in the table to be created.
-       \param colType A vector of data type ValueTypes for the columns to be in the table
        \param columnName A vector containing the table column names
        \param columnFmt  A vector containing the table column formats
        \param columnUnit (Optional) a vector giving the units of the columns.
@@ -507,7 +504,7 @@ do this either).
    */
  
  
-   /*! \fn FITS::resetPosition() throw (FitsError);
+   /*! \fn FITS::resetPosition() ;
    
       \brief explicit call to set the fits file pointer to the primary.
    */   
@@ -587,10 +584,14 @@ do this either).
   //	! The FITS object class. Contains a primary HDU and Extensions indexed by name.
 
 
+
+
   class FITS 
   {
 
     public:
+
+
 
       class NoSuchHDU : public FitsException  //## Inherits: <unnamed>%396C90CB0236
       {
@@ -601,6 +602,8 @@ do this either).
         private:
         private: //## implementation
       };
+
+
 
 
       class OperationNotSupported : public FitsException  //## Inherits: <unnamed>%39806C7600D5
@@ -614,6 +617,8 @@ do this either).
       };
 
 
+
+
       class CantOpen : public FitsException  //## Inherits: <unnamed>%39C8EB1D02C0
       {
         public:
@@ -623,6 +628,8 @@ do this either).
         private:
         private: //## implementation
       };
+
+
 
 
       struct CantCreate : public FitsException  //## Inherits: <unnamed>%39C8EB10020B
@@ -637,7 +644,11 @@ do this either).
 
 
 
+
+
       typedef std::multimap<string,ExtHDU*> ExtMap;
+
+
 
 
 
@@ -647,20 +658,22 @@ do this either).
 
 
 
+
+
       typedef ExtMap::const_iterator ExtMapConstIt;
 
 
-        FITS (const string &name, RWmode mode = Read, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>()) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode = Read, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>());
 
         //	Open a file and read a specified HDU.
         //
         //	Optional parameter allows the reading of specified primary HDU keys.
-        FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1);
 
         //	Read data from a set of specified HDUs. keywords can only be specified for the primary here.
         //	The code will call a different constructor for the case where keywords are required for
         //	the extensions.
-        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag = false, const std::vector<string>& primaryKey = std::vector<string>()) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag = false, const std::vector<string>& primaryKey = std::vector<string>());
 
         //	Initialize a new FITS file object with the primary from a
         //	different file.
@@ -669,16 +682,16 @@ do this either).
         //	Fully general FITS HDU reader. May read any part of fits file by
         //	supplying HDU names and version numbers, and optionally
         //	the data read flag.
-        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>(), const std::vector<int>& hduVersions = std::vector<int>()) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>(), const std::vector<int>& hduVersions = std::vector<int>());
 
         //	Writing constructor. Takes a name and information to create an empty
         //	Primary HDU which can then be filled with calls to HDU methods.
-        FITS (const string& name, int bitpix, int naxis, long *naxes) throw (FitsException&, std::exception&);
+        FITS (const string& name, int bitpix, int naxis, long *naxes);
 
         //	Open a file and read a specified HDU.
         //
         //	Optional parameter allows the reading of specified primary HDU keys.
-        FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>()) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>());
 
         //	Open a file and read a HDU that contains  specified
         //	search keywords with [optional] specified values
@@ -686,7 +699,7 @@ do this either).
         //
         //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
         //	the HDU of interest.
-        FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1) throw (FitsException&, std::exception&);
+        FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1);
 
         ~FITS();
 
@@ -696,7 +709,7 @@ do this either).
         void deleteExtension (const std::string& doomed, int version = 1);
 
         //	Read keys and data from a single ExtHDU in the file.
-        void read (const string &hduName, bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>(), int version = 0) throw (FitsException&);
+        void read (const string &hduName, bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>(), int version = 0);
 
         //	Read multiple ExtHDUs. If the version number needs to be specified then one must call a
         //	different method.
@@ -707,28 +720,28 @@ do this either).
 
         FITS * clone () const;
 
-        const ExtHDU& extension (int i) const throw (FITS::NoSuchHDU);
+        const ExtHDU& extension (int i) const;
 
-        ExtHDU& extension (int i) throw (FITS::NoSuchHDU);
+        ExtHDU& extension (int i);
 
-        const ExtHDU& extension (const string& hduName, int version = 1) const throw (FITS::NoSuchHDU);
+        const ExtHDU& extension (const string& hduName, int version = 1) const;
 
         const PHDU& pHDU () const;
 
         PHDU& pHDU ();
 
-        ExtHDU& extension (const string& hduName, int version = 1) throw (FITS::NoSuchHDU);
+        ExtHDU& extension (const string& hduName, int version = 1);
 
         friend ostream& operator << (ostream& s, const FITS& right);
 
         //	Read keys and data from a single ExtHDU in the file.
         void read (int hduIndex, 	// Construct and Read HDU specified by number. One can add further HDUs by number using
         	// the HDUCreator factory.
-        bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>()) throw (FitsException&);
+        bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>());
 
         //	! add a new Table extension to a FITS object
         Table* addTable (string& hduName, int rows, 	// ! Number of rows in new table. Mandatory
-        const std::vector<ValueType>& colType = std::vector<ValueType>(), const std::vector<string>& columnName = std::vector<string>(), 	// ! Optional set of column names for new table
+        const std::vector<string>& columnName = std::vector<string>(), 	// ! Optional set of column names for new table
         const std::vector<string>& columnFmt = std::vector<string>(), 	// ! Column formats for column units. Mandatory if columnName is specified
         const std::vector<string>& columnUnit = std::vector<string>(), 	// ! Column formats for column units. Optional
         HduType type = BinaryTbl, int version = 1);
@@ -748,11 +761,11 @@ do this either).
         //
         //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
         //	the HDU of interest.
-        void read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), int version = 1) throw (FitsException&);
+        void read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), int version = 1);
 
         const std::multimap<string,ExtHDU*>& extension () const;
 
-        void resetPosition () throw (FitsError);
+        void resetPosition ();
 
         void currentExtensionName (const string& extName);
 
@@ -790,19 +803,19 @@ do this either).
         //	readDataFlag is true.
         void read (bool readDataFlag = false, const std::vector<string>& keys = std::vector<string>());
 
-        void open (RWmode mode = Read) throw (FITS::CantOpen, FitsError);
+        void open (RWmode mode = Read);
 
         //	Create returns true if a new file was created or an
         //	existing file overwritten, false if appending.
         //
         //
         //	It throws exception CantCreate or CantOpen if either fails.
-        bool create () throw (FitsException&);
+        bool create ();
 
         //	Close the fits file.
         //
         //	Called in destructors so must not throw.
-        int close ();
+        int close () throw ();
 
         ostream & put (ostream &s) const;
 
@@ -822,9 +835,9 @@ do this either).
 
         std::multimap<string,ExtHDU*>& extension ();
 
-        string nameOfUnmapped (int hduNum) const throw (FitsError);
+        string nameOfUnmapped (int hduNum) const;
 
-        void cloneHeader (const ExtHDU& source) throw (FitsError);
+        void cloneHeader (const ExtHDU& source);
 
       // Additional Private Declarations
 
@@ -847,10 +860,6 @@ do this either).
       friend void ExtHDU::makeThisCurrent() const;
   };
 
-  inline ostream& operator << (ostream& s, const FITS& right)
-  {
-        return right.put(s);       
-  }
 
   // Class CCfits::FITS::NoSuchHDU 
 
@@ -863,12 +872,17 @@ do this either).
   // Class CCfits::FITS 
 
 
-  inline ExtHDU& FITS::extension (const string& hduName, int version) throw (FITS::NoSuchHDU)
+  inline ExtHDU& FITS::extension (const string& hduName, int version)
   {
 
     return extbyVersion(hduName,version);
   }
 
+  inline ostream& operator << (ostream& s, const FITS& right)
+  {
+
+    return right.put(s);
+  }
 
 
   inline bool FITS::verboseMode ()

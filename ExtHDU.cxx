@@ -1,11 +1,13 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
@@ -21,14 +23,16 @@ using std::ostrstream;
 #endif
 
 
-// ExtHDU
-#include "ExtHDU.h"
 // Column
 #include "Column.h"
 // FITS
 #include "FITS.h"
 // FITSBase
 #include "FITSBase.h"
+// ExtHDU
+#include "ExtHDU.h"
+// FitsError
+#include "FitsError.h"
 // FITSUtil
 #include "FITSUtil.h"
 
@@ -49,13 +53,7 @@ namespace CCfits {
 
   // Class CCfits::ExtHDU 
 
-
-
-
-
   std::string ExtHDU::s_missHDU = "$HDU$";
-
-
 
   ExtHDU::ExtHDU(const ExtHDU &right)
       : HDU(right),
@@ -178,7 +176,7 @@ namespace CCfits {
     
    int   status=0;
    FITSUtil::auto_array_ptr<char> pHduCstr(new char[FLEN_KEYWORD]);
-   char* hduCstr(pHduCstr.get());
+   char* hduCstr = pHduCstr.get();
    int htype = -1;
    
    string key = "EXTNAME";
@@ -235,7 +233,7 @@ namespace CCfits {
   parent()->currentExtensionName() = tname;       
   }
 
-  Column& ExtHDU::column (const string& colName) const throw (FitsException&)
+  Column& ExtHDU::column (const string& colName) const
   {
   // if not overridden, throw an exception.
   // there might be a similar default implementation for function
@@ -248,7 +246,7 @@ namespace CCfits {
   throw WrongExtensionType(name());
   }
 
-  Column& ExtHDU::column (int colIndex) const throw (FitsException&)
+  Column& ExtHDU::column (int colIndex) const
   {
   throw WrongExtensionType(name());
   }

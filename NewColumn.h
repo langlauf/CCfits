@@ -1,16 +1,17 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef NEWCOLUMN_H
 #define NEWCOLUMN_H 1
-
 
 
 // vector
@@ -24,7 +25,10 @@
 
 
 
+
 namespace CCfits {
+
+
 
 
 
@@ -63,6 +67,8 @@ namespace CCfits {
       // Additional Implementation Declarations
 
   };
+
+
 
 
 
@@ -125,7 +131,6 @@ namespace CCfits {
 
   // Parameterized Class CCfits::NewColumn 
 
-
   template <typename T>
   NewColumn<T>::NewColumn (vector<T>& data)
      : m_newData(data)
@@ -154,7 +159,6 @@ namespace CCfits {
   // Additional Declarations
 
   // Parameterized Class CCfits::NewVectorColumn 
-
 
   template <typename T>
   NewVectorColumn<T>::NewVectorColumn (std::vector<std::valarray<T> >& data)

@@ -24,16 +24,30 @@ The code for cookbook is reproduced here with commentary  as worked example of t
 <font class="comment">// library and the cfitsio library (for example, it includes fitsio.h) thus making</font>
 <font class="comment">// all of cfitsio's macro definitions available.</font>
 
-<font class="preprocessor">#include &lt;CCfits/CCfits&gt;</font>
+<font class="preprocessor">#ifdef HAVE_CONFIG_H</font>
+<font class="preprocessor"></font><font class="preprocessor">#include "config.h"</font>
+<font class="preprocessor">#endif</font>
+<font class="preprocessor"></font>
+<font class="comment">// this includes 12 of the CCfits headers and will support all CCfits operations.</font>
+<font class="comment">// the installed location of the library headers is $(ROOT)/include/CCfits</font>
 
-<font class="comment">// The library is enclosed in a namespace.</font>
+<font class="comment">// to use the library either add -I$(ROOT)/include/CCfits or #include &lt;CCfits/CCfits&gt;</font>
+<font class="comment">// in the compilation target.</font>
+
+<font class="preprocessor">#include &lt;CCfits&gt;</font>
+
+<font class="preprocessor">#include &lt;cmath&gt;</font>
+    <font class="comment">// The library is enclosed in a namespace.</font>
         
-<font class="keyword">using</font> <font class="keyword">namespace </font>CCfits;
+    <font class="keyword">using</font> <font class="keyword">namespace </font>CCfits;
+
+
+
 
 <font class="keywordtype">int</font> main();
 <font class="keywordtype">int</font> writeImage();
 <font class="keywordtype">int</font> writeAscii();
-<font class="keywordtype">int</font> writeBinaryTable();
+<font class="keywordtype">int</font> writeBinary();
 <font class="keywordtype">int</font> copyHDU();
 <font class="keywordtype">int</font> selectRows();
 <font class="keywordtype">int</font> readHeader(); 
@@ -50,14 +64,14 @@ The code for cookbook is reproduced here with commentary  as worked example of t
                      
      {
 
-        std::cout &lt;&lt; <font class="stringliteral">"Return from writeImage() was "</font> &lt;&lt; writeImage() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from writeAscii() was "</font> &lt;&lt; writeAscii() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from writeBinaryTable() was "</font> &lt;&lt; writeBinaryTable() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from copyHDU() was "</font> &lt;&lt; copyHDU() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from selectRows() was "</font> &lt;&lt; selectRows() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from readHeader() was "</font> &lt;&lt; readHeader() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from readImage() was "</font> &lt;&lt; readImage() &lt;&lt; <font class="charliteral">'\n'</font>;
-        std::cout &lt;&lt; <font class="stringliteral">"Return from readTable() was "</font> &lt;&lt; readTable() &lt;&lt; <font class="charliteral">'\n'</font>;
+        <font class="keywordflow">if</font> (!writeImage()) std::cerr &lt;&lt; <font class="stringliteral">" writeImage() \n"</font>;
+        <font class="keywordflow">if</font> (!writeAscii()) std::cerr &lt;&lt; <font class="stringliteral">" writeAscii() \n"</font>;
+        <font class="keywordflow">if</font> (!writeBinary()) std::cerr &lt;&lt; <font class="stringliteral">" writeBinary()  \n"</font>;
+        <font class="keywordflow">if</font> (!copyHDU()) std::cerr &lt;&lt; <font class="stringliteral">" copyHDU() \n"</font>;
+        <font class="keywordflow">if</font> (!readHeader()) std::cerr &lt;&lt; <font class="stringliteral">" readHeader() \n"</font>;
+        <font class="keywordflow">if</font> (!readImage()) std::cerr &lt;&lt; <font class="stringliteral">" readImage() \n"</font>;
+        <font class="keywordflow">if</font> (!readTable()) std::cerr &lt;&lt; <font class="stringliteral">" readTable() \n"</font>;
+        <font class="keywordflow">if</font> (!selectRows()) std::cerr &lt;&lt; <font class="stringliteral">" selectRows() \n"</font>;
 
      }
      <font class="keywordflow">catch</font> (FitsException&amp;) 
@@ -89,11 +103,11 @@ When the data are being read instead of written, the user is expected to copy th
 <p>
 The routines in this program test the following functionality:
 <p>
-<li> writeImage() <a href="writeimage.html#writeimage">Writing The Primary Image</a>
+<li> writeImage() <a href="writeimage.html#writeimage">Writing Primary Images and Image Extensions</a>
 <p>
 <li> writeAscii() <a href="ascii.html#ascii">Creating and Writing to an Ascii Table Extension</a>
 <p>
-<li> writeBinaryTable() <a href="binary.html#binary">Creating and Writing to a Binary Table Extension</a>
+<li> writeBinary() <a href="binary.html#binary">Creating and Writing to a Binary Table Extension</a>
 <p>
 <li> copyHDU() <a href="copy.html#copy">Copying an Extension between Files</a>
 <p>
@@ -105,7 +119,7 @@ The routines in this program test the following functionality:
 <p>
 <li> readTable() <a href="readtable.html#readtable">Reading a Table Extension</a>
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

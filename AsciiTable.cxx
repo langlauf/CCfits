@@ -1,21 +1,26 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
-// AsciiTable
-#include "AsciiTable.h"
 // ColumnCreator
 #include "ColumnCreator.h"
 // Column
 #include "Column.h"
+// AsciiTable
+#include "AsciiTable.h"
 
 #ifdef HAVE_STRSTREAM
 #include <strstream>
@@ -43,7 +48,7 @@ namespace CCfits {
 
   }
 
-  AsciiTable::AsciiTable (FITSBase* p, const string &hduName, int rows, const std::vector<ValueType>& columnType, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, int version)
+  AsciiTable::AsciiTable (FITSBase* p, const string &hduName, int rows, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, int version)
       : Table(p, AsciiTbl , hduName,  rows,  columnName, columnFmt, columnUnit,  version)
   {
         long           width=0;
@@ -56,10 +61,12 @@ namespace CCfits {
 
         for (int i=0; i< numCols(); i++)
         {
+
                 status = fits_ascii_tform(const_cast<char *>(columnFmt[i].c_str()), 
 			       &colType, &width, &decimals, &status);
+
                 if (status != 0)  throw FitsError(status);
-                column(columnName[i],create.createColumn(i+1,columnType[i], 
+                column(columnName[i],create.createColumn(i+1,ValueType(colType),
                         columnName[i], columnFmt[i], columnUnit[i],1,width));
                 
                 column(columnName[i]).setLimits(ValueType(colType));
@@ -94,8 +101,9 @@ namespace CCfits {
    char** columnName = new char*[ncols];
    char** columnFmt  = new char*[ncols];
    char** columnUnit = new char*[ncols];
-  
-   for(int i = 0; i < ncols; i++)
+
+   int i = 0; // for MS VC++
+   for(; i < ncols; i++)
    {
       columnName[i] = new char[FLEN_KEYWORD];
       columnFmt[i]  = new char[FLEN_KEYWORD];
@@ -111,7 +119,7 @@ namespace CCfits {
    rows(nRows);
    numCols(fields);
    
-   for(int i = 0; i < ncols; i++)
+   for( i = 0; i < ncols; i++)
    {
       colName[i] = string(columnName[i]);
       colFmt[i]  = string(columnFmt[i]);
@@ -130,7 +138,11 @@ namespace CCfits {
    delete [] tbcol;
   }
 
+#ifdef CLONE_DEFECT
+  HDU * AsciiTable::clone (FITSBase* p) const
+#else
   AsciiTable * AsciiTable::clone (FITSBase* p) const
+#endif
   {
   AsciiTable* cloned = new AsciiTable(*this);
   cloned->parent() = p;
@@ -200,7 +212,7 @@ namespace CCfits {
                         col = column().find(colKeys[i]); 
                         Column&  current = *((*col).second);
                         current.readData(rowsRead+1,
-                                        current.repeat()*std::min(rowSize,rows()-rowsRead),1);
+                                        current.repeat()*std::min<size_t>(rowSize,rows()-rowsRead),1);
                 }
         }
         else
@@ -210,7 +222,7 @@ namespace CCfits {
                 {      
                         Column& current = *((*col).second);
                         current.readData(rowsRead+1,
-                                          current.repeat()*std::min(rowSize,rows() - rowsRead),1);
+                                          current.repeat()*std::min<size_t>(rowSize,rows() - rowsRead),1);
       
                 }
          }
@@ -329,10 +341,10 @@ namespace CCfits {
     //string ColumnName(FITSUtil::upperCase(columnName));
     
     string tfString(tformStr.str());
-    char* tform(const_cast<char*>(tfString.c_str()));    
+    char* tform = const_cast<char*>(tfString.c_str());    
 
     
-    char* ttype(const_cast<char*>(columnName.c_str()));
+    char* ttype = const_cast<char*>(columnName.c_str());
     
     if (fits_insert_col(fitsPointer(),colNum,ttype,tform,&status)) throw FitsError(status);
     

@@ -18,13 +18,16 @@ PHDU::read(std::valarray&lt;S&gt;&amp; image).
 <p>
 This copies the entire image from the FITS object into the std::valarray object contents, sizing it as necessary. PHDU::read() and ExtHDU::read() [for image extensions] take a range of arguments that support (a) reading the entire image - as in this example; (b) sections of an image starting from a given pixel; (c) rectangular subsets. See the class references for PHDU and ExtHDU for details.
 <p>
-<div class="fragment"><pre><font class="keywordtype">int</font> readImage()<font class="keyword"></font>
+<div class="fragment"><pre> <font class="keywordtype">int</font> readImage()<font class="keyword"></font>
 <font class="keyword"> </font>{
         std::auto_ptr&lt;FITS&gt; pInfile(<font class="keyword">new</font> FITS(<font class="stringliteral">"atestfil.fit"</font>,Read,<font class="keyword">true</font>));
         
         PHDU&amp; image = pInfile-&gt;pHDU(); 
         
-        std::valarray&lt;short&gt;  contents;
+        std::valarray&lt;unsigned long&gt;  contents;
+        
+        <font class="comment">// read all user-specifed, coordinate, and checksum keys in the image</font>
+        image.readAllKeys();
         
         image.read(contents);
         
@@ -33,8 +36,6 @@ This copies the entire image from the FITS object into the std::valarray object 
         
         <font class="keywordtype">long</font> ax1(image.axis(0));
         <font class="keywordtype">long</font> ax2(image.axis(1));
-        
-        <font class="comment">// print every tenth row just to show that it all worked.</font>
         
         <font class="keywordflow">for</font> (<font class="keywordtype">long</font> j = 0; j &lt; ax2; j+=10)
         {
@@ -47,7 +48,7 @@ This copies the entire image from the FITS object into the std::valarray object 
         <font class="keywordflow">return</font> 0;   
  }</pre></div>
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

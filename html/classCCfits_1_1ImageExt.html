@@ -21,18 +21,12 @@
 <a href="classCCfits_1_1ImageExt-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#a0">ImageExt</a> (const ImageExt&lt; T &gt; &amp;right)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy constructor.</em> <a href="#a0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#a1">~ImageExt</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em> <a href="#a1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual ImageExt&lt;T&gt;*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#a2">clone</a> (FITSBase *p) const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>virtual copy constructor.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>const std::valarray&lt;T&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#a3">image</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a const reference to the image array.</em> <a href="#a3">More...</a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#b0">ImageExt</a> (FITSBase *p, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=0)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>construct and read Image Extension from disk fitsfile by name.</em> <a href="#b0">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#b1">ImageExt</a> (FITSBase *p, const string &amp;hduName, int bpix, int naxis, const std::vector&lt; long &gt; &amp;naxes, int version=0)  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>construct new image extension in <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object p.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#b0">ImageExt</a> (FITSBase *p, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=0)</td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1ImageExt.html#b1">ImageExt</a> (FITSBase *p, const string &amp;hduName, int bpix, int naxis, const std::vector&lt; long &gt; &amp;naxes, int version=0)</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <h3>template&lt;typename T&gt;  class CCfits::ImageExt</h3>
@@ -156,7 +150,7 @@ const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt
         <tr>
           <td></td>
           <td><b>
-int <em>version</em> = 0&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [protected]</code>
+int <em>version</em> = 0&nbsp;)<code> [protected]</code>
           </b></td>
         </tr>
 
@@ -223,7 +217,7 @@ const std::vector&lt; long &gt; &amp; <em>naxes</em>,
         <tr>
           <td></td>
           <td><b>
-int <em>version</em> = 0&nbsp;)  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [protected]</code>
+int <em>version</em> = 0&nbsp;)<code> [protected]</code>
           </b></td>
         </tr>
 
@@ -325,7 +319,7 @@ return a const reference to the image array.
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>ImageExt.h</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:55 2001 for CCfits by
+<hr><address><small>Generated at Tue May 14 10:39:57 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,11 +1,13 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef HDU_H
@@ -13,16 +15,15 @@
 
 #include <map>
 
-
 #include <list>
-// vector
-#include <vector>
 // Keyword
 #include "Keyword.h"
 // NewKeyword
 #include "NewKeyword.h"
 // FitsError
 #include "FitsError.h"
+// vector
+#include <vector>
 // FITSUtil
 #include "FITSUtil.h"
 
@@ -31,6 +32,10 @@ namespace CCfits {
   class FITSBase;
 
 } // namespace CCfits
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 
 using std::valarray;
@@ -167,10 +172,15 @@ by Herb Sutter (2000) and references therein].
         /*! \fn void HDU::readAllKeys();
                 \brief read all of the keys in the header
                                 
-                This member function reads keys that are not connected with
+                This member function reads keys that are not meta data for
                 columns or image information, [which are considered to be
                 part of the column or image objects]. Also, history and 
-                comment keys are read and returned by getHistory() and getComment()
+                comment keys are read and returned by getHistory() and getComment().
+                                
+                Note that readAllKeys can only construct keys of type
+                string, float, complex<float>, integer, and bool because
+                the FITS header records do not encode exact type information.
+
                  
         
         */
@@ -218,6 +228,9 @@ by Herb Sutter (2000) and references therein].
             
         \brief read a  keyword of specified type from the header of a disk  FITS file
 and return its value. 
+                        
+        T is one of the types std::string, float, int, std::complex<float>, and bool.
+                
 
         */
 
@@ -225,6 +238,9 @@ and return its value.
 
         \brief read a set of specified keywords of the same data type
 		from the header of a disk  FITS file and return their values
+                
+        T is one of the types std::string, float, int, std::complex<float>, and bool.
+                        
 
         */
 
@@ -284,13 +300,13 @@ and return its value.
 
         */
 
-        /*! \fn       HDU::HDU (FITSBase* p = 0) throw (FitsException&);
+        /*! \fn       HDU::HDU (FITSBase* p = 0);
 
         \brief default constructor, called by HDU subclasses that read from FITS files.
 
         */
 
-        /*! \fn       HDU::HDU (FITSBase* p, int bitpix,int naxis, const std::vector<long>& axes) throw (FitsException&);
+        /*! \fn       HDU::HDU (FITSBase* p, int bitpix,int naxis, const std::vector<long>& axes);
 
         \brief constructor for creating new HDU objects, called by HDU subclasses writing to FITS files.
 
@@ -369,12 +385,51 @@ and return its value.
                 \brief return the length of HDU data axis i.
 
         */
+                                
+        /*! \fn       double HDU::zero () const;
 
-        /*! \fn       template <typename T> Keyword& HDU::addKey(const string& name, T value,  const string& comment) throw (FitsException&)
+                \brief return the BZERO keyword value
+
+        */
+                                
+                                
+        /*! \fn       double HDU::scale () const;
+
+                \brief return the BSCALE keyword value
+
+        */
+
+        /*! \fn       template <typename T> Keyword& HDU::addKey(const string& name, T value,  const string& comment) ;
 
                 \brief create a new keyword in the HDU with specified value and comment fields
 
-                the function returns a reference to keyword object just created.
+                the function returns a reference to keyword object just created. 
+                                
+                Parameters:
+                \param name (std::string) The keyword name
+                \param value (T = std::string, float, std::complex<float>, int, or bool
+                \param comment (std::string) the keyword value
+                                
+                Note the limitations on T, which arise for historical reasons (i.e.
+                since keywords do not contain explicit type information, routines
+                in CCfits must assign a type). The limitation may be removed in a
+                future release
+                
+                It is possible however to create a keyword of any of the allowed
+                data types in fitsio (see the cfitsio manual section 4.3). The
+                required calls are, e.g. for a floating point double valued keyword:
+                
+                NewKeyword<double> keyCreate( hdu, double val1 );
+                Keyword* key1  = Keyword keyCreate.MakeKeyword(keyName1, const string& comment);
+                keyCreate.keyData(val2);
+                Keyword* key2  = Keyword keyCreate.MakeKeyword(keyName2, const string& comment);
+                
+                key1->write();
+                key2->write();
+                
+                ... which is essentially what addKey does for its allowed types.
+                
+                 
 
         */
 
@@ -389,10 +444,14 @@ and return its value.
 
 
 
+
+
   class HDU 
   {
 
     public:
+
+
 
       class InvalidImageDataType : public FitsException  //## Inherits: <unnamed>%394FBA12005C
       {
@@ -403,6 +462,8 @@ and return its value.
         private:
         private: //## implementation
       };
+
+
 
 
       class InvalidExtensionType : public FitsException  //## Inherits: <unnamed>%3964C1D00352
@@ -416,6 +477,8 @@ and return its value.
       };
 
 
+
+
       class NoSuchKeyword : public FitsException  //## Inherits: <unnamed>%398865D10264
       {
         public:
@@ -425,6 +488,8 @@ and return its value.
         private:
         private: //## implementation
       };
+
+
 
 
       class NoNullValue : public FitsException  //## Inherits: <unnamed>%3B0D58CE0306
@@ -457,7 +522,7 @@ and return its value.
 
         std::map<string, Keyword*> keyWord ();
 
-        Keyword& keyWord (const string& keyName) throw (HDU::NoSuchKeyword);
+        Keyword& keyWord (const string& keyName);
 
         const string& getHistory ();
 
@@ -491,11 +556,22 @@ and return its value.
         void deleteKey (const std::string& doomed);
 
 
+        long bitpix () const;
+        void bitpix (long value);
+
         int index () const;
 
         const string& history () const;
 
         const string& comment () const;
+
+        virtual double zero () const;
+        virtual void zero (double value);
+
+        //	Floating point scale factor for image data that takes
+        //	the value of the BSCALE parameter.
+        virtual double scale () const;
+        virtual void scale (double value);
 
 
         const std::map<string,Keyword*>& keyWord () const;
@@ -505,14 +581,19 @@ and return its value.
     public:
       // Additional Public Declarations
       template <typename T>
-      Keyword& addKey(const string& name, T val,  const string& comment) throw (FitsException&);
+      Keyword& addKey(const string& name, T val,  const string& comment);
   
       template <typename T>
       void readKey(const string& keyName, T& val);
       
       template <typename T>
       void readKeys(std::vector<string>& keyNames, std::vector<T>& vals);
-            
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+      inline void readKeyMS(const string& keyName, int & val);
+      inline void readKeys(std::vector<string>& keyNames, std::vector<string>& vals);
+#endif
+
     protected:
         //	Functions as the default constructor, which is required for
         //	the map container class.
@@ -532,9 +613,6 @@ and return its value.
 
         long& naxis ();
         void naxis (const long& value);
-
-        long bitpix () const;
-        void bitpix (long value);
 
         //	Flags whether there were any null values found in the
         //	last read operation.
@@ -568,7 +646,11 @@ and return its value.
         //	the dtor and the copy/assignment operations.
         void copyKeys (const HDU& right);
 
-        string getNamedLines (const string& name) throw (FitsException&);
+        string getNamedLines (const string& name);
+
+        //	save keyword found by read all keys into the array of keywords that have been read.
+        //	Similar to addKeyword except there's no write and no returned value. For use by readAllKeys()
+        void saveReadKeyword (Keyword* newKey);
 
       // Additional Private Declarations
 
@@ -587,6 +669,10 @@ and return its value.
 
         string m_comment;
 
+        double m_zero;
+
+        double m_scale;
+
       // Data Members for Associations
 
         std::map<string,Keyword*> m_keyWord;
@@ -601,14 +687,10 @@ and return its value.
       friend Keyword* KeywordCreator::getKeyword(const string& keyname, ValueType keyType, HDU* p);
   };
 
-  inline std::ostream& operator << (std::ostream &s, const CCfits::HDU &right)
-  {
-     return right.put(s);
-  }
-
   template <typename T>
-  Keyword& HDU::addKey(const string& name, T value,  const string& comment) throw (CCfits::FitsException&)
+  Keyword& HDU::addKey(const string& name, T value,  const string& comment)
   {
+              makeThisCurrent();
               NewKeyword<T> keyCreator(this,value);
               Keyword& newKey = *(addKeyword(keyCreator.createKeyword(name,comment)));
               return newKey;
@@ -617,9 +699,11 @@ and return its value.
   template <typename T>
   void HDU::readKey(const string& keyName, T& val)
   {
+          makeThisCurrent();
           Keyword& key = readKeyword(keyName);
           key.value(val);
   }
+
 
   template <typename T>
   void HDU::readKeys(std::vector<string>& keyNames, std::vector<T>& vals)
@@ -644,7 +728,7 @@ and return its value.
                   {
                           m_keyWord[*it]->value(current);
                           valList.push_back(current);       
-			  it++;
+			  ++it;
                   }
                   catch ( Keyword::WrongKeywordValueType )
                   {
@@ -659,11 +743,12 @@ and return its value.
                   if (valList.size() != vals.size()) vals.resize(valList.size());
 
                   size_t i=0;
-                  for (std::list<T>::const_iterator it1 = valList.begin(); it1 != valList.end(); ++it1,++i)
+                  for (typename std::list<T>::const_iterator it1 
+                                  = valList.begin(); it1 != valList.end(); ++it1,++i)
                   {
                           vals[i] = *it1;
                   }
-                  for (std::list<T>::const_iterator it1= valKeys.begin(); it1 != valKeys.end(); ++it1)
+                  for (std::list<string>::const_iterator it1= valKeys.begin(); it1 != valKeys.end(); ++it1)
                   {
                           keyNames.push_back(*it1);
                   }
@@ -688,13 +773,17 @@ and return its value.
     return m_keyWord;
   }
 
-  inline Keyword& HDU::keyWord (const string& keyName) throw (HDU::NoSuchKeyword)
+  inline Keyword& HDU::keyWord (const string& keyName)
   {
   std::map<string,Keyword*>::iterator key = m_keyWord.find(keyName);
   if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyName);
   return *((*key).second);
   }
 
+  inline ostream& operator << (ostream& s, const CCfits::HDU& right)
+  {
+     return right.put(s);
+  }
 
   inline long HDU::axes () const
   {
@@ -712,6 +801,11 @@ and return its value.
   {
 
     m_index = value;
+  }
+
+  inline void HDU::saveReadKeyword (Keyword* newKey)
+  {
+    m_keyWord.insert(std::map<string,Keyword*>::value_type(newKey->name(),newKey->clone()));
   }
 
 
@@ -760,6 +854,26 @@ and return its value.
     return m_comment;
   }
 
+  inline double HDU::zero () const
+  {
+    return m_zero;
+  }
+
+  inline void HDU::zero (double value)
+  {
+    m_zero = value;
+  }
+
+  inline double HDU::scale () const
+  {
+    return m_scale;
+  }
+
+  inline void HDU::scale (double value)
+  {
+    m_scale = value;
+  }
+
 
   inline const std::map<string,Keyword*>& HDU::keyWord () const
   {
@@ -800,6 +914,67 @@ and return its value.
 
 } // namespace CCfits
 
+#ifdef SPEC_TEMPLATE_IMP_DEFECT
+namespace CCfits {
+        
+  inline void HDU::readKeyMS(const string& keyName, int & val)
+  {
+          makeThisCurrent();
+          Keyword& key = readKeyword(keyName);
+          key.value(val);
+  }
+
+  inline void HDU::readKeys(std::vector<string>& keyNames, std::vector<string>& vals)
+  {
+          size_t nRead = keyNames.size();
+
+          std::list<string> valKeys;
+          std::list<string>      valList;
+          for (size_t i = 0; i < nRead; i++) valKeys.push_back(keyNames[i]);
+          // read all the keys requested, rejecting those that don't exist.
+
+          readKeywords(valKeys);
+
+          // get the values of all of the requested keys, rejecting those of the
+          // wrong type.
+
+          string current;
+          std::list<string>::iterator it = valKeys.begin(); 
+          while (it != valKeys.end())
+          {
+                  try
+                  {
+                          m_keyWord[*it]->value(current);
+                          valList.push_back(current);       
+			  ++it;
+                  }
+                  catch ( Keyword::WrongKeywordValueType )
+                  {
+                          it = valKeys.erase(it);                         
+                  }
+          }
+
+          keyNames.erase(keyNames.begin(),keyNames.end());       
+
+          if (!valList.empty())
+          {
+                  if (valList.size() != vals.size()) vals.resize(valList.size());
+
+                  size_t i=0;
+				  std::list<string>::const_iterator it1 = valList.begin();
+                  for ( ; it1 != valList.end(); ++it1,++i)
+                  {
+                          vals[i] = *it1;
+                  }
+                  for ( it1= valKeys.begin(); it1 != valKeys.end(); ++it1)
+                  {
+                          keyNames.push_back(*it1);
+                  }
+          }
+
+  }
+}
+ #endif
 
 
 #endif

@@ -1,13 +1,19 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 #ifndef COLUMNT_H
 #define COLUMNT_H
+
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
 
 #include "ColumnData.h"
 #include "ColumnVectorData.h"
@@ -34,40 +40,30 @@ using std::complex;
 namespace CCfits 
 {
         template <typename S>
-        void Column::read(std::vector<S>& vals, size_t first, size_t last) throw (FitsException&)
+        void Column::read(std::vector<S>& vals, long first, long last) 
         {
                 read(vals,first,last,static_cast<S*>(0));
         }
         
 
         template <typename S>
-        void Column::read(std::vector<S>& vals, size_t first, size_t last, S* nullValue) throw (FitsException&)
+        void Column::read(std::vector<S>& vals, long first, long last, S* nullValue) 
         {
                 // problem: S does not give the type of the Column, but the return type,
                 // so the user must specify this.
 
-                // user expects 1 based indexing. If 0 based indices are supplied,
-                // add one to both ranges.
-                if (first == 0)
-                {
-                        first +=1;
-                        last = std::min(static_cast<size_t>(rows()),last+1);       
-                }
+                long nelements = numberOfElements(first,last);
 
-                last  = std::min((size_t)rows(),last);
-                if (last < first ) throw RangeError(name());
-                long nelements(last - first + 1);
-
-                try 
+                if  (ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
                 {
                         // fails if user requested outputType different from input type.
 
-                        ColumnData<S>& col = dynamic_cast<ColumnData<S>&>(*this);
-                        if (!isRead()) col.readColumnData(first,nelements,nullValue);
+                        
+                        if (!isRead()) col->readColumnData(first,nelements,nullValue);
                         // scalar column with vector output can just be assigned.
-                        FITSUtil::fill(vals,col.data(),first,last);
+                        FITSUtil::fill(vals,col->data(),first,last);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         FITSUtil::MatchType<S> outputType;
                         if ( outputType() == type() ) 
@@ -88,52 +84,32 @@ namespace CCfits
                             // the InvalidDataType exception should not be possible.
                             if  ( type() == Tdouble )
 		            {
-                                    double nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;                                 
                                     ColumnData<double>& col 
                                               = dynamic_cast<ColumnData<double>&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
+                                    if (!isRead()) col.readColumnData(first,nelements);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
 
                             }
 		            else if (type() == Tfloat)
 		            {
-                                    float nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;                                     
                                     ColumnData<float>& col 
                                             = dynamic_cast<ColumnData<float>&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
+                                    if (!isRead()) col.readColumnData(first,nelements);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
                             }
-		            else if (type() == Tcomplex)
-		            {
-                                    complex<float> nullVal(0);
-                                    if (nullValue) nullVal = complex<float>(*nullValue,0);                                       
-                                    ColumnData<complex<float> >& col =  
-                                           dynamic_cast<ColumnData<complex<float> >&>(*this);
-                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
-                                     FITSUtil::fill(vals,col.data(),first,last);
-		            }
-		            else if (type() == Tdblcomplex)
-		            {
-                                    complex<double> nullVal(0);
-                                    if (nullValue) nullVal = complex<double>(*nullValue,0);                                     
-                                    ColumnData<complex<double> >& col  = 
-                                          dynamic_cast<ColumnData<complex<double> >&>(*this);
-                                    FITSUtil::fill(vals,col.data(),first,last);
-		            }
 		            else if (type() == Tint)
 		            {
                                     int nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;
+                                    if (nullValue) nullVal = static_cast<int>(*nullValue);
                                     ColumnData<int>& col  
                                        = dynamic_cast<ColumnData<int>&>(*this);
+                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
 		            }
 		            else if (type() == Tshort)
                             {
                                     short nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;
+                                    if (nullValue) nullVal = static_cast<short>(*nullValue);
                                     ColumnData<short>& col 
                                      = dynamic_cast<ColumnData<short>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -142,7 +118,7 @@ namespace CCfits
 		            else if (type() == Tlong)
 		            {	
                                     long nullVal(0);
-                                    if (nullValue) nullVal = *nullValue; 
+                                    if (nullValue) nullVal = static_cast<long>(*nullValue); 
                                     ColumnData<long>& col 
                                       = dynamic_cast<ColumnData<long>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -151,7 +127,7 @@ namespace CCfits
 		            else if (type() == Tlogical)
 		            {	
                                     bool nullVal(0);
-                                    if (nullValue) nullVal = *nullValue; 
+                                    if (nullValue) nullVal = static_cast<bool>(*nullValue); 
                                     ColumnData<bool>& col 
                                       = dynamic_cast<ColumnData<bool>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -160,7 +136,7 @@ namespace CCfits
 		            else if (type() == Tbit || type() == Tbyte)
 		            {
                                     unsigned char nullVal(0);
-                                    if (nullValue) nullVal = *nullValue; 
+                                    if (nullValue) nullVal = static_cast<unsigned char>(*nullValue); 
                                     ColumnData<unsigned char>& col 
                                             = dynamic_cast<ColumnData<unsigned char>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal); 
@@ -169,7 +145,7 @@ namespace CCfits
 		            else if (type() == Tushort)
                             {
                                     unsigned short nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;
+                                    if (nullValue) nullVal= static_cast<unsigned short>(*nullValue);
                                     ColumnData<unsigned short>& col 
                                             = dynamic_cast<ColumnData<unsigned short>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -178,7 +154,7 @@ namespace CCfits
 		            else if (type() == Tuint)
                             {
                                     unsigned int nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;
+                                    if (nullValue) nullVal = static_cast<unsigned int>(*nullValue);
                                     ColumnData<unsigned int>& col 
                                             = dynamic_cast<ColumnData<unsigned int>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -187,7 +163,7 @@ namespace CCfits
 		            else if (type() == Tulong)
                             {
                                     unsigned long nullVal(0);
-                                    if (nullValue) nullVal = *nullValue;
+                                    if (nullValue) nullVal = static_cast<unsigned long>(*nullValue);
                                     ColumnData<unsigned long>& col 
                                              = dynamic_cast<ColumnData<unsigned long>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
@@ -209,43 +185,32 @@ namespace CCfits
         }
 
         template <typename S>
-        void Column::read(std::valarray<S>& vals, size_t first, size_t last) throw (FitsException&)
+        void Column::read(std::valarray<S>& vals, long first, long last) 
         {
                 read(vals,first,last,static_cast<S*>(0));
         }
 
 
         template <typename S>
-        void Column::read(std::valarray<S>& vals, size_t first, size_t last, S* nullValue) throw (FitsException&)
+        void Column::read(std::valarray<S>& vals, long first, long last, S* nullValue) 
         {        
                 // require the whole scalar column to have been read.
 
 
-                FITSUtil::MatchType<S> outputType;
-                // user expects 1 based indexing. If 0 based indices are supplied,
-                // add one to both ranges.                
-                if (first == 0)
-                {
-                        first +=1;
-                        last = std::min(static_cast<size_t>(rows()),last+1);       
-                }
-
-                last  = std::min((size_t)rows(),last);
-
-                if (last < first) throw RangeError(name());
-                long nelements(last - first + 1);
+                long nelements = numberOfElements(first,last);
                 
-                try 
+                if ( ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
                 {
                         // fails if user requested outputType different from input type.
 
-                        ColumnData<S>& col = dynamic_cast<ColumnData<S>&>(*this);
-                        if (!isRead()) col.readColumnData(first,nelements,nullValue);                                  
-                        FITSUtil::fill(vals,col.data(),first,last);
+                        
+                        if (!isRead()) col->readColumnData(first,nelements,nullValue);                                  
+                        FITSUtil::fill(vals,col->data(),first,last);
 
                 }
-                catch (std::bad_cast)
+                else
                 {
+                        FITSUtil::MatchType<S> outputType;
                         if ( outputType() == type() ) 
                         { 
                                 // in this case user tried to read vector data from scalar,
@@ -264,40 +229,18 @@ namespace CCfits
                             // the InvalidDataType exception should not be possible.
                             if  ( type() == Tdouble )
 		            {
-                                    double nullVal(0);
-                                    if (nullValue) nullVal = static_cast<double>(*nullValue); 
                                     ColumnData<double>& col 
                                               = dynamic_cast<ColumnData<double>&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
+                                    if (!isRead()) col.readColumnData(first,nelements);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
                             }
 		            else if (type() == Tfloat)
 		            {
-                                    float nullVal(0);
-                                    if (nullValue) nullVal = static_cast<float>(*nullValue); 
                                     ColumnData<float>& col 
                                             = dynamic_cast<ColumnData<float>&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
+                                    if (!isRead()) col.readColumnData(first,nelements);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
                             }
-		            else if (type() == Tcomplex)
-		            {
-                                    complex<float> nullVal;
-                                    if (nullValue) nullVal = static_cast<float>(*nullValue); 
-                                    ColumnData<complex<float> >& col 
-                                        = dynamic_cast<ColumnData<complex<float> >&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                    
-                                    FITSUtil::fill(vals,col.data(),first,last);
-		            }
-		            else if (type() == Tdblcomplex)
-		            {
-                                    complex<double> nullVal;
-                                    if (nullValue) nullVal = static_cast<double>(*nullValue); 
-                                    ColumnData<complex<double> >& col 
-                                          = dynamic_cast<ColumnData<complex<double> >&>(*this);
-                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                    
-                                    FITSUtil::fill(vals,col.data(),first,last);
-		            }
 		            else if (type() == Tint)
 		            {
                                     int nullVal(0);
@@ -391,22 +334,22 @@ namespace CCfits
         // get a single row from a vector column. There's no default row number, must
         // be specified.
         template <typename S>
-        void Column::read(std::valarray<S>& vals, size_t row) throw (FitsException&)
+        void Column::read(std::valarray<S>& vals, long row) 
         {
                 read(vals,row,static_cast<S*>(0));
         }
 
 
         template <typename S>
-        void Column::read(std::valarray<S>& vals, size_t row, S* nullValue) throw (FitsException&)
+        void Column::read(std::valarray<S>& vals, long row, S* nullValue) 
         {
                 // isRead() returns true if the data were read in the ctor.
                 
-                try 
+                if ( ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
                         // fails if user requested outputType different from input type.
 
-                        ColumnVectorData<S>& col = dynamic_cast<ColumnVectorData<S>&>(*this);
+                        
 
                         // input and output are both valarrays. Since one should not
                         // be able to call a constructor for a non-numeric valarray type,
@@ -414,10 +357,10 @@ namespace CCfits
                         // is still the vector/scalar possibility and the implicit
                         // conversion request to deal with.
 
-                        if (!isRead()) col.readRow(row,nullValue);
-                        FITSUtil::fill(vals,col.data(row));
+                        if (!isRead()) col->readRow(row,nullValue);
+                        FITSUtil::fill(vals,col->data(row));
                 }
-                catch (std::bad_cast)
+                else
                 {
                         FITSUtil::MatchType<S> outputType;
                         if ( outputType() == type() ) 
@@ -441,41 +384,19 @@ namespace CCfits
                             // the InvalidDataType exception should not be possible.
                             if  ( type() == Tdouble || type() == VTdouble )
 		            {
-                                    double nullVal(0);
-                                    if (nullValue) nullVal = static_cast<double>(*nullValue); 
                                     ColumnVectorData<double>& col 
                                               = dynamic_cast<ColumnVectorData<double>&>(*this);
-                                    if (!isRead()) col.readRow(row,&nullVal);                                  
+                                    if (!isRead()) col.readRow(row);                                  
                                     FITSUtil::fill(vals,col.data(row));
 
                             }
 		            else if (type() == Tfloat  || type() == VTfloat )
-		            {
-                                    float nullVal(0);
-                                    if (nullValue) nullVal = static_cast<float>(*nullValue); 
+		            { 
                                     ColumnVectorData<float>& col 
                                           = dynamic_cast<ColumnVectorData<float>&>(*this);
-                                    if (!isRead()) col.readRow(row,&nullVal); 
+                                    if (!isRead()) col.readRow(row); 
                                     FITSUtil::fill(vals,col.data(row));
                             }
-		            else if (type() == Tcomplex  || type() == VTcomplex  )
-		            {
-                                    complex<float> nullVal;
-                                    if (nullValue) nullVal = static_cast<float>(*nullValue); 
-                                    ColumnVectorData<complex<float> >& col 
-                                    = dynamic_cast<ColumnVectorData<complex<float> >&>(*this);
-                                    if (!isRead()) col.readRow(row,&nullVal); 
-                                    FITSUtil::fill(vals,col.data(row));
-		            }
-		            else if (type() == Tdblcomplex  || type() == VTdblcomplex )
-		            {
-                                    complex<double> nullVal;
-                                    if (nullValue) nullVal = static_cast<double>(*nullValue); 
-                                    ColumnVectorData<complex<double> >& col 
-                                      = dynamic_cast<ColumnVectorData<complex<double> >&>(*this);
-                                    if (!isRead()) col.readRow(row,&nullVal); 
-                                    FITSUtil::fill(vals,col.data(row));
-		            }
 		            else if (type() == Tint  || type() == VTint )
 		            {
                                     int nullVal(0);
@@ -568,48 +489,33 @@ namespace CCfits
         }
 
         template <typename S>
-        void Column::read(std::vector<std::valarray<S> >& vals, 
-                        size_t first, size_t last)  throw (FitsException&)
+        void Column::readArrays(std::vector<std::valarray<S> >& vals, long first, long last)  
         {
-                read(vals,first,last,static_cast<S*>(0));
+                readArrays(vals,first,last,static_cast<S*>(0));
         }
 
         template <typename S>
-        void Column::read(std::vector<std::valarray<S> >& vals, 
-                        size_t first, size_t last, S* nullValue)  throw (FitsException&)
+        void Column::readArrays(std::vector<std::valarray<S> >& vals, 
+                                long first, long last, S* nullValue)
         {
 
                 // again, can only call this if the entire column has been read from disk.
                 // user expects 1 based indexing. If 0 based indices are supplied,
                 // add one to both ranges.
-                if (first == 0)
-                {
-                        first +=1;
-                        last = std::min(static_cast<size_t>(rows()),last+1);       
-                }
-
-                last  = std::min((size_t)rows(),last);
-
-                int range = last-first+1;
-                if (range < 0) throw RangeError(name());
+                long range = numberOfElements(first,last);
 
                 vals.resize(range);
 
 
-                try 
+                if ( ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
-                        ColumnVectorData<S>& col = dynamic_cast<ColumnVectorData<S>&>(*this);
-
-
-                        for (size_t j = 0; j < range; ++j) 
+                        for (int j = 0; j < range; ++j) 
                         {
-                                if (!isRead()) col.readRow(j + first,nullValue);                             
-                                FITSUtil::fill(vals[j],col.data(j+first));
+                                if (!isRead()) col->readRow(j + first,nullValue);                             
+                                FITSUtil::fill(vals[j],col->data(j+first));
                         }
-
-
                 }
-                catch (std::bad_cast)
+                else
                 {
                         FITSUtil::MatchType<S> outputType;
                         if ( outputType() == type() ) 
@@ -622,52 +528,23 @@ namespace CCfits
                         // the InvalidDataType exception should not be possible.
                         try
                         {
-                            // no string case.
                             if  ( type() == Tdouble || type() == VTdouble )
 		            {
-                                    double nullVal(0);
-                                    if (nullValue) nullVal = static_cast<double>(*nullValue); 
                                     ColumnVectorData<double>& col 
                                             = dynamic_cast<ColumnVectorData<double>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
-                                        if (!isRead()) col.readRow(j + first,&nullVal); 
+                                        if (!isRead()) col.readRow(j + first); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
                                     }
                             }
                             else if  ( type() == Tfloat || type() == VTfloat  )
 		            {
-                                    float nullVal(0);
-                                    if (nullValue) nullVal  = static_cast<float>(*nullValue); 
                                     ColumnVectorData<float>& col 
                                             = dynamic_cast<ColumnVectorData<float>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
-                                        if (!isRead()) col.readRow(j + first,&nullVal); 
-                                        FITSUtil::fill(vals[j],col.data(j+first));
-                                    }
-                            }
-                            else if  ( type() == Tcomplex  || type() == VTcomplex  )
-		            {
-                                    complex<float> nullVal(0);
-                                    if (nullValue) nullVal  = static_cast<float>(*nullValue); 
-                                    ColumnVectorData<complex<float> >& col 
-                                       = dynamic_cast<ColumnVectorData<complex<float> >&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
-                                    {
-                                        if (!isRead()) col.readRow(j + first,&nullVal); 
-                                        FITSUtil::fill(vals[j],col.data(j+first));
-                                    }
-                            }
-                            else if  ( type() == Tdblcomplex   || type() == VTdblcomplex)
-		            {
-                                    complex<double> nullVal(0);
-                                    if (nullValue) nullVal  = static_cast<double>(*nullValue); 
-                                    ColumnVectorData<complex<double> >& col 
-                                       = dynamic_cast<ColumnVectorData<complex<double> >&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
-                                    {
-                                        if (!isRead()) col.readRow(j + first,&nullVal); 
+                                        if (!isRead()) col.readRow(j + first); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
                                     }
                             }
@@ -677,7 +554,7 @@ namespace CCfits
                                     if (nullValue) nullVal  = static_cast<int>(*nullValue); 
                                     ColumnVectorData<int>& col  
                                             = dynamic_cast<ColumnVectorData<int>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -689,7 +566,7 @@ namespace CCfits
                                     if (nullValue) nullVal  = static_cast<short>(*nullValue); 
                                     ColumnVectorData<short>& col 
                                             = dynamic_cast<ColumnVectorData<short>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -701,7 +578,7 @@ namespace CCfits
                                     if (nullValue) nullVal  = static_cast<long>(*nullValue); 
                                     ColumnVectorData<long>& col 
                                             = dynamic_cast<ColumnVectorData<long>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -713,7 +590,7 @@ namespace CCfits
                                     if (nullValue) nullVal   = static_cast<bool>(*nullValue); 
                                     ColumnVectorData<bool>& col 
                                             = dynamic_cast<ColumnVectorData<bool>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -727,7 +604,7 @@ namespace CCfits
                                                 = static_cast<unsigned char>(*nullValue); 
                                     ColumnVectorData<unsigned char>& col 
                                            = dynamic_cast<ColumnVectorData<unsigned char>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -740,7 +617,7 @@ namespace CCfits
                                                 = static_cast<unsigned short>(*nullValue); 
                                     ColumnVectorData<unsigned short>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned short>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -753,7 +630,7 @@ namespace CCfits
                                                 = static_cast<unsigned int>(*nullValue); 
                                     ColumnVectorData<unsigned int>& col 
                                             = dynamic_cast<ColumnVectorData<unsigned int>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -766,7 +643,7 @@ namespace CCfits
                                                 = static_cast<unsigned long>(*nullValue); 
                                     ColumnVectorData<unsigned long>& col 
                                           = dynamic_cast<ColumnVectorData<unsigned long>&>(*this);
-                                    for (size_t j = 0; j < range; ++j) 
+                                    for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
                                         FITSUtil::fill(vals[j],col.data(j+first));
@@ -823,12 +700,11 @@ namespace CCfits
                 
                 
                 firstRow = std::max(firstRow,static_cast<long>(1));
-                try
+                if (ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
                 {
-                        ColumnData<S>& col = dynamic_cast<ColumnData<S>&>(*this);
-                        col.writeData(indata,firstRow,nullValue);
+                        col->writeData(indata,firstRow,nullValue);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         // alright, input data type has to be rewritten as output
                         // data type.
@@ -844,43 +720,19 @@ namespace CCfits
                         {
                             if  ( type() == Tdouble )
 		            {
-                                double nullVal(0);
-                                if (nullValue) nullVal = static_cast<double>(*nullValue);
                                 ColumnData<double>& col 
                                         = dynamic_cast<ColumnData<double>&>(*this);
                                 std::vector<double> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
+                                col.writeData(__tmp,firstRow);
                             }
                             else if  ( type() == Tfloat )
 		            {
-                                float nullVal(0);
-                                if (nullValue) nullVal = static_cast<float>(*nullValue); 
                                 ColumnData<float>& col 
                                         = dynamic_cast<ColumnData<float>&>(*this);
                                 std::vector<float> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
-                            }
-                            else if  ( type() == Tcomplex )
-		            {
-                                complex<float> nullVal;
-                                if (nullValue) nullVal = static_cast<float>(*nullValue);
-                                ColumnData<complex<float> >& col 
-                                      = dynamic_cast<ColumnData<complex<float> >&>(*this);
-                                std::vector<complex<float> > __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
-                            }
-                            else if  ( type() == Tdblcomplex )
-		            {
-                                complex<double> nullVal;
-                                if (nullValue) nullVal = static_cast<double>(*nullValue);
-                                ColumnData<complex<double> >& col 
-                                      = dynamic_cast<ColumnData<complex<double> >&>(*this);
-                                std::vector<complex<double> > __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal); 
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
+                                col.writeData(__tmp,firstRow);
                             }
                             else if  ( type() == Tint )
 		            {
@@ -889,7 +741,7 @@ namespace CCfits
                                 ColumnData<int>& col  
                                         = dynamic_cast<ColumnData<int>&>(*this);
                                 std::vector<int> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tshort )
@@ -899,7 +751,7 @@ namespace CCfits
                                 ColumnData<short>& col 
                                         = dynamic_cast<ColumnData<short>&>(*this);
                                 std::vector<short> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tlong )
@@ -909,7 +761,7 @@ namespace CCfits
                                 ColumnData<long>& col 
                                         = dynamic_cast<ColumnData<long>&>(*this);
                                 std::vector<long> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tlogical )
@@ -919,7 +771,7 @@ namespace CCfits
                                 ColumnData<bool>& col 
                                         = dynamic_cast<ColumnData<bool>&>(*this);
                                 std::vector<bool> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tbyte )
@@ -929,7 +781,7 @@ namespace CCfits
                                 ColumnData<unsigned char>& col 
                                         = dynamic_cast<ColumnData<unsigned char>&>(*this);
                                 std::vector<unsigned char> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }                            
                             else if  ( type() == Tushort )
@@ -939,7 +791,7 @@ namespace CCfits
                                 ColumnData<unsigned short>& col 
                                         = dynamic_cast<ColumnData<unsigned short>&>(*this);
                                 std::vector<unsigned short> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tuint )
@@ -949,7 +801,7 @@ namespace CCfits
                                 ColumnData<unsigned int>& col 
                                         = dynamic_cast<ColumnData<unsigned int>&>(*this);
                                 std::vector<unsigned int> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
                             else if  ( type() == Tulong )
@@ -959,7 +811,7 @@ namespace CCfits
                                 ColumnData<unsigned long>& col 
                                         = dynamic_cast<ColumnData<unsigned long>&>(*this);
                                 std::vector<unsigned long> __tmp;
-                                FITSUtil::fill(__tmp,indata,0,indata.size());
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             } 
                             else
@@ -995,16 +847,16 @@ namespace CCfits
         void Column::write (const std::valarray<S>& indata, const std::vector<long>& vectorLengths,  
                                 long firstRow)
         {
-                // downcast and call.
+                // variable length arrays written from an input valarray.
+                // does not allow NULL value.
                 
                 using std::valarray;
                 firstRow = std::max(firstRow,static_cast<long>(1));
-                try
+                if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
-                        ColumnData<S>& col = dynamic_cast<ColumnData<S>&>(*this);
-                        col.writeData(indata,vectorLengths,firstRow);
+                        col->writeData(indata,vectorLengths,firstRow);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         // alright, input data type has to be rewritten as output
                         // data type.
@@ -1020,96 +872,80 @@ namespace CCfits
                         {
                             if  ( type() == Tdouble )
 		            {
-                                ColumnData<double>& col 
-                                        = dynamic_cast<ColumnData<double>&>(*this);
+                                ColumnVectorData<double>& col 
+                                        = dynamic_cast<ColumnVectorData<double>&>(*this);
                                 valarray<double> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tfloat )
 		            {
-                                ColumnData<float>& col 
-                                        = dynamic_cast<ColumnData<float>&>(*this);
+                                ColumnVectorData<float>& col 
+                                        = dynamic_cast<ColumnVectorData<float>&>(*this);
                                 valarray<float> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
-                            else if  ( type() == Tcomplex )
-		            {
-                                ColumnData<complex<float> >& col 
-                                      = dynamic_cast<ColumnData<complex<float> >&>(*this);
-                                valarray<complex<float> > __tmp;
-                                FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,vectorLengths,firstRow);
-                            }
-                            else if  ( type() == Tdblcomplex )
-		            {
-                                ColumnData<complex<double> >& col 
-                                      = dynamic_cast<ColumnData<complex<double> >&>(*this);
-                                valarray<complex<double> > __tmp;
-                                FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,vectorLengths,firstRow); 
-                            }
                             else if  ( type() == Tint )
 		            {
-                                ColumnData<int>& col  
-                                        = dynamic_cast<ColumnData<int>&>(*this);
+                                ColumnVectorData<int>& col  
+                                        = dynamic_cast<ColumnVectorData<int>&>(*this);
                                 valarray<int> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tshort )
 		            {
-                                ColumnData<short>& col 
-                                        = dynamic_cast<ColumnData<short>&>(*this);
+                                ColumnVectorData<short>& col 
+                                        = dynamic_cast<ColumnVectorData<short>&>(*this);
                                 valarray<short> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tlong )
 		            {
-                                ColumnData<long>& col 
-                                        = dynamic_cast<ColumnData<long>&>(*this);
+                                ColumnVectorData<long>& col 
+                                        = dynamic_cast<ColumnVectorData<long>&>(*this);
                                 valarray<long> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tlogical )
 		            {
-                                ColumnData<bool>& col 
-                                        = dynamic_cast<ColumnData<bool>&>(*this);
+                                ColumnVectorData<bool>& col 
+                                        = dynamic_cast<ColumnVectorData<bool>&>(*this);
                                 valarray<bool> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tbyte )
 		            {
-                                ColumnData<unsigned char>& col 
-                                        = dynamic_cast<ColumnData<unsigned char>&>(*this);
+                                ColumnVectorData<unsigned char>& col 
+                                        = dynamic_cast<ColumnVectorData<unsigned char>&>(*this);
                                 valarray<unsigned char> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,firstRow);
                             }                            
                             else if  ( type() == Tushort )
 		            {
-                                ColumnData<unsigned short>& col 
-                                        = dynamic_cast<ColumnData<unsigned short>&>(*this);
+                                ColumnVectorData<unsigned short>& col 
+                                        = dynamic_cast<ColumnVectorData<unsigned short>&>(*this);
                                 valarray<unsigned short> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tuint )
 		            {
-                                ColumnData<unsigned int>& col 
-                                        = dynamic_cast<ColumnData<unsigned int>&>(*this);
+                                ColumnVectorData<unsigned int>& col 
+                                        = dynamic_cast<ColumnVectorData<unsigned int>&>(*this);
                                 valarray<unsigned int> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
                             else if  ( type() == Tulong )
 		            {
-                                ColumnData<unsigned long>& col 
-                                        = dynamic_cast<ColumnData<unsigned long>&>(*this);
+                                ColumnVectorData<unsigned long>& col 
+                                        = dynamic_cast<ColumnVectorData<unsigned long>&>(*this);
                                 valarray<unsigned long> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
@@ -1168,16 +1004,16 @@ namespace CCfits
         void Column::write (const std::valarray<S>& indata, long nRows, long firstRow,
                                 S* nullValue)
         {
-                // primary implementation,  nullValue  
+                // primary implementation,  nullValue: write fixed-length data
+                // to rows of a vector column.  
                 if (nRows <= 0) throw InvalidNumberOfRows(nRows);
 
                 firstRow = std::max(firstRow,static_cast<long>(1));
-                try
+                if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
-                        ColumnVectorData<S>& col = dynamic_cast<ColumnVectorData<S>&>(*this);
-                        col.writeData(indata,nRows,firstRow,nullValue);
+                        col->writeData(indata,nRows,firstRow,nullValue);
                 }
-                catch (std::bad_cast)
+                else 
                 {
                         // alright, input data type has to be rewritten as output
                         // data type.
@@ -1194,43 +1030,20 @@ namespace CCfits
                         {
                             if  ( type() == Tdouble )
 		            {
-                                double nullVal(0);
-                                if (nullValue) nullVal = static_cast<double>(*nullValue); 
                                 ColumnVectorData<double>& col 
                                         = dynamic_cast<ColumnVectorData<double>&>(*this);
                                 std::valarray<double> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow);
                             }
                             else if  ( type() == Tfloat )
 		            {
-                                float nullVal(0);
-                                if (nullValue) nullVal = static_cast<float>(*nullValue); 
                                 ColumnVectorData<float>& col 
                                         = dynamic_cast<ColumnVectorData<float>&>(*this);
                                 std::valarray<float> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow);
                             }
-                            else if  ( type() == Tcomplex )
-		            {
-                                complex<float> nullVal;
-                                if (nullValue) nullVal = static_cast<float>(*nullValue);
-                                ColumnVectorData<complex<float> >& col 
-                                      = dynamic_cast<ColumnVectorData<complex<float> >&>(*this);
-                                std::valarray<complex<float> > __tmp;
-                                FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
-                            }
-                            else if  ( type() == Tdblcomplex )
-		            {
-                                complex<double> nullVal;
-                                if (nullValue) nullVal = static_cast<double>(*nullValue);
-                                ColumnVectorData<complex<double> >& col 
-                                      = dynamic_cast<ColumnVectorData<complex<double> >&>(*this);
-                                std::valarray<complex<double> > __tmp;
-                                FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);                            }
                             else if  ( type() == Tint )
 		            {
                                 int nullVal(0);
@@ -1342,14 +1155,14 @@ namespace CCfits
         
                
         template <typename S>
-        void Column::write (const std::vector<std::valarray<S> >& indata, long firstRow)
+        void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow)
         {
                 // vector<valarray>, no null value. 
-                write(indata,firstRow,static_cast<S*>(0));
+                writeArrays(indata,firstRow,static_cast<S*>(0));
         } 
         
         template <typename S>
-        void Column::write (const std::vector<std::valarray<S> >& indata, long firstRow,
+        void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow,
                                         S* nullValue)
         {
                 // vector<valarray>, null value. primary
@@ -1358,12 +1171,11 @@ namespace CCfits
                 using std::valarray;
                 using std::vector;
                 firstRow = std::max(firstRow,static_cast<long>(1));
-                try
+                if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
-                        ColumnVectorData<S>& col = dynamic_cast<ColumnVectorData<S>&>(*this);
-                        col.writeData(indata,firstRow,nullValue);
+                         col->writeData(indata,firstRow,nullValue);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         // alright, input data type has to be rewritten as output
                         // data type.
@@ -1381,52 +1193,22 @@ namespace CCfits
                                 ColumnVectorData<double>& col 
                                         = dynamic_cast<ColumnVectorData<double>&>(*this);
                                 vector<valarray<double> > __tmp(n);
-                                double nullVal(0);
-                                if (nullValue) nullVal = static_cast<double>(*nullValue);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow);
                             }
                             else if  ( type() == Tfloat )
 		            {
                                 ColumnVectorData<float>& col 
                                         = dynamic_cast<ColumnVectorData<float>&>(*this);
                                 vector<valarray<float> > __tmp(n);
-                                float nullVal(0);
-                                if (nullValue) nullVal = static_cast<float>(*nullValue);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
-                            }
-                            else if  ( type() == Tcomplex )
-		            {
-                                ColumnVectorData<complex<float> >& col 
-                                      = dynamic_cast<ColumnVectorData<complex<float> >&>(*this);
-                                vector<valarray<complex<float> > > __tmp(n);
-                                complex<float> nullVal;
-                                if (nullValue) nullVal = static_cast<complex<float> >(*nullValue);
-                                for (size_t i = 0; i < n; ++i)
-                                {
-                                        FITSUtil::fill(__tmp[i],indata[i]);
-                                }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
-                            }
-                            else if  ( type() == Tdblcomplex )
-		            {
-                                ColumnVectorData<complex<double> >& col 
-                                   = dynamic_cast<ColumnVectorData<complex<double> >&>(*this);
-                                vector<valarray<complex<double> > > __tmp(n);
-                                complex<double> nullVal;
-                                if (nullValue) nullVal = static_cast<complex<double> >(*nullValue);
-                                for (size_t i = 0; i < n; ++i)
-                                {
-                                        FITSUtil::fill(__tmp[i],indata[i]);
-                                }                                
-                                col.writeData(__tmp,firstRow,&nullVal);                            
+                                col.writeData(__tmp,firstRow);
                             }
                             else if  ( type() == Tint )
 		            {
@@ -1544,17 +1326,17 @@ namespace CCfits
         template <typename T>
         void Column::addNullValue(T nullVal)
         {
+                parent()->makeThisCurrent();
                 int status(0);
 #ifdef HAVE_STRSTREAM
                 std::ostrstream keyName;
                 keyName << "TNULL" << index();
-                char* nullKey(const_cast<char*>(keyName.str()));
+                char* nullKey = const_cast<char*>(keyName.str());
 #else
                 std::ostringstream keyName;          
                 keyName << "TNULL" << index();
-                char* nullKey(const_cast<char*>(keyName.str().c_str()));
+                char* nullKey = const_cast<char*>(keyName.str().c_str());
 #endif
-                
                 
              
                 FITSUtil::MatchType<T> type;
@@ -1569,12 +1351,12 @@ namespace CCfits
                 if (fits_set_hdustruc(fitsPointer(),&status)) throw FitsError(status);   
                 
                 
-                try
+                if (ColumnVectorData<T>* col = dynamic_cast<ColumnVectorData<T>*>(this))
                 {
-                        ColumnVectorData<T>& col = dynamic_cast<ColumnVectorData<T>&>(*this);
-                        col.nullValue(nullVal);
+                        
+                        col->nullValue(nullVal);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         try
                         {

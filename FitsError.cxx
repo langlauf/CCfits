@@ -1,13 +1,20 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#include <cassert>
+#endif
 
 
 // FITS
@@ -38,16 +45,6 @@ namespace CCfits {
   std::cerr << message << "\n";
   }
 
-  // Class CCfits::FitsFatal 
-
-  FitsFatal::FitsFatal (const string& diag)
-  {
-     std::cerr << "*** CCfits Fatal Error: " << diag 
-               << " please report this to xanprob@olegacy.gsfc.nasa.gov\n";
-     std::terminate();
-  }
-
-
   // Class CCfits::FitsException 
 
   FitsException::FitsException (const string& msg, bool& silent)
@@ -60,6 +57,22 @@ namespace CCfits {
           // away after the exception completes.
           silent = false;
   }
+  }
+
+
+  // Class CCfits::FitsFatal 
+
+  FitsFatal::FitsFatal (const string& diag)
+  {
+     std::cerr << "*** CCfits Fatal Error: " << diag 
+               << " please report this to xanprob@olegacy.gsfc.nasa.gov\n";
+
+#ifdef TERMINATE_DEFECT
+     // terminate() is not there as documented
+	 assert ( false );
+#else
+	 std::terminate();
+#endif
   }
 
 

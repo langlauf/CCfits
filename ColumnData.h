@@ -1,35 +1,44 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef COLUMNDATA_H
 #define COLUMNDATA_H 1
 
-#include "fitsio.h"
-
-#include<complex>
-#include <memory>
+#include "CCfits.h"
 
 // vector
 #include <vector>
 // Column
 #include "Column.h"
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
+
+#include <complex>
+#include <memory>
+
 #include "FITSUtil.h"
 
 using std::complex;
+#include <FITS.h>
 
 
 namespace CCfits {
 
 
 
-  template <class T>
+
+
+  template <typename T>
   class ColumnData : public Column  //## Inherits: <unnamed>%385E51565EE8
   {
 
@@ -38,12 +47,16 @@ namespace CCfits {
 
         ColumnData (Table* p = 0, T nullVal = FITSUtil::FitsNullValue<T>()());
 
-        ColumnData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt = 1, long w = 1, const string &comment = "", T nullVal = FITSUtil::FitsNullValue<T>()()) throw (FitsException&);
+        ColumnData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt = 1, long w = 1, const string &comment = "", T nullVal = FITSUtil::FitsNullValue<T>()());
 
         ~ColumnData();
 
 
+#ifdef CLONE_DEFECT
+        virtual Column* clone () const;
+#else
         virtual ColumnData<T>* clone () const;
+#endif
 
         virtual void readData (long firstRow, long nelements, long firstElem = 1);
 
@@ -123,94 +136,94 @@ namespace CCfits {
   // Parameterized Class CCfits::ColumnData 
 
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::readData (long firstRow, long nelements, long firstElem)
   {
    readColumnData(firstRow,nelements,static_cast<T*>(0));
   }
 
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::nullValue () const
   {
     return m_nullValue;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::nullValue (T value)
   {
     m_nullValue = value;
   }
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::minLegalValue () const
   {
     return m_minLegalValue;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::minLegalValue (T value)
   {
     m_minLegalValue = value;
   }
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::maxLegalValue () const
   {
     return m_maxLegalValue;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::maxLegalValue (T value)
   {
     m_maxLegalValue = value;
   }
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::minDataValue () const
   {
     return m_minDataValue;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::minDataValue (T value)
   {
     m_minDataValue = value;
   }
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::maxDataValue () const
   {
     return m_maxDataValue;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::maxDataValue (T value)
   {
     m_maxDataValue = value;
   }
 
 
-  template <class T>
+  template <typename T>
   inline const std::vector<T>& ColumnData<T>::data () const
   {
     return m_data;
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::setData (const std::vector<T>& value)
   {
     m_data = value;
   }
 
-  template <class T>
+  template <typename T>
   inline const T ColumnData<T>::data (int i) const
   {
     // return data stored in the ith row, which is in the i-1 th location in the array.
     return m_data[i - 1];
   }
 
-  template <class T>
+  template <typename T>
   inline void ColumnData<T>::data (int i, T value)
   {
     // assign data to i-1 th location in the array, representing the ith row.
@@ -219,13 +232,7 @@ namespace CCfits {
 
   // Parameterized Class CCfits::ColumnData 
 
-
-
-
-
-
-
-  template <class T>
+  template <typename T>
   ColumnData<T>::ColumnData(const ColumnData<T> &right)
       :Column(right),
        m_nullValue(right.m_nullValue),
@@ -237,7 +244,7 @@ namespace CCfits {
   {
   }
 
-  template <class T>
+  template <typename T>
   ColumnData<T>::ColumnData (Table* p, T nullVal)
   : Column(p), m_nullValue(nullVal),
        m_minLegalValue(),
@@ -248,8 +255,8 @@ namespace CCfits {
   {
   }
 
-  template <class T>
-  ColumnData<T>::ColumnData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt, long w, const string &comment, T nullVal) throw (FitsException&)
+  template <typename T>
+  ColumnData<T>::ColumnData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt, long w, const string &comment, T nullVal)
         : Column(columnIndex,columnName,type,format,unit,p,rpt,w,comment), 
         m_nullValue(nullVal), 
         m_minLegalValue(),
@@ -262,14 +269,14 @@ namespace CCfits {
   }
 
 
-  template <class T>
+  template <typename T>
   ColumnData<T>::~ColumnData()
   {
   }
 
 
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::readColumnData (long firstRow, long nelements, T* nullValue)
   {
   if ( rows() < nelements ) 
@@ -296,7 +303,7 @@ namespace CCfits {
    if (nelements == rows()) isRead(true); 
   }
 
-  template <class T>
+  template <typename T>
   bool ColumnData<T>::compare (const Column &right) const
   {
   if ( !Column::compare(right) ) return false;
@@ -310,13 +317,17 @@ namespace CCfits {
   return true;
   }
 
-  template <class T>
+  template <typename T>
+#ifdef CLONE_DEFECT
+  Column *       ColumnData<T>::clone () const
+#else
   ColumnData<T>* ColumnData<T>::clone () const
-  {
-  return new ColumnData<T>(*this);
+#endif
+{
+        return new ColumnData<T>(*this);
   }
 
-  template <class T>
+  template <typename T>
   std::ostream& ColumnData<T>::put (std::ostream& s) const
   {
   Column::put(s);
@@ -336,7 +347,7 @@ namespace CCfits {
     return s;
   }
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::writeData (T* indata, long nRows, long firstRow, T* nullValue)
   {
   
@@ -351,11 +362,10 @@ namespace CCfits {
           
           if (nullValue) m_nullValue = *nullValue;
 
-          if (elementsToWrite > static_cast<long>(m_data.size())) 
+          if (elementsToWrite != static_cast<long>(m_data.size())) 
           {
 
                   m_data.resize(elementsToWrite,T());
-                  std::copy(__tmp.begin(),__tmp.end(),m_data.begin());
           }
 
           std::copy(&indata[0],&indata[nRows],m_data.begin()+firstRow-1);
@@ -381,21 +391,20 @@ namespace CCfits {
 
   }
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::writeData (const std::vector<T>& indata, long firstRow, T* nullValue)
   {
-        FITSUtil::Carray<T> convert;
-        FITSUtil::auto_array_ptr<T> pcolData(convert(indata));
-        T* columnData(pcolData.get());
-        
+        FITSUtil::CVarray<T> convert;
+        FITSUtil::auto_array_ptr<T> pcolData (convert(indata));
+        T* columnData  = pcolData.get();
         writeData(columnData,indata.size(),firstRow,nullValue);
   }
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::insertRows (long first, long number)
   {
     FITSUtil::FitsNullValue<T> blank;
-    std::vector<T>::iterator in;
+    typename std::vector<T>::iterator in;
     if (first !=0) 
     {
             in = m_data.begin()+first;
@@ -409,13 +418,13 @@ namespace CCfits {
     m_data.insert(in,number,blank());
   }
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::deleteRows (long first, long number)
   {
     m_data.erase(m_data.begin()+first-1,m_data.begin()+first-1+number);
   }
 
-  template <class T>
+  template <typename T>
   void ColumnData<T>::setDataLimits (T* limits)
   {
     m_minLegalValue = limits[0];
@@ -428,35 +437,311 @@ namespace CCfits {
   
   // all functions that operate on strings or complex data that call cfitsio 
   // need to be specialized.
-template <>
-void ColumnData<complex<float> >::setDataLimits (complex<float>* limits);
-  
-template <>
-void ColumnData<complex<double> >::setDataLimits (complex<double>* limits);
-  
 
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
 template <>
+inline void ColumnData<complex<float> >::setDataLimits (complex<float>* limits)
+       {
+                m_minLegalValue = limits[0];
+                m_maxLegalValue = limits[1];
+                m_minDataValue =  limits[2];
+                m_maxDataValue =  limits[3];
+        }
+#else
+template <>
+  void ColumnData<complex<float> >::setDataLimits (complex<float>* limits);
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+template <>
+inline void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
+        {
+                m_minLegalValue = limits[0];
+                m_maxLegalValue = limits[1];
+                m_minDataValue =  limits[2];
+                m_maxDataValue =  limits[3];
+        }
+#else
+ template <>
+  void ColumnData<complex<double> >::setDataLimits (complex<double>* limits);
+#endif
+
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template <>
+        inline void ColumnData<string>::readColumnData (long firstRow, 
+                                        long nelements, 
+                                        string* nullValue)
+        {
+          int status = 0;
+
+           int   anynul = 0;
+           char** array = new char*[nelements]; 
+
+           int j(0);
+           for ( ; j < nelements; ++j)
+           {
+               array[j] = new char[width() + 1];
+           }
+
+           char* nulval = 0;
+           if (nullValue) 
+           {
+                   nulval = const_cast<char*>(nullValue->c_str());
+           }
+           else
+           {
+                nulval = new char;
+                *nulval = '\0';       
+           }
+
+
+          try
+          {
+                makeHDUCurrent();
+                if (fits_read_col_str(fitsPointer(),index(), firstRow,1,nelements,
+                  nulval,array, &anynul,&status) ) throw FitsError(status);
+          }
+          catch (FitsError)
+          {
+                // ugly. but better than leaking resources.       
+                for (int jj = 0; jj < nelements; ++jj)
+                {
+                        delete [] array[jj];
+                }     
+
+                delete [] array; 
+                delete nulval;
+                throw; 
+          }
+
+
+          if (m_data.size() == 0) setData(std::vector<string>(rows(),string(nulval)));
+
+          // the 'first -1 ' converts to zero based indexing.
+
+          for ( j = 0; j < nelements; j++)
+          {
+                m_data[j - 1 + firstRow] = string(array[j]);
+          }
+
+          for ( j = 0; j < nelements; j++)
+          {
+                delete [] array[j];
+          }     
+
+          delete [] array; 
+          delete nulval; 
+
+        }
+#else 
+ template <>
 void ColumnData<string>::readColumnData (long firstRow, long nelements, string* nullValue);
-
-template <>
-void ColumnData<complex<float> >::readColumnData (long firstRow, long nelements,complex<float>* nullValue);
+#endif
 
 
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template <>
+        inline void ColumnData<complex<float> >::readColumnData (long firstRow,
+                                                long nelements,
+                                                complex<float>* nullValue)
+        {
+          // specialization for ColumnData<string> 
+          int status(0);
+          int   anynul(0);
+          FITSUtil::auto_array_ptr<float> pArray(new float[nelements*2]); 
+          float* array = pArray.get();
+          float nulval(0);
+          makeHDUCurrent();
+
+
+          if (fits_read_col_cmp(fitsPointer(),index(), firstRow,1,nelements,
+                  nulval,array, &anynul,&status) ) throw FitsError(status);
+
+
+          if (m_data.size() == 0) m_data.resize(rows());
+
+          // the 'j -1 ' converts to zero based indexing.
+
+          for (int j = firstRow; j < nelements; ++j)
+          {
+                
+                m_data[j - 1] = std::complex<float>(array[2*j],array[2*j+1]);
+          }
+
+        }
+#else
+template <> 
+void ColumnData<complex<float> >::readColumnData (long firstRow, long nelements,complex<float>* nullValue );
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template <>
+        inline void ColumnData<complex<double> >::readColumnData (long firstRow, 
+                                                        long nelements,
+                                                        complex<double>* nullValue)
+        {
+          // specialization for ColumnData<complex<double> > 
+           int status(0);
+           int   anynul(0);
+           FITSUtil::auto_array_ptr<double> pArray(new double[nelements*2]); 
+           double* array = pArray.get();
+           double nulval(0);
+           makeHDUCurrent();
+
+
+          if (fits_read_col_dblcmp(fitsPointer(), index(), firstRow,1,nelements,
+                  nulval,array, &anynul,&status) ) throw FitsError(status);
+
+
+
+
+          if (m_data.size() == 0) setData(std::vector<complex<double> >(rows(),nulval));
+
+          // the 'j -1 ' converts to zero based indexing.
+
+          for (int j = firstRow; j < nelements; j++)
+          {
+                
+                m_data[j - 1] = std::complex<double>(array[2*j],array[2*j+1]);
+          }
+
+        }
+#else
 template <>
 void ColumnData<complex<double> >::readColumnData (long firstRow, long nelements,complex<double>* nullValue);
+#endif
 
+#if SPEC_TEMPLATE_DECL_DEFECT
+  template <>
+  inline void ColumnData<string>::writeData (const std::vector<string>& indata, 
+				      long firstRow, string* nullValue)
+  {
+    int    status=0;
+    char** columnData=FITSUtil::CharArray(indata);
+
+    if ( fits_write_colnull(fitsPointer(), TSTRING, index(), firstRow, 1, indata.size(),
+			    columnData, 0, &status) != 0 )
+      throw FitsError(status);
+    unsigned long elementsToWrite (indata.size() + firstRow - 1);
+    std::vector<string> __tmp(m_data);
+    if (m_data.size() < elementsToWrite) 
+      {
+	m_data.resize(elementsToWrite,"");
+	std::copy(__tmp.begin(),__tmp.end(),m_data.begin());
+      }
+    std::copy(indata.begin(),indata.end(),m_data.begin()+firstRow-1);
+           
+          
+    for (size_t i = 0; i < indata.size(); ++i)
+      {
+	delete [] columnData[i];
+      }
+    delete [] columnData;
+  }  
+#else
 template <>
 void ColumnData<string>::writeData (const std::vector<string>& inData, long firstRow, string* nullValue);
+#endif
 
+#ifdef SPEC_TEMPLATE_DECL_DEFECT
+  template <>
+  inline void ColumnData<complex<float> >::writeData (const std::vector<complex<float> >& inData, 
+					       long firstRow, 
+					       complex<float>* nullValue)
+  {
+    int status(0);
+    int nRows (inData.size());
+    FITSUtil::auto_array_ptr<float> pData(new float[nRows*2]);
+    float* Data = pData.get();
+    std::vector<complex<float> > __tmp(m_data);
+    for (int j = firstRow; j < nRows; ++j)
+      {
+	Data[ 2*j] = inData[j].real();
+	Data[ 2*j + 1] = inData[j].imag();
+      }     
+                
+    try
+      {
+
+	if (fits_write_col_cmp(fitsPointer(), index(), firstRow, 1, 
+			       nRows,Data, &status) != 0) throw FitsError(status);
+	long elementsToWrite(nRows + firstRow -1);
+	if (elementsToWrite > static_cast<long>(m_data.size())) 
+	  {
+
+	    m_data.resize(elementsToWrite);
+	  }
+
+	std::copy(inData.begin(),inData.end(),m_data.begin()+firstRow-1);
+
+	// tell the Table that the number of rows has changed
+	parent()->updateRows();
+      }
+    catch (FitsError) // the only thing that can throw here.
+      {
+	// reset to original content and rethrow the exception.
+	m_data.resize(__tmp.size());
+	m_data = __tmp;
+      }      
+
+  }
+
+#else
 template <>
 void ColumnData<complex<float> >::writeData (const std::vector<complex<float> >& inData, long firstRow, 
                                 complex<float>* nullValue);
+#endif
 
+#ifdef SPEC_TEMPLATE_DECL_DEFECT
+  template <>
+  inline void ColumnData<complex<double> >::writeData (const std::vector<complex<double> >& inData, 
+						long firstRow, 
+						complex<double>* nullValue)
+  {
+    int status(0);
+    int nRows (inData.size());
+    FITSUtil::auto_array_ptr<double> pData(new double[nRows*2]);
+    double* Data = pData.get();
+    std::vector<complex<double> > __tmp(m_data);
+    for (int j = firstRow; j < nRows; ++j)
+      {
+	pData[ 2*j] = inData[j].real();
+	pData[ 2*j + 1] = inData[j].imag();
+      }     
+                
+    try
+      {
+
+	if (fits_write_col_dblcmp(fitsPointer(), index(), firstRow, 1, 
+                                  nRows,Data, &status) != 0) throw FitsError(status);
+	long elementsToWrite(nRows + firstRow -1);
+	if (elementsToWrite > static_cast<long>(m_data.size())) 
+	  {
+
+	    m_data.resize(elementsToWrite);
+	  }
+
+	std::copy(inData.begin(),inData.end(),m_data.begin()+firstRow-1);
+
+	// tell the Table that the number of rows has changed
+	parent()->updateRows();
+      }
+    catch (FitsError) // the only thing that can throw here.
+      {
+	// reset to original content and rethrow the exception.
+	m_data.resize(__tmp.size());
+	m_data = __tmp;
+      }      
+
+  }
+       
+#else
 template <>
 void ColumnData<complex<double> >::writeData (const std::vector<complex<double> >& inData, long firstRow, 
                                 complex<double>* nullValue);
 
-
+#endif
 } // namespace CCfits
 
 

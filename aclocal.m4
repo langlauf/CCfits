@@ -125,6 +125,24 @@ for am_file in <<$1>>; do
 done<<>>dnl>>)
 changequote([,]))])
 
+dnl @synopsis PFK_CXX_LIB_PATH
+dnl
+dnl Sets the output variable CXXLIB_PATH to the path of the Standard C++ 
+dnl library used by the compiler.   Basically if $CXX is found in say
+dnl `/usr/local/bin' then the assumtion is that its library is found in 
+dnl `/usr/local/lib'.
+dnl
+dnl @version $Id: pfk_cxx_lib_path.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
+dnl @author Paul_Kunz@slac.stanford.edu
+dnl
+AC_DEFUN(PFK_CXX_LIB_PATH,
+[ AC_PATH_PROG(pfk_cxx_lib_path, $CXX, $CXX )
+  AC_MSG_CHECKING(standard C++ library path)
+  CXX_LIB_PATH=`dirname $pfk_cxx_lib_path | sed -e "s/bin/lib/"`
+  AC_MSG_RESULT($CXX_LIB_PATH )
+  AC_SUBST(CXX_LIB_PATH)dnl
+])
+
 dnl @synopsis AC_COMPILE_WARNINGS
 dnl
 dnl Set the maximum warning verbosity according to compiler used.
@@ -132,8 +150,8 @@ dnl Currently supports g++ and gcc.
 dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
 dnl configure.in
 dnl
-dnl @version $Id: ac_compile_warnings.m4,v 2.0 2001/05/09 16:50:14 dorman Exp $
-dnl @author Loic Dachary <loic@senga.org>
+dnl @version $Id: ac_compile_warnings.m4,v 3.0 2002/06/18 14:47:53 dorman Exp $
+dnl @author Loic Dachary <loic@senga.org> modified by Ben Dorman (ben.dorman@gsfc.nasa.gov) to add verbose options for SunPro CC
 dnl
 AC_DEFUN([AC_COMPILE_WARNINGS],
 [AC_MSG_CHECKING(maximum warning verbosity option)
@@ -142,6 +160,9 @@ then
   if test "$GXX" = "yes"
   then
     ac_compile_warnings_opt='-Wall'
+  elif test "$CXX" = "CC"
+  then
+    ac_compile_warnings_opt='+w2'
   fi
   CXXFLAGS="$CXXFLAGS $ac_compile_warnings_opt"
   ac_compile_warnings_msg="$ac_compile_warnings_opt for C++"
@@ -161,6 +182,41 @@ unset ac_compile_warnings_msg
 unset ac_compile_warnings_opt
 ])
 
+dnl @synopsis AC_COMPILE_ANSI
+dnl
+dnl Set the ansi flag for  gnu compilers
+dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
+dnl configure.in
+dnl
+dnl @version $Id: ac_compile_ansi.m4,v 3.0 2002/06/18 14:47:52 dorman Exp $
+dnl @author adapted by Ben Dorman (ben.dorman@gsfc.nasa.gov) from AC_COMPILE_WARNINGS originally by Loic Dachary <loic@senga.org>   
+dnl
+AC_DEFUN([AC_COMPILE_ANSI],
+[AC_MSG_CHECKING(ansi C/C++ option)
+if test -n "$CXX"
+then
+  if test "$GXX" = "yes"
+  then
+    ac_compile_ansi_opt='-ansi'
+  fi
+  CXXFLAGS="$CXXFLAGS $ac_compile_ansi_opt"
+  ac_compile_ansi_msg="$ac_compile_ansi_opt for C++"
+fi
+
+if test -n "$CC"
+then
+  if test "$GCC" = "yes"
+  then
+    ac_compile_ansi_opt='-ansi'
+  fi
+  CFLAGS="$CFLAGS $ac_compile_ansi_opt"
+  ac_compile_ansi_msg="$ac_compile_ansi_msg $ac_compile_ansi_opt for C"
+fi
+AC_MSG_RESULT($ac_compile_ansi_msg)
+unset ac_compile_ansi_msg
+unset ac_compile_ansi_opt
+])
+
 dnl @synopsis AC_CHECK_PACKAGE(PACKAGE, FUNCTION, LIBRARY, HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl
 dnl Provides --with-PACKAGE, --with-PACKAGE-include and --with-PACKAGE-libdir
@@ -178,7 +234,7 @@ dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
 dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
 dnl will have to add it to acconfig.h manually
 dnl
-dnl @version $Id: ac_check_package.m4,v 2.0 2001/05/09 16:50:14 dorman Exp $
+dnl @version $Id: ac_check_package.m4,v 3.0 2002/06/18 14:47:50 dorman Exp $
 dnl @author Paul_Kunz@slac.stanford.edu modified ac_caolan_check_package.m4 for all languages
 dnl
 AC_DEFUN([AC_CHECK_PACKAGE],
@@ -238,7 +294,7 @@ dnl @synopsis AC_CXX_HAVE_VALARRAY
 dnl
 dnl If the compiler has valarray<T>, define HAVE_VALARRAY.
 dnl
-dnl @version $Id: ac_cxx_have_valarray.m4,v 2.0 2001/05/09 16:50:14 dorman Exp $
+dnl @version $Id: ac_cxx_have_valarray.m4,v 3.0 2002/06/18 14:47:54 dorman Exp $
 dnl @author Luc Maisonobe
 dnl
 AC_DEFUN([AC_CXX_HAVE_VALARRAY],
@@ -264,7 +320,7 @@ dnl
 dnl If the compiler can prevent names clashes using namespaces, define
 dnl HAVE_NAMESPACES.
 dnl
-dnl @version $Id: ac_cxx_namespaces.m4,v 2.0 2001/05/09 16:50:14 dorman Exp $
+dnl @version $Id: ac_cxx_namespaces.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
 dnl @author Luc Maisonobe
 dnl
 AC_DEFUN([AC_CXX_NAMESPACES],

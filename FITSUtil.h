@@ -1,38 +1,36 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef FITSUTIL_H
 #define FITSUTIL_H 1
 
 #include <iostream>
-#include <complex>
-#include <exception>
 #include "CCfits.h"
 
-
+// complex
+#include <complex>
+// string
+#include <string>
 // functional
 #include <functional>
 // vector
 #include <vector>
 // valarray
 #include <valarray>
-// string
-#include <string>
 // FitsError
 #include "FitsError.h"
-
 #include <typeinfo>
-#include <exception>
-using std::string;
-#include <complex>
-#include <memory>
+
+
 
 
 namespace CCfits {
@@ -222,35 +220,50 @@ which might be of use for other applications.
     with typenames T other than string, which return a T*.
 */                        
                             
-/*! \class Carray
+/*! \class CVarray
 
-        Function object class for returning C arrays from standard library objects used
+        \brief Function object class for returning C arrays from standard library objects used
         in the FITS library implementation. 
         
         There are 3 versions which convert std::vector<T>, std::valarray<T>, 
-        and std::vector<std::valarray<T> > objects to pointers to T.
+        and std::vector<std::valarray<T> > objects to pointers to T, called
+        CVarray, CAarray, and CVAarray.
         
         An alternative function, CharArray, is provided to deal with the special case of
         vector string arrays.
         
 */
 
-/*! \fn  T* Carray<T>::operator () (const std::vector<T>& inArray);
+/*! \fn  T* CVarray<T>::operator () (const std::vector<T>& inArray);
 
                 \brief operator returning C array for use with scalar column data.
 */
 
-/*! \fn  T* Carray<T>::operator () (const std::vector< std::valarray<T> >& inArray);
+/*! \class CAarray
+        \brief  function object returning C array from a valarray. see CVarray for
+        details                            
+*/
+   
+
+                                                                                             
+                                
+/*! \fn  T* CAarray<T>::operator () (const std::valarray<T>& inArray);
+
+                \brief operator returning C array for use with image data.
+
+*/  
+                                                              
+/*! \class CVAarray
+        \brief  function object returning C array from a vector of valarrays. see CVarray for
+        details                            
+*/                                
+
+/*! \fn  T* CVAarray<T>::operator () (const std::vector< std::valarray<T> >& inArray);
 
                 \brief operator returning C array for use with vector column data.
 
 */
 
-/*! \fn  T* Carray<T>::operator () (const std::valarray<T>& inArray);
-
-                \brief operator returning C array for use with image data.
-
-*/
                                 
 /*! \fn template <typename S, typename T> void fill(std::vector< S > &outArray, const std::vector< T > &inArray, size_t first, size_t last);
   
@@ -272,6 +285,10 @@ object.
 
 */ 
 
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation double to float warning
+#endif
+
      template <typename T>
     void swap(T& left,T& right);
 
@@ -292,66 +309,165 @@ object.
   {
           bool operator()(const string& left, const string& right) const;
   };
-  
+
+  static const  double d1(0);
+  static const  float  f1(0);
+  static const  std::complex<float> c1(0.);
+  static const  std::complex<double> d2(0.);
+  static const  string s1("");
+  static const  int    i1(0);
+  static const  unsigned int  u1(0);        
+  static const  long l1(0);
+  static const  unsigned long ul1(0);
+  static const  short s2(0);
+  static const  unsigned short us1(0); 
+  static const  bool b1(false);
+  static const  unsigned char b2(0);  
 
   char** CharArray(const std::vector<string>& inArray);
   
+  string FITSType2String( int typeInt );
+  
+
   template <typename S, typename T> 
   void fill(std::vector<S>& outArray, const std::vector<T>& inArray,size_t first, size_t last);
+    
+  template <typename S, typename T> 
+  void fill(std::valarray<S>& outArray, const std::valarray<T>& inArray);
   
-  template <typename S, typename T>
-  void fill(std::vector<S>& outArray, const std::vector<std::complex<T> >& inArray, size_t first, size_t last);
-  
-  template <typename S, typename T>
-  void fill(std::vector<std::complex<S> >& outArray, const std::vector<T>& inArray, size_t first, size_t last);
-
-  template <typename S, typename T>
-  void fill(std::vector<std::complex<S> >& outArray, const std::vector<std::complex<T> >& inArray, size_t first, size_t last);
+  template <typename S, typename T> 
+  void fill(std::valarray<S>& outArray, const std::vector<T>& inArray,size_t first, size_t last);
    
 
+  template <typename S, typename T> 
+  void fill(std::vector<S>& outArray, const std::valarray<T>& inArray);
+
+  // VF<-AF
+   void fill(std::vector<std::complex<float> >& outArray, 
+                  const std::valarray<std::complex<float> >& inArray);
+
+  // VF<-AD
+  void fill(std::vector<std::complex<float> >& outArray, 
+                  const std::valarray<std::complex<double> >& inArray);
+  
+  // VD<-AD
+  void fill(std::vector<std::complex<double> >& outArray, 
+                  const std::valarray<std::complex<double> >& inArray);
+  
+
+  // VD<-AF
+  void fill(std::vector<std::complex<double> >& outArray, 
+                  const std::valarray<std::complex<float> >& inArray);
+   
   template <typename T>
   void fill(std::vector<string>& outArray, const std::vector<T>& inArray, size_t first, size_t last);
 
-  void fill(std::vector<string>& outArray, const std::vector<string>& inArray, size_t first, size_t last);
-  
   template <typename T>
   void fill(std::vector<T>& outArray, const std::vector<string>& inArray, size_t first, size_t last);
 
-    
-  template <typename S, typename T>
-  string errorMessage(const S& out, const T& in);
-                      
-  template <typename S, typename T> 
-  void fill(std::valarray<S>& outArray, const std::vector<T>& inArray,size_t first, size_t last);
-
-  template <typename S, typename T> 
-  void fill(std::valarray<S>& outArray, const std::vector<std::complex<T> >& inArray);
-
-  template <typename S, typename T>
-  void fill(std::valarray<std::complex<S> >& outArray, const std::vector<T>& inArray, size_t first, size_t last);
-
-  template <typename S, typename T> 
-  void fill(std::valarray<std::complex<S> >& outArray, const std::vector<std::complex<T> >& inArray);
-
   template <typename S> 
   void fill(std::valarray<S>& outArray, const std::vector<string>& inArray,size_t first, size_t last);
-  
-        
-  template <typename S, typename T> 
-  void fill(std::valarray<S>& outArray, const std::valarray<T>& inArray);
 
-  template <typename S, typename T> 
-  void fill(std::valarray<S>& outArray, const std::valarray<std::complex<T> >& inArray);
+//  template <typename S, typename T>
+//  void fill(std::valarray<std::complex<S> >& outArray, const std::valarray<std::complex<T> >& inArray);            
+  // seems no other way of doing this.
+  
+  // VF<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+  void fillMSvfvf(std::vector<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#endif
+
+  void fill(std::vector<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+  
+  // VF<-VD
+#ifdef TEMPLATE_AMBIG_DEFECT
+    void fillMSvfvd(std::vector<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+#endif
+
+   void fill(std::vector<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+   
+   // VD<-VD
+#ifdef TEMPLATE_AMBIG_DEFECT
+ void fillMSvdvd(std::vector<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+#endif
+
+   void fill(std::vector<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+  void fillMSvdvf(std::vector<std::complex<double> >& outArray, 
+				const std::vector<std::complex<float> >& inArray, 
+                        size_t first, size_t last);
+#else
+  void fill(std::vector<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#endif
+ 
+  // AF<-VD
+  void fill(std::valarray<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+  
+  // AF<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+ void fillMSafvf(std::valarray<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#else
+ void fill(std::valarray<std::complex<float> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#endif
+
+ // AD<-VF
+#ifdef TEMPLATE_AMBIG_DEFECT
+  void fillMSadvf(std::valarray<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#else
+  void fill(std::valarray<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<float> >& inArray, size_t first, size_t last);
+#endif
+  
+  // AD<-VD
+#ifdef TEMPLATE_AMBIG_DEFECT
+  void fillMSadvd(std::valarray<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+#else
+  void fill(std::valarray<std::complex<double> >& outArray, 
+                  const std::vector<std::complex<double> >& inArray, size_t first, size_t last);
+#endif
+  
+  // AF<-AF
+  void fill(std::valarray<std::complex<float> >& outArray,  
+                  const std::valarray<std::complex<float> >& inArray);
+  // AD<-AD
+  void fill(std::valarray<std::complex<double> >& outArray,  
+                  const std::valarray<std::complex<double> >& inArray);
+  // AF<-AD
+  void fill(std::valarray<std::complex<float> >& outArray, 
+                  const std::valarray<std::complex<double> >& inArray);
+  // AD<-AF
+  void fill(std::valarray<std::complex<double> >& outArray,  
+                  const std::valarray<std::complex<float> >& inArray);
+  
+#if TEMPLATE_AMBIG_DEFECT || TEMPLATE_AMBIG7_DEFECT
+  void fillMSvsvs(std::vector<string>& outArray, const std::vector<string>& inArray, size_t first, size_t last);
+#endif
+
+
+  void fill(std::vector<string>& outArray, const std::vector<string>& inArray, size_t first, size_t last);
 
   template <typename S, typename T>
-  void fill(std::valarray<std::complex<S> >& outArray, const std::valarray<T>& inArray, size_t first, size_t last);
+  string errorMessage(const S& out, const T& in);
 
-  template <typename S, typename T> 
-  void fill(std::valarray<std::complex<S> >& outArray, const std::valarray<std::complex<T> >& inArray);
-      
   // copy a fitsfile pointer.
   fitsfile* copyFitsPtr(fitsfile * inPtr);
-      
+
+
+
+
 
 
 
@@ -370,6 +486,8 @@ object.
 
 
 
+
+
     template <class T>
     struct MatchName : public std::binary_function<T,std::string,bool>  //## Inherits: <unnamed>%39491BC50121
     {
@@ -381,6 +499,8 @@ object.
       private:
       private: //## implementation
     };
+
+
 
 
     template <class T>
@@ -396,22 +516,13 @@ object.
     };
 
 
+
+
     template <typename T>
     struct MatchType 
     {
 
-        class UnrecognizedType : public FitsException  //## Inherits: <unnamed>%394A455E021D
-        {
-          public:
-              UnrecognizedType (const string& strg, bool silent = true);
-
-          protected:
-          private:
-          private: //## implementation
-        };
-
-
-          ValueType operator () () throw (std::bad_typeid, FitsException&);
+          ValueType operator () ();
 
       public:
       protected:
@@ -420,21 +531,21 @@ object.
     };
 
 
+
+
     template <typename T>
-    struct Carray 
+    struct CVarray 
     {
 
           T* operator () (const std::vector<T>& inArray);
 
-          T* operator () (const std::vector< std::valarray<T> >& inArray);
-
-          T* operator () (const std::valarray<T>& inArray);
-
       public:
       protected:
       private:
       private: //## implementation
     };
+
+
 
 
     template <typename T>
@@ -450,28 +561,21 @@ object.
     };
 
 
+
+
     template <typename T>
     struct MatchImageType 
     {
 
-        class UnrecognizedType : public FitsException  //## Inherits: <unnamed>%3AFA9D6602F6
-        {
-          public:
-              UnrecognizedType (const string& strg, bool silent = true);
-
-          protected:
-          private:
-          private: //## implementation
-        };
-
-
-          ImageType operator () () throw (std::bad_typeid, FitsException&);
+          ImageType operator () ();
 
       public:
       protected:
       private:
       private: //## implementation
     };
+
+
 
 
     template <class T>
@@ -487,6 +591,8 @@ object.
     };
 
     //	auto_ptr analogue for arrays.
+
+
 
     template <typename X>
     class auto_array_ptr 
@@ -525,6 +631,8 @@ object.
     };
 
 
+
+
     template <typename T>
     struct ComparePtrIndex : public std::binary_function<T,T,bool>  //## Inherits: <unnamed>%3B24DB930299
     {
@@ -537,12 +645,56 @@ object.
       private: //## implementation
     };
 
+
+
+
+    template <typename T>
+    struct CAarray 
+    {
+
+          T* operator () (const std::valarray<T>& inArray);
+
+      public:
+      protected:
+      private:
+      private: //## implementation
+    };
+
+
+
+
+    template <typename T>
+    struct CVAarray 
+    {
+
+          T* operator () (const std::vector< std::valarray<T> >& inArray);
+
+      public:
+      protected:
+      private:
+      private: //## implementation
+    };
+
+
+
+
+    class UnrecognizedType : public FitsException  //## Inherits: <unnamed>%3CE143AB00C6
+    {
+      public:
+          UnrecognizedType (string diag, bool silent = true);
+
+      protected:
+      private:
+      private: //## implementation
+    };
+
     // Parameterized Class CCfits::FITSUtil::MatchPtrName 
 
 
     template <class T>
     inline bool MatchPtrName<T>::operator () (const T& left, const string& right) const
     {
+       return left->m_name == right->m_name;
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchName 
@@ -551,6 +703,7 @@ object.
     template <class T>
     inline bool MatchName<T>::operator () (const T& left, const string& right) const
     {
+       return left.m_name == right.m_name;
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchNum 
@@ -562,21 +715,19 @@ object.
     return left.index() == right;
     }
 
-    // Class CCfits::FITSUtil::MatchType::UnrecognizedType 
-
     // Parameterized Class CCfits::FITSUtil::MatchType 
 
-    // Parameterized Class CCfits::FITSUtil::Carray 
+    // Parameterized Class CCfits::FITSUtil::CVarray 
 
 
     template <typename T>
-    inline T* Carray<T>::operator () (const std::vector<T>& inArray)
+    inline T* CVarray<T>::operator () (const std::vector<T>& inArray)
     {
       
       // convert std containers used commonly in FITS to C arrays in an exception
       // safe manner that is also clear about resource ownership.      
       auto_array_ptr<T> pC(new T[inArray.size()]);
-      T* c(pC.get());
+      T* c = pC.get();
       std::copy(inArray.begin(),inArray.end(),&c[0]);
       return pC.release();
     }
@@ -594,19 +745,13 @@ object.
                 case Tfloat:
                 case Tcomplex:
                         return static_cast<T>(FLOATNULLVALUE);
-                        break;
                 case Tdouble:
                 case Tdblcomplex:
                         return static_cast<T>(DOUBLENULLVALUE);
-                        break;
                 default:
                         return 0;
-                        break;
-
             }
     }
-
-    // Class CCfits::FITSUtil::MatchImageType::UnrecognizedType 
 
     // Parameterized Class CCfits::FITSUtil::MatchImageType 
 
@@ -623,40 +768,25 @@ object.
 
     // Parameterized Class CCfits::FITSUtil::ComparePtrIndex 
 
+    // Parameterized Class CCfits::FITSUtil::CAarray 
+
+    // Parameterized Class CCfits::FITSUtil::CVAarray 
+
+    // Class CCfits::FITSUtil::UnrecognizedType 
+
     // Parameterized Class CCfits::FITSUtil::MatchPtrName 
 
     // Parameterized Class CCfits::FITSUtil::MatchName 
 
     // Parameterized Class CCfits::FITSUtil::MatchNum 
 
-    // Class CCfits::FITSUtil::MatchType::UnrecognizedType 
-
-    template <typename T>
-    MatchType< T >::UnrecognizedType::UnrecognizedType (const string& strg, bool silent)
-    : FitsException(strg,silent)
-    {
-    }
-
-
     // Parameterized Class CCfits::FITSUtil::MatchType 
 
 
     template <typename T>
-    ValueType MatchType<T>::operator () () throw (std::bad_typeid, FitsException&)
+    ValueType MatchType<T>::operator () ()
     {
-     static const  double d1(0);
-     static const  float  f1(0);
-     static const  std::complex<float> c1(0.);
-     static const  std::complex<double> d2(0.);
-     static const  string s1("");
-     static const  int    i1(0);
-     static const  unsigned int  u1(0);        
-     static const  long l1(0);
-     static const  unsigned long ul1(0);
-     static const  short s2(0);
-     static const  unsigned short us1(0); 
-     static const  bool b1(false);
-     static const  unsigned char b2(0);
+
     if ( typeid(T) == typeid(d1) ) return Tdouble;
     if ( typeid(T) == typeid(f1) ) return Tfloat;
     if ( typeid(T) == typeid(c1) ) return Tcomplex;
@@ -670,74 +800,18 @@ object.
     if ( typeid(T) == typeid(b2) ) return Tbyte;
     if ( typeid(T) == typeid(l1) ) return Tlong;
     if ( typeid(T) == typeid(ul1) ) return Tulong;
-    throw MatchType::UnrecognizedType("Invalid data type for FITS I/O");    
+    throw UnrecognizedType("Invalid data type for FITS Data I/O\n");    
     
     }
 
-    // Parameterized Class CCfits::FITSUtil::Carray 
-
-
-    template <typename T>
-    T* Carray<T>::operator () (const std::vector< std::valarray<T> >& inArray)
-    {
-      size_t  sz(0);
-      size_t  n(inArray.size());
-
-      std::vector<size_t> nr(n);
-      
-      for (size_t i = 0; i < n; ++i)
-      {
-         nr[i] = inArray[i].size();
-	 sz += nr[i];
-         
-      }
-      auto_array_ptr<T> pC(new T[sz]);
-      T* c(pC.get());
-
-      size_t k(0);
-      for (size_t i = 0; i < n; ++i)
-      {
-         size_t& m = nr[i];
-         const std::valarray<T>& current = inArray[i];
-	 for (size_t j=0; j < m ; ++j) c[k++] = current[j];
-      }
-
-      return pC.release();
-    }
-
-    template <typename T>
-    T* Carray<T>::operator () (const std::valarray<T>& inArray)
-    {
-      size_t n(inArray.size());
-      auto_array_ptr<T> pC(new T[n]);
-      T* c(pC.get());
-      for (size_t j = 0; j < n; ++j) c[j] = inArray[j];
-      return pC.release();
-    }
-
-    // Class CCfits::FITSUtil::MatchImageType::UnrecognizedType 
-
-    template <typename T>
-    MatchImageType< T >::UnrecognizedType::UnrecognizedType (const string& strg, bool silent)
-    : FitsException(strg,silent)
-    {
-    }
-
+    // Parameterized Class CCfits::FITSUtil::CVarray 
 
     // Parameterized Class CCfits::FITSUtil::MatchImageType 
 
 
     template <typename T>
-    ImageType MatchImageType<T>::operator () () throw (std::bad_typeid, FitsException&)
+    ImageType MatchImageType<T>::operator () ()
     {
-     static const double d1(0);
-     static const float  f1(0);
-     static const short  i1(0);
-     static const long   l1(0);
-     static const unsigned short us1(0); 
-     static const unsigned long ul1(0); 
-     static const unsigned char by1(0);   
-
     if ( typeid(T) == typeid(b2) ) return Ibyte;    
     if ( typeid(T) == typeid(s2) ) return Ishort;
     if ( typeid(T) == typeid(l1) ) return Ilong;
@@ -745,14 +819,15 @@ object.
     if ( typeid(T) == typeid(d1) ) return Idouble;
     if ( typeid(T) == typeid(us1) ) return Iushort;
     if ( typeid(T) == typeid(ul1) ) return Iulong;
-
-    throw MatchImageType::UnrecognizedType("Invalid data type for FITS Image I/O");        
+    MatchType<T> errType;
+    string diag ("Image: ");
+    diag += FITSType2String(errType());
+    throw UnrecognizedType(diag);        
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchPtrNum 
 
     // Parameterized Class CCfits::FITSUtil::auto_array_ptr 
-
 
     template <typename X>
     auto_array_ptr<X>::auto_array_ptr (X* p) throw ()
@@ -819,7 +894,7 @@ object.
     X* auto_array_ptr<X>::reset (X* p) throw ()
     {
       // set the auto_ptr to manage p and return the old pointer it was managing.
-      X* __tmp(m_p); 
+      X* __tmp = m_p; 
       m_p = p;
       return __tmp;
     }
@@ -841,21 +916,62 @@ object.
       return (left->index() < right->index());
     }
 
+    // Parameterized Class CCfits::FITSUtil::CAarray 
+
+
+    template <typename T>
+    T* CAarray<T>::operator () (const std::valarray<T>& inArray)
+    {
+      size_t n(inArray.size());
+      auto_array_ptr<T> pC(new T[n]);
+      T* c= pC.get();
+      for (size_t j = 0; j < n; ++j) c[j] = inArray[j];
+      return pC.release();      
+    }
+
+    // Parameterized Class CCfits::FITSUtil::CVAarray 
+
+
+    template <typename T>
+    T* CVAarray<T>::operator () (const std::vector< std::valarray<T> >& inArray)
+    {
+      size_t  sz(0);
+      size_t  n(inArray.size());
+
+      std::vector<size_t> nr(n);
+
+      size_t i = 0; // for MS VC++ bug
+      for ( i = 0; i < n; ++i)
+      {
+         nr[i] = inArray[i].size();
+	 sz += nr[i];
+         
+      }
+      auto_array_ptr<T> pC(new T[sz]);
+      T* c = pC.get();
+
+      size_t k(0);
+      for ( i = 0; i < n; ++i)
+      {
+         size_t& m = nr[i];
+         const std::valarray<T>& current = inArray[i];
+	 for (size_t j=0; j < m ; ++j) c[k++] = current[j];
+      }
+
+      return pC.release();      
+    }
+
   } // namespace FITSUtil
 } // namespace CCfits
 
 
 namespace CCfits
 {
+        
+        
         namespace FITSUtil
-        {
+        {                
 
-                template <>
-                inline string FitsNullValue<string>::operator () ()
-	        {
-	                return string("");
-	        }
-                
                 template <typename T>
                 void swap(T& left, T& right)
                 {
@@ -870,25 +986,13 @@ namespace CCfits
                         left.swap(right);        
                 }
                 
-                
+                template <>
+                inline string FitsNullValue<string>::operator () ()
+                {
+	                return string("");
+                }
 
         }
-// overloads for complex numbers //
-/*  
-  template <class T> class complex<T>
-  T* Carray<complex<T> >::operator() 
-                  (const std::vector<complex<T> >& inArray); 
-  
-  template <class T> class complex<T>
-  T* Carray<complex<T> >::operator() 
-                  (const std::valarray<complex<T> >& inArray); 
-  
-  template <class T> class complex<T>
-  T* Carray<complex<T> >::operator() 
-                  (const std::vector<valarray<complex<T> > >& inArray); 
-*/
-
-
 }
 
   

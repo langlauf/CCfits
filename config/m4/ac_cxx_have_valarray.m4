@@ -2,7 +2,7 @@ dnl @synopsis AC_CXX_HAVE_VALARRAY
 dnl
 dnl If the compiler has valarray<T>, define HAVE_VALARRAY.
 dnl
-dnl @version $Id: ac_cxx_have_valarray.m4,v 2.0 2001/05/09 16:50:14 dorman Exp $
+dnl @version $Id: ac_cxx_have_valarray.m4,v 3.0 2002/06/18 14:47:54 dorman Exp $
 dnl @author Luc Maisonobe
 dnl
 AC_DEFUN([AC_CXX_HAVE_VALARRAY],

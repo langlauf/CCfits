@@ -2,12 +2,12 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Author: Paul_Kunz@slac.stanford.edu
 
-AC_REVISION($Revision: 2.8 $)
+AC_REVISION($Revision: 3.0 $)
 
 AC_INIT(FITS.cxx)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(CCfits, 1.0beta)
+AM_INIT_AUTOMAKE(CCfits, 1.1)
 AM_CONFIG_HEADER(config.h)
 
 AC_LANG_CPLUSPLUS
@@ -18,9 +18,16 @@ AC_PROG_CXX
 dnl Force libtool to use C++ compiler when checking for PIC 
 CC=$CXX
 
+dnl Get the path to the standard C++ library
+PFK_CXX_LIB_PATH
+
 dnl Turn on -Wall if compiling with gcc
 AC_COMPILE_WARNINGS
 
+dnl Turn on -ansi if compiling with gcc
+AC_COMPILE_ANSI
+
+dnl Check for gmake and use it
 AC_CHECK_PROG(GMAKE, gmake, gmake, make)
 AC_SUBST(GMAKE)
 
@@ -39,9 +46,9 @@ AC_SUBST(LIBSTDCPP)
 
 dnl check where the cfitsio library and include files are at.
 dnl NOTE: do this before checking sstream, else it fails.
-AC_CHECK_PACKAGE(cfitsio, ffgsv, cfitsio, fitsio.h, 
+AC_CHECK_PACKAGE(cfitsio, ffpss, cfitsio, fitsio.h, 
    AC_MSG_RESULT([cfitsio found.]), 
-   AC_MSG_ERROR([cfitsio 2.2 or later NOT found]) )
+   AC_MSG_ERROR([cfitsio 2.4 or later NOT found]) )
 
 dnl check for valarray which is not available with egcs 1.1.2
 dnl which is default compiler for many Linux distributions
@@ -54,6 +61,18 @@ fi
 
 dnl use standard <sstream> if found, else use older <strstream>
 AC_CHECK_HEADERS(sstream, break, AC_CHECK_HEADERS(strstream) )
+
+dnl Enables testing of alternate code dealing with MS VC++ workarounds.
+AC_ARG_ENABLE(msvc-code,
+[  --enable-msvc-code      compile alternate code dealing ]
+[                          with MS VC++ workarounds],
+AC_DEFINE(ITERATORBASE_DEFECT, 1,
+Define if IteratorBase does not work with some STL functions.) 
+AC_DEFINE(SPEC_TEMPLATE_DECL_DEFECT, 1,
+Define partical template specializtion can not be declared.)
+AC_DEFINE(TEMPLATE_AMBIG7_DEFECT, 1,
+Define if compile can not resolve ambiguity in overloaded template functions.)
+)
 
 AC_PROG_RANLIB
 

@@ -11,11 +11,13 @@
 # PARTICULAR PURPOSE.
 
 #
-# $Id: Makefile.am,v 2.14 2001/08/10 18:12:04 dorman Exp $
+# $Id: Makefile.am,v 3.0 2002/06/18 14:44:35 dorman Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
-# The following set,  else would follow GNU conventions
+# The following set, else would follow GNU conventions.  Add
+# "no-dependencies" if your compiler doesn't support dependency
+# generation like gcc does
 
 
 SHELL = @SHELL@
@@ -82,11 +84,14 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STLPORT = @STLPORT@
 VERSION = @VERSION@
+pfk_cxx_lib_path = @pfk_cxx_lib_path@
 
-AUTOMAKE_OPTIONS = foreign no-dependencies
+AUTOMAKE_OPTIONS = foreign
 
 # Trick to add options to aclocal command
 ACLOCAL = aclocal -I config/m4
+
+CXX_LIB_PATH = @CXX_LIB_PATH@
 
 EXTRA_DIST = config
 
@@ -95,17 +100,19 @@ bin_PROGRAMS = cookbook
 cookbook_SOURCES = cookbook.cxx
 
 cookbook_LDADD = libCCfits.la
+cookbook_LDFLAGS = -R $(CXX_LIB_PATH)
 
 INCLUDES = -I$(top_srcdir)/..
 
 lib_LTLIBRARIES = libCCfits.la
 
-libCCfits_la_SOURCES =  	AsciiTable.cxx					BinTable.cxx					Column.cxx					ColumnCreator.cxx				ColumnData.cxx				        ColumnVectorData.cxx                            ExtHDU.cxx					FITS.cxx					FITSBase.cxx					FITSUtil.cxx					FitsError.cxx					HDU.cxx						HDUCreator.cxx					Image.cxx					KeyData.cxx				        Keyword.cxx					KeywordCreator.cxx				PHDU.cxx					Table.cxx
+libCCfits_la_SOURCES =  	AsciiTable.cxx					BinTable.cxx					Column.cxx					ColumnCreator.cxx				ColumnData.cxx				        ColumnVectorData.cxx                            ExtHDU.cxx					FITS.cxx					FITSBase.cxx					FITSUtil.cxx					FitsError.cxx					HDU.cxx						HDUCreator.cxx					KeyData.cxx				        Keyword.cxx					KeywordCreator.cxx				PHDU.cxx					Table.cxx
 
 
 # This will tell shared library which STD C++ library to use without
 # needing the user to use LD_LIBRARY_PATH environment variable
 libCCfits_la_LIBADD = $(LIBSTDCPP)
+libCCfits_la_LDFLAGS = -R $(CXX_LIB_PATH)
 
 libCCfits_ladir = $(pkgincludedir)
 
@@ -122,17 +129,15 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I.
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libCCfits_la_LDFLAGS = 
 libCCfits_la_DEPENDENCIES = 
 libCCfits_la_OBJECTS =  AsciiTable.lo BinTable.lo Column.lo \
 ColumnCreator.lo ColumnData.lo ColumnVectorData.lo ExtHDU.lo FITS.lo \
-FITSBase.lo FITSUtil.lo FitsError.lo HDU.lo HDUCreator.lo Image.lo \
-KeyData.lo Keyword.lo KeywordCreator.lo PHDU.lo Table.lo
+FITSBase.lo FITSUtil.lo FitsError.lo HDU.lo HDUCreator.lo KeyData.lo \
+Keyword.lo KeywordCreator.lo PHDU.lo Table.lo
 PROGRAMS =  $(bin_PROGRAMS)
 
 cookbook_OBJECTS =  cookbook.o
 cookbook_DEPENDENCIES =  libCCfits.la
-cookbook_LDFLAGS = 
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -155,7 +160,7 @@ all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cxx .lo .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -390,6 +395,8 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+
+
 info-am:
 info: info-am
 dvi-am:
@@ -482,7 +489,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 run_cookbook:
-	cookbook
+	cookbook.C
 
 bundle:
 	c++ -bundle -I. -DHAVE_STRSTREAM -o libCCfits.a *.cxx

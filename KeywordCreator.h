@@ -1,18 +1,19 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef KEYWORDCREATOR_H
 #define KEYWORDCREATOR_H 1
 
 #include <iostream>
-
 
 // KeyData
 #include "KeyData.h"
@@ -27,7 +28,10 @@ namespace CCfits {
 
 
 
+
 namespace CCfits {
+
+
 
 
 
@@ -54,6 +58,8 @@ namespace CCfits {
         //	in with a specified type.
         static Keyword* getKeyword (const string& keyName, ValueType keyType, HDU* p);
 
+        static Keyword* getKeyword (int keyNumber, HDU* p);
+
       // Additional Public Declarations
 
     protected:
@@ -66,6 +72,9 @@ namespace CCfits {
         KeywordCreator(const KeywordCreator &right);
 
         KeywordCreator & operator=(const KeywordCreator &right);
+
+
+        static Keyword* parseRecord (const string& name, const string& valueString, const string& comment, HDU* hdu);
 
       // Additional Private Declarations
 

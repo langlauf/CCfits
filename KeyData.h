@@ -1,23 +1,30 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef KEYDATA_H
 #define KEYDATA_H 1
 
-#include "CCfits.h"
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
 
+#include "CCfits.h"
 
 // Keyword
 #include "Keyword.h"
 
+
 #include <complex>
+#include <iomanip>
 #include "FitsError.h"
 #include "FITSUtil.h"
 
@@ -25,6 +32,8 @@
 namespace CCfits {
 
 //class Keyword;
+
+
 
 
   template <typename T>
@@ -40,7 +49,11 @@ namespace CCfits {
         virtual ~KeyData();
 
 
+#ifdef CLONE_DEFECT
+        virtual Keyword* clone () const;
+#else
         virtual KeyData <T>* clone () const;
+#endif
 
         virtual void write ();
 
@@ -72,15 +85,153 @@ namespace CCfits {
 
   };
 
-template<> void KeyData<string>::write();
-template<> const string& KeyData<string>::keyval() const;
-template<> void KeyData<string>::keyval(const string& );
-template<> ostream& KeyData<string>::put(ostream& s) const;
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template<>
+        inline void KeyData<string>::write() 
+        {
+           int status = 0;
+           if (fits_update_key(fitsPointer(), Tstring, 
+			           const_cast<char *>(name().c_str()),
+			           const_cast<char*>(m_keyval.c_str()),
+			           const_cast<char *>(comment().c_str()), 
+			           &status)) throw FitsError(status);
 
+        }
+#else
+template<> void KeyData<string>::write();
+#endif
+
+#ifdef SPEC_TEMPLATE_DECL_DEFECT
+        template  <>
+        inline const string& KeyData<string>::keyval() const
+        {
+                return m_keyval;
+
+        }
+#else
+template<> const string& KeyData<string>::keyval() const;
+#endif
+
+#ifndef SPEC_TEMPLATE_DECL_DEFECT
+template<> void KeyData<string>::keyval(const string& );
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template <>
+        inline ostream & KeyData<string>::put (ostream &s) const
+        {
+   		using std::setw;
+   		s << "Keyword Name: " << setw(10) << name() << "  Value: " << setw(14) 
+                  << keyval() << " Type: " << setw(20) << " string "  << " Comment: " << comment();
+          return s;
+        }
+
+#else
+template<> ostream& KeyData<string>::put(ostream& s) const;
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template<>
+        inline void KeyData<std::complex<float> >::write() 
+        {
+             int status = 0;
+             FITSUtil::auto_array_ptr<float> keyVal( new float[2]);
+             keyVal[0] = m_keyval.real(); 
+             keyVal[1] = m_keyval.imag(); 
+             if (fits_update_key(fitsPointer(), Tcomplex, 
+        			   const_cast<char *>(name().c_str()),
+        			   keyVal.get(),
+         			   const_cast<char *>(comment().c_str()), 
+        			   &status)) throw FitsError(status);
+
+        }
+#else
 template<> void KeyData<std::complex<float> >::write();
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template<>
+        inline void KeyData<std::complex<double> >::write() 
+        {
+             int status = 0;
+             FITSUtil::auto_array_ptr<double> keyVal(new double[2]);
+             keyVal[0] = m_keyval.real(); 
+             keyVal[1] = m_keyval.imag(); 
+             if (fits_update_key(fitsPointer(), Tdblcomplex, 
+        			   const_cast<char *>(name().c_str()),
+        			   keyVal.get(),
+         			   const_cast<char *>(comment().c_str()), 
+        			   &status)) throw FitsError(status);
+
+        }
+#else
+template<> void KeyData<std::complex<double> >::write();
+#endif
+
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+        template <>
+        inline ostream & KeyData<std::complex<float> >::put (ostream &s) const
+        {
+   		using std::setw;
+           	s << "Keyword Name: " << name() << " Value: " << m_keyval.real() << " +   i " 
+             	  << m_keyval.imag() <<   " Type: " <<  setw(20) << " complex<float> " 
+             	  << " Comment: " << comment()   << std::endl;
+          return s;
+        }
+        
+        template <>
+        inline ostream & KeyData<std::complex<double> >::put (ostream &s) const
+        {
+   		using std::setw;
+           	s << "Keyword Name: " << name() << " Value: " << m_keyval.real() << " +   i " 
+             	  << m_keyval.imag() <<   " Type: " <<  setw(20) << " complex<double> " 
+             	  << " Comment: " << comment()   << std::endl;
+
+	          return s;
+        }
+#else
 template<> ostream& KeyData<std::complex<float> >::put(ostream& s) const;
+template<> ostream& KeyData<std::complex<double> >::put(ostream& s) const;
+#endif
+
+#ifdef SPEC_TEMPLATE_DECL_DEFECT
+  template  <>
+  inline const std::complex<float>& KeyData<std::complex<float> >::keyval() const
+  {
+    return m_keyval;
+
+  }
+
+  template  <>
+  inline void KeyData<std::complex<float> >::keyval(const std::complex<float>&  newVal)
+  {
+    m_keyval = newVal;
+
+  }
+
+  template  <>
+  inline const std::complex<double>& KeyData<std::complex<double> >::keyval() const
+  {
+    return m_keyval;
+
+  }
+
+  template  <>
+  inline void KeyData<std::complex<double> >::keyval(const std::complex<double>&  newVal)
+  {
+    m_keyval = newVal;
+
+  }
+
+#else
 template<> const std::complex<float>&  KeyData<std::complex<float> >::keyval() const;
 template<> void KeyData<std::complex<float> >::keyval(const std::complex<float>&  );
+
+
+
+template<> const std::complex<double>&  KeyData<std::complex<double> >::keyval() const;
+template<> void KeyData<std::complex<double> >::keyval(const std::complex<double>&  );
+#endif
 
 
   // Parameterized Class CCfits::KeyData 
@@ -109,7 +260,6 @@ template<> void KeyData<std::complex<float> >::keyval(const std::complex<float>&
   }
 
   // Parameterized Class CCfits::KeyData 
-
 
   template <typename T>
   KeyData<T>::KeyData(const KeyData<T> &right)
@@ -151,7 +301,11 @@ template<> void KeyData<std::complex<float> >::keyval(const std::complex<float>&
   }
 
   template <typename T>
+#ifdef CLONE_DEFECT
+  Keyword* KeyData<T>::clone () const
+#else
   KeyData <T>* KeyData<T>::clone () const
+#endif
   {
   return new KeyData<T>(*this);
   }

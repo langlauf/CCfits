@@ -1,16 +1,20 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #include <iosfwd>
 
 
+// FitsError
+#include "FitsError.h"
 // HDU
 #include "HDU.h"
 // Keyword
@@ -34,10 +38,6 @@ namespace CCfits {
 
 
   // Class CCfits::Keyword 
-
-
-
-
 
   Keyword::Keyword(const Keyword &right)
 	: m_keytype(right.m_keytype),

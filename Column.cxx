@@ -1,14 +1,20 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -23,6 +29,8 @@ using std::ostringstream;
 #endif
 
 
+// Table
+#include "Table.h"
 // Column
 #include "Column.h"
 
@@ -122,16 +130,6 @@ namespace CCfits {
 
   // Class CCfits::Column 
 
-
-
-
-
-
-
-
-
-
-
   const string Column::s_TBCOL = "TBCOL";
 
   const string Column::s_TTYPE = "TTYPE";
@@ -194,13 +192,8 @@ namespace CCfits {
 
   const unsigned int Column::ULIMITUINT = UINT_MAX;
 
-
-
-
-
-
-
   std::vector<std::string> Column::s_columnKeys;
+
 
   Column::Column(const Column &right)
       : m_index(right.m_index),
@@ -322,17 +315,16 @@ namespace CCfits {
 #endif
   key << "TDISP" << index();
   int status = 0;
-  char* dispValue = new char[FLEN_VALUE];
+  FITSUtil::auto_array_ptr<char> dispValue (new char[FLEN_VALUE]);
 #ifdef HAVE_STRSTREAM
-  fits_read_key_str(fitsPointer(), key.str(), dispValue,0,&status);
+  fits_read_key_str(fitsPointer(), key.str(), dispValue.get(),0,&status);
 #else
-  fits_read_key_str(fitsPointer(),const_cast<char*>(key.str().c_str()),dispValue,0,&status);
+  fits_read_key_str(fitsPointer(),const_cast<char*>(key.str().c_str()),dispValue.get(),0,&status);
 #endif
   if (status == 0)
   {
-        m_display = string(dispValue);
+        m_display = string(dispValue.get());
   }
-  delete [] dispValue;  
   }
 
   std::ostream& Column::put (std::ostream& s) const
@@ -345,75 +337,14 @@ namespace CCfits {
     return s;
   }
 
-  bool Column::isScaled (Table* p, int index, int* type, long* repeat, long* width, double *tscale, unsigned int *tzero)
-  {
-   static const int  ntype=7;
-   static const int  dataType[ntype] = {Tbyte, Tshort, Tushort, Tint, Tuint, Tlong, Tulong};
-   static char keyname[FLEN_KEYWORD];
-   
-   bool scaled=false;
-   int status = 0;
-   
-   status = fits_get_coltype(p->fitsPointer(), index, type, repeat, width, &status);
-   if (status != 0)  throw FitsError(status);
-
-   
-   sprintf(keyname, "TSCAL%d", index);
-   if (fits_read_key(p->fitsPointer(), TINT, keyname, tscale, NULL, &status) == 0)
-   {
-      sprintf(keyname, "TZERO%d", index);
-      fits_read_key(p->fitsPointer(), TINT, keyname, tzero, NULL, &status);
-   }
-
-
-   if (status == 0) 
-   {
-       int i = 0;
-       while ( i < ntype )   
-       {
-            scaled = (*type == dataType[i]);
-            if (scaled) break;
-            i++;
-       }
-   }
-   return scaled;
-  }
-
-  void Column::getType (Table* p, int index, int *type, long *repeat, long *width, double* scale, unsigned int* zero)
-  {
-   static const unsigned int  t15 = 1 >> 15;
-   static const unsigned int  t31 = 1 >> 31;
-
-   if (Column::isScaled(p, index, type, repeat, width, scale, zero))
-   {
-      if (*type == Tbyte)
-      {
-	 *type = Tfloat;
-      }
-
-      else if ((*type == Tshort) || (*type == Tushort))
-      {
-	 if ((*scale == 1) && (*zero == t15))
-	    *type = Tushort;
-
-	 else
-	    *type = Tfloat;
-      }
-
-      else if ((*type == Tlong) || (*type == Tulong))
-      {
-	 if ((*scale == 1) && (*zero == t31))
-	    *type = Tuint;
-	 else
-	    *type = Tdouble;
-      }
-   }
-  }
-
   Table* Column::parent () const
   {
 
     return m_parent;
+  }
+
+  void Column::dimen (const string& value)
+  {
   }
 
   void Column::setLimits (ValueType type)
@@ -453,12 +384,13 @@ namespace CCfits {
     char* dmin(slmin.str());
     char* dmax(slmax.str());
 #else
-    char* lmin(const_cast<char*>(slmin.str().c_str()));
-    char* lmax(const_cast<char*>(slmax.str().c_str()));
-    char* dmin(const_cast<char*>(sdmin.str().c_str()));
-    char* dmax(const_cast<char*>(sdmax.str().c_str()));
+    char* lmin = const_cast<char*>(slmin.str().c_str());
+    char* lmax = const_cast<char*>(slmax.str().c_str());
+    char* dmin = const_cast<char*>(sdmin.str().c_str());
+    char* dmax = const_cast<char*>(sdmax.str().c_str());
 #endif
-    
+
+    size_t j = 0; // for MS VC++
     switch (type) 
     {
         case VTushort:
@@ -471,7 +403,7 @@ namespace CCfits {
                 if (status != 0) pl[2] = LLIMITUSHORT;
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
                 if (status != 0) pl[3] = ULIMITUSHORT;
-                for (size_t j = 0; j < 4; ++j) pus[j] = pl[j];
+                for (j = 0; j < 4; ++j) pus[j] = pl[j];
                 if (m_repeat == 1)
                 {
                         ColumnData<unsigned short>& col = 
@@ -495,7 +427,7 @@ namespace CCfits {
                 if (status != 0) pl[2] = LLIMITSHORT;
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
                 if (status != 0) pl[3] = ULIMITSHORT;
-                for (size_t j = 0; j < 4; ++j) ps[j] = pl[j];                
+                for ( j = 0; j < 4; ++j) ps[j] = pl[j];                
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<short>& col = 
@@ -522,7 +454,7 @@ namespace CCfits {
                 if (status != 0) pl[2] = LLIMITUCHAR;
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
                 if (status != 0) pl[3] = ULIMITUCHAR;
-                for (size_t j = 0; j < 4; ++j) puc[j] = pl[j];                
+                for ( j = 0; j < 4; ++j) puc[j] = pl[j];                
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<unsigned char>& col = 
@@ -546,7 +478,7 @@ namespace CCfits {
                 if (status != 0) pl[2] = LLIMITINT;
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
                 if (status != 0) pl[3] = ULIMITINT;
-                for (size_t j = 0; j < 4; ++j) pi[j] = pl[j];                
+                for ( j = 0; j < 4; ++j) pi[j] = pl[j];                
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<int>& col = 
@@ -564,14 +496,17 @@ namespace CCfits {
         case VTuint:
         case Tuint:
                 fits_read_key_lng(fitsPointer(),lmin,pl,0,&status);
-                if (status != 0) pl[0] = LLIMITUINT;
+                if (status != 0) pui[0] = LLIMITUINT;
+                else pui[0] = pl[0]; 
                 fits_read_key_lng(fitsPointer(),lmax,pl+1,0,&status);
-                if (status != 0) pl[1] = ULIMITUINT;
+                if (status != 0) pui[1] = ULIMITUINT;
+                else pui[1] = pl[1]; 
                 fits_read_key_lng(fitsPointer(),dmin,pl+2,0,&status);
-                if (status != 0) pl[2] = LLIMITUINT;
+                if (status != 0) pui[2] = LLIMITUINT;
+                else pui[2] = pl[2]; 
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
-                if (status != 0) pl[3] = ULIMITUINT;
-                for (size_t j = 0; j < 4; ++j) pui[j] = pl[j];                
+                if (status != 0) pui[3] = ULIMITUINT;
+                else pui[3] = pl[3]; 
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<unsigned int>& col = 
@@ -612,14 +547,17 @@ namespace CCfits {
         case VTulong:          
         case Tulong:
                 fits_read_key_lng(fitsPointer(),lmin,pl,0,&status);
-                if (status != 0) pl[0] = LLIMITULONG;
+                if (status != 0) pul[0] = LLIMITULONG;
+                else pul[0] = pl[0];
                 fits_read_key_lng(fitsPointer(),lmax,pl+1,0,&status);
-                if (status != 0) pl[1] = ULIMITULONG;
+                if (status != 0) pul[1] = ULIMITULONG;
+                else pul[1] = pl[1];
                 fits_read_key_lng(fitsPointer(),dmin,pl+2,0,&status);
                 if (status != 0) pl[2] = LLIMITULONG;
+                else pul[2] = pl[2];
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
-                if (status != 0) pl[3] = ULIMITULONG;
-                for (size_t j = 0; j < 4; ++j) pul[j] = pl[j];                
+                if (status != 0) pul[3] = ULIMITULONG;
+                else pul[3] = pl[3];               
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<unsigned long>& col = 
@@ -684,16 +622,16 @@ namespace CCfits {
         case Tcomplex:
                 fits_read_key_cmp(fitsPointer(),lmin,pf,0,&status);
                 status != 0 ? cf[0] = std::complex<float>(pf[0],pf[1])
-                            : cf[0] = std::complex<float>(LLIMITFLOAT,0);
+                            : cf[0] = std::complex<float>(-ULIMITFLOAT,-ULIMITFLOAT);
                 fits_read_key_cmp(fitsPointer(),lmax,pf,0,&status);
                 status != 0 ? cf[1] = std::complex<float>(pf[0],pf[1])
-                            : cf[1] = std::complex<float>(ULIMITFLOAT,0);
+                            : cf[1] = std::complex<float>(ULIMITFLOAT,ULIMITFLOAT);
                 fits_read_key_cmp(fitsPointer(),dmin,pf,0,&status);
                 status != 0 ? cf[2] = std::complex<float>(pf[0],pf[1])
-                            : cf[2] = std::complex<float>(LLIMITFLOAT,0);
+                            : cf[2] = std::complex<float>(-ULIMITFLOAT,ULIMITFLOAT);
                 fits_read_key_cmp(fitsPointer(),dmax,pf,0,&status);
                 status != 0 ? cf[3] = std::complex<float>(pf[0],pf[1])
-                            : cf[3] = std::complex<float>(ULIMITFLOAT,0);
+                            : cf[3] = std::complex<float>(ULIMITFLOAT,ULIMITFLOAT);
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<complex<float> >& col = 
@@ -711,16 +649,16 @@ namespace CCfits {
         case Tdblcomplex:
                 fits_read_key_dblcmp(fitsPointer(),lmin,pd,0,&status);
                 status != 0 ? cd[0] = std::complex<double>(pd[0],pd[1])
-                            : cd[0] = std::complex<double>(LLIMITDOUBLE,0);
+                            : cd[0] = std::complex<double>(-ULIMITDOUBLE,-ULIMITDOUBLE);
                 fits_read_key_dblcmp(fitsPointer(),lmax,pd,0,&status);
                 status != 0 ? cd[1] = std::complex<double>(pd[0],pd[1])
-                            : cd[1] = std::complex<double>(ULIMITDOUBLE,0);
+                            : cd[1] = std::complex<double>(ULIMITDOUBLE,ULIMITDOUBLE);
                 fits_read_key_dblcmp(fitsPointer(),dmin,pd,0,&status);
                 status != 0 ? cd[2] = std::complex<double>(pd[0],pd[1])
-                            : cd[2] = std::complex<double>(LLIMITDOUBLE,0);
+                            : cd[2] = std::complex<double>(-ULIMITDOUBLE,-ULIMITDOUBLE);
                 fits_read_key_dblcmp(fitsPointer(),dmax,pd,0,&status);
                 status != 0 ? cd[3] = std::complex<double>(pd[0],pd[1])
-                            : cd[3] = std::complex<double>(ULIMITDOUBLE,0);
+                            : cd[3] = std::complex<double>(ULIMITDOUBLE,ULIMITDOUBLE);
                 if (m_repeat == 1 && type > 0)
                 {
                         ColumnData<complex<double> >& col = 
@@ -784,35 +722,787 @@ namespace CCfits {
 
   void Column::varLength (bool value)
   {
+    m_varLength = value;
+  }
+
+  long Column::numberOfElements (long& first, long& last)
+  {
+    // user expects 1 based indexing. If 0 based indices are supplied,
+    // add one to both ranges.
+    if (first == 0)
+    {
+            first +=1;
+            last = std::min(static_cast<long>(rows()),
+				            static_cast<long>( last+1));       
+    }
+
+    last  = std::min(static_cast<long>(rows()),last);
+    if (last < first ) throw RangeError(name());
+    return last - first + 1;
   }
 
   // Additional Declarations
-    void Column::write(const std::vector<string>& indata, long firstRow)
+  void 
+  Column::write(const std::vector<string>& indata, long firstRow)
+  {
+    try
+    {
+        ColumnData<string>& col = dynamic_cast<ColumnData<string>& >(*this);       
+        col.writeData(indata,firstRow);
+
+    }
+    catch (std::bad_cast)
+    {
+        throw WrongColumnType(" downcasting string column ");       
+    }
+  }
+ 
+    void 
+    Column::write (const std::vector<std::complex<float> >& indata, long firstRow)
+    {
+            // we'll allow casting between float and double but that's
+            // as far as it goes.
+            firstRow = std::max(firstRow,static_cast<long>(1));
+            if ( ColumnData<std::complex<float> >* col = 
+                            dynamic_cast<ColumnData<std::complex<float> >*>(this) )
+            {
+                    col->writeData(indata,firstRow);
+            }
+            else
+            {
+                   if ( type() == Tcomplex) 
+                   {
+                           string msg("Incorrect call: writing to vector column ");
+                           msg += name();
+                           msg += " requires specification of # rows or vector lengths";
+                           throw WrongColumnType(msg);
+                   }
+                   else
+                   {
+                           try
+                           {
+                                ColumnData<std::complex<double> >& col = 
+                                    dynamic_cast<ColumnData<std::complex<double> >&>(*this);
+                                std::vector<std::complex<double> > tmp(indata.size());
+#ifdef TEMPLATE_AMBIG_DEFECT
+                                FITSUtil::fillMSvdvf(tmp,indata,1,indata.size());
+#else
+                                FITSUtil::fill(tmp,indata,1,indata.size());
+#endif
+                                col.writeData(tmp,firstRow);
+                           }
+                           catch (std::bad_cast)
+                           {
+                                 std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                 msg += name();
+                                    throw InvalidDataType(msg);
+                           }
+                   } 
+            }
+    }
+
+    void Column::write (const std::vector<std::complex<double> >& indata, long firstRow)
+    {
+            firstRow = std::max(firstRow,static_cast<long>(1));
+            if ( ColumnData<std::complex<double> >* col = 
+                            dynamic_cast<ColumnData<std::complex<double> >*>(this))
+            {
+                    col->writeData(indata,firstRow);
+            }
+            else
+            {
+                   if ( type() == Tdblcomplex) 
+                   {
+                           string msg("Incorrect call: writing to vector column ");
+                           msg += name();
+                           msg += " requires specification of # rows or vector lengths";
+                           throw WrongColumnType(msg);
+                   }
+                   else
+                   {
+                           try
+                           {
+                                ColumnData<std::complex<float> >& col = 
+                                    dynamic_cast<ColumnData<std::complex<float> >&>(*this);
+                                std::vector<std::complex<float> > __tmp(indata.size());
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+                                FITSUtil::fillMSvfvd(__tmp,indata,1,indata.size());
+#else
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
+#endif
+                                col.writeData(__tmp,firstRow);
+
+                           }
+                           catch (std::bad_cast)
+                           {
+                                 std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                 msg += name();
+                                 throw InvalidDataType(msg);
+                           }
+                   } 
+            }
+     }
+
+    void
+    Column::write (const std::valarray<std::complex<float> >& indata, long firstRow)
+    {
+            std::vector<std::complex<float> > __tmp;            
+            FITSUtil::fill(__tmp,indata);   
+            write(__tmp,firstRow); 
+    }
+
+    void 
+    Column::write (const std::valarray<std::complex<double> >& indata, long firstRow)
+    {
+            std::vector<std::complex<double> > __tmp;            
+            FITSUtil::fill(__tmp,indata);   
+            write(__tmp,firstRow); 
+    }
+
+    void 
+    Column::read(std::vector<string>& vals, long first, long last)
     {
             try
             {
                 ColumnData<string>& col = dynamic_cast<ColumnData<string>& >(*this);       
-                col.writeData(indata,firstRow);
-                
-            }
+                col.readData(first,last-first+1);
+#if TEMPLATE_AMBIG_DEFECT || TEMPLATE_AMBIG7_DEFECT
+                FITSUtil::fillMSvsvs(vals,col.data(),first,last);   
+#else
+                FITSUtil::fill(vals,col.data(),first,last);               
+#endif
+			}
             catch (std::bad_cast)
             {
                 throw WrongColumnType(" downcasting string column ");       
             }
     }
     
-    void Column::read(std::vector<string>& vals, size_t first, size_t last) throw (FitsException&)
+    void 
+    Column::read(std::vector< std::complex<float> >& vals , long first, long last)
     {
-            try
-            {
-                ColumnData<string>& col = dynamic_cast<ColumnData<string>& >(*this);       
-                col.readData(first,last-first+1);
-                FITSUtil::fill(vals,col.data(),first,last);               
-            }
-            catch (std::bad_cast)
-            {
-                throw WrongColumnType(" downcasting string column ");       
-            }
+           if  (ColumnData< std::complex<float> >* col 
+                           = dynamic_cast<ColumnData< std::complex<float> >*>(this))
+           {
+                   // fails if user requested outputType different from input type.
+
+
+                   if (!isRead()) col->readColumnData(first,last - first + 1);
+                   // scalar column with vector output can just be assigned.
+#ifdef TEMPLATE_AMBIG_DEFECT
+                   FITSUtil::fillMSvfvf(vals,col->data(),first,last);
+#else
+                   FITSUtil::fill(vals,col->data(),first,last);
+#endif
+           }
+           else
+           {
+                  if ( type() == Tcomplex) 
+                  {
+                          string msg("Incorrect call: writing to vector column ");
+                          msg += name();
+                          msg += " requires specification of # rows or vector lengths";
+                          throw WrongColumnType(msg);
+                  }
+                  else
+                  {
+                          try
+                          {
+                               ColumnData<std::complex<double> >& col = 
+                                   dynamic_cast<ColumnData<std::complex<double> >&>(*this);
+                               if (!isRead()) col.readColumnData(first,last - first + 1);
+#ifdef TEMPLATE_AMBIG_DEFECT
+                               FITSUtil::fillMSvfvd(vals,col.data(),first,last);
+#else
+                               FITSUtil::fill(vals,col.data(),first,last);
+#endif
+                          }
+                          catch (std::bad_cast)
+                          {
+                                std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                          }
+                  } 
+           }
     }
+        
+    void 
+    Column::read(std::vector< std::complex<double> >&  vals, long first, long last)
+    {
+         if  (ColumnData<std::complex<double> >* col 
+                         = dynamic_cast<ColumnData<std::complex<double> >*>(this))
+         {
+                 // fails if user requested outputType different from input type.
+
+
+                 if (!isRead()) col->readColumnData(first,last - first + 1);
+                 // scalar column with vector output can just be assigned.
+#ifdef TEMPLATE_AMBIG_DEFECT
+                 FITSUtil::fillMSvdvd(vals,col->data(),first,last);
+#else
+				 FITSUtil::fill(vals,col->data(),first,last);
+#endif
+         }
+         else
+         {
+                if ( type() == Tdblcomplex) 
+                {
+                        string msg("Incorrect call: writing to vector column ");
+                        msg += name();
+                        msg += " requires specification of # rows or vector lengths";
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        try
+                        {
+                             ColumnData<std::complex<float> >& col = 
+                                 dynamic_cast<ColumnData<std::complex<float> >&>(*this);
+                             if (!isRead()) col.readColumnData(first,last - first + 1);
+#ifdef TEMPLATE_AMBIG_DEFECT
+                             FITSUtil::fillMSvdvf(vals,col.data(),first,last);
+#else
+                             FITSUtil::fill(vals,col.data(),first,last);
+#endif
+                        }
+                        catch (std::bad_cast)
+                        {
+                              std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                              msg += name();
+                              throw InvalidDataType(msg);
+                        }
+                } 
+         }
+            
+    }
+    
+    void 
+    Column::read(std::valarray<std::complex<float> >& vals, long row)
+    {
+          if ( ColumnVectorData<std::complex<float> >* col 
+                          = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+          {
+                  // fails if user requested outputType different from input type.
+
+
+
+                  // input and output are both valarrays. Since one should not
+                  // be able to call a constructor for a non-numeric valarray type,
+                  // there shouldn't be any InvalidType problems. However, there
+                  // is still the vector/scalar possibility and the implicit
+                  // conversion request to deal with.
+
+                  if (!isRead()) col->readRow(row);
+                  FITSUtil::fill(vals,col->data(row));
+          }
+          else
+          {
+                if ( type() == Tcomplex ) 
+                { 
+                        // in this case user tried to read vector row from scalar column.
+                        // one could be charitable and return a valarray of size 1,
+                        // but... I'm going to throw an exception suggesting the user
+                        // might not have meant that.
+
+                        throw Column::WrongColumnType(name());
+                }
+                else
+                {
+                       try
+                       {
+                            ColumnVectorData<std::complex<double> >& col 
+                                 = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);
+                            if (!isRead()) col.readRow(row);                                  
+                            FITSUtil::fill(vals,col.data(row));
+                               
+                       }
+                       catch (std::bad_cast)
+                       {
+                              std::string 
+                        msg(" implicit conversion from complex to real data not allowed: Column ");
+                              msg += name();
+                              throw InvalidDataType(msg);
+                               
+                       }    
+                }
+
+          }
+
+    }
+        
+    void 
+    Column::read(std::valarray<std::complex<double> >& vals, long row)
+    {
+          if ( ColumnVectorData<std::complex<double> >* col 
+                          = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+          {
+                  // fails if user requested outputType different from input type.
+
+
+
+                  // input and output are both valarrays. Since one should not
+                  // be able to call a constructor for a non-numeric valarray type,
+                  // there shouldn't be any InvalidType problems. However, there
+                  // is still the vector/scalar possibility and the implicit
+                  // conversion request to deal with.
+
+                  if (!isRead()) col->readRow(row);
+                  FITSUtil::fill(vals,col->data(row));
+          }
+          else
+          {
+                if ( type() == Tdblcomplex ) 
+                { 
+                        // in this case user tried to read vector row from scalar column.
+                        // one could be charitable and return a valarray of size 1,
+                        // but... I'm going to throw an exception suggesting the user
+                        // might not have meant that.
+
+                        throw Column::WrongColumnType(name());
+                }
+                else
+                {
+                       try
+                       {
+                            ColumnVectorData<std::complex<float> >& col 
+                                 = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);
+                            if (!isRead()) col.readRow(row);                                  
+                            FITSUtil::fill(vals,col.data(row));
+                               
+                       }
+                       catch (std::bad_cast)
+                       {
+                              std::string 
+                        msg(" implicit conversion from complex to real data not allowed: Column ");
+                              msg += name();
+                              throw InvalidDataType(msg);
+                               
+                       }    
+                }
+        }
+    }
+  
+  void 
+  Column::readArrays(std::vector<std::valarray<std::complex<float> > >& vals, long first, long last)
+  {
+                // again, can only call this if the entire column has been read from disk.
+                // user expects 1 based indexing. If 0 based indices are supplied,
+                // add one to both ranges.
+                long range = numberOfElements(first,last);
+
+                vals.resize(range);
+
+
+                if ( ColumnVectorData<std::complex<float> >* col 
+                                = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+                {
+                        for (int j = 0; j < range; ++j) 
+                        {
+                                if (!isRead()) col->readRow(j + first);                             
+                                FITSUtil::fill(vals[j],col->data(j+first));
+                        }
+                }
+                else
+                {
+                        if ( type() == Tcomplex) 
+                        { 
+                                // in this case user tried to read vector data from scalar,
+                                // (i.e. first argument was vector<valarray<S> >.
+                                // since the cast won't fail on template parameter grounds.
+                                throw Column::WrongColumnType(name());
+                        }
+                        // the InvalidDataType exception should not be possible.
+                        try
+                        {
+                                 ColumnVectorData<std::complex<double> >& col 
+                                         = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);
+                                 for (int j = 0; j < range; ++j) 
+                                 {
+                                     if (!isRead()) col.readRow(j + first); 
+                                     FITSUtil::fill(vals[j],col.data(j+first));
+                                 }
+
+                        }
+                        catch (std::bad_cast)
+                        {
+                                      std::string 
+                                msg(" implicit conversion from complex to real data not allowed: Column ");
+                                      msg += name();
+                                      throw InvalidDataType(msg);
+
+                        }
+                        
+                }
+             
+  }                
+        
+ void 
+  Column::readArrays(std::vector<std::valarray<std::complex<double> > >& vals, long first, long last)
+  {
+                // again, can only call this if the entire column has been read from disk.
+                // user expects 1 based indexing. If 0 based indices are supplied,
+                // add one to both ranges.
+                long range = numberOfElements(first,last);
+
+                vals.resize(range);
+
+
+                if ( ColumnVectorData<std::complex<double> >* col 
+                                = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+                {
+                        for (int j = 0; j < range; ++j) 
+                        {
+                                if (!isRead()) col->readRow(j + first);                             
+                                FITSUtil::fill(vals[j],col->data(j+first));
+                        }
+                }
+                else
+                {
+                        if ( type() == Tdblcomplex) 
+                        { 
+                                // in this case user tried to read vector data from scalar,
+                                // (i.e. first argument was vector<valarray<S> >.
+                                // since the cast won't fail on template parameter grounds.
+                                throw Column::WrongColumnType(name());
+                        }
+                        // the InvalidDataType exception should not be possible.
+                        try
+                        {
+                                 ColumnVectorData<std::complex<float> >& col 
+                                         = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);
+                                 for (int j = 0; j < range; ++j) 
+                                 {
+                                     if (!isRead()) col.readRow(j + first); 
+                                     FITSUtil::fill(vals[j],col.data(j+first));
+                                 }
+
+                        }
+                        catch (std::bad_cast)
+                        {
+                                      std::string 
+                                msg(" implicit conversion from complex to real data not allowed: Column ");
+                                      msg += name();
+                                      throw InvalidDataType(msg);
+
+                        }
+                        
+                }
+             
+  }                
+    
+  void 
+  Column::write (const std::valarray<std::complex<float> >& indata, long nRows, long firstRow)
+  {
+        if (nRows <= 0) throw InvalidNumberOfRows(nRows);
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<float> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+        {
+                col->writeData(indata,nRows,firstRow);
+        }
+        else 
+        {
+                // alright, input data type has to be rewritten as output
+                // data type.
+                if ( type()  == Tcomplex ) 
+                {
+                        string 
+                          msg("Incorrect call: writing to valarray data to scalar column: ");
+                          msg += name();
+                          msg += " does not require specification of number of rows";
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        try
+                        {
+                                ColumnVectorData<std::complex<double> >& col 
+                                        = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);
+                                std::valarray<std::complex<double> > __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,nRows,firstRow);                              
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                                
+                        }
+                }
+        }
+  }
+
+  void 
+  Column::write (const std::valarray<std::complex<double> >& indata, long nRows, long firstRow)
+  {
+        if (nRows <= 0) throw InvalidNumberOfRows(nRows);
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<double> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+        {
+                col->writeData(indata,nRows,firstRow);
+        }
+        else 
+        {
+                // alright, input data type has to be rewritten as output
+                // data type.
+                if ( type()  == Tdblcomplex ) 
+                {
+                        string msg("Incorrect call: writing to valarray data to scalar column: ");
+                        msg += name();
+                        msg += " does not require specification of number of rows";
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        try
+                        {
+                                ColumnVectorData<std::complex<float> >& col 
+                                        = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);
+                                std::valarray<std::complex<float> > __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,nRows,firstRow);                              
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                                
+                        }
+                }
+        }
+
+  }
+  
+  void
+  Column::write (const std::vector<std::complex<float> >& indata, long nRows, long firstRow)
+  {
+          std::valarray<std::complex<float> >  __tmp(indata.size());
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+          FITSUtil::fillMSafvf(__tmp,indata,1,indata.size());
+#else
+          FITSUtil::fill(__tmp,indata,1,indata.size());
+#endif
+         write(__tmp,nRows,firstRow);
+  }
+  
+  void 
+  Column::write (const std::vector<std::complex<double> >& indata, long nRows, long firstRow)
+  {
+          std::valarray<std::complex<double> >  __tmp(indata.size());
+
+#ifdef TEMPLATE_AMBIG_DEFECT
+          FITSUtil::fillMSadvd(__tmp,indata,1,indata.size());
+#else
+		  FITSUtil::fill(__tmp,indata,1,indata.size());
+#endif
+          write(__tmp,nRows,firstRow);          
+  }
+  
+  void 
+  Column::write (const std::valarray<std::complex<float> >& indata,  
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow)
+  {
+        using std::valarray;
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<float> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+        {
+                col->writeData(indata,vectorLengths,firstRow);
+        }
+        else
+        {
+                if (  type() == Tcomplex ) 
+                {
+                        string msg("Incorrect call: scalar column ");
+                        msg += name();
+                        msg += " does not have vector lengths";
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        try
+                        {
+                                ColumnVectorData<std::complex<double> >& col 
+                                        = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);                                        
+                                valarray<std::complex<double> > __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,vectorLengths,firstRow);
+
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                        }       
+                }               
+        }  
+  }    
+
+  void 
+  Column::write (const std::valarray<std::complex<double> >& indata,  
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow)
+  {
+        using std::valarray;
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<double> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+        {
+                col->writeData(indata,vectorLengths,firstRow);
+        }
+        else
+        {
+                if (  type() == Tdblcomplex ) 
+                {
+                        string msg("Incorrect call: scalar column ");
+                        msg += name();
+                        msg += " does not have vector lengths";
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        try
+                        {
+                                ColumnVectorData<std::complex<float> >& col 
+                                        = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);                                        
+                                valarray<std::complex<float> > __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,vectorLengths,firstRow);
+
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg(" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                        }       
+                }               
+        }            
+  }      
+  
+  void 
+  Column::write (const std::vector<std::complex<float> >& indata, 
+                const std::vector<long>& vectorLengths, 
+                long firstRow)
+  {
+          std::valarray<std::complex<float> >  __tmp(indata.size());
+#ifdef TEMPLATE_AMBIG_DEFECT
+          FITSUtil::fillMSafvf(__tmp,indata,1,indata.size());
+#else
+		  FITSUtil::fill(__tmp,indata,1,indata.size());
+#endif
+		  write(__tmp,vectorLengths,firstRow);
+  }
+  
+
+
+  void 
+  Column::write (const std::vector<std::complex<double> >& indata, 
+                        const std::vector<long>& vectorLengths, 
+                        long firstRow)
+  {
+          std::valarray<std::complex<double> >  __tmp(indata.size());
+#ifdef TEMPLATE_AMBIG_DEFECT
+          FITSUtil::fillMSadvd(__tmp,indata,1,indata.size());
+#else
+		  FITSUtil::fill(__tmp,indata,1,indata.size());
+#endif
+		  write(__tmp,vectorLengths,firstRow);        
+  }
+
+  
+  
+  void 
+  Column::writeArrays (const std::vector<std::valarray<std::complex<float> > >& indata, 
+                  long firstRow)
+  {
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<float> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+        {
+                 col->writeData(indata,firstRow);
+        }
+        else
+        {
+                if (  type() == Tcomplex ) 
+                {
+                        string msg("Incorrect call: writing vectors to scalar column ");
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        size_t n(indata.size());     
+                        try 
+                        {                       
+                            ColumnVectorData<std::complex<double> >& col 
+                            = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);
+                            std::vector<std::valarray<std::complex<double> > > __tmp(n);
+                            for (size_t i = 0; i < n; ++i)
+                            {
+                                    FITSUtil::fill(__tmp[i],indata[i]);
+                            }
+                            col.writeData(__tmp,firstRow);
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg
+                        (" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                        }
+                 }
+        }
+  }
+                  
+  void 
+  Column::writeArrays (const std::vector<std::valarray<std::complex<double> > >& indata, long firstRow)
+  {
+        firstRow = std::max(firstRow,static_cast<long>(1));
+        if (ColumnVectorData<std::complex<double> >* col 
+                        = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+        {
+                 col->writeData(indata,firstRow);
+        }
+        else
+        {
+                if (  type() == Tcomplex ) 
+                {
+                        string msg("Incorrect call: writing vectors to scalar column ");
+                        throw WrongColumnType(msg);
+                }
+                else
+                {
+                        size_t n(indata.size());     
+                        try 
+                        {                       
+                            ColumnVectorData<std::complex<float> >& col 
+                            = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);
+                            std::vector<std::valarray<std::complex<float> > > __tmp(n);
+                            for (size_t i = 0; i < n; ++i)
+                            {
+                                    FITSUtil::fill(__tmp[i],indata[i]);
+                            }
+                            col.writeData(__tmp,firstRow);
+                        }
+                        catch (std::bad_cast)
+                        {
+                                std::string msg
+                        (" implicit conversion from complex to real data not allowed: Column ");
+                                msg += name();
+                                throw InvalidDataType(msg);
+                        }
+                 }
+        }
+          
+  }
+
 } // namespace CCfits
 

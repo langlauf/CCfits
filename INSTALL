@@ -1,4 +1,4 @@
-$Id: INSTALL,v 1.2 2001/05/23 17:07:49 pfkeb Exp $
+$Id: INSTALL,v 3.0 2002/06/18 14:44:26 dorman Exp $
 
    To build and install CCfits  from source code on a UNIX-like
 (e.g. UNIX, Linux, or Cygwin) platform, take the following steps.  For

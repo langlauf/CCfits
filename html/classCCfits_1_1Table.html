@@ -19,52 +19,27 @@
 </map>
 <a href="classCCfits_1_1Table-members.html">List of all members.</a><table border=0 cellpadding=0 cellspacing=0>
 <tr><td colspan=2><br><h2>Public Methods</h2></td></tr>
-<tr><td nowrap align=right valign=top><a name="a0" doxytag="CCfits::Table::Table"></a>
-&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a0">Table</a> (const Table &amp;right)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>copy constructor.</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a1" doxytag="CCfits::Table::~Table"></a>
-virtual&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a1">~Table</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>destructor.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a0">Table</a> (const Table &amp;right)</td></tr>
+<tr><td nowrap align=right valign=top>virtual&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a1">~Table</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>const std::map&lt;string,<a class="el" href="classCCfits_1_1Column.html">Column</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a2">column</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to the array containing the columns.</em> <a href="#a2">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a3">column</a> (const string &amp;colName) const  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to the column of name colName.</em> <a href="#a3">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a4">column</a> (int colIndex) const  throw (FitsException&amp;)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to the column identified by colIndex.</em> <a href="#a4">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a5" doxytag="CCfits::Table::rows"></a>
-virtual long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a5">rows</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the number of rows in the table (NAXIS2).</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a3">column</a> (const string &amp;colName) const</td></tr>
+<tr><td nowrap align=right valign=top>virtual <a class="el" href="classCCfits_1_1Column.html">Column</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a4">column</a> (int colIndex) const</td></tr>
+<tr><td nowrap align=right valign=top>virtual long&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a5">rows</a> () const</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a6">updateRows</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>update the number of rows in the table.</em> <a href="#a6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="a7" doxytag="CCfits::Table::rows"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a7">rows</a> (long numRows)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the number of rows in the <a class="el" href="classCCfits_1_1Table.html">Table</a>.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a7">rows</a> (long numRows)</td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a8">deleteColumn</a> (const string &amp;name)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>delete a column in a <a class="el" href="classCCfits_1_1Table.html">Table</a> extension by name.</em> <a href="#a8">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a9">insertRows</a> (long first, long number=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>insert empty rows into the table.</em> <a href="#a9">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a10">deleteRows</a> (long first, long number=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>delete a range of rows in a table.</em> <a href="#a10">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a11">deleteRows</a> (const std::vector&lt; long &gt; &amp;rowList)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>delete a set of rows in the table specified by an input array.</em> <a href="#a11">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>virtual std::map&lt;string, <a class="el" href="classCCfits_1_1Column.html">Column</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#a12">column</a> ()</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return a reference to the array containing the columns.</em> <a href="#a12">More...</a><em></em></font><br><br></td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b0">Table</a> (FITSBase *p, HduType xtype, const string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName, const std::vector&lt; string &gt; &amp;columnFmt, const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Constructor to be used for creating new HDUs.</em> <a href="#b0">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b1">Table</a> (FITSBase *p, HduType xtype, const string &amp;hduName=string(""), int version=1)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>Constructor to be called by operations that read <a class="el" href="classCCfits_1_1Table.html">Table</a> specified by hduName and version.</em> <a href="#b1">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b2">Table</a> (FITSBase *p, HduType xtype, int number)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em><a class="el" href="classCCfits_1_1Table.html">Table</a> constructor for getting Tables by number.</em> <a href="#b2">More...</a><em></em></font><br><br></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b5">init</a> (bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())</td></tr>
 <tr><td nowrap align=right valign=top>virtual void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b6">column</a> (const string &amp;colname, <a class="el" href="classCCfits_1_1Column.html">Column</a> *value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the column with name colname to the input value.</em> <a href="#b6">More...</a><em></em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b9" doxytag="CCfits::Table::numCols"></a>
-int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b9">numCols</a> () const</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>return the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> (the TFIELDS keyword).</em></font><br><br></td></tr>
-<tr><td nowrap align=right valign=top><a name="b10" doxytag="CCfits::Table::numCols"></a>
-void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b10">numCols</a> (int value)</td></tr>
-<tr><td>&nbsp;</td><td><font size=-1><em>set the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a>.</em></font><br><br></td></tr>
+<tr><td nowrap align=right valign=top>int&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b8">numCols</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b9">numCols</a> (int value)</td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="classCCfits_1_1Table.html">Table</a> is the abstract common interface to Binary and Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> HDUs.
@@ -72,6 +47,68 @@ void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1Table.html#b
 <a class="el" href="classCCfits_1_1Table.html">Table</a> is a subclass of <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> that contains an associative array of <a class="el" href="classCCfits_1_1Column.html">Column</a> objects. It implements methods for reading and writing columns 
 <p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
+<a name="a0" doxytag="CCfits::Table::Table"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::Table::Table (
+          </b></td>
+          <td valign="bottom"><b>
+const Table &amp; <em>right</em>&nbsp;)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+copy constructor.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a1" doxytag="CCfits::Table::~Table"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+CCfits::Table::~Table (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+destructor.
+<p>
+    </td>
+  </tr>
+</table>
 <a name="b0" doxytag="CCfits::Table::Table"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -276,17 +313,58 @@ int <em>number</em>&nbsp;)<code> [protected]</code>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
-<a name="a2" doxytag="CCfits::Table::column"></a><p>
+<a name="b6" doxytag="CCfits::Table::column"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-const std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> *&gt; &amp; CCfits::Table::column (
+void CCfits::Table::column (
           </b></td>
           <td valign="bottom"><b>
-) const<code> [inline]</code>
+const string &amp; <em>colname</em>, 
+          </b></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><b>
+<a class="el" href="classCCfits_1_1Column.html">Column</a> * <em>value</em>&nbsp;)<code> [protected, virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set the column with name colname to the input value.
+<p>
+
+<p>
+ 
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a>.    </td>
+  </tr>
+</table>
+<a name="a12" doxytag="CCfits::Table::column"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> *&gt; &amp; CCfits::Table::column (
+          </b></td>
+          <td valign="bottom"><b>
+)<code> [inline, virtual]</code>
           </b></td>
         </tr>
 
@@ -306,7 +384,51 @@ return a reference to the array containing the columns.
 <p>
 
 <p>
- This public version might be used to query the size of the column container in a routine that manipulates column table data.     </td>
+ To be used in the implementation of subclasses.     </td>
+  </tr>
+</table>
+<a name="a4" doxytag="CCfits::Table::column"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::Table::column (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>colIndex</em>&nbsp;) const<code> [virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return a reference to the column identified by colIndex.
+<p>
+
+<p>
+ Throws <a class="el" href="classCCfits_1_1Table_1_1NoSuchColumn.html">NoSuchColumn</a> if the index is out of range -index must satisfy (1 &lt;= index &lt;= <a class="el" href="classCCfits_1_1Table.html#b8">numCols</a>() ).
+<p>
+N.B. the column number is assigned as 1-based, as in FORTRAN rather  than 0-based as in C.<dl compact><dt>
+<b>Exceptions: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>Table::NoSuchColumn</em>
+&nbsp;</td><td>
+ passes colIndex to the diagnostic message  printed when the exception is thrown </td></tr>
+</table>
+</dl>
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a7">CCfits::ExtHDU</a>.    </td>
   </tr>
 </table>
 <a name="a3" doxytag="CCfits::Table::column"></a><p>
@@ -319,7 +441,7 @@ return a reference to the array containing the columns.
 <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::Table::column (
           </b></td>
           <td valign="bottom"><b>
-const string &amp; <em>colName</em>&nbsp;) const  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [virtual]</code>
+const string &amp; <em>colName</em>&nbsp;) const<code> [virtual]</code>
           </b></td>
         </tr>
 
@@ -351,17 +473,17 @@ return a reference to the column of name colName.
 Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a6">CCfits::ExtHDU</a>.    </td>
   </tr>
 </table>
-<a name="a4" doxytag="CCfits::Table::column"></a><p>
+<a name="a2" doxytag="CCfits::Table::column"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-<a class="el" href="classCCfits_1_1Column.html">Column</a> &amp; CCfits::Table::column (
+const std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> *&gt; &amp; CCfits::Table::column (
           </b></td>
           <td valign="bottom"><b>
-int <em>colIndex</em>&nbsp;) const  throw (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a>&amp;)<code> [virtual]</code>
+) const<code> [inline]</code>
           </b></td>
         </tr>
 
@@ -377,55 +499,11 @@ int <em>colIndex</em>&nbsp;) const  throw (<a class="el" href="classCCfits_1_1Fi
     <td>
 
 <p>
-return a reference to the column identified by colIndex.
+return a reference to the array containing the columns.
 <p>
 
 <p>
- Throws <a class="el" href="classCCfits_1_1Table_1_1NoSuchColumn.html">NoSuchColumn</a> if the index is out of range -index must satisfy (1 &lt;= index &lt;= <a class="el" href="classCCfits_1_1Table.html#b9">numCols</a>() ).
-<p>
-N.B. the column number is assigned as 1-based, as in FORTRAN rather  than 0-based as in C.<dl compact><dt>
-<b>Exceptions: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>Table::NoSuchColumn</em>
-&nbsp;</td><td>
- passes colIndex to the diagnostic message  printed when the exception is thrown </td></tr>
-</table>
-</dl>
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a7">CCfits::ExtHDU</a>.    </td>
-  </tr>
-</table>
-<a name="a6" doxytag="CCfits::Table::updateRows"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::Table::updateRows (
-          </b></td>
-          <td valign="bottom"><b>
-)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-update the number of rows in the table.
-<p>
-
-<p>
- Called to force the <a class="el" href="classCCfits_1_1Table.html">Table</a> to reset its internal "rows" attribute. public, but is called when needed internally.     </td>
+ This public version might be used to query the size of the column container in a routine that manipulates column table data.     </td>
   </tr>
 </table>
 <a name="a8" doxytag="CCfits::Table::deleteColumn"></a><p>
@@ -477,23 +555,17 @@ The name of the column to be deleted.</td></tr>
 Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a10">CCfits::ExtHDU</a>.    </td>
   </tr>
 </table>
-<a name="a9" doxytag="CCfits::Table::insertRows"></a><p>
+<a name="a11" doxytag="CCfits::Table::deleteRows"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::Table::insertRows (
+void CCfits::Table::deleteRows (
           </b></td>
           <td valign="bottom"><b>
-long <em>first</em>, 
-          </b></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td><b>
-long <em>number</em> = 1&nbsp;)
+const std::vector&lt; long &gt; &amp; <em>rowList</em>&nbsp;)
           </b></td>
         </tr>
 
@@ -509,19 +581,16 @@ long <em>number</em> = 1&nbsp;)
     <td>
 
 <p>
-insert empty rows into the table.
+delete a set of rows in the table specified by an input array.
 <p>
 
 <p>
  <dl compact><dt>
 <b>Parameters: </b><dd>
 <table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>first</em>
+<tr><td valign=top><em>rowlist</em>
 &nbsp;</td><td>
-the start row of the range </td></tr>
-<tr><td valign=top><em>number</em>
-&nbsp;</td><td>
-the number of rows to insert.</td></tr>
+The vector of row numbers to be deleted.</td></tr>
 </table>
 </dl><dl compact><dt>
 <b>Exceptions: </b><dd>
@@ -589,86 +658,6 @@ the number of rows to delete; defaults to 1.</td></tr>
 </dl>    </td>
   </tr>
 </table>
-<a name="a11" doxytag="CCfits::Table::deleteRows"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-void CCfits::Table::deleteRows (
-          </b></td>
-          <td valign="bottom"><b>
-const std::vector&lt; long &gt; &amp; <em>rowList</em>&nbsp;)
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-delete a set of rows in the table specified by an input array.
-<p>
-
-<p>
- <dl compact><dt>
-<b>Parameters: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>rowlist</em>
-&nbsp;</td><td>
-The vector of row numbers to be deleted.</td></tr>
-</table>
-</dl><dl compact><dt>
-<b>Exceptions: </b><dd>
-<table border=0 cellspacing=2 cellpadding=0>
-<tr><td valign=top><em>FitsError</em>
-&nbsp;</td><td>
- thrown if the underlying cfitsio call fails to return without error. </td></tr>
-</table>
-</dl>    </td>
-  </tr>
-</table>
-<a name="a12" doxytag="CCfits::Table::column"></a><p>
-<table width="100%" cellpadding="2" cellspacing="0" border="0">
-  <tr>
-    <td class="md">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td nowrap valign="top"><b> 
-std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> *&gt; &amp; CCfits::Table::column (
-          </b></td>
-          <td valign="bottom"><b>
-)<code> [inline, virtual]</code>
-          </b></td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing=5 cellpadding=0 border=0>
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-return a reference to the array containing the columns.
-<p>
-
-<p>
- To be used in the implementation of subclasses.     </td>
-  </tr>
-</table>
 <a name="b5" doxytag="CCfits::Table::init"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
@@ -706,23 +695,23 @@ const std::vector&lt; string &gt; &amp; <em>keys</em> = std::vector&lt;string&gt
 Protected function, provided to allow the implementation of extensions of the library.     </td>
   </tr>
 </table>
-<a name="b6" doxytag="CCfits::Table::column"></a><p>
+<a name="a9" doxytag="CCfits::Table::insertRows"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td nowrap valign="top"><b> 
-void CCfits::Table::column (
+void CCfits::Table::insertRows (
           </b></td>
           <td valign="bottom"><b>
-const string &amp; <em>colname</em>, 
+long <em>first</em>, 
           </b></td>
         </tr>
         <tr>
           <td></td>
           <td><b>
-<a class="el" href="classCCfits_1_1Column.html">Column</a> * <em>value</em>&nbsp;)<code> [protected, virtual]</code>
+long <em>number</em> = 1&nbsp;)
           </b></td>
         </tr>
 
@@ -738,18 +727,192 @@ const string &amp; <em>colname</em>,
     <td>
 
 <p>
-set the column with name colname to the input value.
+insert empty rows into the table.
 <p>
 
 <p>
- 
+ <dl compact><dt>
+<b>Parameters: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>first</em>
+&nbsp;</td><td>
+the start row of the range </td></tr>
+<tr><td valign=top><em>number</em>
+&nbsp;</td><td>
+the number of rows to insert.</td></tr>
+</table>
+</dl><dl compact><dt>
+<b>Exceptions: </b><dd>
+<table border=0 cellspacing=2 cellpadding=0>
+<tr><td valign=top><em>FitsError</em>
+&nbsp;</td><td>
+ thrown if the underlying cfitsio call fails to return without error. </td></tr>
+</table>
+</dl>    </td>
+  </tr>
+</table>
+<a name="b9" doxytag="CCfits::Table::numCols"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::Table::numCols (
+          </b></td>
+          <td valign="bottom"><b>
+int <em>value</em>&nbsp;)<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
 <p>
-Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a>.    </td>
+set the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a>.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="b8" doxytag="CCfits::Table::numCols"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+int CCfits::Table::numCols (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline, protected]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> (the TFIELDS keyword).
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a7" doxytag="CCfits::Table::rows"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::Table::rows (
+          </b></td>
+          <td valign="bottom"><b>
+long <em>numRows</em>&nbsp;)<code> [inline]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+set the number of rows in the <a class="el" href="classCCfits_1_1Table.html">Table</a>.
+<p>
+    </td>
+  </tr>
+</table>
+<a name="a5" doxytag="CCfits::Table::rows"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+long CCfits::Table::rows (
+          </b></td>
+          <td valign="bottom"><b>
+) const<code> [inline, virtual]</code>
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+return the number of rows in the table (NAXIS2).
+<p>
+
+<p>
+Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a8">CCfits::ExtHDU</a>.    </td>
+  </tr>
+</table>
+<a name="a6" doxytag="CCfits::Table::updateRows"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::Table::updateRows (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+update the number of rows in the table.
+<p>
+
+<p>
+ Called to force the <a class="el" href="classCCfits_1_1Table.html">Table</a> to reset its internal "rows" attribute. public, but is called when needed internally.     </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>Table.h<li>Column.h<li>Table.cxx</ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:56 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

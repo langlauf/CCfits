@@ -13,9 +13,9 @@
 <p>
 CCfits has been developed and tested primarily on Solaris using the SunPro CC compiler 5.1 [Sun Workshop/Forte 6.0] <em>prior versions of SunPro CC will not compile CCfits as they do not support templated member functions.</em>
 <p>
-CCfits has also been built and tested on Linux on the RedHat 6.2 and 7.1 distributions using g++ 2.95.3 and 3.0, and on OSF1 v. 4.0D with g++ /2.95.3. CCfits will also build with gcc 2.95.2. Note also that CCfits builds successfully for g++ 2.95.3 and 3.0 on Solaris 7, and on Linux-PPC using g++ 2.95.2. For reasons unclear, our test programs do not execute correctly under these conditions so we cannot support these combinations yet.
+CCfits has also been built and tested on Linux on the RedHat 6.2 and 7.1 distributions using g++ 2.95.3 and 3.0, and on OSF1 v. 4.0D with g++ /2.95.3. CCfits will also build with gcc 2.95.2.
 <p>
-In summary, this initial release has been tested on the following platforms:
+In summary, this release has been tested on the following platforms:
 <p>
 
 <p>
@@ -23,14 +23,20 @@ In summary, this initial release has been tested on the following platforms:
 <div align="center">
 <table border = 1>
 <TR><TD>  <B>Platform  </B></TD>         <TD>   <B> Compiler </B>    </TD>  <TD>  <B>Optimization</B> </TD>  </TR>
-<TR><TD> Solaris 7   </TD>              <TD>SunPro CC 5.1    </TD>    <TD>     -g and -fast</TD>  </TR>
+<TR><TD> Solaris 7   </TD>              <TD>SunPro CC 5.1, 5.3    </TD>    <TD>     -g and -fast</TD>  </TR>
 <TR><TD> OSF1/4.0D   </TD>              <TD>g++ /2.95.3      </TD>    <TD>     -g -O2</TD>  </TR>
-<TR><TD> Linux/RedHat 7.1,6.2 </TD>     <TD>g++ /2.95.3, 3.0  </TD>   <TD>    -g -O2</TD>  </TR>
+<TR><TD> Linux/RedHat 7.1,6.2 </TD>     <TD>g++ /2.95.3, 3.0.x, 3.1  </TD>   <TD>    -g -O2</TD>  </TR>
+<TR><TD> HP-UX 10.20  </TD>             <TD>g++ /2.95.x  </TD>   <TD>    -g -O2</TD>  </TR>
+<TR><TD>AIX</TD>             <TD> kcc  </TD>   <TD> (use Makefile.kcc) </TD>  </TR>
 </table>
 </div>
 
 <p>
-To build and install CCfits from source code on a UNIX-like (e.g. UNIX, Linux, or Cygwin) platform, take the following steps. For building on a Microsoft Windows platform with Visual Developer Studio, or with Mac OS X, see below.
+N.B. For exception support, the g++ compiler needs to be built with threads enabled (--enable-threads or similar option). While this is supposed to be the default on some platforms, it is wise to ensure  that it is turned on by explicitly specifying it when the compiler is (re)-built. If this is not done, CCfits may dump core whenever the first exception is thrown in your code.
+<p>
+Not yet supported are: Solaris with gcc compilers (builds, standand library related  run time error in test program); Mac OS X / Darwin (compiler distributed with OS X  does not have valarray header: not yet tested on gcc 3.1); Windows 2000/ VC++.net (library build successfully; standard library related runtime error in test program).
+<p>
+To build and install CCfits from source code on a UNIX-like (e.g. UNIX, Linux, or Cygwin) platform, take the following steps.
 <p>
 <a name="autogen"><h3>Autogen</h3></a>
 
@@ -58,13 +64,15 @@ Disregard this message. It is not an error.
 <a name="config"><h3>Configure</h3></a>
 
 <p>
-By default, the GCC compiler and linker will be used. If you want to compile and link with a different compiler and linker, you can set some environment variable before running the configure script. For example, to use Sun's C++ compiler, do the following if you are a csh user...
+<em>By default, the g++ compiler and linker will be used. </em> If you want to compile and link with a different compiler and linker, you can set some environment variable before running the configure script. For example, to use Sun's C++ compiler, do the following if you are a csh user:
 <p>
 &gt; setenv CXX CC
 <p>
 and the equivalent if you are not. You can set the absolute path to the compiler you want to use if necessary.
 <p>
-CCfits requires that the `cfitsio' package, version 2.0 or later, is available on your system. The configure script that you will run takes an option to specify the location of the cfitsio package.
+By default, the configuration sets the compiler optimization flags environment variable  to -g -O2 for g++ and -g for other compilers. If you wish to override this (for example, to use -O4 or -fast for SunPro CC or to switch off the optimization on g++),  set this variable before running configure.
+<p>
+CCfits requires that the `cfitsio' package, version 2.4 or later, is available on your system. The configure script that you will run takes an option to specify the location of the cfitsio package. The current version has been tested with cfitsio v2.410.
 <p>
 If the `cfitsio' package is installed in a directory consisting of a `lib' subdirectory with the libcfitsio.a file and a `include' subdirectory with the fitsio.h file, then you can run the configure script with as single option. For example, if the cfitsio package is installed in this fashion in ``/usr/local/ftools' then the configure script option will be...
 <p>
@@ -125,15 +133,11 @@ The default install location will be /usr/local/lib for the library and /usr/loc
 <a name="windows"><h3>Windows/Visual C++</h3></a>
 
 <p>
-For compiling the code on a Windows system with MicroSoft Visual C++, thake the following steps.
+For compiling the code on a Windows system with MicroSoft Visual C++, take the following steps.
 <p>
 1. Compile the C++ code.  Before compiling the C++ code, you may need to edit the file `fincludes'. This file has the include path to the cfitsio package If the file has the correct path, then open the workspace file `CCfits.dsw' from within a Visual C++ Studio session and do a build.
 <p>
-The workspace file was generated automatically by a tool called `am2msdev' (<a href="ftp::/ftp.slac.stanford.edu/users/pfkeb/automake/am2msdev">ftp::/ftp.slac.stanford.edu/users/pfkeb/automake/am2msdev</a>). Inputs to this tool are the Makefile.am files used by the UNIX-based developers to do builds.
-<p>
-Author: <a href="mailto:Paul_Kunz@slac.stanford.edu">Paul_Kunz@slac.stanford.edu</a>
-<p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:14 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

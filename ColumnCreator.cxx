@@ -1,21 +1,27 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
 
-// Table
-#include "Table.h"
-// ColumnCreator
-#include "ColumnCreator.h"
 // Column
 #include "Column.h"
+// Table
+#include "Table.h"
+// ColumnData
+#include "ColumnData.h"
+// ColumnVectorData
+#include "ColumnVectorData.h"
+// ColumnCreator
+#include "ColumnCreator.h"
 
 
 
@@ -27,8 +33,6 @@ using std::complex;
 namespace CCfits {
 
   // Class CCfits::ColumnCreator 
-
-
 
   ColumnCreator::ColumnCreator (Table* p)
         : m_parent(p)
@@ -53,10 +57,9 @@ namespace CCfits {
    long  width=1;
    int   type=0;
    double tscale = 1;
-   // initialize to something other than zero.
-   unsigned int tzero  = 1;
+   double tzero  = 0;
    
-   Column::getType(m_parent, number, &type, &repeat, &width, &tscale, &tzero);
+   getScaling(number, type, repeat, width, tscale, tzero);
    return createColumn(number,ValueType(type),name,format,unit,repeat,width,tscale,tzero);
  
   }
@@ -75,6 +78,8 @@ namespace CCfits {
       case VTushort:
 	        m_column = new ColumnVectorData<unsigned short>(number, name,  
                                         type, format,unit,  m_parent, repeat); 
+                m_column->zero(USBASE);
+                m_column->scale(1);
                 break;      
       case Tushort:
                 if (repeat == 1)
@@ -87,6 +92,8 @@ namespace CCfits {
 	                m_column = new ColumnVectorData<unsigned short>(number, name,  
                                         type, format,unit,  m_parent, repeat);                        
                 }	
+                m_column->zero(USBASE);
+                m_column->scale(1);
                 break;
       case VTshort:
 	        m_column = new ColumnVectorData<short>(number, name, 
@@ -157,6 +164,8 @@ namespace CCfits {
       case VTuint:
 	        m_column = new ColumnVectorData<unsigned int>(number, name,  
                                         type, format,unit,  m_parent, repeat);                        	
+                m_column->zero(ULBASE);
+                m_column->scale(1);
                 break;
       case Tuint:
                 if (repeat == 1)
@@ -169,6 +178,8 @@ namespace CCfits {
 	                m_column = new ColumnVectorData<unsigned int>(number, name,  
                                         type, format,unit,  m_parent, repeat);                        
                 }	
+                m_column->zero(ULBASE);
+                m_column->scale(1);
                 break;
       case VTlong:
 	        m_column = new ColumnVectorData<long>(number, name,  
@@ -188,7 +199,9 @@ namespace CCfits {
                 break;
       case VTulong:          
 	        m_column = new ColumnVectorData<unsigned long>(number, name,  
-                                        type, format,unit,  m_parent, repeat);                        
+                                        type, format,unit,  m_parent, repeat);   
+                m_column->zero(ULBASE);
+                m_column->scale(1);                                  
                 break;
       case Tulong:
                 if (repeat == 1)
@@ -201,6 +214,8 @@ namespace CCfits {
 	                m_column = new ColumnVectorData<unsigned long>(number, name,  
                                         type, format,unit,  m_parent, repeat);                        
                 }	
+                m_column->zero(ULBASE);
+                m_column->scale(1);
                 break;
       case VTfloat:
 	        m_column = new ColumnVectorData<float>(number, name,  
@@ -269,14 +284,85 @@ namespace CCfits {
       default:
          // replace with exception.
          throw FitsFatal("Unknown ValueType in ColumnCreator");
-   }   
-   if ( scaleFactor != 1 )
+   }    
+   if ( scaleFactor != 1)
    {
-       m_column->scale(scaleFactor);
-       m_column->zero(offset); 
-   }
-      
+        m_column->scale(scaleFactor);
+        m_column->zero(offset); 
+   }   
    return m_column;
+  }
+
+  void ColumnCreator::getScaling (int index, int& type, long& repeat, long& width, double& tscale, double& tzero)
+  {
+      int status (0);      
+          
+          
+      if (fits_get_coltype(m_parent->fitsPointer(), index, &type, &repeat, &width, &status)) 
+      { 
+              throw FitsError(status);
+      }
+
+      int absType (std::abs(type)) ;
+
+    
+      FITSUtil::auto_array_ptr<char> pKeyname( new char[FLEN_KEYWORD]);
+      char* keyname = pKeyname.get();
+      sprintf(keyname, "%s%d",Column::TSCAL().c_str(),index);
+      bool scalePresent (!fits_read_key(m_parent->fitsPointer(),Tdouble,keyname,&tscale,0,&status));
+      
+      // reset the status flag if there was no scale factor so cfitsio will not
+      // propagate the error code.
+      if (!scalePresent) status = 0;
+      sprintf(keyname, "%s%d", Column::TZERO().c_str(),index);
+      fits_read_key(m_parent->fitsPointer(),Tdouble,keyname,&tzero,0,&status);
+      // if there is no BSCALE key present or BSCALE == 1 ... 
+      if (!scalePresent || scalePresent &&  tscale == 1)
+      {
+           if ( !status )
+           {
+                   switch (absType)
+                   {
+                           case Tshort:
+                                  if (tzero == USBASE)
+                                  { 
+                                        type > 0 ? type = Tushort : type = VTushort ;
+                                  }
+                                  break;
+                           case Tint:
+                                   if (tzero == ULBASE)
+                                   {
+                                        type > 0 ? type = Tuint : type = VTuint ;
+                                   }
+                                   break;
+                           case Tlong:
+                                   if (tzero == ULBASE)
+                                   {
+                                        type > 0 ? type = Tulong : type = VTulong ;
+                                   }
+                                   break;
+                           default:
+                                   break;
+                   }
+           }       
+     }
+     else // scale present and tmpScale != 1.
+     {
+             switch (absType)
+             {
+                 case Tbit:
+                 case Tbyte:
+                 case Tint:
+                 case Tshort:
+                         type > 0 ? type = Tfloat: type = VTfloat;
+                         break;
+                 case Tlong:
+                         type > 0 ? type = Tdouble: type = VTdouble;
+                         break;   
+                 default:
+                         break; // do nothing.    
+             }
+     }                
   }
 
   // Additional Declarations

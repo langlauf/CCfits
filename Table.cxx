@@ -1,26 +1,29 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
 
-// Table
-#include "Table.h"
-// ColumnCreator
-#include "ColumnCreator.h"
 // Column
 #include "Column.h"
+// ColumnCreator
+#include "ColumnCreator.h"
+// Table
+#include "Table.h"
 // FITS
 #include "FITS.h"
 
 
 
+#include <algorithm>
 
 
 namespace CCfits {
@@ -50,9 +53,6 @@ namespace CCfits {
 
   // Class CCfits::Table 
 
-
-
-
   Table::Table(const Table &right)
   : ExtHDU(right),        
   m_numCols(right.m_numCols),
@@ -77,12 +77,12 @@ namespace CCfits {
    naxes(1) = rows;
    
    const size_t n(columnName.size());
-   FITSUtil::auto_array_ptr<char*> pCname(new char*[n]);
-   FITSUtil::auto_array_ptr<char*> pCformat(new char*[n]);
-   FITSUtil::auto_array_ptr<char*> pCunit(new char*[n]);
-   char** cname(pCname.get());
-   char** cformat(pCformat.get());
-   char** cunit(pCunit.get());
+   //FITSUtil::auto_array_ptr<char*> pCname(new char*[n]);
+   //FITSUtil::auto_array_ptr<char*> pCformat(new char*[n]);
+   //FITSUtil::auto_array_ptr<char*> pCunit(new char*[n]);
+   char** cname = new char*[n];
+   char** cformat = new char*[n];
+   char** cunit = new char*[n];
 
    for (size_t i = 0; i < n; ++i)
    {
@@ -94,8 +94,18 @@ namespace CCfits {
    
    if (fits_create_tbl(fitsPointer(), tblType, rows , m_numCols, cname,
 			    cformat, cunit, const_cast<char*>(hduName.c_str()),
-			    &status))  throw FitsError(status);
-     
+			    &status))  
+   {
+           delete [] cname;
+           delete [] cformat;
+           delete [] cunit;
+           throw FitsError(status);
+   } 
+   
+   delete[] cname;
+   delete[] cformat;
+   delete[] cunit;
+   
   }
 
   Table::Table (FITSBase* p, HduType xtype, const string &hduName, int version)
@@ -235,15 +245,22 @@ namespace CCfits {
   // Column has 'deep copy' because all its data members that need
   // to be copied (i.e. not the pointer to the fits file) are allocated
   // on the stack by being Container types.
-    
-  for (std::map<string,Column*>::const_iterator col = right.m_column.begin(); 
-          col != right.m_column.end(); col++)
+  std::map<string,Column*> newColumnContainer;
+          
+  try
   {
-        m_column[(*col).first] = (*col).second;
+        for (std::map<string,Column*>::const_iterator col = right.m_column.begin(); 
+                col != right.m_column.end(); col++)
+        {
+                newColumnContainer[(*col).first] = (*col).second->clone();
+        }
+        m_column = newColumnContainer;
   }
+  catch (...)  { throw; }
+                  
   }
 
-  Column& Table::column (const string& colName) const throw (FitsException&)
+  Column& Table::column (const string& colName) const
   {
   std::map<string,Column*>::const_iterator key = m_column.find(colName);
   
@@ -252,7 +269,7 @@ namespace CCfits {
   return *((*key).second);
   }
 
-  Column& Table::column (int colIndex) const throw (FitsException&)
+  Column& Table::column (int colIndex) const
   {
   std::map<string,Column*>::const_iterator key;
             
@@ -269,7 +286,10 @@ namespace CCfits {
 
   void Table::updateRows ()
   {
-    naxes(1,fitsPointer()->Fptr->numrows);
+    long numrows(0);
+    int status(0);
+    if (fits_get_num_rows(fitsPointer(),&numrows,&status) ) throw FitsError(status);
+    naxes(1,numrows);
   }
 
   void Table::column (const string& colname, Column* value)
@@ -335,9 +355,9 @@ namespace CCfits {
   {
     int status(0);
     makeThisCurrent();
-    FITSUtil::Carray<long> convert;
+    FITSUtil::CVarray<long> convert;
     FITSUtil::auto_array_ptr<long> pDoomedRows(convert(rowList));
-    long* doomedRows(pDoomedRows.get());
+    long* doomedRows = pDoomedRows.get();
     if (fits_delete_rowlist(fitsPointer(),doomedRows,rowList.size(),&status)) 
                          throw FitsError(status);
 
@@ -370,7 +390,7 @@ namespace CCfits {
         while (ci != ciEnd)
         {
                 int colnum(0);
-                char* cname(const_cast<char*>((*ci).first.c_str()));
+                char* cname = const_cast<char*>((*ci).first.c_str());
                 if (fits_get_colnum(fitsPointer(),CASESEN,cname,&colnum,&status))
                                         throw FitsError(status);
                 (*ci).second->index(colnum);       

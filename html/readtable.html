@@ -14,12 +14,28 @@ The two extensions are read on construction, including all the column data [read
 <p>
 Note that if the data are read as part of the construction, then CCfits uses the row-optimization techniques describe in chapter 13 of the cfitsio manual; a chunk of data equal to the size of the available buffer space is read from contiguous disk blocks and transferred to memory storage, as opposed to each column being read in turn. Thus the most efficient way of reading files is to acquire the data on construction. <div class="fragment"><pre> <font class="keywordtype">int</font> readTable()<font class="keyword"></font>
 <font class="keyword"> </font>{
+        <font class="comment">// read a table and explicitly read selected columns. To read instead all the</font>
+        <font class="comment">// data on construction, set the last argument of the FITS constructor</font>
+        <font class="comment">// call to 'true'. This functionality was tested in the last release.</font>
         std::vector&lt;string&gt; hdus(2);
         hdus[0] = <font class="stringliteral">"PLANETS_ASCII"</font>;
         hdus[1] = <font class="stringliteral">"TABLE_BINARY"</font>;
         
         
-        std::auto_ptr&lt;FITS&gt; pInfile(<font class="keyword">new</font> FITS(<font class="stringliteral">"atestfil.fit"</font>,Read,hdus,<font class="keyword">true</font>));
+        std::auto_ptr&lt;FITS&gt; pInfile(<font class="keyword">new</font> FITS(<font class="stringliteral">"atestfil.fit"</font>,Read,hdus,<font class="keyword">false</font>));
+        
+        ExtHDU&amp; table = pInfile-&gt;extension(hdus[1]);
+        
+        
+        
+        std::vector &lt; valarray &lt;int &gt; &gt; pp;
+        table.column(<font class="stringliteral">"powerSeq"</font>).readArrays( pp, 1,3 );
+                        
+        std::vector &lt; valarray &lt;std::complex&lt;double&gt; &gt; &gt; cc;
+        table.column(<font class="stringliteral">"dcomplex-roots"</font>).readArrays( cc, 1,3 );
+        
+        std::valarray &lt; std::complex&lt;float&gt; &gt; ff;
+        table.column(<font class="stringliteral">"fcomplex-roots"</font>).read( ff, 4 );
         
         std::cout &lt;&lt; pInfile-&gt;extension(hdus[0]) &lt;&lt; std::endl;
         
@@ -28,7 +44,7 @@ Note that if the data are read as part of the construction, then CCfits uses the
         <font class="keywordflow">return</font> 0;       
  }</pre></div>
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:14 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -9,21 +9,21 @@
 <a class="qindex" href="index.html">Main Page</a> &nbsp; <a class="qindex" href="modules.html">Modules</a> &nbsp; <a class="qindex" href="namespaces.html">Namespace List</a> &nbsp; <a class="qindex" href="hierarchy.html">Class Hierarchy</a> &nbsp; <a class="qindex" href="classes.html">Alphabetical List</a> &nbsp; <a class="qindex" href="annotated.html">Compound List</a> &nbsp; <a class="qindex" href="functions.html">Compound Members</a> &nbsp; <a class="qindex" href="pages.html">Related Pages</a> &nbsp; </center>
 <hr><h1>CCfits::AsciiTable Member List</h1>This is the complete list of members for <a class="el" href="classCCfits_1_1AsciiTable.html">CCfits::AsciiTable</a>, including all inherited members.<ul>
 <li><a class="el" href="classCCfits_1_1AsciiTable.html#a2">addColumn</a>(ValueType type, const string &amp;columnName, long repeatWidth, const string &amp;colUnit=string(""), long decimals=-1, size_t columnNumber=0)
-<code> [virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a25">addKey</a>(const string &amp;name, T val, const string &amp;comment)
+<code> [virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a31">addKey</a>(const string &amp;name, T val, const string &amp;comment)
 <li><a class="el" href="classCCfits_1_1AsciiTable.html#b0">AsciiTable</a>(FITSBase *p, const string &amp;hduName=string(""), bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=1)
-<code> [protected]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#b1">AsciiTable</a>(FITSBase *p, const string &amp;hduName, int rows, const std::vector&lt; ValueType &gt; &amp;columnType=std::vector&lt; ValueType &gt;(), const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)
+<code> [protected]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#b1">AsciiTable</a>(FITSBase *p, const string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#b2">AsciiTable</a>(FITSBase *p, int number)
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#a15">axes</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a16">axis</a>(size_t index) const
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#b8">bitpix</a>() const
-<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#b9">bitpix</a>(long value)
-<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#a0">clone</a>(FITSBase *p) const
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a19">bitpix</a>() const
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a20">bitpix</a>(long value)
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#a0">clone</a>(FITSBase *p) const
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#a2">column</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1Table.html#a3">column</a>(const string &amp;colName) const
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#a4">column</a>(int colIndex) const
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#a12">column</a>()
 <code> [inline, virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#b6">column</a>(const string &amp;colname, Column *value)
-<code> [protected, virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a21">comment</a>() const
+<code> [protected, virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a23">comment</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1Table.html#a8">deleteColumn</a>(const string &amp;name)
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a18">deleteKey</a>(const std::string &amp;doomed)
 <li><a class="el" href="classCCfits_1_1Table.html#a10">deleteRows</a>(long first, long number=1)
@@ -40,21 +40,21 @@
 <li><a class="el" href="classCCfits_1_1HDU.html#a0">HDU</a>(const HDU &amp;right)
 <li><a class="el" href="classCCfits_1_1HDU.html#b0">HDU</a>(FITSBase *p=0)
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#b1">HDU</a>(FITSBase *p, int bitpix, int naxis, const std::vector&lt; long &gt; &amp;axes)
-<code> [protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#a20">history</a>() const
+<code> [protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#a22">history</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a17">index</a>(int value)
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a19">index</a>() const
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a21">index</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1Table.html#b5">init</a>(bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1Table.html#a9">insertRows</a>(long first, long number=1)
 <li><a class="el" href="classCCfits_1_1HDU.html#a6">keyWord</a>()
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a7">keyWord</a>(const string &amp;keyName)
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a22">keyWord</a>() const
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a23">keyWord</a>(const string &amp;keyname) const
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a28">keyWord</a>() const
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a29">keyWord</a>(const string &amp;keyname) const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#a5">makeThisCurrent</a>() const
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#a3">name</a>() const
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#a13">name</a>()
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#b13">naxes</a>()
-<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1Table.html#b9">numCols</a>() const
-<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1Table.html#b10">numCols</a>(int value)
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#b11">naxes</a>()
+<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1Table.html#b8">numCols</a>() const
+<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1Table.html#b9">numCols</a>(int value)
 <code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#a2">operator!=</a>(const HDU &amp;right) const
 <li><a class="el" href="classCCfits_1_1HDU.html#a1">operator==</a>(const HDU &amp;right) const
 <li><a class="el" href="classCCfits_1_1HDU.html#a13">parent</a>() const
@@ -70,11 +70,12 @@
 <li><a class="el" href="classCCfits_1_1HDU.html#a14">readAllKeys</a>()
 <li><a class="el" href="classCCfits_1_1AsciiTable.html#a1">readData</a>(bool readFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#d0">readHduName</a>(const fitsfile *fptr, int hduIndex, string &amp;hduName, int &amp;hduVersion)
-<code> [static]</code><li><a class="el" href="classCCfits_1_1HDU.html#a26">readKey</a>(const string &amp;keyName, T &amp;val)
-<li><a class="el" href="classCCfits_1_1HDU.html#a27">readKeys</a>(std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)
+<code> [static]</code><li><a class="el" href="classCCfits_1_1HDU.html#a32">readKey</a>(const string &amp;keyName, T &amp;val)
+<li><a class="el" href="classCCfits_1_1HDU.html#a33">readKeys</a>(std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)
 <li><a class="el" href="classCCfits_1_1Table.html#a5">rows</a>() const
 <code> [inline, virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#a7">rows</a>(long numRows)
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a24">setKeyWord</a>(const string &amp;keyname, Keyword &amp;value)
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1HDU.html#a26">scale</a>() const
+<code> [inline, virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#a30">setKeyWord</a>(const string &amp;keyname, Keyword &amp;value)
 <code> [inline]</code><li><a class="el" href="classCCfits_1_1Table.html#a0">Table</a>(const Table &amp;right)
 <li><a class="el" href="classCCfits_1_1Table.html#b0">Table</a>(FITSBase *p, HduType xtype, const string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName, const std::vector&lt; string &gt; &amp;columnFmt, const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), int version=1)
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1Table.html#b1">Table</a>(FITSBase *p, HduType xtype, const string &amp;hduName=string(""), int version=1)
@@ -92,12 +93,13 @@
 <li><a class="el" href="classCCfits_1_1HDU.html#a10">writeHistory</a>(const string &amp;history="Generic History String")
 <li><a class="el" href="classCCfits_1_1ExtHDU.html#b11">xtension</a>() const
 <code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#b12">xtension</a>(HduType value)
-<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#b3">~AsciiTable</a>()
+<code> [inline, protected]</code><li><a class="el" href="classCCfits_1_1HDU.html#a24">zero</a>() const
+<code> [inline, virtual]</code><li><a class="el" href="classCCfits_1_1AsciiTable.html#b3">~AsciiTable</a>()
 <code> [protected]</code><li><a class="el" href="classCCfits_1_1ExtHDU.html#a1">~ExtHDU</a>()
 <code> [virtual]</code><li><a class="el" href="classCCfits_1_1HDU.html#b2">~HDU</a>()
 <code> [protected, virtual]</code><li><a class="el" href="classCCfits_1_1Table.html#a1">~Table</a>()
 <code> [virtual]</code></ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:52 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:09 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

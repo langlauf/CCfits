@@ -1,19 +1,21 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
 
-// ExtHDU
-#include "ExtHDU.h"
 // PHDU
 #include "PHDU.h"
+// ExtHDU
+#include "ExtHDU.h"
 // FITSBase
 #include "FITSBase.h"
 // FITSUtil
@@ -30,15 +32,6 @@ namespace CCfits {
 
   // Class CCfits::FITSBase 
 
-
-
-
-
-
-
-
-
-
   FITSBase::FITSBase(const FITSBase &right)
     : m_mode(right.m_mode), m_currentExtensionName(right.m_currentExtensionName),
        m_name(right.m_name), m_pHDU(0), 
@@ -47,12 +40,13 @@ namespace CCfits {
       
   {
           
-        if (right.m_pHDU)  m_pHDU = right.m_pHDU->clone(this); 
+        if (right.m_pHDU)  m_pHDU = dynamic_cast< PHDU *> (right.m_pHDU->clone(this)); 
           
         ExtMapConstIt endList = right.m_extension.end();
         for (ExtMapConstIt hdu = right.m_extension.begin(); hdu != endList; hdu++)
         {              
-                ExtMap::value_type addHDUEntry((*hdu).first,(*hdu).second->clone(this));
+                ExtHDU* copy = dynamic_cast<ExtHDU*>((*hdu).second->clone(this));
+                ExtMap::value_type addHDUEntry((*hdu).first,copy);
                 m_extension.insert(addHDUEntry);
         }
   }

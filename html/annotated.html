@@ -11,20 +11,21 @@
 <li><a class="el" href="classCCfits_1_1AsciiTable.html">CCfits::AsciiTable</a>  (Class Representing Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> Extensions)
 <li><a class="el" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html">CCfits::FITSUtil::auto_array_ptr</a>  (A class that mimics the std:: library auto_ptr class, but works with arrays)
 <li><a class="el" href="classCCfits_1_1BinTable.html">CCfits::BinTable</a>  (Class Representing Binary <a class="el" href="classCCfits_1_1Table.html">Table</a> Extensions. Contains columns with scalar or vector row entries)
+<li><a class="el" href="classCCfits_1_1FITSUtil_1_1CAarray.html">CCfits::FITSUtil::CAarray</a>  (Function object returning C array from a valarray. see <a class="el" href="classCCfits_1_1FITSUtil_1_1CVarray.html">CVarray</a> for details)
 <li><a class="el" href="classCCfits_1_1FITS_1_1CantCreate.html">CCfits::FITS::CantCreate</a>  (Thrown on failure to create new file)
 <li><a class="el" href="classCCfits_1_1FITS_1_1CantOpen.html">CCfits::FITS::CantOpen</a>  (Thrown on failure to open existing file)
-<li><a class="el" href="classCCfits_1_1FITSUtil_1_1Carray.html">CCfits::FITSUtil::Carray</a> 
 <li><a class="el" href="classCCfits_1_1Column.html">CCfits::Column</a>  (Abstract base class for <a class="el" href="classCCfits_1_1Column.html">Column</a> objects)
+<li><a class="el" href="classCCfits_1_1FITSUtil_1_1CVAarray.html">CCfits::FITSUtil::CVAarray</a>  (Function object returning C array from a vector of valarrays. see <a class="el" href="classCCfits_1_1FITSUtil_1_1CVarray.html">CVarray</a> for details)
+<li><a class="el" href="classCCfits_1_1FITSUtil_1_1CVarray.html">CCfits::FITSUtil::CVarray</a>  (Function object class for returning C arrays from standard library objects used in the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> library implementation)
 <li><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a>  (Base class for all <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension HDUs, i.e. Image Extensions and Tables)
 <li><a class="el" href="classCCfits_1_1FITS.html">CCfits::FITS</a>  (Memory object representation of a disk <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file)
 <li><a class="el" href="classCCfits_1_1FitsError.html">CCfits::FitsError</a>  (<a class="el" href="classCCfits_1_1FitsError.html">FitsError</a> is the exception thrown by non-zero cfitsio status codes)
 <li><a class="el" href="classCCfits_1_1FitsException.html">CCfits::FitsException</a>  (<a class="el" href="classCCfits_1_1FitsException.html">FitsException</a> is the base class for all exceptions thrown by this library)
 <li><a class="el" href="classCCfits_1_1FitsFatal.html">CCfits::FitsFatal</a>  ([potential] base class for exceptions to be thrown on internal library error)
 <li><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a>  (Base class for all <a class="el" href="classCCfits_1_1HDU.html">HDU</a> [Header-Data Unit] objects)
-<li><a class="el" href="classCCfits_1_1ImageExt.html">CCfits::ImageExt</a>  (Templated concrete class representing Image Extension HDUs)
 <li><a class="el" href="classCCfits_1_1Column_1_1InsufficientElements.html">CCfits::Column::InsufficientElements</a>  (Exception thrown if the data supplied for a write operation is less than declared)
 <li><a class="el" href="classCCfits_1_1Column_1_1InvalidDataType.html">CCfits::Column::InvalidDataType</a>  (Exception thrown for invalid data type inputs)
-<li><a class="el" href="classCCfits_1_1HDU_1_1InvalidExtensionType.html">CCfits::HDU::InvalidExtensionType</a>  (Exception to be thrown if user requests extension type that can not be understood as <a class="el" href="classCCfits_1_1ImageExt.html">ImageExt</a>, <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> or <a class="el" href="classCCfits_1_1BinTable.html">BinTable</a>)
+<li><a class="el" href="classCCfits_1_1HDU_1_1InvalidExtensionType.html">CCfits::HDU::InvalidExtensionType</a>  (Exception to be thrown if user requests extension type that can not be understood as ImageExt, <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> or <a class="el" href="classCCfits_1_1BinTable.html">BinTable</a>)
 <li><a class="el" href="classCCfits_1_1HDU_1_1InvalidImageDataType.html">CCfits::HDU::InvalidImageDataType</a>  (Exception to be thrown if user requests creation of an image of type not supported by cfitsio)
 <li><a class="el" href="classCCfits_1_1Column_1_1InvalidNumberOfRows.html">CCfits::Column::InvalidNumberOfRows</a>  (Exception thrown if user enters a non-positive number for the number of rows to write)
 <li><a class="el" href="classCCfits_1_1Column_1_1InvalidRowNumber.html">CCfits::Column::InvalidRowNumber</a>  (Exception thrown on attempting to read a row number beyond the end of a table)
@@ -48,7 +49,7 @@
 <li><a class="el" href="classCCfits_1_1Column_1_1WrongColumnType.html">CCfits::Column::WrongColumnType</a>  (Exception thrown on attempting to access a scalar column as vector data)
 <li><a class="el" href="classCCfits_1_1ExtHDU_1_1WrongExtensionType.html">CCfits::ExtHDU::WrongExtensionType</a>  (Exception to be thrown on unmatched extension types)
 </ul>
-<hr><address><small>Generated at Fri Aug 10 14:52:52 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:08 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

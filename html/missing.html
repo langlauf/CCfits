@@ -24,12 +24,8 @@ Functions are provided for adding and deleting columns, and inserting and deleti
 <p>
 HDU objects also have functions to implement writing of history, comment and date keys.
 <p>
-The extended file name syntax has not been explicitly tested but should work in that qualified file name strings are passed directly to cfitsio. Template filenames if appearing in parentheses as part of the file name string should likewise be passed directly to cfitsio. Failures to open or create the filtered data specified by this syntax will throw either a FITS::CantOpen or FITS::CantCreate exception.
-<p>
 <a name="nothere"><h3>What's Not Present</h3></a>
 
-<p>
-Support for complex data manipulation is only partial. The implementation of complex data requires some straightforward complete specializations of class templates whose completion time did not permit. Implementation of the missing function appears straightforward: cfitsio treats complex numbers as pairs of floating point numbers, whereas the CCfits code is designed to use the std::complex&lt;T&gt; template.
 <p>
 The coordinate library manipulations [cfitsio manual chapter 7] are not supported.
 <p>
@@ -37,9 +33,9 @@ The iterator work functions [cfitsio manual chapter 6] are not supported.  Many 
 <p>
 The hierarchical grouping routines are not supported.
 <p>
-The extended file name syntax and the template functionality described in chapters 10 and 11 of the cfitsio manual are supported only in the sense that the filename string is passed directly to the cfitsio library and thence to calls to fits_open_file or fits_create_file. On the other hand, explicit opening of in-memory data sets as described in Chapter 9 of the manual is not supported since none of the FITS constructors call the appropriate cfitsio primitives.
+The extended file name syntax described in chapters 10 and 11 of the cfitsio manual has not been explicitly tested but should work in that qualified file name strings are passed directly to cfitsio. Template filenames if appearing in parentheses as part of the file name string should likewise be passed directly to cfitsio by CCfits. Failures to open or create the filtered data specified by this syntax will throw either a FITS::CantOpen or FITS::CantCreate exception. Explicit opening of in-memory data sets as described in Chapter 9 of the manual is <em>not</em> supported since none of the FITS constructors call the appropriate  cfitsio primitives.
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:14 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

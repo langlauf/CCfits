@@ -1,10 +1,13 @@
 
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef CCFITS_H
@@ -17,16 +20,26 @@
 
 
 #include "longnam.h"
+#include "float.h"
 
 
 namespace CCfits {
   static const int BITPIX = -32;
   static const int  NAXIS =   2;
   static const int  MAXDIM = 99;
+  extern const unsigned long USBASE;
+  extern const unsigned long  ULBASE;
+  
+  extern  char BSCALE[7];
+  extern  char BZERO[6];
+
+
 
 
 
   typedef enum {Read=READONLY,Write=READWRITE} RWmode;
+
+
 
 
 
@@ -36,7 +49,11 @@ namespace CCfits {
 
 
 
+
+
   typedef enum {AnyHdu=-1, ImageHdu, AsciiTbl, BinaryTbl} HduType;
+
+
 
 
 

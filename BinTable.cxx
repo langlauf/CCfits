@@ -1,21 +1,23 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
 
-// BinTable
-#include "BinTable.h"
 // ColumnCreator
 #include "ColumnCreator.h"
 // Column
 #include "Column.h"
+// BinTable
+#include "BinTable.h"
 
 #ifdef HAVE_STRSTREAM
 #include <strstream>
@@ -42,7 +44,7 @@ namespace CCfits {
   
   }
 
-  BinTable::BinTable (FITSBase* p, const string &hduName, int rows, const std::vector<ValueType>& columnType, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, int version)
+  BinTable::BinTable (FITSBase* p, const string &hduName, int rows, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, int version)
       : Table(p, BinaryTbl, hduName, rows,  columnName, columnFmt, columnUnit, version)
   {
   long           repeat=0;
@@ -56,10 +58,8 @@ namespace CCfits {
   {
      status = fits_binary_tform(const_cast<char *>(columnFmt[i].c_str()), 
 				&colType, &repeat, &width, &status);
-     if (colType == TSTRING)  repeat = 1;
-     if (status != 0)  throw FitsError(status);
-
-     column(columnName[i],create.createColumn(i+1, columnType[i],
+     
+     column(columnName[i],create.createColumn(i+1, ValueType(colType),
                                 columnName[i], columnFmt[i], 
                                 columnUnit[i],repeat,width));
      
@@ -89,8 +89,8 @@ namespace CCfits {
    char** columnName = new char*[ncols];
    char** columnFmt  = new char*[ncols];
    char** columnUnit = new char*[ncols];
-  
-   for(int i = 0; i < ncols; i++)
+   int i = 0; // for MS VC++  
+   for( ; i < ncols; i++)
    {
       columnName[i] = new char[FLEN_KEYWORD];
       columnFmt[i]  = new char[FLEN_KEYWORD];
@@ -106,7 +106,7 @@ namespace CCfits {
    rows(nr);
    numCols(tf);
    
-   for(int i = 0; i < ncols; i++)
+   for( i = 0; i < ncols; i++)
    {
       colName[i] = string(columnName[i]);
       colFmt[i]  = string(columnFmt[i]);
@@ -125,7 +125,11 @@ namespace CCfits {
    if (status != 0)  throw FitsError(status);
   }
 
+#ifdef CLONE_DEFECT
+  HDU * BinTable::clone (FITSBase* p) const
+#else
   BinTable * BinTable::clone (FITSBase* p) const
+#endif
   {
   BinTable* cloned = new BinTable(*this);
   cloned->parent() = p;
@@ -201,7 +205,7 @@ namespace CCfits {
                         if (!current.varLength())
                         {
                              current.readData(rowsRead+1,
-                                             current.repeat()*std::min(rowSize,rows()-rowsRead),1);
+                                             current.repeat()*std::min<size_t>(rowSize,rows()-rowsRead),1);
                         }
                         else
                         {
@@ -219,7 +223,7 @@ namespace CCfits {
 	                if (!current.varLength()) 
                         { 
                                 current.readData(rowsRead+1,
-                                          current.repeat()*std::min(rowSize,rows() - rowsRead),1);
+                                          current.repeat()*std::min<size_t>(rowSize,rows() - rowsRead),1);
                         }
                         else
                         {
@@ -320,62 +324,79 @@ namespace CCfits {
         {
                 case Tstring:
                         tformStr << 'A' << repeatWidth;
-                break;
+                        break;
                 case Tbyte:
                 case VTbyte:
                         tformStr << 'B';
-                break;                
+                        break;                
                 case Tbit:
                 case VTbit:
                         tformStr << 'X';             
-                break; 
+                        break; 
+                        
                 case Tlogical:
                 case VTlogical:
                         tformStr << 'L';             
-                break;   
+                        break;   
   
                 case Tushort:
                 case VTushort:
                         tformStr << 'U';
+                        break;
+                
                 case Tshort:
                 case VTshort:
                         tformStr << 'I';
-                break;
+                        break;
+                        
                 case Tulong:
                 case VTulong:
-                        tformStr << 'U';
+                        tformStr << 'V';
+                        break;
+                        
                 case Tlong:
                 case VTlong:
                         tformStr << 'J';
-                break;   
+                        break;   
+                        
                 case Tuint:
                 case VTuint:
-                        tformStr << 'U';
+                        tformStr << 'V';
+                        break;
+                       
                 case Tint:
                 case VTint:
                         tformStr << 'J';
-                break;  
+                        break;  
+                        
                 case Tfloat:
                 case VTfloat:
                         tformStr << 'E';
-                break;  
+                        break;  
+                         
                 case Tdouble:
                 case VTdouble:
                         tformStr << 'D';
-                break;  
+                        break;  
+
                 case Tcomplex:
                 case VTcomplex:
                         tformStr << 'C';
-                break;  
+                        break;  
+        
                 case Tdblcomplex:
                 case VTdblcomplex:
                         tformStr << 'M';
-                break;  
+                        break;  
+
                 default:           
                         diag += "Unrecognized data type for column: ";
                         diag += columnName;
                         throw InvalidColumnSpecification(diag);            
         }
+#ifdef HAVE_STRSTREAM
+        tformStr << std::ends;
+#endif
 
         int status(0);
         int colNum(0);
@@ -392,8 +413,8 @@ namespace CCfits {
        
         string tfString(tformStr.str());
         // the C prototypes don't use const, so these casts are necessary.       
-        char* tform(const_cast<char*>(tfString.c_str()));      
-        char* ttype(const_cast<char*>(columnName.c_str()));
+        char* tform = const_cast<char*>(tfString.c_str());      
+        char* ttype = const_cast<char*>(columnName.c_str());
 
         if (fits_insert_col(fitsPointer(),colNum,ttype,tform,&status)) throw FitsError(status);
 

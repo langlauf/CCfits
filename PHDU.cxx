@@ -1,21 +1,23 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 
 
-// PHDU
-#include "PHDU.h"
 // FITS
 #include "FITS.h"
 // FITSBase
 #include "FITSBase.h"
+// PHDU
+#include "PHDU.h"
 
 
 
@@ -24,9 +26,6 @@
 namespace CCfits {
 
   // Class CCfits::PHDU 
-
-
-
 
   PHDU::PHDU(const PHDU &right)
         : HDU(right), m_simple(true),
@@ -37,9 +36,9 @@ namespace CCfits {
   PHDU::PHDU (FITSBase* p, int bpix, int naxis, const std::vector<long>& axes)
       : HDU(p,bpix,naxis, axes), m_simple(true), m_extend(true)
   {
-   long *naxesArray=0;
-   int  status=0;
-   FITSUtil::Carray<long> convert;
+   long *naxesArray = 0;
+   int  status (0);
+   FITSUtil::CVarray<long> convert;
 
    naxesArray = convert(axes);
 
@@ -92,7 +91,7 @@ namespace CCfits {
 
            FITSUtil::auto_array_ptr<long> pAxes(0); 
            if (numAxes > 0) pAxes.reset(new long[numAxes]);
-           long* axes(pAxes.get());
+           long* axes = pAxes.get();
            int bpix = 0;
 
            if (fits_read_imghdr(fitsPointer(), MAXDIM, &simp, &bpix, &numAxes,
@@ -108,6 +107,38 @@ namespace CCfits {
                 naxes().resize(naxis()); 
                 std::copy(&axes[0],&axes[numAxes],naxes().begin());
            }
+  }
+
+  void PHDU::zero (double value)
+  {
+    HDU::zero(value);
+    if ( naxis())
+    {
+        int status(0);
+        if (fits_set_bscale(fitsPointer(),scale(),value,&status)) throw FitsError(status);
+    }
+  }
+
+  void PHDU::scale (double value)
+  {
+    HDU::scale(value);
+    if (naxis())
+    {
+        int status(0);
+        if (fits_set_bscale(fitsPointer(),value,zero(),&status)) throw FitsError(status);
+    }
+  }
+
+  double PHDU::zero () const
+  {
+
+    return HDU::zero();
+  }
+
+  double PHDU::scale () const
+  {
+
+    return HDU::scale();
   }
 
   // Additional Declarations

@@ -1,38 +1,47 @@
 
-//	This is CCfits version 1.0-beta release August 2001
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
+
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
+#ifdef HAVE_STRSTREAM
 #include <strstream>
-#ifndef HAVE_STRSTREAM
+#else
 #include <sstream>
 #endif
 
 #include <string>
 #include <memory>
 
-// HDU
-#include "HDU.h"
 // FITS
 #include "FITS.h"
 // FITSBase
 #include "FITSBase.h"
+// HDU
+#include "HDU.h"
 
 
 
 #include "Column.h"
 #include "FITSUtil.h"
 #include <functional>
+#include "HDU.h"
 
 
 namespace CCfits {
@@ -76,20 +85,15 @@ namespace CCfits {
 
   // Class CCfits::HDU 
 
-
-
-
-
-
-
-
-
-
-
   HDU::HDU(const HDU &right)
       : m_naxis(right.m_naxis),
         m_bitpix(right.m_bitpix),
         m_index(right.m_index),
+        m_anynul(right.m_anynul),
+        m_history(right.m_history),
+        m_comment(right.m_comment),
+        m_zero(right.m_zero),
+        m_scale(right.m_scale),        
         m_keyWord(),
         m_parent(right.m_parent),
         m_naxes(right.m_naxes)
@@ -99,7 +103,17 @@ namespace CCfits {
   }
 
   HDU::HDU (FITSBase* p)
-      : m_naxis(0),m_bitpix(8),m_index(0),m_keyWord(),m_parent(p),m_naxes()
+      : m_naxis(0),
+        m_bitpix(8),
+        m_index(0),
+        m_anynul(false),
+        m_history(""),
+        m_comment(""),
+        m_zero(0),
+        m_scale(1.0),        
+        m_keyWord(),
+        m_parent(p),
+        m_naxes()
   {
    readHduInfo();  // read bitpix, naxis and naxes keywords 
    int hduIndex = 0;
@@ -111,6 +125,11 @@ namespace CCfits {
       : m_naxis(naxis),
         m_bitpix(bitpix),
         m_index(0),
+        m_anynul(false),
+        m_history(""),
+        m_comment(""),
+        m_zero(0),
+        m_scale(1.0),        
         m_keyWord(),
         m_parent(p),
         m_naxes(axes)
@@ -140,7 +159,7 @@ namespace CCfits {
   void HDU::clearKeys ()
   {
   for (std::map<string,Keyword*>::iterator key = m_keyWord.begin(); 
-          key != m_keyWord.end(); key++)
+          key != m_keyWord.end(); ++key)
   {
         delete (*key).second;
   }
@@ -170,7 +189,7 @@ namespace CCfits {
   
   
   FITSUtil::auto_array_ptr<long> axes(new long[m_naxis]);
-  long* pAxes(axes.get());
+  long* pAxes = axes.get();
   
   
   // create strings NAXIS1 - NAXISn, where n = NAXIS, and read keyword.
@@ -194,30 +213,29 @@ namespace CCfits {
   }
 
  
-  std::copy(&pAxes[0],&pAxes[m_naxis],back_inserter(m_naxes));
+  std::copy(&pAxes[0],&pAxes[m_naxis], std::back_inserter(m_naxes));
 
   }
 
   Keyword& HDU::readKeyword (const string &keyname)
   {
-  using std::pair;  
-  Keyword* newKey(0);  
+  Keyword* newKey = 0;  
 
   try       
   {
+  	using std::pair;  
         newKey  = KeywordCreator::getKeyword(keyname,this);
+  	pair<string,Keyword*> entry = std::make_pair(newKey->name(),newKey); 
+  	// if the exception is thrown no entry is created.
+  	pair<std::map<string,Keyword*>::iterator,bool> refToEntry = m_keyWord.insert(entry);
+  	return *(*refToEntry.first).second;
+  
   }
   catch (FitsError)
   {     
         throw NoSuchKeyword(keyname);
   }  
-  // if the exception is thrown no entry is created.
-  pair<string,Keyword*> entry = make_pair(newKey->name(),newKey); 
-                    
-  pair<std::map<string,Keyword*>::iterator,bool> refToEntry = m_keyWord.insert(entry);
   
-  
-  return *(*refToEntry.first).second;
   }
 
   void HDU::readKeywords (std::list<string>& keynames)
@@ -235,7 +253,7 @@ namespace CCfits {
      try
      {
         readKeyword(*ikey);
-	ikey++;
+	++ikey;
      }
      catch (NoSuchKeyword)
      {
@@ -251,15 +269,15 @@ namespace CCfits {
   {
   
   // write keyword to HDU (using fits_update_key). Throws FitsError.
-  using std::pair;
-  newKey->write();
+  	using std::pair;
+  	newKey->write();
   
-  pair<string,Keyword*> entry = make_pair(newKey->name(),newKey); 
+  	pair<string,Keyword*> entry = std::make_pair(newKey->name(),newKey); 
                     
-  pair<std::map<string,Keyword*>::iterator,bool> refToEntry = m_keyWord.insert(entry);
+  	pair<std::map<string,Keyword*>::iterator,bool> refToEntry = m_keyWord.insert(entry);
   
   
-  return (*refToEntry.first).second;
+  	return (*refToEntry.first).second;
   }
 
   bool HDU::compare (const HDU &right) const
@@ -295,7 +313,7 @@ namespace CCfits {
   }
   }
 
-  string HDU::getNamedLines (const string& name) throw (FitsException&)
+  string HDU::getNamedLines (const string& name)
   {
   int fitsStatus = 0;
   int numKeys = 0;
@@ -332,7 +350,7 @@ namespace CCfits {
   }
 
   // print a message if there are no "name" type records.
-  if (content.size() == 0) throw NoSuchKeyword(name,false);
+  if (content.size() == 0) throw NoSuchKeyword(name);
   
   
   
@@ -392,11 +410,11 @@ namespace CCfits {
     if (fits_write_date(fitsPointer(),&status)) throw FitsError(status);
     FITSUtil::auto_array_ptr<char> pDate(new char[FLEN_KEYWORD]);
     FITSUtil::auto_array_ptr<char> pDateComment(new char[FLEN_COMMENT]);
-    char* date(pDate.get());
+    char* date = pDate.get();
     if (fits_read_key_str(fitsPointer(),
         const_cast<char*>(DATE.c_str()),date,pDateComment.get(),&status))   throw FitsError(status);
     NewKeyword<string> creator(this,pDate.release());
-    Keyword* newKey(creator.MakeKeyword(DATE,string(pDateComment.release())));
+    Keyword* newKey = creator.MakeKeyword(DATE,string(pDateComment.release()));
     m_keyWord[DATE] = newKey;               
 
     
@@ -410,77 +428,30 @@ namespace CCfits {
 
   void HDU::readAllKeys ()
   {
-    using namespace FITSUtil;
+    makeThisCurrent();
     int status(0);
-    int n(0);
+    int n (0);
     int dum(0);
     if (fits_get_hdrpos(fitsPointer(),&n,&dum,&status)) throw FitsError(status);
-    auto_array_ptr<char> pValue(new char[FLEN_VALUE]);
-    
-    FITSUtil::auto_array_ptr<char> pKey(new char[FLEN_KEYWORD]);
-    FITSUtil::auto_array_ptr<char> pComment(new char[FLEN_COMMENT]);
-    char* key(pKey.get());
-    char* comment(pComment.get());
-    char* value(pValue.get());
-    static std::complex<float> cf;
-    int l(0);
-    float f(0);
-    static bool b(false);
-    static char dtype;
-    string str("");
-    string keyStr("");
-    string comStr("");
-    
     
     for (int j = 1; j <= n; ++j)
     {
-            if ( fits_read_keyn(fitsPointer(),j,key,value,comment,&status)) 
-                    throw FitsError(status);
-
-            int keyClass(fits_get_keyclass(key));
-            
-            if ( (keyClass == TYP_USER_KEY  ) ||
-                 (keyClass == TYP_WCS_KEY   ) ||
-                 (keyClass == TYP_CMPRS_KEY ) ||
-                 (keyClass == TYP_REFSYS_KEY) )
+            // get keywords by header position and store all the keys that
+            // are neither metadata for columns nor history/comment cards.
+            std::auto_ptr<Keyword> key(KeywordCreator::getKeyword(j,this));
+            // comment/history cards have no value field and return 0 here.
+            if (key.get() != 0)
             {
-            
-                    keyStr = string(key);
-                    comStr = string(comment);
-                    if (fits_get_keytype(value,&dtype,&status)) throw FitsError(status);
-//#ifdef HAVE_STRSTREAM
-   std::istrstream valStream( value );
-//#else   
-//   std::istringstream valStream(value);
-//#endif
-
-                    switch (dtype)
-                    {
-                        case 'F':
-                                valStream >> f;
-                                addKey(keyStr,f,comStr);                
-                                break;
-                        case 'I':
-                                valStream >> l;
-                                addKey(keyStr,l,comStr);                
-                                break;                           
-                        case 'L':
-                                valStream >> str;
-                                str == "T" ? b = true : b = false;
-                                addKey(keyStr,b,comStr);                
-                                break;                           
-                        case 'X':
-                                valStream >> cf;
-                                addKey(keyStr,cf,comStr);                
-                                break;                           
-                        case 'C':
-                        default:
-                                str = string(value);
-                                addKey(keyStr,str,comStr);                
-                                break;                      
-                    }
-            
-            }          
+                int keyClass = fits_get_keyclass(const_cast<char*>(key->name().c_str()));
+                if ( (keyClass == TYP_USER_KEY  ) ||
+                        (keyClass == TYP_WCS_KEY   ) ||
+                        (keyClass == TYP_CMPRS_KEY ) ||
+                        (keyClass == TYP_CKSUM_KEY ) ||
+                        (keyClass == TYP_REFSYS_KEY) )
+                {
+                        saveReadKeyword(key.get());
+                }  
+            }       
     }
                 
     getHistory();

@@ -20,7 +20,7 @@ Similarly, access to column data is provided through the functions <em>ExtHDU::C
 <p>
 addTable returns a pointer to Table, which is the abstract immediate superclass of the concrete classes AsciiTable and BinTable, whereas addImage returns a  pointer to ExtHDU, which is the abstract base class of all FITS extensions. These base classes implement the public interface necessary to avoid the user of the library needing to downcast to a concrete type.
 <p>
-<div class="fragment"><pre>        <font class="keywordtype">int</font> writeAscii ( <font class="keywordtype">void</font> )
+<div class="fragment"><pre><font class="keywordtype">int</font> writeAscii ()
 
     <font class="comment">//******************************************************************</font>
     <font class="comment">// Create an ASCII Table extension containing 3 columns and 6 rows *</font>
@@ -56,9 +56,7 @@ addTable returns a pointer to Table, which is the abstract immediate superclass 
     std::vector&lt;string&gt; colName(3,<font class="stringliteral">""</font>);
     std::vector&lt;string&gt; colForm(3,<font class="stringliteral">""</font>);
     std::vector&lt;string&gt; colUnit(3,<font class="stringliteral">""</font>);
-    std::vector&lt;ValueType&gt; colType(3);
     
-    <font class="comment">// define the name, datatype, and physical units for the 3 columns     </font>
     colName[0] = <font class="stringliteral">"Planet"</font>;
     colName[1] = <font class="stringliteral">"Diameter"</font>;
     colName[2] = <font class="stringliteral">"Density"</font>;
@@ -70,10 +68,6 @@ addTable returns a pointer to Table, which is the abstract immediate superclass 
     colUnit[0] = <font class="stringliteral">""</font>;
     colUnit[1] = <font class="stringliteral">"km"</font>;
     colUnit[2] = <font class="stringliteral">"g/cm^-3"</font>;    
-
-    colType[0] = Tstring;
-    colType[1] = Tlong;
-    colType[2] = Tfloat;
 
     std::vector&lt;string&gt; planets(rows);
     
@@ -90,7 +84,7 @@ addTable returns a pointer to Table, which is the abstract immediate superclass 
     <font class="comment">// cannot call the Ascii or Bin Table constructors directly as they</font>
     <font class="comment">// are protected.</font>
     
-    Table* newTable = pFits-&gt;addTable(hduName,rows,colType,colName,colForm,colUnit,AsciiTbl);
+    Table* newTable = pFits-&gt;addTable(hduName,rows,colName,colForm,colUnit,AsciiTbl);
     
     <font class="keywordflow">for</font> (size_t j = 0; j &lt; rows; ++j) planets[j] = string(planet[j]);    
     
@@ -132,8 +126,9 @@ addTable returns a pointer to Table, which is the abstract immediate superclass 
     
     std::cout &lt;&lt; *newTable &lt;&lt; std::endl;
     
+    pFits-&gt;pHDU().addKey(<font class="stringliteral">"NEWVALUE"</font>,42,<font class="stringliteral">" Test of adding keyword to different extension"</font>);
     
-    <font class="comment">// demonstrate increasing the number of rows by a write operation, and use null values</font>
+    <font class="comment">// demonstrate increaing number of rows and null values.</font>
     <font class="keywordtype">long</font> ignoreVal(12112); 
     <font class="keywordtype">long</font> nullNumber(-999);    
     <font class="keywordflow">try</font>
@@ -177,7 +172,7 @@ addTable returns a pointer to Table, which is the abstract immediate superclass 
     <font class="keywordflow">return</font> 0;
 }</pre></div>
 <p>
-<hr><address><small>Generated at Fri Aug 10 14:52:57 2001 for CCfits by
+<hr><address><small>Generated at Tue Jun 18 11:54:13 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

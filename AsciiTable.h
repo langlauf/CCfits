@@ -1,22 +1,28 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef ASCIITABLE_H
 #define ASCIITABLE_H 1
 
 
-
 // HDUCreator
 #include "HDUCreator.h"
 // Table
 #include "Table.h"
+// needed for CLONE_DEFECT
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
+
 
 
 
@@ -72,22 +78,21 @@ namespace CCfits {
                     extension that matches hduName.
 */
 
-/*!  \fn  AsciiTable::AsciiTable (FITSBase* p, const string &hduName, int rows, const std::vector<ValueType>& columnType = std::vector<ValueType>(), const std::vector<string>& columnName = std::vector<string>(), const std::vector<string>& columnFmt = std::vector<string>(), const std::vector<string>& columnUnit = std::vector<string>(), int version = 1);
+/*!  \fn  AsciiTable::AsciiTable (FITSBase* p, const string &hduName, int rows,  const std::vector<string>& columnName = std::vector<string>(), const std::vector<string>& columnFmt = std::vector<string>(), const std::vector<string>& columnUnit = std::vector<string>(), int version = 1);
 
     \brief writing constructor: create new Ascii Table object with the specified columns
                     
                     
     The constructor creates a valid HDU which is ready for Column::write or
-    insertRows operations. The disk FITS file is update accordingly.
+    insertRows operations. The disk FITS file is update accordingly. The data type
+    of each column is determined by the columnFmt argument (TFORM keywords). See
+    cfitsio documentation for acceptable values.
     
     \param hduName  name of AsciiTable object to be written
     \param rows     number of rows in the table (NAXIS2)
-    \param columnType     (optional)  array of data types for columns to be inserted into
-                                  the table on construction.
-    
-    \param columnName     (optional)  array of column names for columns to be constructed.
-    \param columnFmt      (optional)  array of column formats for columns to be constructed.
-    \param columnType     (optional)  array of units for data in columns.
+    \param columnName      array of column names for columns to be constructed.
+    \param columnFmt       array of column formats for columns to be constructed.
+    \param columnUnit     (optional)  array of units for data in columns.
     \param version        (optional) version number for HDU.
     
     The dimensions of columnType, columnName and columnFmt must match, although
@@ -116,12 +121,18 @@ namespace CCfits {
 
 
 
+
+
   class AsciiTable : public Table  //## Inherits: <unnamed>%3804A75CE420
   {
 
     public:
 
+#ifdef CLONE_DEFECT
+        virtual HDU * clone ( FITSBase * p ) const;
+#else
         virtual AsciiTable * clone (FITSBase* p) const;
+#endif
 
         virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
 
@@ -132,7 +143,7 @@ namespace CCfits {
     protected:
         AsciiTable (FITSBase* p, const string &hduName = string(""), bool readFlag = false, const std::vector<string>& keys = std::vector<string>(), int version = 1);
 
-        AsciiTable (FITSBase* p, const string &hduName, int rows, const std::vector<ValueType>& columnType = std::vector<ValueType>(), const std::vector<string>& columnName = std::vector<string>(), const std::vector<string>& columnFmt = std::vector<string>(), const std::vector<string>& columnUnit = std::vector<string>(), int version = 1);
+        AsciiTable (FITSBase* p, const string &hduName, int rows, const std::vector<string>& columnName = std::vector<string>(), const std::vector<string>& columnFmt = std::vector<string>(), const std::vector<string>& columnUnit = std::vector<string>(), int version = 1);
 
         //	ExtHDU constructor for getting ExtHDUs by number.
         //	Necessary since EXTNAME is a reserved not required

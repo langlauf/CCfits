@@ -1,33 +1,40 @@
 
-//	This is CCfits version 1.0-beta
+//	This is version 1.1 release dated May 2002
 
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	August 2001 Ben Dorman, Emergent-IT, Inc.
-//	e-mail: ccfits@lheamail.gsfc.nasa.gov
+//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef IMAGE_H
 #define IMAGE_H 1
 
 
-#include "CCfits.h"
-#include "FitsError.h"
-#include "FITSUtil.h"
-
-// functional
-#include <functional>
 // vector
 #include <vector>
 // valarray
 #include <valarray>
+// functional
+#include <functional>
 // numeric
 #include <numeric>
+#ifdef _MSC_VER
+#include "MSconfig.h" //form std::min
+#endif
+#include "CCfits.h"
+#include "FitsError.h"
+#include "FITSUtil.h"
+
 
 
 
 namespace CCfits {
+
+
 
 
 
@@ -48,22 +55,22 @@ namespace CCfits {
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        const std::valarray<T>& readImage (fitsfile* fPtr, long first, long nElements, T* nullValue, const std::vector<long>& naxes, bool& nulls) throw (FitsException&);
+        const std::valarray<T>& readImage (fitsfile* fPtr, long first, long nElements, T* nullValue, const std::vector<long>& naxes, bool& nulls);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        const std::valarray<T>& readImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue, const std::vector<long>& naxes, bool& nulls) throw (FitsException&);
+        const std::valarray<T>& readImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue, const std::vector<long>& naxes, bool& nulls);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        void writeImage (fitsfile* fPtr, long first, long nElements, const std::valarray<T>& inData, const std::vector<long>& naxes, T* nullValue = 0) throw (FitsException&);
+        void writeImage (fitsfile* fPtr, long first, long nElements, const std::valarray<T>& inData, const std::vector<long>& naxes, T* nullValue = 0);
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        void writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes) throw (FitsException&);
+        void writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes);
 
 
         bool isRead () const;
@@ -101,50 +108,6 @@ namespace CCfits {
 
   };
 
-  template<>
-  void Image<long>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<long>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
- 
-  template<>
-  void Image<short>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<short>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
-  template<>
-  void Image<unsigned long>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<unsigned long>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
-  template<>
-  void Image<unsigned short>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<unsigned short>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
-  template<>
-  void Image<float>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<float>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
-  template<>
-  void Image<double>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<double>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
-  
-  template<>
-  void Image<unsigned char>::writeImage (fitsfile* fPtr, 
-                                const std::vector<long>& firstVertex, 
-                                const std::vector<long>& lastVertex, 
-                                const std::valarray<unsigned char>& inData, 
-                                const std::vector<long>& naxes) throw (FitsException&);
 
   // Parameterized Class CCfits::Image 
 
@@ -189,19 +152,17 @@ namespace CCfits {
 
   // Parameterized Class CCfits::Image 
 
-
-
-
-
   template <typename T>
   Image<T>::Image(const Image<T> &right)
-        : m_isRead(right.m_isRead),m_image(right.m_image)
+        : m_isRead(right.m_isRead),
+          m_image(right.m_image)
   {
   }
 
   template <typename T>
   Image<T>::Image (const std::valarray<T>& imageArray)
-        : m_isRead(false),m_image(imageArray)
+        : m_isRead(false),
+          m_image(imageArray)
   {
   }
 
@@ -225,48 +186,58 @@ namespace CCfits {
 
 
   template <typename T>
-  const std::valarray<T>& Image<T>::readImage (fitsfile* fPtr, long first, long nElements, T* nullValue, const std::vector<long>& naxes, bool& nulls) throw (FitsException&)
+  const std::valarray<T>& Image<T>::readImage (fitsfile* fPtr, long first, long nElements, T* nullValue, const std::vector<long>& naxes, bool& nulls)
   {
-        int any (0);
-        int status(0);
         const size_t N(naxes.size());
-        FITSUtil::MatchType<T> imageType;
-        unsigned long init(1);
-        unsigned long nelements(std::accumulate(&naxes[0],&naxes[N],init,std::multiplies<long>()));
+        if (N > 0)
+        {
+                int status(0);
+                int any (0);
+                FITSUtil::MatchType<T> imageType;
+                unsigned long init(1);
+                unsigned long nelements(std::accumulate(&naxes[0],&naxes[N],init,
+                                std::multiplies<long>()));
                 
-        // truncate to valid array size if too much data asked for.
-        // note first is 1-based index)
-        long elementsToRead(std::min(static_cast<unsigned long>(nElements),nelements - first + 1));
-        if ( elementsToRead < nElements)
-        {
-                std::cerr << "***CCfits Warning: data request exceeds image size, truncating\n"; 
+                // truncate to valid array size if too much data asked for.
+                // note first is 1-based index)
+                long elementsToRead(std::min(static_cast<unsigned long>(nElements),
+                                nelements - first + 1));
+                if ( elementsToRead < nElements)
+                {
+                        std::cerr << 
+                                "***CCfits Warning: data request exceeds image size, truncating\n"; 
+                }
+                FITSUtil::auto_array_ptr<T> pArray(new T[elementsToRead]);
+                T* array = pArray.get();
+                if (fits_read_img(fPtr,imageType(),first,elementsToRead,
+                                        nullValue,array,&any,&status) != 0) throw FitsError(status);
+                FITSUtil::FitsNullValue<T> null;
+                // initialize m_image to nullValue. resize if necessary.
+                if (m_image.size() != static_cast<size_t>(elementsToRead)) 
+                {
+                        m_image.resize(elementsToRead,null());
+                }
+
+                std::copy(&array[0],&array[elementsToRead],&m_image[first-1]);
+
+                nulls = (any != 0);
+                m_isRead = (first == 1 && nelements == static_cast<unsigned long>(nElements)); 
         }
-        FITSUtil::auto_array_ptr<T> pArray(new T[elementsToRead]);
-        T* array(pArray.get());
-        
-        if (fits_read_img(fPtr,imageType(),first,elementsToRead,
-                        nullValue,array,&any,&status) != 0)
-                throw FitsError(status);
-        FITSUtil::FitsNullValue<T> null;
-        // initialize m_image to nullValue. resize if necessary.
-        if (m_image.size() != static_cast<size_t>(elementsToRead)) 
+        else
         {
-                m_image.resize(elementsToRead,null());
+                m_isRead = true;
+                m_image.resize(0);
         }
-        
-        std::copy(&array[0],&array[elementsToRead],&m_image[first-1]);
-        nulls = (any != 0);
-        m_isRead = (first == 1 && nelements == static_cast<unsigned long>(nElements)); 
         return m_image;
   }
 
   template <typename T>
-  const std::valarray<T>& Image<T>::readImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue, const std::vector<long>& naxes, bool& nulls) throw (FitsException&)
+  const std::valarray<T>& Image<T>::readImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue, const std::vector<long>& naxes, bool& nulls)
   {
           
           
           
-     FITSUtil::Carray<long> carray;
+     FITSUtil::CVarray<long> carray;
                         
 
      int any(0);
@@ -305,7 +276,7 @@ namespace CCfits {
   }
 
   template <typename T>
-  void Image<T>::writeImage (fitsfile* fPtr, long first, long nElements, const std::valarray<T>& inData, const std::vector<long>& naxes, T* nullValue) throw (FitsException&)
+  void Image<T>::writeImage (fitsfile* fPtr, long first, long nElements, const std::valarray<T>& inData, const std::vector<long>& naxes, T* nullValue)
   {
 
           
@@ -315,9 +286,9 @@ namespace CCfits {
      size_t totalSize= static_cast<size_t>(std::accumulate(&naxes[0],&naxes[N],init,std::multiplies<long>() ));
      FITSUtil::FitsNullValue<T> null;
      if (m_image.size() != totalSize) m_image.resize(totalSize,null());
-     FITSUtil::Carray<T> convert;
+     FITSUtil::CAarray<T> convert;
      FITSUtil::auto_array_ptr<T>    pArray(convert(inData));                     
-     T* array(pArray.get());
+     T* array = pArray.get();
      
      
      FITSUtil::MatchType<T> imageType;
@@ -335,8 +306,21 @@ namespace CCfits {
   }
 
   template <typename T>
-  void Image<T>::writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes) throw (FitsException&)
+  void Image<T>::writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes)
   {
+        long* fPixel = 0;
+        long* lPixel = 0;
+        
+        prepareForSubset(naxes,firstVertex,lastVertex,inData,fPixel,lPixel);
+
+        FITSUtil::CAarray<T> convert;
+        FITSUtil::auto_array_ptr<T> pArray(convert(inData));
+        T* array = pArray.get();
+        FITSUtil::MatchType<T> imageType;        
+        int status(0);
+        
+        if ( fits_write_subset(fPtr,imageType(),
+                            fPixel,lPixel,array,&status) != 0) throw FitsError(status);
           
           // must be specialized.
   }
@@ -359,7 +343,7 @@ namespace CCfits {
     const size_t M(firstVertex.size()); 
     size_t init(1);   
     FITSUtil::auto_array_ptr<long> pLast(new long[M]);
-    long* last(pLast.get());
+    long* last = pLast.get();
     FITSUtil::auto_array_ptr<long> pFirst(new long[M]);
     
     size_t imageSize(std::accumulate(&naxes[0],&naxes[N],init,std::multiplies<long>() ));
@@ -389,25 +373,23 @@ namespace CCfits {
     //}
      
     
-    std::valarray<size_t> vLength(1,M);    
-    for (size_t j = 0; j < M; ++j)
-    {
-            last[j] = std::max(firstVertex[j],last[j]);
-            //fullStride[j]  *= offsets[j]; 
-            vLength[j]   = last[j]-pFirst.get()[j]+1;
-    }   
-
-
-    //FITSUtil::auto_array_ptr<long> pStride(carray(fullStride));    
-       
+    std::valarray<size_t> vLength(1,M);  
+    {  
+        for (size_t j = 0; j < M; ++j)
+        {
+                last[j] = std::max(firstVertex[j],last[j]);
+                vLength[j]   = last[j]-pFirst.get()[j]+1;
+        }   
+    }
     
     size_t startPoint(firstVertex[0] - 1);
     
 
-    // note that 
-    for (size_t j = 1; j < M; ++j)
     {
-        startPoint += naxes[j]*(firstVertex[j] - 1);       
+        for (size_t j = 1; j < M; ++j)
+        {
+                startPoint += naxes[j]*(firstVertex[j] - 1);       
+        }
     }
     std::valarray<size_t> vStride(1,M);
     
