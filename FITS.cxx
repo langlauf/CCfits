@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -27,11 +27,15 @@
 
 
 
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include <sstream>
@@ -512,7 +516,7 @@ namespace CCfits {
   
   if (hduByNum == endOfList) 
   {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
        std::strstream msg;
 #else
        std::ostringstream msg;
@@ -564,7 +568,7 @@ namespace CCfits {
 
   if (hduByNum == endOfList) 
   {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
        std:: strstream msg;
 #else
        std::ostringstream msg;
@@ -604,7 +608,7 @@ namespace CCfits {
  
   if (n == 0) 
   {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
        std::strstream msg;
 #else
        std::ostringstream msg;
@@ -626,11 +630,11 @@ namespace CCfits {
              }
              if ( c == last )
              {
-           #ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                  std::ostrstream msg;
-           #else
+#else
                  std::ostringstream msg;
-           #endif
+#endif
                  msg << "No HDU with name " << hduName;
                  if (version != 1) msg << " and version " << version;
                  throw NoSuchHDU(msg.str());
@@ -660,7 +664,7 @@ namespace CCfits {
                 {
                         if (hduIndex < 0 || hduIndex > totalHDUs) 
                         {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 			        std::ostrstream diags;
 #else
                                 std::ostringstream diags;
@@ -681,7 +685,7 @@ namespace CCfits {
         catch ( ... )
         {
                 // catch this one and rethrow.
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 	        std::ostrstream msg;
 #else
                 std::ostringstream msg;
@@ -864,7 +868,7 @@ namespace CCfits {
      
   else
   {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
      std::ostrstream err;
 #else
      std::ostringstream err;

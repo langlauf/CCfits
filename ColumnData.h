@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -74,7 +74,7 @@ namespace CCfits {
 
         const std::vector<T>& data () const;
         void setData (const std::vector<T>& value);
-        const T data (int i) const;
+        T data (int i);
         void data (int i, T value);
 
       // Additional Public Declarations
@@ -213,7 +213,7 @@ namespace CCfits {
   }
 
   template <typename T>
-  inline const T ColumnData<T>::data (int i) const
+  inline T ColumnData<T>::data (int i)
   {
     // return data stored in the ith row, which is in the i-1 th location in the array.
     return m_data[i - 1];

@@ -1,4 +1,14 @@
- // The CCfits headers are expected to be installed in a subdirectory of
+// cookbook CCfits demonstration program, for release version 1.2 April 2003
+//	Laboratory for High Energy Astrophysics,
+//	NASA/ Goddard Space Flight Center
+//	HEASARC
+//	http://heasarc.gsfc.nasa.gov
+//
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
+//	e-mail: ccfits@legacy.gsfc.nasa.gov
+
+
+// The CCfits headers are expected to be installed in a subdirectory of
 // the include path.
 
 // The <CCfits> header file contains all that is necessary to use both the CCfits
@@ -8,6 +18,7 @@
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -301,9 +312,9 @@ int writeAscii ()
     
     pFits->pHDU().addKey("NEWVALUE",42," Test of adding keyword to different extension");
     
-    pFits->pHDU().addKey("STRING"," Rope ","trailing blank test 1 "); 
+	pFits->pHDU().addKey("STRING",std::string(" Rope "),"trailing blank test 1 "); 
     
-    pFits->pHDU().addKey("STRING2","Cord","trailing blank test 2 "); 
+	pFits->pHDU().addKey("STRING2",std::string("Cord"),"trailing blank test 2 "); 
     // demonstrate increaing number of rows and null values.
     long ignoreVal(12112); 
     long nullNumber(-999);    
@@ -403,7 +414,7 @@ int writeBinary ()
     const string num("NUMBER-");
     for ( size_t j = 0; j < rows; ++j)
     {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
         std::ostrstream pStr;
 #else
      	std::ostringstream pStr;

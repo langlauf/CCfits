@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -20,7 +20,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include <sstream>
@@ -38,10 +38,8 @@
 
 
 
-#include "Column.h"
 #include "FITSUtil.h"
 #include <functional>
-#include "HDU.h"
 
 
 namespace CCfits {
@@ -62,6 +60,7 @@ namespace CCfits {
      ("Fits Error: Extension Type: ",
      silent)
   {
+        if (!silent) std::cerr << diag << '\n';
   }
 
 
@@ -196,20 +195,18 @@ namespace CCfits {
             
   for (int i=0; i <m_naxis; i++)
   {  
-#ifdef HAVE_STRSTREAM
-        std::ostrstream axisKey;
-#else
+#ifdef HAVE_SSTREAM
 	std::ostringstream axisKey;
-#endif
 	axisKey << keyname << i+1;
-#ifdef HAVE_STRSTREAM
-        axisKey << '\0';
-	char* aKey = const_cast<char *>( axisKey.str() );
-#else
-        char* aKey = const_cast<char*>(axisKey.str().c_str());
-#endif
-        if (fits_read_key_lng(fitsPointer(),aKey,&pAxes[i],comment,&status) ) 
+        if (fits_read_key_lng(fitsPointer(),const_cast<char*>(axisKey.str().c_str()),
+                                                                &pAxes[i],comment,&status) ) 
                 throw FitsError(status);
+#else
+        std::ostrstream axisKey;
+	axisKey << keyname << i+1;
+        if (fits_read_key_lng(fitsPointer(),axisKey.str(),&pAxes[i],comment,&status) ) 
+                throw FitsError(status);
+#endif
   }
 
  
@@ -219,13 +216,12 @@ namespace CCfits {
 
   Keyword& HDU::readKeyword (const string &keyname)
   {
-  Keyword* newKey = 0;  
 
   try       
   {
   	using std::pair;  
-        newKey  = KeywordCreator::getKeyword(keyname,this);
-  	pair<string,Keyword*> entry = std::make_pair(newKey->name(),newKey); 
+        std::auto_ptr<Keyword> newKey(KeywordCreator::getKeyword(keyname,this));
+  	pair<string,Keyword*> entry = std::make_pair(newKey->name(),newKey.release()); 
   	// if the exception is thrown no entry is created.
   	pair<std::map<string,Keyword*>::iterator,bool> refToEntry = m_keyWord.insert(entry);
   	return *(*refToEntry.first).second;

@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -15,9 +15,9 @@
 
 #include <map>
 
+#include <list>
 // vector
 #include <vector>
-#include <list>
 // Keyword
 #include "Keyword.h"
 // NewKeyword
@@ -625,7 +625,7 @@ and return its value.
 
         FITSBase*& parent ();
 
-        std::vector<long>& naxes ();
+        std::vector< long >& naxes ();
         long& naxes (size_t index);
         void naxes (size_t index, const long& value);
 
@@ -682,7 +682,7 @@ and return its value.
 
         FITSBase* m_parent;
 
-        std::vector<long> m_naxes;
+        std::vector< long > m_naxes;
 
       // Additional Implementation Declarations
       friend fitsfile* Keyword::fitsPointer() const;
@@ -900,7 +900,7 @@ and return its value.
     return m_parent;
   }
 
-  inline std::vector<long>& HDU::naxes ()
+  inline std::vector< long >& HDU::naxes ()
   {
     return m_naxes;
   }

@@ -10,6 +10,29 @@ dnl but WITHOUT ANY WARRANTY, to the extent permitted by law; without
 dnl even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 dnl PARTICULAR PURPOSE.
 
+# Like AC_CONFIG_HEADER, but automatically create stamp file.
+
+AC_DEFUN(AM_CONFIG_HEADER,
+[AC_PREREQ([2.12])
+AC_CONFIG_HEADER([$1])
+dnl When config.status generates a header, we must update the stamp-h file.
+dnl This file resides in the same directory as the config header
+dnl that is generated.  We must strip everything past the first ":",
+dnl and everything past the last "/".
+AC_OUTPUT_COMMANDS(changequote(<<,>>)dnl
+ifelse(patsubst(<<$1>>, <<[^ ]>>, <<>>), <<>>,
+<<test -z "<<$>>CONFIG_HEADERS" || echo timestamp > patsubst(<<$1>>, <<^\([^:]*/\)?.*>>, <<\1>>)stamp-h<<>>dnl>>,
+<<am_indx=1
+for am_file in <<$1>>; do
+  case " <<$>>CONFIG_HEADERS " in
+  *" <<$>>am_file "*<<)>>
+    echo timestamp > `echo <<$>>am_file | sed -e 's%:.*%%' -e 's%[^/]*$%%'`stamp-h$am_indx
+    ;;
+  esac
+  am_indx=`expr "<<$>>am_indx" + 1`
+done<<>>dnl>>)
+changequote([,]))])
+
 # Do all the work for Automake.  This macro actually does too much --
 # some checks are only needed if your package does certain things.
 # But this isn't really a big deal.
@@ -101,242 +124,6 @@ else
    AC_MSG_RESULT(missing)
 fi
 AC_SUBST($1)])
-
-# Like AC_CONFIG_HEADER, but automatically create stamp file.
-
-AC_DEFUN(AM_CONFIG_HEADER,
-[AC_PREREQ([2.12])
-AC_CONFIG_HEADER([$1])
-dnl When config.status generates a header, we must update the stamp-h file.
-dnl This file resides in the same directory as the config header
-dnl that is generated.  We must strip everything past the first ":",
-dnl and everything past the last "/".
-AC_OUTPUT_COMMANDS(changequote(<<,>>)dnl
-ifelse(patsubst(<<$1>>, <<[^ ]>>, <<>>), <<>>,
-<<test -z "<<$>>CONFIG_HEADERS" || echo timestamp > patsubst(<<$1>>, <<^\([^:]*/\)?.*>>, <<\1>>)stamp-h<<>>dnl>>,
-<<am_indx=1
-for am_file in <<$1>>; do
-  case " <<$>>CONFIG_HEADERS " in
-  *" <<$>>am_file "*<<)>>
-    echo timestamp > `echo <<$>>am_file | sed -e 's%:.*%%' -e 's%[^/]*$%%'`stamp-h$am_indx
-    ;;
-  esac
-  am_indx=`expr "<<$>>am_indx" + 1`
-done<<>>dnl>>)
-changequote([,]))])
-
-dnl @synopsis PFK_CXX_LIB_PATH
-dnl
-dnl Sets the output variable CXXLIB_PATH to the path of the Standard C++ 
-dnl library used by the compiler.   Basically if $CXX is found in say
-dnl `/usr/local/bin' then the assumtion is that its library is found in 
-dnl `/usr/local/lib'.
-dnl
-dnl @version $Id: pfk_cxx_lib_path.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
-dnl @author Paul_Kunz@slac.stanford.edu
-dnl
-AC_DEFUN(PFK_CXX_LIB_PATH,
-[ AC_PATH_PROG(pfk_cxx_lib_path, $CXX, $CXX )
-  AC_MSG_CHECKING(standard C++ library path)
-  CXX_LIB_PATH=`dirname $pfk_cxx_lib_path | sed -e "s/bin/lib/"`
-  AC_MSG_RESULT($CXX_LIB_PATH )
-  AC_SUBST(CXX_LIB_PATH)dnl
-])
-
-dnl @synopsis AC_COMPILE_WARNINGS
-dnl
-dnl Set the maximum warning verbosity according to compiler used.
-dnl Currently supports g++ and gcc.
-dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
-dnl configure.in
-dnl
-dnl @version $Id: ac_compile_warnings.m4,v 3.0 2002/06/18 14:47:53 dorman Exp $
-dnl @author Loic Dachary <loic@senga.org> modified by Ben Dorman (ben.dorman@gsfc.nasa.gov) to add verbose options for SunPro CC
-dnl
-AC_DEFUN([AC_COMPILE_WARNINGS],
-[AC_MSG_CHECKING(maximum warning verbosity option)
-if test -n "$CXX"
-then
-  if test "$GXX" = "yes"
-  then
-    ac_compile_warnings_opt='-Wall'
-  elif test "$CXX" = "CC"
-  then
-    ac_compile_warnings_opt='+w2'
-  fi
-  CXXFLAGS="$CXXFLAGS $ac_compile_warnings_opt"
-  ac_compile_warnings_msg="$ac_compile_warnings_opt for C++"
-fi
-
-if test -n "$CC"
-then
-  if test "$GCC" = "yes"
-  then
-    ac_compile_warnings_opt='-Wall'
-  fi
-  CFLAGS="$CFLAGS $ac_compile_warnings_opt"
-  ac_compile_warnings_msg="$ac_compile_warnings_msg $ac_compile_warnings_opt for C"
-fi
-AC_MSG_RESULT($ac_compile_warnings_msg)
-unset ac_compile_warnings_msg
-unset ac_compile_warnings_opt
-])
-
-dnl @synopsis AC_COMPILE_ANSI
-dnl
-dnl Set the ansi flag for  gnu compilers
-dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
-dnl configure.in
-dnl
-dnl @version $Id: ac_compile_ansi.m4,v 3.0 2002/06/18 14:47:52 dorman Exp $
-dnl @author adapted by Ben Dorman (ben.dorman@gsfc.nasa.gov) from AC_COMPILE_WARNINGS originally by Loic Dachary <loic@senga.org>   
-dnl
-AC_DEFUN([AC_COMPILE_ANSI],
-[AC_MSG_CHECKING(ansi C/C++ option)
-if test -n "$CXX"
-then
-  if test "$GXX" = "yes"
-  then
-    ac_compile_ansi_opt='-ansi'
-  fi
-  CXXFLAGS="$CXXFLAGS $ac_compile_ansi_opt"
-  ac_compile_ansi_msg="$ac_compile_ansi_opt for C++"
-fi
-
-if test -n "$CC"
-then
-  if test "$GCC" = "yes"
-  then
-    ac_compile_ansi_opt='-ansi'
-  fi
-  CFLAGS="$CFLAGS $ac_compile_ansi_opt"
-  ac_compile_ansi_msg="$ac_compile_ansi_msg $ac_compile_ansi_opt for C"
-fi
-AC_MSG_RESULT($ac_compile_ansi_msg)
-unset ac_compile_ansi_msg
-unset ac_compile_ansi_opt
-])
-
-dnl @synopsis AC_CHECK_PACKAGE(PACKAGE, FUNCTION, LIBRARY, HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-dnl
-dnl Provides --with-PACKAGE, --with-PACKAGE-include and --with-PACKAGE-libdir
-dnl options to configure. Supports the now standard --with-PACKAGE=DIR
-dnl approach where the package's include dir and lib dir are underneath DIR,
-dnl but also allows the include and lib directories to be specified seperately
-dnl
-dnl adds the extra -Ipath to CPPFLAGS if needed
-dnl adds extra -Lpath to LD_FLAGS if needed
-dnl searches for the FUNCTION in the LIBRARY with
-dnl AC_CHECK_LIBRARY and thus adds the lib to LIBS
-dnl
-dnl defines HAVE_PKG_PACKAGE if it is found, (where PACKAGE in the
-dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
-dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
-dnl will have to add it to acconfig.h manually
-dnl
-dnl @version $Id: ac_check_package.m4,v 3.0 2002/06/18 14:47:50 dorman Exp $
-dnl @author Paul_Kunz@slac.stanford.edu modified ac_caolan_check_package.m4 for all languages
-dnl
-AC_DEFUN([AC_CHECK_PACKAGE],
-[
-
-AC_ARG_WITH($1,
-[  --with-$1[=DIR]      root directory of $1 installation],
-with_$1=$withval
-if test "${with_$1}" != yes; then
-        $1_include="$withval/include"
-        $1_libdir="$withval/lib"
-fi
-)
-
-AC_ARG_WITH($1-include,
-[  --with-$1-include=DIR        specify exact include dir for $1 headers],
-$1_include="$withval")
-
-AC_ARG_WITH($1-libdir,
-[  --with-$1-libdir=DIR        specify exact library dir for $1 library
-  --without-$1        disables $1 usage completely],
-$1_libdir="$withval")
-
-if test "${with_$1}" != no ; then
-        OLD_LIBS=$LIBS
-        OLD_LDFLAGS=$LDFLAGS
-        OLD_CPPFLAGS=$CPPFLAGS
-
-        if test "${$1_libdir}" ; then
-                LDFLAGS="$LDFLAGS -L${$1_libdir}"
-        fi
-        if test "${$1_include}" ; then
-                CPPFLAGS="$CPPFLAGS -I${$1_include}"
-        fi
-
-        AC_CHECK_LIB($3,$2,,no_good=yes)
-        AC_CHECK_HEADER($4,,no_good=yes)
-        if test "$no_good" = yes; then
-dnl     broken
-                ifelse([$6], , , [$6])
-
-                LIBS=$OLD_LIBS
-                LDFLAGS=$OLD_LDFLAGS
-                CPPFLAGS=$OLD_CPPFLAGS
-        else
-dnl     fixed
-                ifelse([$5], , , [$5])
-
-                AC_DEFINE(HAVE_PKG_$1)
-        fi
-
-fi
-
-])
-
-dnl @synopsis AC_CXX_HAVE_VALARRAY
-dnl
-dnl If the compiler has valarray<T>, define HAVE_VALARRAY.
-dnl
-dnl @version $Id: ac_cxx_have_valarray.m4,v 3.0 2002/06/18 14:47:54 dorman Exp $
-dnl @author Luc Maisonobe
-dnl
-AC_DEFUN([AC_CXX_HAVE_VALARRAY],
-[AC_CACHE_CHECK(whether the compiler has valarray<T>,
-ac_cv_cxx_have_valarray,
-[AC_REQUIRE([AC_CXX_NAMESPACES])
- AC_LANG_SAVE
- AC_LANG_CPLUSPLUS
- AC_TRY_COMPILE([#include <valarray>
-#ifdef HAVE_NAMESPACES
-using namespace std;
-#endif],[valarray<float> x(100); return 0;],
- ac_cv_cxx_have_valarray=yes, ac_cv_cxx_have_valarray=no)
- AC_LANG_RESTORE
-])
-if test "$ac_cv_cxx_have_valarray" = yes; then
-  AC_DEFINE(HAVE_VALARRAY,,[define if the compiler has valarray<T>])
-fi
-])
-
-dnl @synopsis AC_CXX_NAMESPACES
-dnl
-dnl If the compiler can prevent names clashes using namespaces, define
-dnl HAVE_NAMESPACES.
-dnl
-dnl @version $Id: ac_cxx_namespaces.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
-dnl @author Luc Maisonobe
-dnl
-AC_DEFUN([AC_CXX_NAMESPACES],
-[AC_CACHE_CHECK(whether the compiler implements namespaces,
-ac_cv_cxx_namespaces,
-[AC_LANG_SAVE
- AC_LANG_CPLUSPLUS
- AC_TRY_COMPILE([namespace Outer { namespace Inner { int i = 0; }}],
-                [using namespace Outer::Inner; return i;],
- ac_cv_cxx_namespaces=yes, ac_cv_cxx_namespaces=no)
- AC_LANG_RESTORE
-])
-if test "$ac_cv_cxx_namespaces" = yes; then
-  AC_DEFINE(HAVE_NAMESPACES,,[define if the compiler implements namespaces])
-fi
-])
 
 
 # serial 40 AC_PROG_LIBTOOL
@@ -746,4 +533,219 @@ AC_DEFUN(AM_PROG_NM, [indir([AC_PROG_NM])])dnl
 
 dnl This is just to silence aclocal about the macro not being used
 ifelse([AC_DISABLE_FAST_INSTALL])dnl
+
+dnl @synopsis PFK_CXX_LIB_PATH
+dnl
+dnl Sets the output variable CXXLIB_PATH to the path of the Standard C++ 
+dnl library used by the compiler.   Basically if $CXX is found in say
+dnl `/usr/local/bin' then the assumtion is that its library is found in 
+dnl `/usr/local/lib'.
+dnl
+dnl @version $Id: pfk_cxx_lib_path.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
+dnl @author Paul_Kunz@slac.stanford.edu
+dnl
+AC_DEFUN(PFK_CXX_LIB_PATH,
+[ AC_PATH_PROG(pfk_cxx_lib_path, $CXX, $CXX )
+  AC_MSG_CHECKING(standard C++ library path)
+  CXX_LIB_PATH=`dirname $pfk_cxx_lib_path | sed -e "s/bin/lib/"`
+  AC_MSG_RESULT($CXX_LIB_PATH )
+  AC_SUBST(CXX_LIB_PATH)dnl
+])
+
+dnl @synopsis AC_COMPILE_WARNINGS
+dnl
+dnl Set the maximum warning verbosity according to compiler used.
+dnl Currently supports g++ and gcc.
+dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
+dnl configure.in
+dnl
+dnl @version $Id: ac_compile_warnings.m4,v 3.0 2002/06/18 14:47:53 dorman Exp $
+dnl @author Loic Dachary <loic@senga.org> modified by Ben Dorman (ben.dorman@gsfc.nasa.gov) to add verbose options for SunPro CC
+dnl
+AC_DEFUN([AC_COMPILE_WARNINGS],
+[AC_MSG_CHECKING(maximum warning verbosity option)
+if test -n "$CXX"
+then
+  if test "$GXX" = "yes"
+  then
+    ac_compile_warnings_opt='-Wall'
+  elif test "$CXX" = "CC"
+  then
+    ac_compile_warnings_opt='+w2'
+  fi
+  CXXFLAGS="$CXXFLAGS $ac_compile_warnings_opt"
+  ac_compile_warnings_msg="$ac_compile_warnings_opt for C++"
+fi
+
+if test -n "$CC"
+then
+  if test "$GCC" = "yes"
+  then
+    ac_compile_warnings_opt='-Wall'
+  fi
+  CFLAGS="$CFLAGS $ac_compile_warnings_opt"
+  ac_compile_warnings_msg="$ac_compile_warnings_msg $ac_compile_warnings_opt for C"
+fi
+AC_MSG_RESULT($ac_compile_warnings_msg)
+unset ac_compile_warnings_msg
+unset ac_compile_warnings_opt
+])
+
+dnl @synopsis AC_COMPILE_ANSI
+dnl
+dnl Set the ansi flag for  gnu compilers
+dnl This macro must be put after AC_PROG_CC and AC_PROG_CXX in
+dnl configure.in
+dnl
+dnl @version $Id: ac_compile_ansi.m4,v 3.0 2002/06/18 14:47:52 dorman Exp $
+dnl @author adapted by Ben Dorman (ben.dorman@gsfc.nasa.gov) from AC_COMPILE_WARNINGS originally by Loic Dachary <loic@senga.org>   
+dnl
+AC_DEFUN([AC_COMPILE_ANSI],
+[AC_MSG_CHECKING(ansi C/C++ option)
+if test -n "$CXX"
+then
+  if test "$GXX" = "yes"
+  then
+    ac_compile_ansi_opt='-ansi'
+  fi
+  CXXFLAGS="$CXXFLAGS $ac_compile_ansi_opt"
+  ac_compile_ansi_msg="$ac_compile_ansi_opt for C++"
+fi
+
+if test -n "$CC"
+then
+  if test "$GCC" = "yes"
+  then
+    ac_compile_ansi_opt='-ansi'
+  fi
+  CFLAGS="$CFLAGS $ac_compile_ansi_opt"
+  ac_compile_ansi_msg="$ac_compile_ansi_msg $ac_compile_ansi_opt for C"
+fi
+AC_MSG_RESULT($ac_compile_ansi_msg)
+unset ac_compile_ansi_msg
+unset ac_compile_ansi_opt
+])
+
+dnl @synopsis AC_CHECK_PACKAGE(PACKAGE, FUNCTION, LIBRARY, HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+dnl
+dnl Provides --with-PACKAGE, --with-PACKAGE-include and --with-PACKAGE-libdir
+dnl options to configure. Supports the now standard --with-PACKAGE=DIR
+dnl approach where the package's include dir and lib dir are underneath DIR,
+dnl but also allows the include and lib directories to be specified seperately
+dnl
+dnl adds the extra -Ipath to CPPFLAGS if needed
+dnl adds extra -Lpath to LD_FLAGS if needed
+dnl searches for the FUNCTION in the LIBRARY with
+dnl AC_CHECK_LIBRARY and thus adds the lib to LIBS
+dnl
+dnl defines HAVE_PKG_PACKAGE if it is found, (where PACKAGE in the
+dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
+dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
+dnl will have to add it to acconfig.h manually
+dnl
+dnl @version $Id: ac_check_package.m4,v 3.2 2003/03/18 23:02:37 pfkeb Exp $
+dnl @author Paul_Kunz@slac.stanford.edu modified ac_caolan_check_package.m4 for all languages
+dnl
+AC_DEFUN([AC_CHECK_PACKAGE],
+[
+
+AC_ARG_WITH($1,
+[  --with-$1[=DIR]      root directory of $1 installation],
+with_$1=$withval
+if test "${with_$1}" != yes; then
+        $1_include="$withval/include"
+        $1_libdir="$withval/lib"
+fi,
+$1_include="/usr/local/cfitsio/include"
+$1_libdir="/usr/local/cfitsio/lib"
+)
+
+AC_ARG_WITH($1-include,
+[  --with-$1-include=DIR        specify exact include dir for $1 headers],
+$1_include="$withval")
+
+AC_ARG_WITH($1-libdir,
+[  --with-$1-libdir=DIR        specify exact library dir for $1 library
+  --without-$1        disables $1 usage completely],
+$1_libdir="$withval")
+
+if test "${with_$1}" != no ; then
+        OLD_LIBS=$LIBS
+        OLD_LDFLAGS=$LDFLAGS
+        OLD_CPPFLAGS=$CPPFLAGS
+
+        if test "${$1_libdir}" ; then
+                LDFLAGS="$LDFLAGS -L${$1_libdir}"
+        fi
+        if test "${$1_include}" ; then
+                CPPFLAGS="$CPPFLAGS -I${$1_include}"
+        fi
+
+        AC_CHECK_LIB($3,$2,,no_good=yes)
+        AC_CHECK_HEADER($4,,no_good=yes)
+        if test "$no_good" = yes; then
+dnl     broken
+                ifelse([$6], , , [$6])
+
+                LIBS=$OLD_LIBS
+                LDFLAGS=$OLD_LDFLAGS
+                CPPFLAGS=$OLD_CPPFLAGS
+        else
+dnl     fixed
+                ifelse([$5], , , [$5])
+
+                AC_DEFINE(HAVE_PKG_$1, 1, Define if you have the package )
+        fi
+
+fi
+
+])
+
+dnl @synopsis AC_CXX_HAVE_VALARRAY
+dnl
+dnl If the compiler has valarray<T>, define HAVE_VALARRAY.
+dnl
+dnl @version $Id: ac_cxx_have_valarray.m4,v 3.0 2002/06/18 14:47:54 dorman Exp $
+dnl @author Luc Maisonobe
+dnl
+AC_DEFUN([AC_CXX_HAVE_VALARRAY],
+[AC_CACHE_CHECK(whether the compiler has valarray<T>,
+ac_cv_cxx_have_valarray,
+[AC_REQUIRE([AC_CXX_NAMESPACES])
+ AC_LANG_SAVE
+ AC_LANG_CPLUSPLUS
+ AC_TRY_COMPILE([#include <valarray>
+#ifdef HAVE_NAMESPACES
+using namespace std;
+#endif],[valarray<float> x(100); return 0;],
+ ac_cv_cxx_have_valarray=yes, ac_cv_cxx_have_valarray=no)
+ AC_LANG_RESTORE
+])
+if test "$ac_cv_cxx_have_valarray" = yes; then
+  AC_DEFINE(HAVE_VALARRAY,,[define if the compiler has valarray<T>])
+fi
+])
+
+dnl @synopsis AC_CXX_NAMESPACES
+dnl
+dnl If the compiler can prevent names clashes using namespaces, define
+dnl HAVE_NAMESPACES.
+dnl
+dnl @version $Id: ac_cxx_namespaces.m4,v 3.0 2002/06/18 14:47:55 dorman Exp $
+dnl @author Luc Maisonobe
+dnl
+AC_DEFUN([AC_CXX_NAMESPACES],
+[AC_CACHE_CHECK(whether the compiler implements namespaces,
+ac_cv_cxx_namespaces,
+[AC_LANG_SAVE
+ AC_LANG_CPLUSPLUS
+ AC_TRY_COMPILE([namespace Outer { namespace Inner { int i = 0; }}],
+                [using namespace Outer::Inner; return i;],
+ ac_cv_cxx_namespaces=yes, ac_cv_cxx_namespaces=no)
+ AC_LANG_RESTORE
+])
+if test "$ac_cv_cxx_namespaces" = yes; then
+  AC_DEFINE(HAVE_NAMESPACES,,[define if the compiler implements namespaces])
+fi
+])
 

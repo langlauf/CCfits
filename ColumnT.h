@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 #ifndef COLUMNT_H
@@ -24,7 +24,7 @@
 #include <algorithm>
 #include "NewKeyword.h"
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #       include <strstream>
 #else
 #       include <sstream>
@@ -1329,7 +1329,7 @@ namespace CCfits
         {
                 parent()->makeThisCurrent();
                 int status(0);
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                 std::ostrstream keyName;
                 keyName << "TNULL" << index();
                 char* nullKey = const_cast<char*>(keyName.str());

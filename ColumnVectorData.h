@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -18,17 +18,17 @@
 #endif
 #include "CCfits.h"
 
-// vector
-#include <vector>
 // valarray
 #include <valarray>
+// vector
+#include <vector>
 // Column
 #include "Column.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include <sstream>
@@ -270,7 +270,7 @@ namespace CCfits {
   template <typename T>
   inline void ColumnVectorData<T>::data (int i, const std::valarray<T>& value)
   {
-    m_data[i - 1] = value;
+     m_data[i - 1] = value;
   }
 
   // Parameterized Class CCfits::ColumnVectorData 
@@ -354,8 +354,8 @@ namespace CCfits {
           // value from the fits pointer - which is changed by writeFixedArray
           // or writeRow.
           
-          const size_t newLastRow 
-                        = std::max(indata.size() + firstRow - 1,static_cast<size_t>(rows()));
+          const size_t MM(indata.size() + firstRow - 1);
+          const size_t newLastRow = std::max(MM,static_cast<size_t>(rows()));
           
           // if the write instruction increases the rows, we need to add
           // rows to the data member and preserve its current contents.
@@ -366,10 +366,10 @@ namespace CCfits {
           const size_t M(m_data.size());
           // so this will always be an expansion. vector.resize() doesn't
           // invalidate any data on an expansion.
-          m_data.resize(newLastRow);
+	  if (newLastRow > M) m_data.resize(newLastRow);
           
           // overlapping data, if any.
-          for (size_t k = firstRow - 1; k < M; ++k)
+          for (size_t k = firstRow - 1; k < MM; ++k)
           {
                   std::valarray<T>& current = m_data[k];    
                   if (current.size() < indata[k - firstRow + 1].size())
@@ -403,14 +403,14 @@ namespace CCfits {
   int status(0);
   FITSUtil:: auto_array_ptr<char> dimValue (new char[FLEN_VALUE]);
   
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
   std::ostrstream key;
 #else
   std::ostringstream key;
 #endif
   key << "TDIM" << index();
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
   fits_read_key_str(fitsPointer(), key.str(), dimValue.get(),0,&status);
 #else
   char* keyChar = const_cast<char*>(key.str().c_str());
@@ -479,7 +479,7 @@ namespace CCfits {
           
           if (!varLength() && indata.size() < numRows*repeat() )
           {      
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                 std::ostrstream msgStr;
 #else
                 std::ostringstream msgStr;
@@ -605,11 +605,11 @@ namespace CCfits {
 
           if ( row > static_cast<size_t>(rows()) ) 
           {
-                #ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                   std::ostrstream msg;
-                #else
+#else
                   std::ostringstream msg;
-                #endif
+#endif
                 msg << " row requested: " << row << " row range: 1 - " << rows();                
 
                 throw Column::InvalidRowNumber(msg.str()); 
@@ -735,7 +735,7 @@ namespace CCfits {
     // check that sufficient data have been supplied to carry out the entire operation.
     if (indata.size() < static_cast<size_t>(sums[N-1]) )
     {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
         ostrstream msgStr;
 #else
         ostringstream msgStr;
@@ -790,7 +790,7 @@ namespace CCfits {
     {
         if ( n > repeat() || firstElem  + n - 1 > repeat() )
         { 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                 std::ostrstream msgStr;
 #else
                 std::ostringstream msgStr;
@@ -867,7 +867,7 @@ namespace CCfits {
     
     if ( nElements < nRows*static_cast<long>(repeat()) )
     {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
         std::ostrstream msgStr;
 #else
         std::ostringstream msgStr;
@@ -1256,7 +1256,7 @@ void ColumnVectorData<complex<double> >::readColumnData (long firstRow,
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;
@@ -1304,7 +1304,7 @@ void ColumnVectorData<complex<float> >::writeFixedArray
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;

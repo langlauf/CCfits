@@ -2,21 +2,34 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Author: Paul_Kunz@slac.stanford.edu
 
-AC_REVISION($Revision: 3.1 $)
+AC_REVISION($Revision: 3.9 $)
 
 AC_INIT(FITS.cxx)
+AM_CONFIG_HEADER(config.h)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(CCfits, 1.1.1)
-AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(CCfits, 1.2)
 
 AC_LANG_CPLUSPLUS
 
 dnl Checks for programs.
 AC_PROG_CXX
 
-dnl Force libtool to use C++ compiler when checking for PIC 
-CC=$CXX
+dnl Force libtool to use C compiler when checking for PIC 
+CC=$CC
+
+dnl Depending on target, we may need extra libraries in link command
+dnl also set LD before doing libtool macros.
+case "$target" in
+  *-*-solaris*)
+dnl Use the C++ compiler for the linker
+    LD=$CXX
+    LIBS="-lm -lsocket -lgen -lnsl";;
+  *) ;;
+esac
+
+AM_DISABLE_STATIC
+AM_PROG_LIBTOOL
 
 dnl Get the path to the standard C++ library
 PFK_CXX_LIB_PATH
@@ -31,14 +44,6 @@ dnl Check for gmake and use it
 AC_CHECK_PROG(GMAKE, gmake, gmake, make)
 AC_SUBST(GMAKE)
 
-dnl Depending on target, we may need extra libraries in link command
-case "$target" in
-  *-*-solaris*)
-dnl Use the C++ compiler for the linker
-    LD=$CXX
-    LIBS="-lm -lsocket -lgen -lnsl";;
-  *) ;;
-esac
 
 dnl check STD C++ library
 AC_CHECK_LIB(stdc++, main, LIBSTDCPP="lstdc++", LIBSTDCPP=)
@@ -60,7 +65,7 @@ if test "$ac_cv_cxx_have_valarray" != yes; then
 fi
 
 dnl use standard <sstream> if found, else use older <strstream>
-AC_CHECK_HEADERS(sstream, break, AC_CHECK_HEADERS(strstream) )
+AC_CHECK_HEADERS(sstream)
 
 dnl Enables testing of alternate code dealing with MS VC++ workarounds.
 AC_ARG_ENABLE(msvc-code,
@@ -83,10 +88,8 @@ dnl AC_MSG_RESULT( using stlport at $STLPORT)
 
 AC_SUBST(STLPORT)
 
-AM_DISABLE_STATIC
-AM_PROG_LIBTOOL
-
-AC_OUTPUT(Makefile Doxyfile )
+AC_OUTPUT(Makefile Doxyfile \
+          vs.net/Makefile   )
 
 
 AC_MSG_RESULT([

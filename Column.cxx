@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -20,7 +20,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 using std::ostrstream;
 #else
@@ -308,7 +308,7 @@ namespace CCfits {
 
   void Column::setDisplay ()
   {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
   ostrstream key;
 #else
   std::ostringstream key;
@@ -316,7 +316,7 @@ namespace CCfits {
   key << "TDISP" << index();
   int status = 0;
   FITSUtil::auto_array_ptr<char> dispValue (new char[FLEN_VALUE]);
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
   fits_read_key_str(fitsPointer(), key.str(), dispValue.get(),0,&status);
 #else
   fits_read_key_str(fitsPointer(),const_cast<char*>(key.str().c_str()),dispValue.get(),0,&status);
@@ -357,7 +357,7 @@ namespace CCfits {
     static double* pd = new double[4];
     static std::complex<float> cf[4];
     static std::complex<double> cd[4];
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
     ostrstream slmin;
     ostrstream slmax;
     ostrstream sdmin;
@@ -374,7 +374,7 @@ namespace CCfits {
     sdmin << s_TDMIN << m_index;
     sdmax << s_TDMAX << m_index;
     
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
     char* lmin(slmin.str());
     char* lmax(slmax.str());
     char* dmin(slmin.str());

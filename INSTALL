@@ -1,4 +1,4 @@
-$Id: INSTALL,v 3.0 2002/06/18 14:44:26 dorman Exp $
+$Id: INSTALL,v 3.2 2003/03/29 23:40:37 pfkeb Exp $
 
    To build and install CCfits  from source code on a UNIX-like
 (e.g. UNIX, Linux, or Cygwin) platform, take the following steps.  For
@@ -36,7 +36,13 @@ Note that you will obtain the following message after running
 
 	configure.in: 36: required file `config/ltconfig' not found
 
-Disregard this message. It is not an error.
+On most systems it is not an error.  But for some, like Red Hat Linux
+8.0 it is a real error.  Check the config directory and add the
+following symbolic link if it is missing.
+
+ltmain.sh -> /usr/share/libtool/ltmain.sh
+
+or `/usr/local/share' if that is where libtool was installed.
 
 
 2. Configure
@@ -126,22 +132,24 @@ the --prefix option when you configure, or with something like...
 > make DESTDIR=/usr/local/ftools install
 
 
+Instructions for Microsft Windows build.
 
-For compiling the code on a Windows system with MicroSoft Visual C++,
-thake the following steps.
+Compiling CCfits with MS VC++ requires VC++ 7.0 or later.  This is the
+compiler that comes with Visual Studio.NET.  Earlier versions of the
+compiler has too many defects in the area of instanciating templates.
 
-1. Compile the C++ code.   
-Before compiling the C++ code, you may need to edit the file
-`fincludes'.  This file has the include path to the cfitsio package
-  If the file
-has the correct path, then open the workspace file `CCfits.dsw'
-from within a Visual C++ Studio session and do a build.
+Take the following steps.
 
-The workspace file was generated automatically by a tool called
-`am2msdev' (ftp::/ftp.slac.stanford.edu/users/pfkeb/automake/am2msdev).  Inputs
-to this tool are the Makefile.am files used by the UNIX-based
-developers to do builds.
+1. Compile the C++ code.  Open the vs.net/CCfits/CCfits.sln file with
+Visual Studio.NET.  The includes paths have been set to find the
+cfitsio build directory at the same level as the CCfits directory.  If
+this is not the case, use Visual Studio.NET to edit the include paths
+and extra library paths to where you have cfitsio installed.
 
+Next, just use the build icon or the build menu item.
+   
+To build the test program, cookbook, use the
+vs.net/cookbook.cookbook.sln file
 
 Author: Paul_Kunz@slac.stanford.edu
 

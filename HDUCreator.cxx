@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -19,7 +19,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include <sstream>
@@ -124,7 +124,7 @@ namespace CCfits {
     if ( !primary && fits_movnam_hdu(m_parent->fptr(),-1, 
              const_cast<char*>(hduName.c_str()),version,&status) )
     {
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
         std::ostrstream msg;
 #else
         std::ostringstream msg;

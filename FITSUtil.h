@@ -1,31 +1,30 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
 #ifndef FITSUTIL_H
 #define FITSUTIL_H 1
 
-#include <iostream>
 #include "CCfits.h"
 
 // complex
 #include <complex>
 // functional
 #include <functional>
-// vector
-#include <vector>
 // valarray
 #include <valarray>
 // string
 #include <string>
+// vector
+#include <vector>
 // FitsError
 #include "FitsError.h"
 #include <typeinfo>

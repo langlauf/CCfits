@@ -15,7 +15,7 @@ dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
 dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
 dnl will have to add it to acconfig.h manually
 dnl
-dnl @version $Id: ac_check_package.m4,v 3.0 2002/06/18 14:47:50 dorman Exp $
+dnl @version $Id: ac_check_package.m4,v 3.2 2003/03/18 23:02:37 pfkeb Exp $
 dnl @author Paul_Kunz@slac.stanford.edu modified ac_caolan_check_package.m4 for all languages
 dnl
 AC_DEFUN([AC_CHECK_PACKAGE],
@@ -27,7 +27,9 @@ with_$1=$withval
 if test "${with_$1}" != yes; then
         $1_include="$withval/include"
         $1_libdir="$withval/lib"
-fi
+fi,
+$1_include="/usr/local/cfitsio/include"
+$1_libdir="/usr/local/cfitsio/lib"
 )
 
 AC_ARG_WITH($1-include,
@@ -64,7 +66,7 @@ dnl     broken
 dnl     fixed
                 ifelse([$5], , , [$5])
 
-                AC_DEFINE(HAVE_PKG_$1)
+                AC_DEFINE(HAVE_PKG_$1, 1, Define if you have the package )
         fi
 
 fi

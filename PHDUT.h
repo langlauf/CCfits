@@ -1,13 +1,14 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+
 
 #ifndef PHDUT_H
 #define PHDUT_H
@@ -39,15 +40,14 @@ namespace CCfits
         void  PHDU::read (std::valarray<S>& image, long first, long nElements,  S* nullValue) 
         {
                 makeThisCurrent();
-                try
+                if ( PrimaryHDU<S>* phdu = dynamic_cast<PrimaryHDU<S>*>(this) )
                 {
                         // proceed if cast is successful.
-                        PrimaryHDU<S>& phdu = dynamic_cast<PrimaryHDU<S>&>(*this);
-                        const std::valarray<S>& __tmp = phdu.readImage(first,nElements,nullValue);                           
+                        const std::valarray<S>& __tmp = phdu->readImage(first,nElements,nullValue);                           
                         image.resize(__tmp.size());
                         image = __tmp;
                 }
-                catch (...)
+                else
                 {
                         if (bitpix() == Ifloat)
                         {
@@ -169,15 +169,14 @@ namespace CCfits
 				S* nullValue)
         {
                 makeThisCurrent();
-                try
+                if (PrimaryHDU<S>* phdu = dynamic_cast<PrimaryHDU<S>*>(this))
                 {
-                        PrimaryHDU<S>& phdu = dynamic_cast<PrimaryHDU<S>&>(*this);
                         const std::valarray<S>& __tmp 
-                                        = phdu.readImage(firstVertex,lastVertex,stride,nullValue);                         
+                                        = phdu->readImage(firstVertex,lastVertex,stride,nullValue);                         
                         image.resize(__tmp.size());
                         image = __tmp;
                 }
-                catch (...)
+                else
                 {
                         // FITSutil::fill will take care of sizing.
                         if (bitpix() == Ifloat)
@@ -226,7 +225,7 @@ namespace CCfits
                                         if (nullValue) nulVal = static_cast<long>(*nullValue);                                 
                                         FITSUtil::fill(image,
                                              phdu.readImage(firstVertex,lastVertex,stride,&nulVal));                            
-                                }                                
+                                }      
                         }    
                         else if (bitpix() == Ishort)
                         {
@@ -275,12 +274,11 @@ namespace CCfits
                 // for integer types, must do the null value substitution before
                 // data conversion.
                 makeThisCurrent();
-                try
+                if (PrimaryHDU<S>* image = dynamic_cast<PrimaryHDU<S>*>(this))
                 {
-                        PrimaryHDU<S>& image = dynamic_cast<PrimaryHDU<S>&>(*this);
-                        image.writeImage(first,nElements,data,nullValue);
+                        image->writeImage(first,nElements,data,nullValue);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         if (bitpix() == Ifloat)
                         {
@@ -426,12 +424,11 @@ namespace CCfits
                 // for integer types, must do the null value substitution before
                 // data conversion.
                 makeThisCurrent();
-                try
+                if ( PrimaryHDU<S>* image = dynamic_cast<PrimaryHDU<S>*>(this) )
                 {
-                        PrimaryHDU<S>& image = dynamic_cast<PrimaryHDU<S>&>(*this);
-                        image.writeImage(first,nElements,data);
+                        image->writeImage(first,nElements,data);
                 }
-                catch (std::bad_cast)
+                else
                 {
                         if (bitpix() == Ifloat)
                         {

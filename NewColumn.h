@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 release dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -14,8 +14,6 @@
 #define NEWCOLUMN_H 1
 
 
-// vector
-#include <vector>
 // valarray
 #include <valarray>
 // ColumnCreator
@@ -54,16 +52,9 @@ namespace CCfits {
 
         NewColumn< T > & operator=(const NewColumn< T > &right);
 
-
-        const std::vector<T>& newData () const;
-
       // Additional Private Declarations
 
     private: //## implementation
-      // Data Members for Associations
-
-        std::vector<T> m_newData;
-
       // Additional Implementation Declarations
 
   };
@@ -96,16 +87,9 @@ namespace CCfits {
 
         NewVectorColumn< T > & operator=(const NewVectorColumn< T > &right);
 
-
-        const std::vector< std::valarray<T> >& newData () const;
-
       // Additional Private Declarations
 
     private: //## implementation
-      // Data Members for Associations
-
-        std::vector< std::valarray<T> > m_newData;
-
       // Additional Implementation Declarations
 
   };
@@ -113,21 +97,7 @@ namespace CCfits {
 
   // Parameterized Class CCfits::NewColumn 
 
-
-  template <typename T>
-  inline const std::vector<T>& NewColumn<T>::newData () const
-  {
-    return m_newData;
-  }
-
   // Parameterized Class CCfits::NewVectorColumn 
-
-
-  template <typename T>
-  inline const std::vector< std::valarray<T> >& NewVectorColumn<T>::newData () const
-  {
-    return m_newData;
-  }
 
   // Parameterized Class CCfits::NewColumn 
 

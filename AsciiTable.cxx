@@ -1,12 +1,12 @@
 
-//	This is version 1.1.1 release dated May 2002
+//	This is version 1.2 dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	September 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -22,7 +22,7 @@
 // AsciiTable
 #include "AsciiTable.h"
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include <sstream>
@@ -281,7 +281,7 @@ namespace CCfits {
         }    
            
     }
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
                 std::ostrstream tformStr;
 #else
                 std::ostringstream tformStr;          
@@ -344,12 +344,26 @@ namespace CCfits {
     
     if (fits_insert_col(fitsPointer(),colNum,ttype,tform,&status)) throw FitsError(status);
     
+    if (colUnit.size()) 
+    {           
+                std::ostringstream ustream;
+                char unitComment[] = "";
+                ustream << "TUNIT" << colNum;
+                if (fits_write_key (fitsPointer(), Tstring,
+                           const_cast<char*>(ustream.str().c_str()),
+                           const_cast<char*>(colUnit.c_str()), 
+                           unitComment, &status))
+                {
+                           throw FitsError (status);
+                }
+
+    }
+    
     ColumnCreator create(this);
     column(columnName,create.createColumn(colNum,type,columnName,tfString,
                       colUnit,1,repeatWidth));
     if (type != Tstring) column(columnName).setLimits(type);
     
-    if (colUnit.size() > 0)  column(columnName).unit(colUnit);
     
     if (columnNumber != 0) reindex();
   }

@@ -1,17 +1,19 @@
 
-//	This is version 1.1.1 release dated Sept 2002
+//	This is version 1.2 dated April 2003
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	Sept 2002 Ben Dorman, L3-Communications
+//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
-
-
 #ifndef FITSUTILT_H
 #define FITSUTILT_H
+
+#ifdef _MSC_VER
+#include "MSconfig.h" // for truncation warning
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -22,7 +24,7 @@
 #include<typeinfo>
 #include<iostream>
 
-#ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 #include <strstream>
 #else
 #include<sstream>
@@ -122,11 +124,11 @@ namespace CCfits
                 template<typename S, typename T>
                 string errorMessage( const S& out, const T& in)
                 {
-        #ifdef HAVE_STRSTREAM
+#ifndef HAVE_SSTREAM
 	                std::ostrstream errMsg;
-        #else
+#else
                         std::ostringstream errMsg;
-        #endif
+#endif
                         errMsg << " Error: no conversion from " << typeid(in).name() << " to "
                                << typeid(out).name() << std::endl;
                         return errMsg.str();

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 #
-# $Id: Makefile.am,v 3.0 2002/06/18 14:44:35 dorman Exp $
+# $Id: Makefile.am,v 3.5 2003/03/29 16:44:10 pfkeb Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
@@ -13,11 +13,15 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 # Trick to add options to aclocal command
 ACLOCAL = aclocal -I config/m4
 
+SUBDIRS = vs.net
+
 ## Subsitution from pfkeb_cxx_lib_path
 CXX_LIB_PATH = @CXX_LIB_PATH@
 
+MSVC_FILES = MSconfig.h
 
-EXTRA_DIST = config
+EXTRA_DIST = config BUILD CHANGES $(MSVC_FILES)
+
 
 bin_PROGRAMS = cookbook
 
@@ -92,6 +96,7 @@ libCCfits_la_HEADERS =				\
 	Table.h
 
 run_cookbook:
+	rm -rf *.fit
 	cookbook.C
 
 ## The following is for Mac OS X.  
