@@ -1,40 +1,62 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%384D1F571C70.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%384D1F571C70.cm
 
+//## begin module%384D1F571C70.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%384D1F571C70.cp
 
+//## Module: FITSUtil%384D1F571C70; Package specification
+//## Subsystem: CCfits::Utility%3949241F026A
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/FITSUtil.h
 
 #ifndef FITSUTIL_H
 #define FITSUTIL_H 1
 
+//## begin module%384D1F571C70.additionalIncludes preserve=no
 #include "CCfits.h"
+//## end module%384D1F571C70.additionalIncludes
 
-// complex
-#include <complex>
-// functional
-#include <functional>
-// valarray
-#include <valarray>
 // string
 #include <string>
+// complex
+#include <complex>
 // vector
 #include <vector>
+// valarray
+#include <valarray>
+// functional
+#include <functional>
 // FitsError
 #include "FitsError.h"
+//## begin module%384D1F571C70.includes preserve=yes
 #include <typeinfo>
+//## end module%384D1F571C70.includes
 
+//## begin module%384D1F571C70.declarations preserve=no
+//## end module%384D1F571C70.declarations
 
+//## begin module%384D1F571C70.additionalDeclarations preserve=yes
+//## end module%384D1F571C70.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   namespace FITSUtil {
+    //## begin CCfits::FITSUtil%3820548A5050.initialDeclarations preserve=yes
  
 /*! \namespace FITSUtil
 
@@ -318,6 +340,7 @@ object.
   static const  unsigned int  u1(0);        
   static const  long l1(0);
   static const  unsigned long ul1(0);
+  static const  LONGLONG ll1(0);
   static const  short s2(0);
   static const  unsigned short us1(0); 
   static const  bool b1(false);
@@ -465,15 +488,24 @@ object.
   fitsfile* copyFitsPtr(fitsfile * inPtr);
 
 
+    //## end CCfits::FITSUtil%3820548A5050.initialDeclarations
+
+    //## Class: MatchPtrName%3AC8BF35020B; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
-
+    //## Uses: <unnamed>%39491C7D0119;std::string { -> }
 
     template <class T>
     struct MatchPtrName : public std::binary_function<T,std::string,bool>  //## Inherits: <unnamed>%39491BC9025D
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator %3AC8BF350246;  C++
           //	Parameterized Class MatchPtrName
           bool operator () (const T& left, const string& right) const;
 
@@ -483,14 +515,22 @@ object.
       private: //## implementation
     };
 
+    //## Class: MatchName%3AC8BF350253; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
+    //## Uses: <unnamed>%39491C8402BF;std::string { -> }
 
     template <class T>
     struct MatchName : public std::binary_function<T,std::string,bool>  //## Inherits: <unnamed>%39491BC50121
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator %3AC8BF35025E;  C++
           bool operator () (const T& left, const string& right) const;
 
       public:
@@ -499,6 +539,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: MatchNum%383C36F58058; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -506,6 +551,8 @@ object.
     struct MatchNum : public std::binary_function<T,int,bool>  //## Inherits: <unnamed>%39491BCE01C0
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%383C381F2068
           bool operator () (const T& left, const int& right) const;
 
       public:
@@ -514,6 +561,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: MatchType%39491CB900CB; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -521,6 +573,8 @@ object.
     struct MatchType 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%39491D27033B
           ValueType operator () ();
 
       public:
@@ -529,6 +583,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: CVarray%39491F640098; private; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -536,6 +595,8 @@ object.
     struct CVarray 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%39491FAF0239
           T* operator () (const std::vector<T>& inArray);
 
       public:
@@ -544,6 +605,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: FitsNullValue%397F48F303B5; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -551,6 +617,8 @@ object.
     struct FitsNullValue 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%397F49B902A4
           T operator () ();
 
       public:
@@ -559,6 +627,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: MatchImageType%3AFA9C950281; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -566,6 +639,8 @@ object.
     struct MatchImageType 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%3AFA9CDE0298
           ImageType operator () ();
 
       public:
@@ -574,6 +649,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: MatchPtrNum%383C36F8A768; private; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -581,6 +661,8 @@ object.
     struct MatchPtrNum : public std::binary_function<T,int,bool>  //## Inherits: <unnamed>%39491BD3034B
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%383C386AE318
           bool operator () (const T& left, const int& right) const;
 
       public:
@@ -589,7 +671,12 @@ object.
       private: //## implementation
     };
 
+    //## Class: auto_array_ptr%3AFC94C90276; Parameterized Class
     //	auto_ptr analogue for arrays.
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -597,27 +684,47 @@ object.
     class auto_array_ptr 
     {
       public:
+        //## Constructors (specified)
+          //## Operation: auto_array_ptr%3AFC9CE603A9
+          //## Exceptions: ()
           explicit auto_array_ptr (X* p = 0) throw ();
 
+          //## Operation: auto_array_ptr%3AFC9D7F025A
+          //## Exceptions: ()
           explicit auto_array_ptr (auto_array_ptr<X>& right) throw ();
 
+        //## Destructor (generated)
           ~auto_array_ptr();
 
 
+        //## Other Operations (specified)
+          //## Operation: operator=%3AFC9FF103CE
           void operator = (auto_array_ptr<X>& right);
 
+          //## Operation: operator*%3AFCA075003E
+          //## Exceptions: ()
           X& operator * () throw ();
 
+          //## Operation: operator[]%3AFCA0990172
+          //## Exceptions: ()
           X& operator [] (size_t i) throw ();
 
+          //## Operation: operator[]%3AFCA0C80269
+          //## Exceptions: ()
           X operator [] (size_t i) const throw ();
 
+          //## Operation: get%3AFCA14C00F8
           X* get () const;
 
+          //## Operation: release%3AFCA1710251
+          //## Exceptions: ()
           X* release () throw ();
 
+          //## Operation: reset%3AFCA1C30353
+          //## Exceptions: ()
           X* reset (X* p) throw ();
 
+          //## Operation: remove%3AFCA20900EB
           static void remove (X*& x);
 
       protected:
@@ -625,10 +732,18 @@ object.
       private: //## implementation
         // Data Members for Class Attributes
 
+          //## Attribute: p%3AFC9F6303CD
+          //## begin CCfits::FITSUtil::auto_array_ptr::p%3AFC9F6303CD.attr preserve=no  private: X* {U} p
           X* m_p;
+          //## end CCfits::FITSUtil::auto_array_ptr::p%3AFC9F6303CD.attr
 
     };
 
+    //## Class: ComparePtrIndex%3B24DB4301E0; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -636,6 +751,8 @@ object.
     struct ComparePtrIndex : public std::binary_function<T,T,bool>  //## Inherits: <unnamed>%3B24DB930299
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%3B24DB680377
           bool operator () (const T* left, const T* right);
 
       public:
@@ -644,6 +761,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: CAarray%3BFA7D6C0304; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -651,6 +773,8 @@ object.
     struct CAarray 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%3BFA7DA701F6
           T* operator () (const std::valarray<T>& inArray);
 
       public:
@@ -659,6 +783,11 @@ object.
       private: //## implementation
     };
 
+    //## Class: CVAarray%3BFA7DE1030B; Parameterized Class
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
@@ -666,6 +795,8 @@ object.
     struct CVAarray 
     {
 
+        //## Other Operations (specified)
+          //## Operation: operator()%3BFA7E1500D3
           T* operator () (const std::vector< std::valarray<T> >& inArray);
 
       public:
@@ -674,12 +805,19 @@ object.
       private: //## implementation
     };
 
+    //## Class: UnrecognizedType%3CE1433D00F5
+    //## Category: CCfits::FITSUtil%3820548A5050
+    //## Subsystem: CCfits::Utility%3949241F026A
+    //## Persistence: Transient
+    //## Cardinality/Multiplicity: n
 
 
 
     class UnrecognizedType : public FitsException  //## Inherits: <unnamed>%3CE143AB00C6
     {
       public:
+        //## Constructors (specified)
+          //## Operation: UnrecognizedType%3CE143740244
           UnrecognizedType (string diag, bool silent = true);
 
       protected:
@@ -690,28 +828,37 @@ object.
     // Parameterized Class CCfits::FITSUtil::MatchPtrName 
 
 
+    //## Other Operations (inline)
     template <class T>
     inline bool MatchPtrName<T>::operator () (const T& left, const string& right) const
     {
-       return left->m_name == right->m_name;
+      //## begin CCfits::FITSUtil::MatchPtrName::operator %3AC8BF350246.body preserve=yes
+       return left->name() == right;
+      //## end CCfits::FITSUtil::MatchPtrName::operator %3AC8BF350246.body
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchName 
 
 
+    //## Other Operations (inline)
     template <class T>
     inline bool MatchName<T>::operator () (const T& left, const string& right) const
     {
-       return left.m_name == right.m_name;
+      //## begin CCfits::FITSUtil::MatchName::operator %3AC8BF35025E.body preserve=yes
+       return left.name() == right;
+      //## end CCfits::FITSUtil::MatchName::operator %3AC8BF35025E.body
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchNum 
 
 
+    //## Other Operations (inline)
     template <class T>
     inline bool MatchNum<T>::operator () (const T& left, const int& right) const
     {
+      //## begin CCfits::FITSUtil::MatchNum::operator()%383C381F2068.body preserve=yes
     return left.index() == right;
+      //## end CCfits::FITSUtil::MatchNum::operator()%383C381F2068.body
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchType 
@@ -719,9 +866,11 @@ object.
     // Parameterized Class CCfits::FITSUtil::CVarray 
 
 
+    //## Other Operations (inline)
     template <typename T>
     inline T* CVarray<T>::operator () (const std::vector<T>& inArray)
     {
+      //## begin CCfits::FITSUtil::CVarray::operator()%39491FAF0239.body preserve=yes
       
       // convert std containers used commonly in FITS to C arrays in an exception
       // safe manner that is also clear about resource ownership.      
@@ -729,14 +878,17 @@ object.
       T* c = pC.get();
       std::copy(inArray.begin(),inArray.end(),&c[0]);
       return pC.release();
+      //## end CCfits::FITSUtil::CVarray::operator()%39491FAF0239.body
     }
 
     // Parameterized Class CCfits::FITSUtil::FitsNullValue 
 
 
+    //## Other Operations (inline)
     template <typename T>
     inline T FitsNullValue<T>::operator () ()
     {
+      //## begin CCfits::FITSUtil::FitsNullValue::operator()%397F49B902A4.body preserve=yes
            FITSUtil::MatchType<T> null;  
            switch ( null() )
            {
@@ -750,6 +902,7 @@ object.
                 default:
                         return 0;
             }
+      //## end CCfits::FITSUtil::FitsNullValue::operator()%397F49B902A4.body
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchImageType 
@@ -757,10 +910,13 @@ object.
     // Parameterized Class CCfits::FITSUtil::MatchPtrNum 
 
 
+    //## Other Operations (inline)
     template <class T>
     inline bool MatchPtrNum<T>::operator () (const T& left, const int& right) const
     {
+      //## begin CCfits::FITSUtil::MatchPtrNum::operator()%383C386AE318.body preserve=yes
     return left->index() == right;
+      //## end CCfits::FITSUtil::MatchPtrNum::operator()%383C386AE318.body
     }
 
     // Parameterized Class CCfits::FITSUtil::auto_array_ptr 
@@ -782,9 +938,11 @@ object.
     // Parameterized Class CCfits::FITSUtil::MatchType 
 
 
+    //## Other Operations (implementation)
     template <typename T>
     ValueType MatchType<T>::operator () ()
     {
+      //## begin CCfits::FITSUtil::MatchType::operator()%39491D27033B.body preserve=yes
 
     if ( typeid(T) == typeid(d1) ) return Tdouble;
     if ( typeid(T) == typeid(f1) ) return Tfloat;
@@ -799,8 +957,12 @@ object.
     if ( typeid(T) == typeid(b2) ) return Tbyte;
     if ( typeid(T) == typeid(l1) ) return Tlong;
     if ( typeid(T) == typeid(ul1) ) return Tulong;
+    // Carefull, on some compilers LONGLONG == long,
+    // so this should go after test for long.
+    if ( typeid(T) == typeid(ll1) ) return Tlonglong;
     throw UnrecognizedType("Invalid data type for FITS Data I/O\n");    
     
+      //## end CCfits::FITSUtil::MatchType::operator()%39491D27033B.body
     }
 
     // Parameterized Class CCfits::FITSUtil::CVarray 
@@ -808,9 +970,11 @@ object.
     // Parameterized Class CCfits::FITSUtil::MatchImageType 
 
 
+    //## Other Operations (implementation)
     template <typename T>
     ImageType MatchImageType<T>::operator () ()
     {
+      //## begin CCfits::FITSUtil::MatchImageType::operator()%3AFA9CDE0298.body preserve=yes
     if ( typeid(T) == typeid(b2) ) return Ibyte;    
     if ( typeid(T) == typeid(s2) ) return Ishort;
     if ( typeid(T) == typeid(l1) ) return Ilong;
@@ -822,6 +986,7 @@ object.
     string diag ("Image: ");
     diag += FITSType2String(errType());
     throw UnrecognizedType(diag);        
+      //## end CCfits::FITSUtil::MatchImageType::operator()%3AFA9CDE0298.body
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchPtrNum 
@@ -830,110 +995,149 @@ object.
 
     template <typename X>
     auto_array_ptr<X>::auto_array_ptr (X* p) throw ()
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.hasinit preserve=no
           : m_p(p)
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.hasinit
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.initialization preserve=yes
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.initialization
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.body preserve=yes
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9CE603A9.body
     }
 
     template <typename X>
     auto_array_ptr<X>::auto_array_ptr (auto_array_ptr<X>& right) throw ()
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.hasinit preserve=yes
           : m_p(right.release())
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.hasinit
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.initialization preserve=yes
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.initialization
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.body preserve=yes
+      //## end CCfits::FITSUtil::auto_array_ptr::auto_array_ptr%3AFC9D7F025A.body
     }
 
 
     template <typename X>
     auto_array_ptr<X>::~auto_array_ptr()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::~auto_array_ptr%3AFC94C90276_dest.body preserve=yes
       delete [] m_p;
+      //## end CCfits::FITSUtil::auto_array_ptr::~auto_array_ptr%3AFC94C90276_dest.body
     }
 
 
 
+    //## Other Operations (implementation)
     template <typename X>
     void auto_array_ptr<X>::operator = (auto_array_ptr<X>& right)
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::operator=%3AFC9FF103CE.body preserve=yes
       if (this != &right)
       {
                 remove(m_p);
                 m_p = right.release();       
       }
+      //## end CCfits::FITSUtil::auto_array_ptr::operator=%3AFC9FF103CE.body
     }
 
     template <typename X>
     X& auto_array_ptr<X>::operator * () throw ()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::operator*%3AFCA075003E.body preserve=yes
       return *m_p;
+      //## end CCfits::FITSUtil::auto_array_ptr::operator*%3AFCA075003E.body
     }
 
     template <typename X>
     X& auto_array_ptr<X>::operator [] (size_t i) throw ()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::operator[]%3AFCA0990172.body preserve=yes
       return m_p[i];
+      //## end CCfits::FITSUtil::auto_array_ptr::operator[]%3AFCA0990172.body
     }
 
     template <typename X>
     X auto_array_ptr<X>::operator [] (size_t i) const throw ()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::operator[]%3AFCA0C80269.body preserve=yes
       return m_p[i];
+      //## end CCfits::FITSUtil::auto_array_ptr::operator[]%3AFCA0C80269.body
     }
 
     template <typename X>
     X* auto_array_ptr<X>::get () const
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::get%3AFCA14C00F8.body preserve=yes
       return m_p;
+      //## end CCfits::FITSUtil::auto_array_ptr::get%3AFCA14C00F8.body
     }
 
     template <typename X>
     X* auto_array_ptr<X>::release () throw ()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::release%3AFCA1710251.body preserve=yes
       return reset(0);
+      //## end CCfits::FITSUtil::auto_array_ptr::release%3AFCA1710251.body
     }
 
     template <typename X>
     X* auto_array_ptr<X>::reset (X* p) throw ()
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::reset%3AFCA1C30353.body preserve=yes
       // set the auto_ptr to manage p and return the old pointer it was managing.
       X* __tmp = m_p; 
       m_p = p;
       return __tmp;
+      //## end CCfits::FITSUtil::auto_array_ptr::reset%3AFCA1C30353.body
     }
 
     template <typename X>
     void auto_array_ptr<X>::remove (X*& x)
     {
+      //## begin CCfits::FITSUtil::auto_array_ptr::remove%3AFCA20900EB.body preserve=yes
       X* __tmp(x);
       x = 0;
       delete [] __tmp;
+      //## end CCfits::FITSUtil::auto_array_ptr::remove%3AFCA20900EB.body
     }
 
     // Parameterized Class CCfits::FITSUtil::ComparePtrIndex 
 
 
+    //## Other Operations (implementation)
     template <typename T>
     bool ComparePtrIndex<T>::operator () (const T* left, const T* right)
     {
+      //## begin CCfits::FITSUtil::ComparePtrIndex::operator()%3B24DB680377.body preserve=yes
       return (left->index() < right->index());
+      //## end CCfits::FITSUtil::ComparePtrIndex::operator()%3B24DB680377.body
     }
 
     // Parameterized Class CCfits::FITSUtil::CAarray 
 
 
+    //## Other Operations (implementation)
     template <typename T>
     T* CAarray<T>::operator () (const std::valarray<T>& inArray)
     {
+      //## begin CCfits::FITSUtil::CAarray::operator()%3BFA7DA701F6.body preserve=yes
       size_t n(inArray.size());
       auto_array_ptr<T> pC(new T[n]);
       T* c= pC.get();
       for (size_t j = 0; j < n; ++j) c[j] = inArray[j];
       return pC.release();      
+      //## end CCfits::FITSUtil::CAarray::operator()%3BFA7DA701F6.body
     }
 
     // Parameterized Class CCfits::FITSUtil::CVAarray 
 
 
+    //## Other Operations (implementation)
     template <typename T>
     T* CVAarray<T>::operator () (const std::vector< std::valarray<T> >& inArray)
     {
+      //## begin CCfits::FITSUtil::CVAarray::operator()%3BFA7E1500D3.body preserve=yes
       size_t  sz(0);
       size_t  n(inArray.size());
 
@@ -958,11 +1162,13 @@ object.
       }
 
       return pC.release();      
+      //## end CCfits::FITSUtil::CVAarray::operator()%3BFA7E1500D3.body
     }
 
   } // namespace FITSUtil
 } // namespace CCfits
 
+//## begin module%384D1F571C70.epilog preserve=yes
 
 namespace CCfits
 {
@@ -995,6 +1201,7 @@ namespace CCfits
 }
 
   
+//## end module%384D1F571C70.epilog
 
 
 #endif

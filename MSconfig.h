@@ -1,3 +1,7 @@
+/** MicroSoft Visual C++ required macros, pragmas, and functions.  The
+    macros are defined so alternate code can be conditionally compiled
+    to work around the defects.  The pragmas are used to turn off some
+    frequently seen warning messages.  The functions defined are part
     of the standard of the standard C++ library, but are missing from
     the MicroSoft library.
  
@@ -12,7 +16,7 @@
     @todo @b Oded: Associate icons with executable and document files.
     .bmp files for this purpose are in the images subdirectory.
   
-    $Id: MSconfig.h,v 3.1 2003/02/27 16:00:02 pfkeb Exp $
+    $Id: MSconfig.h,v 3.3 2003/05/09 19:40:14 pfkeb Exp $
  
     Author: Paul_Kunz@slac.stanford.edu */
 
@@ -44,8 +48,8 @@ compiler.  */
 	TEMPLATE_AMBIG_DEFECT for VC++ 6.0. */
 #define TEMPLATE_AMBIG7_DEFECT 1
 
-/** Define if compiler library has standard stringstream. */
-#define HAVE_SSTREAM
+/** Define if compiler library has <strstream> instead of <sstream>. */
+#undef SSTREAM_DEFECT
 
 # pragma warning(disable:4244)  // conversion from double to float
 # pragma warning(disable:4305)  // truncation from const double to const float

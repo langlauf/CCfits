@@ -1,31 +1,49 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%385E52DC1BA0.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%385E52DC1BA0.cm
 
+//## begin module%385E52DC1BA0.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%385E52DC1BA0.cp
 
+//## Module: ColumnData%385E52DC1BA0; Package body
+//## Subsystem: CCfits::Column%3934116D0008
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnData.cxx
 
+//## begin module%385E52DC1BA0.additionalIncludes preserve=no
+//## end module%385E52DC1BA0.additionalIncludes
 
+//## begin module%385E52DC1BA0.includes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
+//## end module%385E52DC1BA0.includes
 
 // ColumnData
 #include "ColumnData.h"
+//## begin module%385E52DC1BA0.declarations preserve=yes
 #include <algorithm>
+//## end module%385E52DC1BA0.declarations
 
+//## begin module%385E52DC1BA0.additionalDeclarations preserve=yes
 namespace CCfits
 {
 
 #ifndef SPEC_TEMPLATE_DECL_DEFECT
         template <>
-        void ColumnData<string>::writeData (const std::vector<string>& indata, 
-                        long firstRow, string* nullValue)
+        void ColumnData<String>::writeData (const std::vector<String>& indata, 
+                        long firstRow, String* nullValue)
         {
           int    status=0;
           char** columnData=FITSUtil::CharArray(indata);
@@ -34,7 +52,7 @@ namespace CCfits
 			          columnData, 0, &status) != 0 )
               throw FitsError(status);
           unsigned long elementsToWrite (indata.size() + firstRow - 1);
-          std::vector<string> __tmp(m_data);
+          std::vector<String> __tmp(m_data);
           if (m_data.size() < elementsToWrite) 
           {
                   m_data.resize(elementsToWrite,"");
@@ -55,9 +73,9 @@ namespace CCfits
 #ifndef SPEC_TEMPLATE_IMP_DEFECT
 #ifndef SPEC_TEMPLATE_DECL_DEFECT
         template <>
-        void ColumnData<string>::readColumnData (long firstRow, 
+        void ColumnData<String>::readColumnData (long firstRow, 
                                         long nelements, 
-                                        string* nullValue)
+                                        String* nullValue)
         {
           int status = 0;
 
@@ -102,13 +120,13 @@ namespace CCfits
           }
 
 
-          if (m_data.size() == 0) setData(std::vector<string>(rows(),string(nulval)));
+          if (m_data.size() == 0) setData(std::vector<String>(rows(),String(nulval)));
 
           // the 'first -1 ' converts to zero based indexing.
 
           for ( j = 0; j < nelements; j++)
           {
-                m_data[j - 1 + firstRow] = string(array[j]);
+                m_data[j - 1 + firstRow] = String(array[j]);
           }
 
           for ( j = 0; j < nelements; j++)
@@ -148,7 +166,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                                                 long nelements,
                                                 complex<float>* nullValue)
         {
-          // specialization for ColumnData<string> 
+          // specialization for ColumnData<String> 
           int status(0);
           int   anynul(0);
           FITSUtil::auto_array_ptr<float> pArray(new float[nelements*2]); 
@@ -296,5 +314,8 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 #endif       
 
 } // namespace CCfits
+//## end module%385E52DC1BA0.additionalDeclarations
 
 
+//## begin module%385E52DC1BA0.epilog preserve=yes
+//## end module%385E52DC1BA0.epilog

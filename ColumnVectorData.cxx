@@ -1,22 +1,42 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%38BAD0D3F230.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%38BAD0D3F230.cm
 
+//## begin module%38BAD0D3F230.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%38BAD0D3F230.cp
 
+//## Module: ColumnVectorData%38BAD0D3F230; Package body
+//## Subsystem: CCfits::Column%3934116D0008
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnVectorData.cxx
 
+//## begin module%38BAD0D3F230.additionalIncludes preserve=no
+//## end module%38BAD0D3F230.additionalIncludes
 
+//## begin module%38BAD0D3F230.includes preserve=yes
+//## end module%38BAD0D3F230.includes
 
 // ColumnVectorData
 #include "ColumnVectorData.h"
+//## begin module%38BAD0D3F230.declarations preserve=no
+//## end module%38BAD0D3F230.declarations
+
+//## begin module%38BAD0D3F230.additionalDeclarations preserve=yes
+//## end module%38BAD0D3F230.additionalDeclarations
 
 
-
+//## begin module%38BAD0D3F230.epilog preserve=yes
 namespace CCfits
 {
         
@@ -220,14 +240,19 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;
 #endif
                         msgStr << " input array size: " << nElements 
                                         << " required " << nRows*repeat();
-                        string msg(msgStr.str());
+#ifdef SSTREAM_DEFECT
+                        msgStr << std::ends;
+#endif
+                        
+                        
+                        String msg(msgStr.str());
             
                         throw Column::InsufficientElements(msg);
                 } 
@@ -262,14 +287,14 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;
 #endif
                         msgStr << " input array size: " << nElements 
                                         << " required " << nRows*repeat();
-                        string msg(msgStr.str());
+                        String msg(msgStr.str());
             
                         throw Column::InsufficientElements(msg);
                 } 
@@ -330,3 +355,4 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
 #endif
         
 }
+//## end module%38BAD0D3F230.epilog

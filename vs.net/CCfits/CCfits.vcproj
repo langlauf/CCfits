@@ -130,9 +130,6 @@
 				RelativePath="..\..\HDUCreator.cxx">
 			</File>
 			<File
-				RelativePath="..\..\ImageExt.cxx">
-			</File>
-			<File
 				RelativePath="..\..\KeyData.cxx">
 			</File>
 			<File

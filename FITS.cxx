@@ -1,16 +1,31 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%37FE40B76648.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%37FE40B76648.cm
 
+//## begin module%37FE40B76648.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%37FE40B76648.cp
 
+//## Module: FITS%37FE40B76648; Package body
+//## Subsystem: CCfits::FITS%393411910327
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/FITS.cxx
 
+//## begin module%37FE40B76648.additionalIncludes preserve=no
+//## end module%37FE40B76648.additionalIncludes
 
+//## begin module%37FE40B76648.includes preserve=yes
+//## end module%37FE40B76648.includes
 
 // Table
 #include "Table.h"
@@ -18,15 +33,16 @@
 #include "PHDU.h"
 // FITSBase
 #include "FITSBase.h"
-// HDUCreator
-#include "HDUCreator.h"
 // PrimaryHDU
 #include "PrimaryHDU.h"
 // FITS
 #include "FITS.h"
 
 
+//## begin module%37FE40B76648.declarations preserve=no
+//## end module%37FE40B76648.declarations
 
+//## begin module%37FE40B76648.additionalDeclarations preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
@@ -35,7 +51,7 @@
 #include "config.h"
 #endif
 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 #include <strstream>
 #else
 #include <sstream>
@@ -46,59 +62,99 @@ using std::cout;
 using std::cerr;
 
 #include <memory>
+//## end module%37FE40B76648.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   // Class CCfits::FITS::NoSuchHDU 
 
-  FITS::NoSuchHDU::NoSuchHDU (const string& diag, bool silent)
+  FITS::NoSuchHDU::NoSuchHDU (const String& diag, bool silent)
+    //## begin CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.hasinit preserve=yes
   : FitsException("FITS Error: Cannot read HDU in FITS file:",silent)
+    //## end CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.hasinit
+    //## begin CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.initialization preserve=yes
+    //## end CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.initialization
   {
+    //## begin CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.body preserve=yes
   //! Exception to be thrown by failed seek operations
   if ( FITS::verboseMode() || !silent) std::cerr << diag << "\n";
+    //## end CCfits::FITS::NoSuchHDU::NoSuchHDU%396C908003D3.body
   }
 
 
   // Class CCfits::FITS::OperationNotSupported 
 
-  FITS::OperationNotSupported::OperationNotSupported (const string& msg, bool silent)
+  FITS::OperationNotSupported::OperationNotSupported (const String& msg, bool silent)
+    //## begin CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.hasinit preserve=yes
   : FitsException("FITS Error: Operation not supported:",silent)
+    //## end CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.hasinit
+    //## begin CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.initialization preserve=yes
+    //## end CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.initialization
   {
+    //## begin CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.body preserve=yes
     if ( FITS::verboseMode() || !silent)  std::cerr << msg << "\n";
+    //## end CCfits::FITS::OperationNotSupported::OperationNotSupported%39806C3302FE.body
   }
 
 
   // Class CCfits::FITS::CantOpen 
 
-  FITS::CantOpen::CantOpen (const string& diag, bool silent)
+  FITS::CantOpen::CantOpen (const String& diag, bool silent)
+    //## begin CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.hasinit preserve=yes
    : FitsException("FITS Error: Cannot open file ",silent)
+    //## end CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.hasinit
+    //## begin CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.initialization preserve=yes
+    //## end CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.initialization
   {
+    //## begin CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.body preserve=yes
     if ( FITS::verboseMode() || !silent)  std::cerr << diag << "\n";
+    //## end CCfits::FITS::CantOpen::CantOpen%39C8E9FA01BA.body
   }
 
 
   // Class CCfits::FITS::CantCreate 
 
-  FITS::CantCreate::CantCreate (const string& diag, bool silent)
+  FITS::CantCreate::CantCreate (const String& diag, bool silent)
+    //## begin CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.hasinit preserve=yes
    : FitsException(string("FITS Error: Cannot create file "),silent)
+    //## end CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.hasinit
+    //## begin CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.initialization preserve=yes
+    //## end CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.initialization
   {
+    //## begin CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.body preserve=yes
   if ( FITS::verboseMode() || !silent) std::cerr << diag << '\n';
+    //## end CCfits::FITS::CantCreate::CantCreate%39C8EA2C01E0.body
   }
 
 
   // Class CCfits::FITS 
 
+  //## begin CCfits::FITS::verboseMode%39AA762B03E3.attr preserve=no  public: static bool {V} false
   bool FITS::s_verboseMode = false;
+  //## end CCfits::FITS::verboseMode%39AA762B03E3.attr
 
   FITS::FITS(const FITS &right)
+    //## begin FITS::FITS%37FE367A41D0_copy.hasinit preserve=yes
     : m_FITSImpl(right.m_FITSImpl->clone())
+    //## end FITS::FITS%37FE367A41D0_copy.hasinit
+    //## begin FITS::FITS%37FE367A41D0_copy.initialization preserve=yes
+    //## end FITS::FITS%37FE367A41D0_copy.initialization
   {
+    //## begin CCfits::FITS::FITS%37FE367A41D0_copy.body preserve=yes
+    //## end CCfits::FITS::FITS%37FE367A41D0_copy.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, bool readDataFlag, const std::vector<string>& primaryKeys)
+  FITS::FITS (const String &name, RWmode mode, bool readDataFlag, const std::vector<String>& primaryKeys)
+    //## begin CCfits::FITS::FITS%38D292027BA0.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%38D292027BA0.hasinit
+    //## begin CCfits::FITS::FITS%38D292027BA0.initialization preserve=yes
+    //## end CCfits::FITS::FITS%38D292027BA0.initialization
   {
+    //## begin CCfits::FITS::FITS%38D292027BA0.body preserve=yes
  
 
 
@@ -135,11 +191,17 @@ namespace CCfits {
                         read();
                 }
           }
+    //## end CCfits::FITS::FITS%38D292027BA0.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version)
+  FITS::FITS (const String &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
+    //## begin CCfits::FITS::FITS%38D2918EBC78.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%38D2918EBC78.hasinit
+    //## begin CCfits::FITS::FITS%38D2918EBC78.initialization preserve=yes
+    //## end CCfits::FITS::FITS%38D2918EBC78.initialization
   {
+    //## begin CCfits::FITS::FITS%38D2918EBC78.body preserve=yes
           open(mode);
 
           // create and read the Primary: assume here that a single HDU other than
@@ -153,22 +215,34 @@ namespace CCfits {
           // this ensures that every FITS object has exactly one PHDU
 
           read(hduName, readDataFlag, hduKeys,version);
+    //## end CCfits::FITS::FITS%38D2918EBC78.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag, const std::vector<string>& primaryKey)
+  FITS::FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, bool readDataFlag, const std::vector<String>& primaryKey)
+    //## begin CCfits::FITS::FITS%38D290450D98.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%38D290450D98.hasinit
+    //## begin CCfits::FITS::FITS%38D290450D98.initialization preserve=yes
+    //## end CCfits::FITS::FITS%38D290450D98.initialization
   {
+    //## begin CCfits::FITS::FITS%38D290450D98.body preserve=yes
 
         open(mode);
 
         read(readDataFlag,primaryKey);
         read(hduNames,readDataFlag);
 
+    //## end CCfits::FITS::FITS%38D290450D98.body
   }
 
-  FITS::FITS (const string& fileName, const FITS& source)
+  FITS::FITS (const String& fileName, const FITS& source)
+    //## begin CCfits::FITS::FITS%3B38A690017E.hasinit preserve=yes
     : m_FITSImpl(new FITSBase(fileName,Write))
+    //## end CCfits::FITS::FITS%3B38A690017E.hasinit
+    //## begin CCfits::FITS::FITS%3B38A690017E.initialization preserve=yes
+    //## end CCfits::FITS::FITS%3B38A690017E.initialization
   {
+    //## begin CCfits::FITS::FITS%3B38A690017E.body preserve=yes
           
     if (create() )
     {
@@ -184,11 +258,17 @@ namespace CCfits {
        
     if (fits_copy_hdu(source.fitsPointer(),m_FITSImpl->fptr(),0,&status)) throw FitsError(status);
   
+    //## end CCfits::FITS::FITS%3B38A690017E.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag, const std::vector<string>& primaryKeys, const std::vector<int>& hduVersions)
+  FITS::FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, const std::vector<std::vector<String> >& hduKeys, bool readDataFlag, const std::vector<String>& primaryKeys, const std::vector<int>& hduVersions)
+    //## begin CCfits::FITS::FITS%37FE3AFC2620.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%37FE3AFC2620.hasinit
+    //## begin CCfits::FITS::FITS%37FE3AFC2620.initialization preserve=yes
+    //## end CCfits::FITS::FITS%37FE3AFC2620.initialization
   {
+    //## begin CCfits::FITS::FITS%37FE3AFC2620.body preserve=yes
           
           open(mode);
 
@@ -205,11 +285,17 @@ namespace CCfits {
           // this ensures that every FITS object has exactly one PHDU
 
           read(hduNames, hduKeys, readDataFlag, hduVersions);
+    //## end CCfits::FITS::FITS%37FE3AFC2620.body
   }
 
-  FITS::FITS (const string& name, int bitpix, int naxis, long *naxes)
+  FITS::FITS (const String& name, int bitpix, int naxis, long *naxes)
+    //## begin CCfits::FITS::FITS%38454495F730.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,Write))
+    //## end CCfits::FITS::FITS%38454495F730.hasinit
+    //## begin CCfits::FITS::FITS%38454495F730.initialization preserve=yes
+    //## end CCfits::FITS::FITS%38454495F730.initialization
   {
+    //## begin CCfits::FITS::FITS%38454495F730.body preserve=yes
 
         std::vector<long>    va_naxes(naxis);
         std::copy(&naxes[0],&naxes[naxis],va_naxes.begin());
@@ -221,11 +307,17 @@ namespace CCfits {
   
         // set the PrimaryHDU. bitpix will determine the data type.
         pHDU(makePrimary.createImage(bitpix,naxis,va_naxes));
+    //## end CCfits::FITS::FITS%38454495F730.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey)
+  FITS::FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey)
+    //## begin CCfits::FITS::FITS%395B856A00D9.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%395B856A00D9.hasinit
+    //## begin CCfits::FITS::FITS%395B856A00D9.initialization preserve=yes
+    //## end CCfits::FITS::FITS%395B856A00D9.initialization
   {
+    //## begin CCfits::FITS::FITS%395B856A00D9.body preserve=yes
 
         open(mode);
         // read the primary header. Allowing the user to read the primary data
@@ -235,11 +327,17 @@ namespace CCfits {
   
         read(hduIndex,readDataFlag,hduKeys);
   
+    //## end CCfits::FITS::FITS%395B856A00D9.body
   }
 
-  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, const std::vector<string>& primaryKey, int version)
+  FITS::FITS (const String &name, RWmode mode, const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
+    //## begin CCfits::FITS::FITS%39B562CD0158.hasinit preserve=yes
   : m_FITSImpl(new FITSBase(name,mode))
+    //## end CCfits::FITS::FITS%39B562CD0158.hasinit
+    //## begin CCfits::FITS::FITS%39B562CD0158.initialization preserve=yes
+    //## end CCfits::FITS::FITS%39B562CD0158.initialization
   {
+    //## begin CCfits::FITS::FITS%39B562CD0158.body preserve=yes
           
         open(mode);
 
@@ -254,18 +352,23 @@ namespace CCfits {
         // this ensures that every FITS object has exactly one PHDU
 
         read(searchKeys, searchValues, readDataFlag, hduKeys, version);
+    //## end CCfits::FITS::FITS%39B562CD0158.body
   }
 
 
   FITS::~FITS()
   {
+    //## begin CCfits::FITS::~FITS%37FE367A41D0_dest.body preserve=yes
     destroy();      
+    //## end CCfits::FITS::~FITS%37FE367A41D0_dest.body
   }
 
 
 
+  //## Other Operations (implementation)
   void FITS::unmapExtension (ExtHDU& doomed)
   {
+    //## begin CCfits::FITS::unmapExtension%3B3B4E550101.body preserve=yes
     const string& doomedName = doomed.name();
     if ( extension().count(doomedName) == 1 )
     {
@@ -291,23 +394,29 @@ namespace CCfits {
                     ++x;
             }
     }     
+    //## end CCfits::FITS::unmapExtension%3B3B4E550101.body
   }
 
   void FITS::clearErrors ()
   {
+    //## begin CCfits::FITS::clearErrors%3B66F73A007C.body preserve=yes
     fits_clear_errmsg();
+    //## end CCfits::FITS::clearErrors%3B66F73A007C.body
   }
 
-  void FITS::deleteExtension (const std::string& doomed, int version)
+  void FITS::deleteExtension (const String& doomed, int version)
   {
+    //## begin CCfits::FITS::deleteExtension%3B66F795013E.body preserve=yes
     int status(0);
     ExtHDU& d = extension(doomed,version); // throws NoSuchHDU if it's not there.
     if (fits_delete_hdu(fitsPointer(),0,&status)) throw FitsError(status);
     unmapExtension(d);
+    //## end CCfits::FITS::deleteExtension%3B66F795013E.body
   }
 
-  int FITS::nextVersionNumber (const string& inputName) const
+  int FITS::nextVersionNumber (const String& inputName) const
   {
+    //## begin CCfits::FITS::nextVersionNumber%3B3B79F50084.body preserve=yes
     int n(0);
     int status(0);
     int current(0);
@@ -321,38 +430,86 @@ namespace CCfits {
     }
     if (fits_movabs_hdu(fitsPointer(),current,0,&status)) throw FitsError(status);
     return count+1;      
+    //## end CCfits::FITS::nextVersionNumber%3B3B79F50084.body
   }
 
-  void FITS::read (bool readDataFlag, const std::vector<string>& keys)
+  void FITS::read (bool readDataFlag, const std::vector<String>& keys)
   {
+    //## begin CCfits::FITS::read%38D298347AE8.body preserve=yes
 
    HDUCreator create(m_FITSImpl);
    
    
    pHDU(static_cast<PHDU*>(create.getHdu(0,readDataFlag,keys)));
 
+    //## end CCfits::FITS::read%38D298347AE8.body
   }
 
-  void FITS::read (const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version)
+  void FITS::read (const String &hduName, bool readDataFlag, const std::vector<String> &keys, int version)
   {
-       HDUCreator create(m_FITSImpl);
-   
-        try
-        {
-                // primary is always false here.   
-                ExtHDU* newHDU = static_cast<ExtHDU*>(create.getHdu(hduName, readDataFlag, keys, false, version));
-                // add a specified HDU in the file to the list of extensions.
-                addExtension(newHDU);
-        }
-        catch ( ... )
-        {
-                throw NoSuchHDU(hduName);
-        }
+    //## begin CCfits::FITS::read%387DD1011578.body preserve=yes
+        // grab the requested extension if present. If not, create an ExtHDU object and add it, if it
+        // exists in the file. The first clause copes with the results from the ctor that reads the 
+        // entire file for HDUs, the second when adding a new HDU from a file which selected HDUs were
+        // read on construction.
+        ExtMap& ext = m_FITSImpl->extension();        
+        ExtMap::size_type n = ext.count(hduName);
 
+         
+        if ( n > 0 )
+        {
+                std::pair<ExtMap::iterator,ExtMap::iterator> r 
+                                        = m_FITSImpl->extension().equal_range(hduName);
+                 ExtHDU* requested(0);
+                 if (version == 1)
+                 {
+                         requested = (r.first)->second;
+                 } 
+                 else 
+                 {
+                       for (ExtMap::iterator i = r.first; i != r.second; ++i)
+                       {
+                                if ( i->second->version() == version )
+                                {
+                                        requested = i->second;
+                                        break;
+                                }       
+                       }                      
+                       if (!requested)
+                       {
+                               std::ostringstream msg;
+                               msg  << hduName << " with version " << version;
+                               throw NoSuchHDU(msg.str());
+                       } 
+                 }
+                 requested->readData(readDataFlag,keys);
+                 
+        }
+        else
+        {
+                HDUCreator create(m_FITSImpl);
+
+                try
+                {
+                        // primary is always false here.   
+                        ExtHDU* newHDU = static_cast<ExtHDU*>(create.getHdu(hduName, readDataFlag, keys, false, version));
+                        // add a specified HDU in the file to the list of extensions.
+                        addExtension(newHDU);
+                }
+                catch ( ... )
+                {
+                        throw NoSuchHDU(hduName);
+                }
+               
+        }
+          
+ 
+    //## end CCfits::FITS::read%387DD1011578.body
   }
 
-  void FITS::read (const std::vector<string> &hduNames, bool readDataFlag)
+  void FITS::read (const std::vector<String> &hduNames, bool readDataFlag)
   {
+    //## begin CCfits::FITS::read%387DFBA281E0.body preserve=yes
    int  nhdu=hduNames.size();
    HDUCreator create(m_FITSImpl);
    
@@ -378,10 +535,12 @@ namespace CCfits {
     }
 
 
+    //## end CCfits::FITS::read%387DFBA281E0.body
   }
 
-  void FITS::read (const std::vector<string> &hduNames, const std::vector<std::vector<string> > &keys, bool readDataFlag, const std::vector<int>& hduVersions)
+  void FITS::read (const std::vector<String> &hduNames, const std::vector<std::vector<String> > &keys, bool readDataFlag, const std::vector<int>& hduVersions)
   {
+    //## begin CCfits::FITS::read%38D2944902F0.body preserve=yes
 
    int  nhdu=hduNames.size();
   
@@ -423,10 +582,12 @@ namespace CCfits {
         }
     }
 
+    //## end CCfits::FITS::read%38D2944902F0.body
   }
 
   void FITS::open (RWmode mode)
   {
+    //## begin CCfits::FITS::open%380B3C3FACA8.body preserve=yes
   int status=0;
   // unused:  bool silentMode = true;
 
@@ -438,10 +599,12 @@ namespace CCfits {
           else throw FitsError(status);
   }
 
+    //## end CCfits::FITS::open%380B3C3FACA8.body
   }
 
   bool FITS::create ()
   {
+    //## begin CCfits::FITS::create%383424B67D30.body preserve=yes
 
           int status(0);
 
@@ -461,49 +624,50 @@ namespace CCfits {
           	  m_FITSImpl->name() = fName.substr(1);
           }
 
-	  try
+          // create a new file.
+	  // the '!' is processed by ffinit
+          fits_create_file(&m_FITSImpl->fptr(),fName.c_str(),&status);
+          if ( status )
           {
-                  // create a new file.
-		  // the '!' is processed by ffinit
-                  fits_create_file(&m_FITSImpl->fptr(),fName.c_str(),&status);
-                  if (status == FILE_NOT_CREATED) 
+                  try
                   {
-                          // turn off warning message unless verbose is
-                          string warn(fName);
-                          warn += " attempting to open existing file";
-                          throw FITS::CantCreate(warn,true);
+                          if (status == FILE_NOT_CREATED ) 
+                          {
+                                  string warn(" File already exists: ");
+                                  warn += fName;
+                                  warn += " attempting to open existing file";
+                                  if (verboseMode()) std::cerr << warn << '\n';
+                                  open(Write);
+                          }
                   }
-                  else if (status) throw FitsError(status);
-                  return true; 
-          }
-          catch ( CantCreate )
-          {
-		  // try again, to see if the error  was a pre-existing file.
-		  // open( RWmode ) throws CantOpen and FitsError.
-                  open(Write);
+                  catch (FitsException&) {} 
                   return false;
           }
-
-
-
+          return true; 
+    //## end CCfits::FITS::create%383424B67D30.body
   }
 
   int FITS::close () throw ()
   {
+    //## begin CCfits::FITS::close%380B3C655888.body preserve=yes
   int   status=0;
   if (m_FITSImpl == 0) return 0;
 
   status = fits_close_file(m_FITSImpl->fptr(), &status);
   return status;
+    //## end CCfits::FITS::close%380B3C655888.body
   }
 
   FITS * FITS::clone () const
   {
+    //## begin CCfits::FITS::clone%382039362818.body preserve=yes
   return new FITS(*this);
+    //## end CCfits::FITS::clone%382039362818.body
   }
 
   const ExtHDU& FITS::extension (int i) const
   {
+    //## begin CCfits::FITS::extension%381F03932200.body preserve=yes
 
   const ExtMap& ext = m_FITSImpl->extension();
   ExtMapConstIt hduByNum = ext.begin();
@@ -516,7 +680,7 @@ namespace CCfits {
   
   if (hduByNum == endOfList) 
   {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
        std::strstream msg;
 #else
        std::ostringstream msg;
@@ -526,10 +690,12 @@ namespace CCfits {
   }
   (*hduByNum).second->makeThisCurrent();
   return *((*hduByNum).second);   
+    //## end CCfits::FITS::extension%381F03932200.body
   }
 
-  ostream & FITS::put (ostream &s) const
+  std::ostream & FITS::put (std::ostream &s) const
   {
+    //## begin CCfits::FITS::put%38ECDB29BE30.body preserve=yes
   s << "FITS:: Primary HDU: \n" ;
   
   s << *m_FITSImpl->pHDU() << endl;
@@ -546,16 +712,20 @@ namespace CCfits {
 
   return s;
 
+    //## end CCfits::FITS::put%38ECDB29BE30.body
   }
 
   fitsfile*& FITS::fitsPointer () const
   {
+    //## begin CCfits::FITS::fitsPointer%394122F101BF.body preserve=yes
+    //## end CCfits::FITS::fitsPointer%394122F101BF.body
 
     return m_FITSImpl->fptr();
   }
 
   ExtHDU& FITS::extension (int i)
   {
+    //## begin CCfits::FITS::extension%39463D1E003A.body preserve=yes
   ExtMap& ext = m_FITSImpl->extension();
   ExtMapIt hduByNum = ext.begin();
   ExtMapIt endOfList = ext.end();
@@ -568,7 +738,7 @@ namespace CCfits {
 
   if (hduByNum == endOfList) 
   {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
        std:: strstream msg;
 #else
        std::ostringstream msg;
@@ -578,28 +748,36 @@ namespace CCfits {
   }
   (*hduByNum).second->makeThisCurrent();
   return *((*hduByNum).second);    
+    //## end CCfits::FITS::extension%39463D1E003A.body
   }
 
-  const ExtHDU& FITS::extension (const string& hduName, int version) const
+  const ExtHDU& FITS::extension (const String& hduName, int version) const
   {
+    //## begin CCfits::FITS::extension%39463E9502B8.body preserve=yes
    
   return extbyVersion(hduName,version);
+    //## end CCfits::FITS::extension%39463E9502B8.body
   }
 
   const PHDU& FITS::pHDU () const
   {
+    //## begin CCfits::FITS::pHDU%394E7AC8015A.body preserve=yes
+    //## end CCfits::FITS::pHDU%394E7AC8015A.body
 
     return *m_FITSImpl->pHDU();
   }
 
   PHDU& FITS::pHDU ()
   {
+    //## begin CCfits::FITS::pHDU%394E7B9F0063.body preserve=yes
+    //## end CCfits::FITS::pHDU%394E7B9F0063.body
 
     return *m_FITSImpl->pHDU();
   }
 
-  ExtHDU& FITS::extbyVersion (const string& hduName, int version) const
+  ExtHDU& FITS::extbyVersion (const String& hduName, int version) const
   {
+    //## begin CCfits::FITS::extbyVersion%394F892902A0.body preserve=yes
   // hey! remember it's a multimap and we need to work a little harder!
   // first, for convenience...
   // how many extensions with name hduName?
@@ -608,7 +786,7 @@ namespace CCfits {
  
   if (n == 0) 
   {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
        std::strstream msg;
 #else
        std::ostringstream msg;
@@ -630,28 +808,35 @@ namespace CCfits {
              }
              if ( c == last )
              {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                  std::ostrstream msg;
 #else
                  std::ostringstream msg;
 #endif
                  msg << "No HDU with name " << hduName;
                  if (version != 1) msg << " and version " << version;
+#ifdef SSTREAM_DEFECT
+	         msg << std::ends;
+#endif         
                  throw NoSuchHDU(msg.str());
              }
         }
         (*c).second->makeThisCurrent();
         return *((*c).second);
+    //## end CCfits::FITS::extbyVersion%394F892902A0.body
   }
 
   void FITS::pHDU (PHDU* value)
   {
     m_FITSImpl->pHDU() = value;
 
+    //## begin CCfits::FITS::pHDU%394FA9D0038C.body preserve=yes
+    //## end CCfits::FITS::pHDU%394FA9D0038C.body
   }
 
-  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<string> &keys)
+  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<String> &keys)
   {
+    //## begin CCfits::FITS::read%395B890A0390.body preserve=yes
          HDUCreator create(m_FITSImpl);
    
         try
@@ -664,7 +849,7 @@ namespace CCfits {
                 {
                         if (hduIndex < 0 || hduIndex > totalHDUs) 
                         {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 			        std::ostrstream diags;
 #else
                                 std::ostringstream diags;
@@ -685,7 +870,7 @@ namespace CCfits {
         catch ( ... )
         {
                 // catch this one and rethrow.
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 	        std::ostrstream msg;
 #else
                 std::ostringstream msg;
@@ -693,10 +878,12 @@ namespace CCfits {
                 msg << "Error: Could not read extension: " << hduIndex;
                 throw NoSuchHDU(msg.str());
         }
+    //## end CCfits::FITS::read%395B890A0390.body
   }
 
   void FITS::readExtensions (bool readDataFlag)
   {
+    //## begin CCfits::FITS::readExtensions%396CD0CF001A.body preserve=yes
    HDUCreator create(m_FITSImpl);
    int status = 0;
    int numHDUs = 0;
@@ -713,26 +900,80 @@ namespace CCfits {
        addExtension(static_cast<ExtHDU*>(create.getHdu(i,readDataFlag)));
        create.reset();
    }
+    //## end CCfits::FITS::readExtensions%396CD0CF001A.body
   }
 
-  Table* FITS::addTable (string& hduName, int rows, const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit, HduType type, int version)
+  Table* FITS::addTable (const String& hduName, int rows, const std::vector<String>& columnName, const std::vector<String>& columnFmt, const std::vector<String>& columnUnit, HduType type, int version)
   {
-    // use std::auto_ptr<T> to make ownership explicit.
-   HDUCreator newTable(m_FITSImpl);
-   Table* newHDU = static_cast<Table*>(newTable.createTable(hduName, type, rows,
-                                                 columnName, columnFmt,  columnUnit, version));   
-   return static_cast<Table*>(addExtension(newHDU));
+    //## begin CCfits::FITS::addTable%3964B05001A2.body preserve=yes
+   ExtHDU* current(0);
+   size_t N(extension().count(hduName));
+   std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+   if ( N > 0 )
+   {
+        ExtMapIt s(matches.first);
+        while  ( s != matches.second )
+        {
+                current = s->second;
+                if ( current->version() == version && dynamic_cast<Table*>(current) )
+                {
+                        std::cerr << " Table Extension " << hduName << " with version " 
+                                << version << " already exists "
+                                << " returning token for existing version \n";
+                        
+                         
+                }
+                ++s;       
+        } 
+   }      
+   if ( !current )
+   {
+           HDUCreator newTable(m_FITSImpl);
+           Table* newHDU = static_cast<Table*>(newTable.createTable(hduName, type, rows,
+                                                    columnName, columnFmt,  columnUnit, version));   
+           current = addExtension(newHDU);
+   }
+   return static_cast<Table*>(current);
+  
+    //## end CCfits::FITS::addTable%3964B05001A2.body
   }
 
-  ExtHDU* FITS::addImage (const string& hduName, int bpix, std::vector<long>& naxes, int version)
+  ExtHDU* FITS::addImage (const String& hduName, int bpix, std::vector<long>& naxes, int version)
   {
-   HDUCreator newImage(m_FITSImpl);
-   ExtHDU* newHDU = newImage.createImage(hduName, bpix, naxes.size(), naxes,  version);  
-   return addExtension(newHDU);
+    //## begin CCfits::FITS::addImage%3964D03901D3.body preserve=yes
+   ExtHDU* current(0);
+   size_t N(extension().count(hduName));
+   std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+   if ( N > 0 )
+   {
+        ExtMapIt s(matches.first);
+        while  ( s != matches.second )
+        {
+                current = s->second;
+                if ( current->version() == version  )
+                {
+                        std::cerr << " Extension " << hduName << " with version " 
+                                << version << " already exists "
+                                << " returning token for existing version \n";
+                        
+                         
+                }
+                ++s;       
+        } 
+   }      
+   if (!current)
+   {
+        HDUCreator newImage(m_FITSImpl);
+        ExtHDU* newHDU = newImage.createImage(hduName, bpix, naxes.size(), naxes,  version);  
+        current =  addExtension(newHDU);
+   }
+   return current;
+    //## end CCfits::FITS::addImage%3964D03901D3.body
   }
 
   void FITS::destroy () throw ()
   {
+    //## begin CCfits::FITS::destroy%396E1B7B0088.body preserve=yes
         // close the file associated with this FITS object if it is open.
         // close () can't throw because it only calls cfitsio's close function,
         // so error messages are handled here.
@@ -746,34 +987,42 @@ namespace CCfits {
         // nullify the fitsfile pointer, so that it passes "deallocated" tests
         // such as: if ( x.fptr() == 0 )
         m_FITSImpl = 0;
+    //## end CCfits::FITS::destroy%396E1B7B0088.body
   }
 
   void FITS::flush ()
   {
+    //## begin CCfits::FITS::flush%3D88E4EE02FC.body preserve=yes
     int status (0);
     if (fits_flush_file(m_FITSImpl->fptr(),&status)) throw FitsError(status);
+    //## end CCfits::FITS::flush%3D88E4EE02FC.body
   }
 
-  const string& FITS::currentExtensionName () const
+  const String& FITS::currentExtensionName () const
   {
+    //## begin CCfits::FITS::currentExtensionName%39CA286C018F.body preserve=yes
+    //## end CCfits::FITS::currentExtensionName%39CA286C018F.body
 
     return m_FITSImpl->currentExtensionName();
   }
 
   ExtHDU* FITS::addExtension (ExtHDU* ext)
   {
+    //## begin CCfits::FITS::addExtension%39CA34CA025B.body preserve=yes
    int status(0);
-   string& extName = ext->name();
+   const String& extName = ext->name();
    ExtMap::value_type addHDUEntry(extName,ext);
    m_FITSImpl->currentExtensionName() = extName;
    ExtMapIt added = m_FITSImpl->extension().insert(addHDUEntry);
    if (fits_set_hdustruc(fitsPointer(),&status)) throw FitsError(status);
    (*added).second->index(fitsPointer()->HDUposition);
    return (*added).second;
+    //## end CCfits::FITS::addExtension%39CA34CA025B.body
   }
 
-  void FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys, int version)
+  void FITS::read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, int version)
   {
+    //## begin CCfits::FITS::read%3A0036810026.body preserve=yes
   int totalHDUs = 1;
   int status = 0;
   if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) throw FitsError(status);
@@ -790,8 +1039,8 @@ namespace CCfits {
 	  testHDU(static_cast<ExtHDU*>(createTest.getHdu(hduIndex,false,searchKeys)));
 	// if the keyword was not present, getKeywordValue will
 	// throw a NoSuchKeyword.
-	std::vector<string> testKeys(searchKeys);
-	std::vector<string> testResults(searchKeys.size(),"");
+	std::vector<String> testKeys(searchKeys);
+	std::vector<String> testResults(searchKeys.size(),"");
 	testHDU->readKeys(testKeys,testResults); 
         using namespace FITSUtil;
                      
@@ -803,8 +1052,8 @@ namespace CCfits {
 	   // against the input value list.
 	   size_t k = 0;
 	   gotIt = true;   
-           std::vector<string>::const_iterator vi(searchValues.begin());   
-          std::vector<string>::const_iterator  viEnd(searchValues.end());   
+           std::vector<String>::const_iterator vi(searchValues.begin());   
+          std::vector<String>::const_iterator  viEnd(searchValues.end());   
                 
            while (vi != viEnd && gotIt)
 	   {
@@ -859,8 +1108,8 @@ namespace CCfits {
      
   if (gotIt)
   {
-     string extname("");
-     int extver = 0;
+     String extname("");
+     int extver = 1;
      ExtHDU::readHduName(m_FITSImpl->fptr(),hduIndex,extname,extver);
      read(extname,readDataFlag,hduKeys,extver);
      currentExtensionName(extname);
@@ -868,56 +1117,74 @@ namespace CCfits {
      
   else
   {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
      std::ostrstream err;
 #else
      std::ostringstream err;
 #endif
       err << "Error: Unable to find extension containing keywords ";
       std::copy(searchKeys.begin(),searchKeys.end(),
-		std::ostream_iterator<string>(err," "));
+		std::ostream_iterator<String>(err," "));
       err << "\nwith required values and version number ";	
+#ifdef SSTREAM_DEFECT
+      err << std::ends;
+#endif
+      
       throw NoSuchHDU(err.str());
   }     
+    //## end CCfits::FITS::read%3A0036810026.body
   }
 
   void FITS::swap (FITS& right)
   {
+    //## begin CCfits::FITS::swap%3A1942E100A9.body preserve=yes
     FITSUtil::swap(m_FITSImpl,right.m_FITSImpl);
+    //## end CCfits::FITS::swap%3A1942E100A9.body
   }
 
-  const std::multimap<string,ExtHDU*>& FITS::extension () const
+  const ExtMap& FITS::extension () const
   {
+    //## begin CCfits::FITS::extension%3A194B1F0133.body preserve=yes
+    //## end CCfits::FITS::extension%3A194B1F0133.body
 
     return m_FITSImpl->extension();
   }
 
   void FITS::resetPosition ()
   {
+    //## begin CCfits::FITS::resetPosition%3B3C916C03A9.body preserve=yes
     int status(0);
     if (fits_movabs_hdu(fitsPointer(),1,0,&status)) throw FitsError(status);
+    //## end CCfits::FITS::resetPosition%3B3C916C03A9.body
   }
 
-  void FITS::currentExtensionName (const string& extName)
+  void FITS::currentExtensionName (const String& extName)
   {
     m_FITSImpl->currentExtensionName() = extName;
 
+    //## begin CCfits::FITS::currentExtensionName%3A1950E101EF.body preserve=yes
+    //## end CCfits::FITS::currentExtensionName%3A1950E101EF.body
   }
 
-  const string& FITS::name () const
+  const String& FITS::name () const
   {
+    //## begin CCfits::FITS::name%3A1AD2260281.body preserve=yes
+    //## end CCfits::FITS::name%3A1AD2260281.body
 
     return m_FITSImpl->name();
   }
 
   fitsfile*& FITS::fitsPointer ()
   {
+    //## begin CCfits::FITS::fitsPointer%3B38A97B038A.body preserve=yes
+    //## end CCfits::FITS::fitsPointer%3B38A97B038A.body
 
     return m_FITSImpl->fptr();
   }
 
   void FITS::copy (const HDU& source)
   {
+    //## begin CCfits::FITS::copy%3B38B52F009E.body preserve=yes
     int status(0);
     
     source.makeThisCurrent();
@@ -929,10 +1196,12 @@ namespace CCfits {
     // been read.
       
           
+    //## end CCfits::FITS::copy%3B38B52F009E.body
   }
 
-  Table& FITS::filter (const string& expression, ExtHDU& inputTable, bool overwrite, bool readData)
+  Table& FITS::filter (const String& expression, ExtHDU& inputTable, bool overwrite, bool readData)
   {
+    //## begin CCfits::FITS::filter%3B38C51E035F.body preserve=yes
     
     // there are three cases to deal with:
     // a) inputHDU belongs to a different file than *this  
@@ -955,7 +1224,7 @@ namespace CCfits {
                fitsfile* inputFitsPointer = inputTable.fitsPointer() ;
                FITSUtil::auto_array_ptr<char> pName1(new char[FLEN_FILENAME]);
                FITSUtil::auto_array_ptr<char> pName2(new char[FLEN_FILENAME]);
-               string tableName = table.name();
+               String tableName = table.name();
                int tableVersion(table.version());
                char* cExpression = const_cast<char*>(expression.c_str());
                int status(0);
@@ -966,17 +1235,17 @@ namespace CCfits {
                // two views of the same file.
                if (fits_file_name(inputFitsPointer,pName1.get(),&status)) throw FitsError(status);
                if (fits_file_name(fitsPointer(),pName2.get(),&status)) throw FitsError(status);
-               const string& infile = string(pName1.get());
-               const string& outfile = string(pName2.get());
+               const String& infile = String(pName1.get());
+               const String& outfile = String(pName2.get());
 
                // store list of what has been read so far so it can be read back.
-               std::vector<string> 
+               std::vector<String> 
                     keyStore(table.keyWord().size() + table.column().size());
 
-               std::map<string,Keyword*>::const_iterator keyIt(table.keyWord().begin());
-               std::map<string,Keyword*>::const_iterator keyItEnd(table.keyWord().end());
-               std::map<string,Column*>::const_iterator colIt(table.column().begin());
-               std::map<string,Column*>::const_iterator colItEnd(table.column().end());
+               std::map<String,Keyword*>::const_iterator keyIt(table.keyWord().begin());
+               std::map<String,Keyword*>::const_iterator keyItEnd(table.keyWord().end());
+               std::map<String,Column*>::const_iterator colIt(table.column().begin());
+               std::map<String,Column*>::const_iterator colItEnd(table.column().end());
 
                size_t count(0);
                if (!table.keyWord().empty())
@@ -1056,32 +1325,38 @@ namespace CCfits {
 
     
     
+    //## end CCfits::FITS::filter%3B38C51E035F.body
   }
 
-  std::multimap<string,ExtHDU*>& FITS::extension ()
+  ExtMap& FITS::extension ()
   {
+    //## begin CCfits::FITS::extension%3B38FA2B02EC.body preserve=yes
+    //## end CCfits::FITS::extension%3B38FA2B02EC.body
 
     return m_FITSImpl->extension();
   }
 
   ExtHDU& FITS::currentExtension ()
   {
+    //## begin CCfits::FITS::currentExtension%3B3B6C9100E1.body preserve=yes
     // return the current extension. Must have been previously instantiated by
     // CCfits.
     int num(0);
     fits_get_hdu_num(fitsPointer(),&num);
     // extensions start counting at 1, HDU indices at 2.
     return extension(num - 1);
+    //## end CCfits::FITS::currentExtension%3B3B6C9100E1.body
   }
 
-  string FITS::nameOfUnmapped (int hduNum) const
+  String FITS::nameOfUnmapped (int hduNum) const
   {
+    //## begin CCfits::FITS::nameOfUnmapped%3B3B85700157.body preserve=yes
           
     // return the name of HDUs not yet mapped.    
           
     static char EXTNAME[] = "EXTNAME";
     static char HDUNAME[] = "HDUNAME";
-    string retVal("");
+    String retVal("");
     int current(0);
     int status(0);
     fits_get_hdu_num(fitsPointer(),&current);
@@ -1092,7 +1367,7 @@ namespace CCfits {
     
     if (fits_read_key_str(fitsPointer(),EXTNAME,testKey,0,&status) == 0)
     {
-            retVal = string(testKey);
+            retVal = String(testKey);
     }
     else 
     {   
@@ -1102,7 +1377,7 @@ namespace CCfits {
                 fits_read_key_str(fitsPointer(),HDUNAME,testKey,0,&status) ;
                 if (status == 0) 
                 {
-                        retVal = string(testKey);
+                        retVal = String(testKey);
                 }
                 else 
                 {
@@ -1118,10 +1393,12 @@ namespace CCfits {
         
     return retVal;
     
+    //## end CCfits::FITS::nameOfUnmapped%3B3B85700157.body
   }
 
   void FITS::cloneHeader (const ExtHDU& source)
   {
+    //## begin CCfits::FITS::cloneHeader%3B4073EA005D.body preserve=yes
     // raw copy header info from source to a new HDU in *this.
           
     // first,
@@ -1145,12 +1422,12 @@ namespace CCfits {
     // the required keywords are not there and it returns an error.
     if (sourcePointer == fitsPointer())
     {
-        std::vector<string> cards(nKeys);
+        std::vector<String> cards(nKeys);
         {     
                 for (int j = 1; j <= nKeys; ++j)
                 {
                         if (fits_read_record(sourcePointer,j,card,&status)) throw FitsError(status);  
-                        cards[j-1] = string(card);     
+                        cards[j-1] = String(card);     
                 }
         }      
     // fits_create_hdu makes a new HDU and makes it current.
@@ -1182,17 +1459,24 @@ namespace CCfits {
     static char ROWS[] = "NAXIS2";
     if (fits_update_key_lng(fitsPointer(),ROWS,0,0,&status)) throw FitsError(status);
     if (fits_flush_file(fitsPointer(),&status)) throw FitsError(status);
+    //## end CCfits::FITS::cloneHeader%3B4073EA005D.body
   }
 
   void FITS::deleteExtension (int doomed)
   {
+    //## begin CCfits::FITS::deleteExtension%3B66F7BB007D.body preserve=yes
     int status(0);
     ExtHDU& d = extension(doomed); // throws NoSuchHDU if it's not there.
     if (fits_delete_hdu(fitsPointer(),0,&status)) throw FitsError(status);
     unmapExtension(d);
+    //## end CCfits::FITS::deleteExtension%3B66F7BB007D.body
   }
 
   // Additional Declarations
+    //## begin CCfits::FITS%37FE367A41D0.declarations preserve=yes
+    //## end CCfits::FITS%37FE367A41D0.declarations
 
 } // namespace CCfits
 
+//## begin module%37FE40B76648.epilog preserve=yes
+//## end module%37FE40B76648.epilog

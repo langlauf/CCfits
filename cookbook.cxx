@@ -1,11 +1,11 @@
-// cookbook CCfits demonstration program, for release version 1.2 April 2003
+// cookbook CCfits demonstration program, for release version 1.3 Feb 2005
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
 
 
 // The CCfits headers are expected to be installed in a subdirectory of
@@ -35,7 +35,7 @@
     // The library is enclosed in a namespace.
         
     using namespace CCfits;
-
+    using std::valarray;
 
 
 
@@ -147,7 +147,7 @@ int writeImage()
     }
 
 #ifdef VALARRAY_DEFECT
-    const double PI ( atan(1.)*4. );
+    const double PI ( std::atan(1.)*4. );
 #else
     const double PI (std::atan(1.)*4.);
 #endif
@@ -159,7 +159,7 @@ int writeImage()
     {
             float arg = static_cast < float > ( PIBY*jj );
 #ifdef VALARRAY_DEFECT
-			float val = cos( arg );
+			float val = std::cos( arg );
 			ranData[jj] = val;
 #else
             ranData[jj] = static_cast < float > ( std::cos(arg) );
@@ -176,8 +176,8 @@ int writeImage()
     
     long exposure(1500);
 #ifdef VALARRAY_DEFECT
-	double re = cos( 2*PI/3.0 );
-	double im = sin( 2*PI/3.0 );
+	double re = std::cos( 2*PI/3.0 );
+	double im = std::sin( 2*PI/3.0 );
     std::complex<float> omega( re, im );
 #else
 	float re = static_cast < float > ( std::cos(2*PI/3.) );
@@ -414,13 +414,18 @@ int writeBinary ()
     const string num("NUMBER-");
     for ( size_t j = 0; j < rows; ++j)
     {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
         std::ostrstream pStr;
 #else
      	std::ostringstream pStr;
 #endif
 	pStr << num << j+1;
+#ifdef SSTREAM_DEFECT
+	pStr << std::ends;
+#endif
 	numbers[j] = string(pStr.str());
+        
+        
     }
                     
     const size_t OFFSET(20);
@@ -474,8 +479,8 @@ int writeBinary ()
                 size_t elt (OFFSET*j+i);
                 unsignedData[elt] = sequence[elt];
 #ifdef VALARRAY_DEFECT
-				double re = cos(PIBY*elt);
-				double im = sin(PIBY*elt);
+				double re = std::cos(PIBY*elt);
+				double im = std::sin(PIBY*elt);
 
                 croots[elt] = std::complex<double>( re, im );
 #else
@@ -483,7 +488,7 @@ int writeBinary ()
 #endif
                 fcroots[elt] = std::complex<float>(croots[elt].real(),croots[elt].imag());
                 double x = i+1;
-		powers[elt] = pow(x,j+1);
+		powers[elt] = pow(x,(int)j+1);
 		powerVector[elt] = powers[elt];
 	}
         powerVV[j].resize(OFFSET);
@@ -692,7 +697,7 @@ int copyHDU()
         // read a table and explicitly read selected columns. To read all the
         // data on construction, set the last argument of the FITS constructor
         // call to 'true'. This has been tested.
-        std::vector<string> hdus(2);
+        std::vector<String> hdus(2);
         hdus[0] = "PLANETS_ASCII";
         hdus[1] = "TABLE_BINARY";
         

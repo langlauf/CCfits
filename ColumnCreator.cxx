@@ -1,16 +1,31 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%387B3EF7F130.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%387B3EF7F130.cm
 
+//## begin module%387B3EF7F130.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%387B3EF7F130.cp
 
+//## Module: ColumnCreator%387B3EF7F130; Package body
+//## Subsystem: CCfits::Column%3934116D0008
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnCreator.cxx
 
+//## begin module%387B3EF7F130.additionalIncludes preserve=no
+//## end module%387B3EF7F130.additionalIncludes
 
+//## begin module%387B3EF7F130.includes preserve=yes
+//## end module%387B3EF7F130.includes
 
 // Column
 #include "Column.h"
@@ -24,35 +39,53 @@
 #include "ColumnCreator.h"
 
 
+//## begin module%387B3EF7F130.declarations preserve=no
+//## end module%387B3EF7F130.declarations
 
+//## begin module%387B3EF7F130.additionalDeclarations preserve=yes
 #include <stdlib.h>
 #include <complex>
 using std::complex;
+//## end module%387B3EF7F130.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   // Class CCfits::ColumnCreator 
 
   ColumnCreator::ColumnCreator (Table* p)
+    //## begin CCfits::ColumnCreator::ColumnCreator%3B000490020D.hasinit preserve=no
         : m_parent(p)
+    //## end CCfits::ColumnCreator::ColumnCreator%3B000490020D.hasinit
+    //## begin CCfits::ColumnCreator::ColumnCreator%3B000490020D.initialization preserve=yes
+    //## end CCfits::ColumnCreator::ColumnCreator%3B000490020D.initialization
   {
+    //## begin CCfits::ColumnCreator::ColumnCreator%3B000490020D.body preserve=yes
+    //## end CCfits::ColumnCreator::ColumnCreator%3B000490020D.body
   }
 
 
   ColumnCreator::~ColumnCreator()
   {
+    //## begin CCfits::ColumnCreator::~ColumnCreator%387B3F5C4150_dest.body preserve=yes
+    //## end CCfits::ColumnCreator::~ColumnCreator%387B3F5C4150_dest.body
   }
 
 
 
-  Column * ColumnCreator::MakeColumn (const int index, const string &name, const string &format, const string &unit, const long repeat, const long width, const string &comment, const int decimals)
+  //## Other Operations (implementation)
+  Column * ColumnCreator::MakeColumn (const int index, const String &name, const String &format, const String &unit, const long repeat, const long width, const String &comment, const int decimals)
   {
+    //## begin CCfits::ColumnCreator::MakeColumn%38F629D3C010.body preserve=yes
     return 0;
+    //## end CCfits::ColumnCreator::MakeColumn%38F629D3C010.body
   }
 
-  Column * ColumnCreator::getColumn (int number, const string& name, const string& format, const string& unit)
+  Column * ColumnCreator::getColumn (int number, const String& name, const String& format, const String& unit)
   {
+    //## begin CCfits::ColumnCreator::getColumn%394682C701CA.body preserve=yes
    long  repeat=1;
    long  width=1;
    int   type=0;
@@ -62,17 +95,19 @@ namespace CCfits {
    getScaling(number, type, repeat, width, tscale, tzero);
    return createColumn(number,ValueType(type),name,format,unit,repeat,width,tscale,tzero);
  
+    //## end CCfits::ColumnCreator::getColumn%394682C701CA.body
   }
 
-  Column * ColumnCreator::createColumn (int number, ValueType type, const string &name, const string &format, const string &unit, long repeat, long width, double scaleFactor, double offset, const string &comment)
+  Column * ColumnCreator::createColumn (int number, ValueType type, const String &name, const String &format, const String &unit, long repeat, long width, double scaleFactor, double offset, const String &comment)
   {
+    //## begin CCfits::ColumnCreator::createColumn%3B000364025A.body preserve=yes
    
 
    
    switch(type)
    {
       case Tstring:
-	        m_column = new ColumnData<string>(number, name, type, format, unit, 
+	        m_column = new ColumnData<String>(number, name, type, format, unit, 
                                                                              m_parent, 1, width);
 	        break;
       case VTushort:
@@ -197,6 +232,22 @@ namespace CCfits {
                                         type, format,unit,  m_parent, repeat);                        
                 }	
                 break;
+      case VTlonglong:
+                m_column = new ColumnVectorData<LONGLONG>(number, name,  
+                                        type, format,unit,  m_parent, repeat);
+                break;
+      case Tlonglong:
+                if (repeat == 1)
+                {
+	                m_column = new ColumnData<LONGLONG>(number, name,  
+                                        type, format,unit,  m_parent);
+                }
+                else
+                {
+	                m_column = new ColumnVectorData<LONGLONG>(number, name,  
+                                        type, format,unit,  m_parent, repeat);                        
+                }	
+                break;      
       case VTulong:          
 	        m_column = new ColumnVectorData<unsigned long>(number, name,  
                                         type, format,unit,  m_parent, repeat);   
@@ -291,10 +342,12 @@ namespace CCfits {
         m_column->zero(offset); 
    }   
    return m_column;
+    //## end CCfits::ColumnCreator::createColumn%3B000364025A.body
   }
 
   void ColumnCreator::getScaling (int index, int& type, long& repeat, long& width, double& tscale, double& tzero)
   {
+    //## begin CCfits::ColumnCreator::getScaling%3CC996820340.body preserve=yes
       int status (0);      
           
           
@@ -357,15 +410,21 @@ namespace CCfits {
                          type > 0 ? type = Tfloat: type = VTfloat;
                          break;
                  case Tlong:
+                 case Tlonglong:
                          type > 0 ? type = Tdouble: type = VTdouble;
-                         break;   
+                         break; 
                  default:
                          break; // do nothing.    
              }
      }                
+    //## end CCfits::ColumnCreator::getScaling%3CC996820340.body
   }
 
   // Additional Declarations
+    //## begin CCfits::ColumnCreator%387B3F5C4150.declarations preserve=yes
+    //## end CCfits::ColumnCreator%387B3F5C4150.declarations
 
 } // namespace CCfits
 
+//## begin module%387B3EF7F130.epilog preserve=yes
+//## end module%387B3EF7F130.epilog

@@ -1,4 +1,4 @@
-$Id: INSTALL,v 3.2 2003/03/29 23:40:37 pfkeb Exp $
+$Id: README.INSTALL,v 3.2 2003/03/29 23:40:37 pfkeb Exp $
 
    To build and install CCfits  from source code on a UNIX-like
 (e.g. UNIX, Linux, or Cygwin) platform, take the following steps.  For

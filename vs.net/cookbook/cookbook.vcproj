@@ -21,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/Zm500"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\CCfits;C:\cfitsio"
+ 				AdditionalIncludeDirectories="C:\CCfits;C:\cfitsio;&quot;$(SolutionDir)\..\..\..&quot;;&quot;$(SolutionDir)\..\..&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -37,7 +37,7 @@
 				AdditionalDependencies="CCfits.lib"
 				OutputFile="$(OutDir)/cookbook.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\CCfits\vs.net\CCfits\$(ConfigurationName)&quot;"
+ 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\CCfits\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"/>

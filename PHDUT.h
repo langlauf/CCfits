@@ -1,13 +1,17 @@
+//1
+//2
+//3
+//4
 
-//	This is version 1.2 dated April 2003
+//	This is version 1.3 dated Feb 2005
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
 
 
 #ifndef PHDUT_H
@@ -158,7 +162,7 @@ namespace CCfits
         void  PHDU::read (std::valarray<S>& image, const std::vector<long>& first, 
 				long nElements)
         {
-                read(image, firstElement,nElements,static_cast<S*>(0));
+                read(image, first,nElements,static_cast<S*>(0));
                    
         } 
                 
@@ -203,7 +207,6 @@ namespace CCfits
                                 if (nullValue) nulVal = static_cast<unsigned char>(*nullValue);                                 
                                 FITSUtil::fill(image,
                                                 phdu.readImage(firstVertex,lastVertex,stride,&nulVal));
-                                return outputArray;                                
                         } 
                         else if (bitpix() == Ilong)
                         {
@@ -543,6 +546,7 @@ namespace CCfits
         template <typename S>
         void PHDU::write(const std::vector<long>& firstVertex,
                         const std::vector<long>& lastVertex,
+			const std::vector<long>& stride, 
                         const std::valarray<S>& data)
         {
                 makeThisCurrent();

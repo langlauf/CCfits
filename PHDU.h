@@ -1,18 +1,31 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%380395D38528.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%380395D38528.cm
 
+//## begin module%380395D38528.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%380395D38528.cp
 
+//## Module: PHDU%380395D38528; Package specification
+//## Subsystem: CCfits::HDU%3826DF628F48
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/PHDU.h
 
 #ifndef PHDU_H
 #define PHDU_H 1
 
+//## begin module%380395D38528.additionalIncludes preserve=no
+//## end module%380395D38528.additionalIncludes
 
 // valarray
 #include <valarray>
@@ -28,15 +41,22 @@ namespace CCfits {
 
 } // namespace CCfits
 
+//## begin module%380395D38528.includes preserve=yes
 // for CLONE_DEFECT
 #ifdef _MSC_VER
 #include "MSconfig.h"
 #endif
+//## end module%380395D38528.includes
 
+//## begin module%380395D38528.declarations preserve=no
+//## end module%380395D38528.declarations
 
+//## begin module%380395D38528.additionalDeclarations preserve=yes
+//## end module%380395D38528.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
   
   /*! \class PHDU
         \brief class representing the primary HDU for a FITS file.
@@ -86,7 +106,7 @@ namespace CCfits {
         \brief destructor
 */
 
-/* !\fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>())  = 0;
+/* !\fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>())  = 0;
         \brief read primary HDU data
                         
         Called by FITS ctor, not intended for general use.
@@ -259,36 +279,57 @@ namespace CCfits {
 
 
 
+  //## end CCfits%37FE4140B6F8.initialDeclarations
+
+  //## begin CCfits::PHDU%394E6F7701E6.preface preserve=yes
+  //## end CCfits::PHDU%394E6F7701E6.preface
+
+  //## Class: PHDU%394E6F7701E6
+  //## Category: CCfits::HDU%393417220088
+  //## Subsystem: CCfits::HDU%3826DF628F48
+  //## Persistence: Transient
+  //## Cardinality/Multiplicity: n
 
 
 
-
-
+  //## Uses: <unnamed>%394F74E90318;FITS { -> F}
+  //## Uses: <unnamed>%3A15B4790261;FITSBase { -> F}
 
   class PHDU : public HDU  //## Inherits: <unnamed>%394E6F9800C3
   {
+    //## begin CCfits::PHDU%394E6F7701E6.initialDeclarations preserve=yes
+    //## end CCfits::PHDU%394E6F7701E6.initialDeclarations
 
     public:
+      //## Destructor (generated)
         virtual ~PHDU();
 
 
+      //## Other Operations (specified)
+        //## Operation: readData%394E78E40315
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) = 0;
+        virtual void readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>()) = 0;
 
+        //## Operation: clone%395A11CD034A
         virtual PHDU * clone (FITSBase* p) const = 0;
 
+        //## Operation: zero%3CE2A915005C
         virtual void zero (double value);
 
+        //## Operation: scale%3CE2A93801B9
         virtual void scale (double value);
 
+        //## Operation: zero%3CE2ABAB01E6
         virtual double zero () const;
 
+        //## Operation: scale%3CE2ABDC0224
         virtual double scale () const;
 
     public:
       // Additional Public Declarations
+        //## begin CCfits::PHDU%394E6F7701E6.public preserve=yes
       // image reading/writing interface. 
                     
       // The S template parameter, like for Column, denotes the fact that
@@ -330,6 +371,7 @@ namespace CCfits {
         template <typename S>
         void write(const std::vector<long>& firstVertex,
                         const std::vector<long>& lastVertex,
+                        const std::vector<long>& stride, 
                         const std::valarray<S>& data); 
         
         // read image data and return an array. Can't return a reference
@@ -364,70 +406,103 @@ namespace CCfits {
 
         
         
+        //## end CCfits::PHDU%394E6F7701E6.public
     protected:
+      //## Constructors (generated)
         PHDU(const PHDU &right);
 
+      //## Constructors (specified)
+        //## Operation: PHDU%394E738D0238
         //	Constructor for new FITS objects, takes as arguments
         //	the required keywords for a primary HDU.
         PHDU (FITSBase* p, int bpix, int naxis, const std::vector<long>& axes);
 
+        //## Operation: PHDU%394E754400FE
         //	Custom constructor. Allows specification of data to be read and whether to read data at
         //	construction or wait until the image data are requested. The default is 'lazy initialization:'
         //	wait until asked.
         PHDU (FITSBase* p = 0);
 
 
+      //## Other Operations (specified)
+        //## Operation: initRead%394E714C0347
         virtual void initRead ();
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: simple%394E7070015C
         bool simple () const;
         void simple (bool value);
 
+        //## Attribute: extend%394E708A0006
         bool extend () const;
         void extend (bool value);
 
       // Additional Protected Declarations
+        //## begin CCfits::PHDU%394E6F7701E6.protected preserve=yes
+        //## end CCfits::PHDU%394E6F7701E6.protected
 
     private:
       // Additional Private Declarations
+        //## begin CCfits::PHDU%394E6F7701E6.private preserve=yes
+        //## end CCfits::PHDU%394E6F7701E6.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::PHDU::simple%394E7070015C.attr preserve=no  protected: bool {U} true
         bool m_simple;
+        //## end CCfits::PHDU::simple%394E7070015C.attr
 
+        //## begin CCfits::PHDU::extend%394E708A0006.attr preserve=no  protected: bool {U} true
         bool m_extend;
+        //## end CCfits::PHDU::extend%394E708A0006.attr
 
       // Additional Implementation Declarations
+        //## begin CCfits::PHDU%394E6F7701E6.implementation preserve=yes
+        //## end CCfits::PHDU%394E6F7701E6.implementation
 
   };
 
+  //## begin CCfits::PHDU%394E6F7701E6.postscript preserve=yes
+  //## end CCfits::PHDU%394E6F7701E6.postscript
 
   // Class CCfits::PHDU 
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   inline bool PHDU::simple () const
   {
+    //## begin CCfits::PHDU::simple%394E7070015C.get preserve=no
     return m_simple;
+    //## end CCfits::PHDU::simple%394E7070015C.get
   }
 
   inline void PHDU::simple (bool value)
   {
+    //## begin CCfits::PHDU::simple%394E7070015C.set preserve=no
     m_simple = value;
+    //## end CCfits::PHDU::simple%394E7070015C.set
   }
 
   inline bool PHDU::extend () const
   {
+    //## begin CCfits::PHDU::extend%394E708A0006.get preserve=no
     return m_extend;
+    //## end CCfits::PHDU::extend%394E708A0006.get
   }
 
   inline void PHDU::extend (bool value)
   {
+    //## begin CCfits::PHDU::extend%394E708A0006.set preserve=no
     m_extend = value;
+    //## end CCfits::PHDU::extend%394E708A0006.set
   }
 
 } // namespace CCfits
 
+//## begin module%380395D38528.epilog preserve=yes
+//## end module%380395D38528.epilog
 
 
 #endif

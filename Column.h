@@ -1,22 +1,35 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%3804E9058790.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%3804E9058790.cm
 
+//## begin module%3804E9058790.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%3804E9058790.cp
 
+//## Module: Column%3804E9058790; Package specification
+//## Subsystem: CCfits::Column%3934116D0008
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/Column.h
 
 #ifndef COLUMN_H
 #define COLUMN_H 1
 
+//## begin module%3804E9058790.additionalIncludes preserve=no
 #include <iostream>
+//## end module%3804E9058790.additionalIncludes
 
-// string
-#include <string>
+// CCfitsHeader
+#include "CCfits.h"
 // Table
 #include "Table.h"
 // FitsError
@@ -25,14 +38,19 @@
 #include "FITSUtil.h"
 
 
+//## begin module%3804E9058790.includes preserve=yes
+//## end module%3804E9058790.includes
 
+//## begin module%3804E9058790.declarations preserve=no
+//## end module%3804E9058790.declarations
 
+//## begin module%3804E9058790.additionalDeclarations preserve=yes
 #include <complex>
-using std::string;
-using std::ostream;
+//## end module%3804E9058790.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
 
 
 
@@ -77,7 +95,7 @@ namespace CCfits {
 
 
 
-/*! \fn Column::RangeError::RangeError (const string& msg, bool silent);
+/*! \fn Column::RangeError::RangeError (const String& msg, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: Range error in operation " before the specific message.
                         
@@ -98,7 +116,7 @@ namespace CCfits {
        
 
 
-/*! \fn Column::InvalidDataType::InvalidDataType (const string& str, bool silent);
+/*! \fn Column::InvalidDataType::InvalidDataType (const String& str, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: Incorrect data type:  " before the specific message.
                         
@@ -120,7 +138,7 @@ namespace CCfits {
 */
 
 
-/*! \fn Column::InvalidRowParameter::InvalidRowParameter (const string& diag, bool silent);
+/*! \fn Column::InvalidRowParameter::InvalidRowParameter (const String& diag, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: row offset or length incompatible with column declaration  " before the specific message.
                         
@@ -147,7 +165,7 @@ namespace CCfits {
 
 */
 
-/*! \fn  Column::WrongColumnType::WrongColumnType (const string& diag, bool silent);
+/*! \fn  Column::WrongColumnType::WrongColumnType (const String& diag, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: Attempt to return scalar data from vector column, or vice versa - Column: " before the specific message.
                         
@@ -164,7 +182,7 @@ namespace CCfits {
 
 */
 
-/*! \fn Column::InvalidRowNumber::InvalidRowNumber (const string& diag, bool silent);
+/*! \fn Column::InvalidRowNumber::InvalidRowNumber (const String& diag, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: Invalid Row Number - Column: " before the specific message.
                         
@@ -186,7 +204,7 @@ namespace CCfits {
 
 */
 
-/*! \fn Column::InsufficientElements::InsufficientElements (const string& msg, bool silent);
+/*! \fn Column::InsufficientElements::InsufficientElements (const String& msg, bool silent);
 
         \brief Exception ctor, prefixes the string "FitsError: not enough elements supplied for write operation:  " before the specific message.
                         
@@ -206,7 +224,7 @@ namespace CCfits {
         specified. It is only relevant for integer type data (see cfitsio manual for details).
 */
 
-/*! \fn Column::NoNullValue::NoNullValue (const string& diag, bool silent);
+/*! \fn Column::NoNullValue::NoNullValue (const String& diag, bool silent);
 
         \brief Exception ctor, prefixes the string "Fits Error: No null value specified for column: " before the specific message.
                         
@@ -608,7 +626,7 @@ namespace CCfits {
 
 
 
-/*!        \fn const std::string& Column::name () const;
+/*!        \fn const String& Column::name () const;
 
       \brief  return  name of Column (TTYPEn keyword)
 
@@ -617,19 +635,19 @@ namespace CCfits {
 */
 
 
-/*!        \fn const std::string& Column::unit () const;
+/*!        \fn const String& Column::unit () const;
 
       \brief get units of data in Column (TUNITn keyword)
 */
 
 
-/*!        \fn Column::Column (int columnIndex, const string &columnName,const ValueType type, 
-                const string &format,
-                const string &unit,
+/*!        \fn Column::Column (int columnIndex, const String &columnName,const ValueType type, 
+                const String &format,
+                const String &unit,
                 Table* p,
                 int  rpt = 1, 
                 long w = 1, 
-                const string &comment = "");
+                const String &comment = "");
                 
       \brief new column creation constructor
       
@@ -716,7 +734,7 @@ namespace CCfits {
 */      
 
 
-/*!        \fn string& Column::display () const;
+/*!        \fn String& Column::display () const;
 
       \brief return TDISPn keyword
       
@@ -726,7 +744,7 @@ namespace CCfits {
 
 */
 
-/*!        \fn string& Column::dimen () const;
+/*!        \fn String& Column::dimen () const;
 
       \brief return TDIMn keyword
       
@@ -737,7 +755,7 @@ namespace CCfits {
 
 */
 
-/*!        \fn const std::string& Column::format () const;
+/*!        \fn const String& Column::format () const;
  
       \brief return TFORMn keyword
 
@@ -747,7 +765,7 @@ namespace CCfits {
 */
 
 
-/*!        \fn const std::string& Column::comment () const;
+/*!        \fn const String& Column::comment () const;
 
       \brief retrieve comment for Column
 
@@ -756,126 +774,200 @@ namespace CCfits {
 */
 
 
+  //## end CCfits%37FE4140B6F8.initialDeclarations
+
+  //## begin CCfits::Column%3804E8D06FF8.preface preserve=yes
+  //## end CCfits::Column%3804E8D06FF8.preface
+
+  //## Class: Column%3804E8D06FF8; protected
+  //## Category: CCfits::Column%393417970264
+  //## Subsystem: CCfits::Column%3934116D0008
+  //## Persistence: Transient
+  //## Cardinality/Multiplicity: n
 
 
 
-
-
+  //## Uses: <unnamed>%394664E50121;friend Table { -> }
 
   class Column 
   {
+    //## begin CCfits::Column%3804E8D06FF8.initialDeclarations preserve=yes
+    //## end CCfits::Column%3804E8D06FF8.initialDeclarations
 
     public:
+      //## Class: RangeError%3946508D013B
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class RangeError : public FitsException  //## Inherits: <unnamed>%3946526D031A
       {
         public:
-            RangeError (const string& msg, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: RangeError%394651000189
+            RangeError (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: InvalidDataType%3947CE880080
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InvalidDataType : public FitsException  //## Inherits: <unnamed>%3947CF30033E
       {
         public:
-            InvalidDataType (const string& str = "", bool silent = true);
+          //## Constructors (specified)
+            //## Operation: InvalidDataType%3947CF410349
+            InvalidDataType (const String& str = string(), bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: InvalidRowParameter%39B52EC30097
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InvalidRowParameter : public FitsException  //## Inherits: <unnamed>%39B5310F01A0
       {
         public:
-            InvalidRowParameter (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: InvalidRowParameter%39B52EE000AF
+            InvalidRowParameter (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: WrongColumnType%39B544FE0334
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class WrongColumnType : public FitsException  //## Inherits: <unnamed>%39B545780082
       {
         public:
-            WrongColumnType (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: WrongColumnType%39B5452302B7
+            WrongColumnType (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: UnspecifiedLengths%3A018C2C03C0
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class UnspecifiedLengths : public FitsException  //## Inherits: <unnamed>%3A018C9D007D
       {
         public:
-            UnspecifiedLengths (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: UnspecifiedLengths%3A018C550303
+            UnspecifiedLengths (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: InvalidRowNumber%3B0A835403BF
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InvalidRowNumber : public FitsException  //## Inherits: <unnamed>%3B0A850F0307
       {
         public:
-            InvalidRowNumber (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: InvalidRowNumber%3B0A83990352
+            InvalidRowNumber (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: InsufficientElements%3B0BE5C000CA
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InsufficientElements : public FitsException  //## Inherits: <unnamed>%3B0BE611010A
       {
         public:
-            InsufficientElements (const string& msg, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: InsufficientElements%3B0BE63102DD
+            InsufficientElements (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: NoNullValue%3B0D58680220
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class NoNullValue : public FitsException  //## Inherits: <unnamed>%3B0D589A0092
       {
         public:
-            NoNullValue (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: NoNullValue%3B0D58680222
+            NoNullValue (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: InvalidNumberOfRows%3B20E74C01FF
+      //## Category: CCfits::Column%393417970264
+      //## Subsystem: CCfits::Column%3934116D0008
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InvalidNumberOfRows : public FitsException  //## Inherits: <unnamed>%3B20EB8B0205
       {
         public:
+          //## Constructors (specified)
+            //## Operation: InvalidNumberOfRows%3B20E7690328
             InvalidNumberOfRows (size_t number, bool silent = true);
 
         protected:
@@ -883,85 +975,123 @@ namespace CCfits {
         private: //## implementation
       };
 
+      //## Constructors (generated)
         Column(const Column &right);
 
+      //## Destructor (generated)
         virtual ~Column();
 
+      //## Equality Operations (generated)
         bool operator==(const Column &right) const;
 
         bool operator!=(const Column &right) const;
 
 
+      //## Other Operations (specified)
+        //## Operation: readData%389F1C05F968
         virtual void readData (long firstRow, long nelements, long firstElem = 1) = 0;
 
+        //## Operation: clone%38973982EF98
         //	Virtual copy constructor.
         virtual Column * clone () const = 0;
 
+        //## Operation: rows%39465C400353
         int rows () const;
 
+        //## Operation: setDisplay%3948FF000114
         void setDisplay ();
 
+        //## Operation: setDimen%3948FF150314
         virtual void setDimen ();
 
+        //## Operation: operator<<%39513B5002D4
         friend std::ostream& operator << (std::ostream& s, const Column& right);
 
+        //## Operation: operator<%3B24D02E0107
         //	Inequality operators for imposing sort order on columns.
         friend bool operator < (const Column& left, const Column& right);
 
+        //## Operation: operator>%3B24D08402F7
         //	Inequality operators for imposing sort order on columns.
         friend bool operator > (const Column& left, const Column& right);
 
+        //## Operation: setLimits%3B41E12B010C
         void setLimits (ValueType type);
 
-        void unit (const string& value);
+        //## Operation: unit%3B545F61014D
+        void unit (const String& value);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: index%385E756F4FE8
         int index () const;
         void index (int value);
 
+        //## Attribute: isRead%387F44AD55B8
         bool isRead () const;
         void isRead (bool value);
 
+        //## Attribute: width%38AC6549D488
         long width () const;
         void width (long value);
 
+        //## Attribute: repeat%38AAF89B2B60
         size_t repeat () const;
 
+        //## Attribute: varLength%38AB18B454A0
         bool varLength () const;
 
+        //## Attribute: scale%3948E3A203B0
         double scale () const;
         void scale (double value);
 
+        //## Attribute: zero%3948E3C5034B
         double zero () const;
         void zero (double value);
 
-        const string& display () const;
+        //## Attribute: display%3948FEAF0124
+        const String& display () const;
 
-        const string& dimen () const;
-        void dimen (const string& value);
+        //## Attribute: dimen%3948FEEE00BF
+        const String& dimen () const;
+        void dimen (const String& value);
 
+        //## Attribute: type%39EC8D2D030E
         ValueType type () const;
         void type (ValueType value);
 
-        static const string& TFORM ();
+        //## Attribute: TFORM%3B41E4C401F8
+        static const String& TFORM ();
 
-        static const string& TDISP ();
+        //## Attribute: TDISP%3B41E4D4025C
+        static const String& TDISP ();
 
-        static const string& TSCAL ();
+        //## Attribute: TSCAL%3B41E4FE0096
+        static const String& TSCAL ();
 
-        static const string& TZERO ();
+        //## Attribute: TZERO%3B41E6730238
+        static const String& TZERO ();
 
-        static const string& TDIM ();
+        //## Attribute: TDIM%3B41E793003F
+        static const String& TDIM ();
 
+      //## Get and Set Operations for Associations (generated)
 
-        const std::string& name () const;
+        //## Association: CCfits::Column::<unnamed>%3EEF75E500A5
+        //## Role: Column::format%3EEF75E500A6
+        const String& format () const;
 
-        const std::string& unit () const;
+        //## Association: CCfits::Column::<unnamed>%3EEF75EB025A
+        //## Role: Column::unit%3EEF75EB025B
+        const String& unit () const;
 
-        const std::string& format () const;
+        //## Association: CCfits::Column::<unnamed>%3EEF75F103BF
+        //## Role: Column::name%3EEF75F103C0
+        const String& name () const;
 
     public:
       // Additional Public Declarations
+        //## begin CCfits::Column%3804E8D06FF8.public preserve=yes
              
         // scalar column interface. Column's Data Member is a std::vector<T>,
         // input data is std::vector<S>, std::valarray<S> or S* where S is not
@@ -1090,7 +1220,7 @@ namespace CCfits {
         
         void read(std::vector< std::complex<double> >& , long first, long last);
         
-        void read(std::vector<string>& vals, long first, long last);
+        void read(std::vector<String>& vals, long first, long last);
   
         // return a set of rows from a scalar column as a valarray.
         template <typename S>
@@ -1139,7 +1269,7 @@ namespace CCfits {
         template <typename T>
         void addNullValue(T nullVal);
         
-        void write (const std::vector<string>& indata, long firstRow);
+        void write (const std::vector<String>& indata, long firstRow);
 
         friend void Table::insertRows(long first, long number);
         
@@ -1150,183 +1280,353 @@ namespace CCfits {
         friend void Table::initRead();
         
         friend void Table::reindex();
+        //## end CCfits::Column%3804E8D06FF8.public
     protected:
+      //## Constructors (specified)
+        //## Operation: Column%385E7153FA28
         Column (int columnIndex, 	// The column index, i.e. the integer n in the keyword TCOLn
-        const string &columnName, 	// The column name, curiously TTYPEn
-        ValueType type, const string &format, 	// The TFORMn keyword.
-        const string &unit, 	// The TUNITn keyword
+        const String &columnName, 	// The column name, curiously TTYPEn
+        ValueType type, const String &format, 	// The TFORMn keyword.
+        const String &unit, 	// The TUNITn keyword
         Table* p, 	// ! The Table containing the Column object
-        int  rpt = 1, long w = 1, const string &comment = "");
+        int rpt = 1, long w = 1, const String &comment = "");
 
+        //## Operation: Column%3937C21F0138
         Column (Table* p = 0);
 
 
+      //## Other Operations (specified)
+        //## Operation: compare%3832D29BD548
         virtual bool compare (const Column &right) const;
 
+        //## Operation: fitsPointer%3937DCD0038C
         fitsfile* fitsPointer ();
 
+        //## Operation: makeHDUCurrent%393FE92F029F
         //	Protected method to set the current HDU to be the one containing this Column object. For use in
         //	public read/write methods to ensure that data regarding numbers of rows and width relate to the
         //	right HDU
         void makeHDUCurrent ();
 
+        //## Operation: put%39513C7401F6
         virtual std::ostream& put (std::ostream& s) const;
 
+        //## Operation: parent%3B0154C00364
         Table* parent () const;
 
+        //## Operation: varLength%3B7188120167
         void varLength (bool value);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
-        static const string& TBCOL ();
+        //## Attribute: TBCOL%3B41E45800B2
+        static const String& TBCOL ();
 
-        static const string& TTYPE ();
+        //## Attribute: TTYPE%3B41E4B6013B
+        static const String& TTYPE ();
 
-        static const string& TUNIT ();
+        //## Attribute: TUNIT%3B41E4EC0050
+        static const String& TUNIT ();
 
-        static const string& TNULL ();
+        //## Attribute: TNULL%3B41E807029A
+        static const String& TNULL ();
 
-        static const string& TLMIN ();
+        //## Attribute: TLMIN%3B41E8300368
+        static const String& TLMIN ();
 
-        static const string& TLMAX ();
+        //## Attribute: TLMAX%3B41E8330127
+        static const String& TLMAX ();
 
-        static const string& TDMAX ();
+        //## Attribute: TDMAX%3B41E86F00AF
+        static const String& TDMAX ();
 
-        static const string& TDMIN ();
+        //## Attribute: TDMIN%3B41E87301A5
+        static const String& TDMIN ();
 
+      //## Get and Set Operations for Associations (generated)
 
-        const std::string& comment () const;
-        void comment (const std::string& value);
-
+        //## Association: CCfits::Column::<unnamed>%397F36A20379
+        //## Role: Column::parent%397F36A203BF
         Table* parent ();
 
-        static const std::vector<std::string>& columnKeys ();
+        //## Association: CCfits::Column::<unnamed>%3B41E8CC001E
+        //## Role: Column::columnKeys%3B41E8CD029C
+        static const std::vector<String>& columnKeys ();
+
+        //## Association: CCfits::Column::<unnamed>%3EEF75DE03A1
+        //## Role: Column::comment%3EEF75DE03A2
+        const String& comment () const;
 
       // Additional Protected Declarations
+        //## begin CCfits::Column%3804E8D06FF8.protected preserve=yes
+        //## end CCfits::Column%3804E8D06FF8.protected
 
     private:
+      //## Assignment Operation (generated)
         Column & operator=(const Column &right);
 
 
+      //## Other Operations (specified)
+        //## Operation: insertRows%3B21363D0324
         //	Insert one or more blank rows into a FITS column.
         virtual void insertRows (long first, long number = 1) = 0;
 
+        //## Operation: deleteRows%3B2136D40151
         virtual void deleteRows (long first, long number = 1) = 0;
 
+        //## Operation: loadColumnKeys%3B41EB140398
         static void loadColumnKeys ();
 
-        void name (const string& value);
+        //## Operation: name%3B545ED20305
+        void name (const String& value);
 
-        void format (const string& value);
+        //## Operation: format%3B545FC8006E
+        void format (const String& value);
 
+        //## Operation: numberOfElements%3CDFCA860268
         long numberOfElements (long& first, long& last);
 
       // Data Members for Class Attributes
 
-        static const string s_TBCOL;
+        //## begin CCfits::Column::TBCOL%3B41E45800B2.attr preserve=no  protected: static String {VC} "TBCOL"
+        static const String s_TBCOL;
+        //## end CCfits::Column::TBCOL%3B41E45800B2.attr
 
-        static const string s_TTYPE;
+        //## begin CCfits::Column::TTYPE%3B41E4B6013B.attr preserve=no  protected: static String {VC} "TTYPE"
+        static const String s_TTYPE;
+        //## end CCfits::Column::TTYPE%3B41E4B6013B.attr
 
-        static const string s_TFORM;
+        //## begin CCfits::Column::TFORM%3B41E4C401F8.attr preserve=no  public: static const String {VC} "TFORM"
+        static const String s_TFORM;
+        //## end CCfits::Column::TFORM%3B41E4C401F8.attr
 
-        static const string s_TDISP;
+        //## begin CCfits::Column::TDISP%3B41E4D4025C.attr preserve=no  public: static String {VC} "TDISP"
+        static const String s_TDISP;
+        //## end CCfits::Column::TDISP%3B41E4D4025C.attr
 
-        static const string s_TUNIT;
+        //## begin CCfits::Column::TUNIT%3B41E4EC0050.attr preserve=no  protected: static String {VC} "TUNIT"
+        static const String s_TUNIT;
+        //## end CCfits::Column::TUNIT%3B41E4EC0050.attr
 
-        static const string s_TSCAL;
+        //## begin CCfits::Column::TSCAL%3B41E4FE0096.attr preserve=no  public: static String {VC} "TSCAL"
+        static const String s_TSCAL;
+        //## end CCfits::Column::TSCAL%3B41E4FE0096.attr
 
-        static const string s_TZERO;
+        //## begin CCfits::Column::TZERO%3B41E6730238.attr preserve=no  public: static String {VC} "TZERO"
+        static const String s_TZERO;
+        //## end CCfits::Column::TZERO%3B41E6730238.attr
 
-        static const string s_TDIM;
+        //## begin CCfits::Column::TDIM%3B41E793003F.attr preserve=no  public: static String {VC} "TDIM"
+        static const String s_TDIM;
+        //## end CCfits::Column::TDIM%3B41E793003F.attr
 
-        static const string s_TNULL;
+        //## begin CCfits::Column::TNULL%3B41E807029A.attr preserve=no  protected: static String {VC} "TNULL"
+        static const String s_TNULL;
+        //## end CCfits::Column::TNULL%3B41E807029A.attr
 
-        static const string s_TLMIN;
+        //## begin CCfits::Column::TLMIN%3B41E8300368.attr preserve=no  protected: static String {VC} "TLMIN"
+        static const String s_TLMIN;
+        //## end CCfits::Column::TLMIN%3B41E8300368.attr
 
-        static const string s_TLMAX;
+        //## begin CCfits::Column::TLMAX%3B41E8330127.attr preserve=no  protected: static String {VC} "TLMAX"
+        static const String s_TLMAX;
+        //## end CCfits::Column::TLMAX%3B41E8330127.attr
 
-        static const string s_TDMAX;
+        //## begin CCfits::Column::TDMAX%3B41E86F00AF.attr preserve=no  protected: static String {VC} "TDMAX"
+        static const String s_TDMAX;
+        //## end CCfits::Column::TDMAX%3B41E86F00AF.attr
 
-        static const string s_TDMIN;
+        //## begin CCfits::Column::TDMIN%3B41E87301A5.attr preserve=no  protected: static String {VC} "TDMIN"
+        static const String s_TDMIN;
+        //## end CCfits::Column::TDMIN%3B41E87301A5.attr
 
       // Additional Private Declarations
+        //## begin CCfits::Column%3804E8D06FF8.private preserve=yes
+        //## end CCfits::Column%3804E8D06FF8.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::Column::index%385E756F4FE8.attr preserve=no  public: int {U} 
         int m_index;
+        //## end CCfits::Column::index%385E756F4FE8.attr
 
+        //## begin CCfits::Column::isRead%387F44AD55B8.attr preserve=no  public: bool {U} false
         bool m_isRead;
+        //## end CCfits::Column::isRead%387F44AD55B8.attr
 
+        //## begin CCfits::Column::width%38AC6549D488.attr preserve=no  public: long {U} 
         long m_width;
+        //## end CCfits::Column::width%38AC6549D488.attr
 
+        //## begin CCfits::Column::repeat%38AAF89B2B60.attr preserve=no  public: size_t {U} 1
         size_t m_repeat;
+        //## end CCfits::Column::repeat%38AAF89B2B60.attr
 
+        //## begin CCfits::Column::varLength%38AB18B454A0.attr preserve=no  public: bool {U} false
         bool m_varLength;
+        //## end CCfits::Column::varLength%38AB18B454A0.attr
 
+        //## begin CCfits::Column::scale%3948E3A203B0.attr preserve=no  public: double {U} 1.0
         double m_scale;
+        //## end CCfits::Column::scale%3948E3A203B0.attr
 
+        //## begin CCfits::Column::zero%3948E3C5034B.attr preserve=no  public: double {U} 1
         double m_zero;
+        //## end CCfits::Column::zero%3948E3C5034B.attr
 
-        string m_display;
+        //## begin CCfits::Column::display%3948FEAF0124.attr preserve=no  public: String {U} ""
+        String m_display;
+        //## end CCfits::Column::display%3948FEAF0124.attr
 
-        string m_dimen;
+        //## begin CCfits::Column::dimen%3948FEEE00BF.attr preserve=no  public: String {U} ""
+        String m_dimen;
+        //## end CCfits::Column::dimen%3948FEEE00BF.attr
 
+        //## begin CCfits::Column::type%39EC8D2D030E.attr preserve=no  public: ValueType {U} Tnull
         ValueType m_type;
+        //## end CCfits::Column::type%39EC8D2D030E.attr
 
+        //## Attribute: LLIMITSHORT%3B41EF3800F8
+        //## begin CCfits::Column::LLIMITSHORT%3B41EF3800F8.attr preserve=no  private: static short {VC} SHRT_MIN
         static const short LLIMITSHORT;
+        //## end CCfits::Column::LLIMITSHORT%3B41EF3800F8.attr
 
+        //## Attribute: LLIMITLONG%3B41EF710302
+        //## begin CCfits::Column::LLIMITLONG%3B41EF710302.attr preserve=no  private: static long {VC} LONG_MIN
         static const long LLIMITLONG;
+        //## end CCfits::Column::LLIMITLONG%3B41EF710302.attr
 
+        //## Attribute: LLIMITUSHORT%3B41EF9D0367
+        //## begin CCfits::Column::LLIMITUSHORT%3B41EF9D0367.attr preserve=no  private: static unsigned short {VC} 0
         static const unsigned short LLIMITUSHORT;
+        //## end CCfits::Column::LLIMITUSHORT%3B41EF9D0367.attr
 
+        //## Attribute: LLIMITULONG%3B41EFC40063
+        //## begin CCfits::Column::LLIMITULONG%3B41EFC40063.attr preserve=no  private: static unsigned long {VC} 0
         static const unsigned long LLIMITULONG;
+        //## end CCfits::Column::LLIMITULONG%3B41EFC40063.attr
 
+        //## Attribute: LLIMITUCHAR%3B41EFD50177
+        //## begin CCfits::Column::LLIMITUCHAR%3B41EFD50177.attr preserve=no  private: static unsigned char {VC} 0
         static const unsigned char LLIMITUCHAR;
+        //## end CCfits::Column::LLIMITUCHAR%3B41EFD50177.attr
 
+        //## Attribute: LLIMITFLOAT%3B41EFEA021B
+        //## begin CCfits::Column::LLIMITFLOAT%3B41EFEA021B.attr preserve=no  private: static float {VC} FLT_MIN
         static const float LLIMITFLOAT;
+        //## end CCfits::Column::LLIMITFLOAT%3B41EFEA021B.attr
 
+        //## Attribute: LLIMITDOUBLE%3B41F003025F
+        //## begin CCfits::Column::LLIMITDOUBLE%3B41F003025F.attr preserve=no  private: static double {VC} DBL_MIN
         static const double LLIMITDOUBLE;
+        //## end CCfits::Column::LLIMITDOUBLE%3B41F003025F.attr
 
+        //## Attribute: ULIMITSHORT%3B41F02201C1
+        //## begin CCfits::Column::ULIMITSHORT%3B41F02201C1.attr preserve=no  private: static short {VC} SHRT_MAX
         static const short ULIMITSHORT;
+        //## end CCfits::Column::ULIMITSHORT%3B41F02201C1.attr
 
+        //## Attribute: ULIMITLONG%3B41F0270291
+        //## begin CCfits::Column::ULIMITLONG%3B41F0270291.attr preserve=no  private: static long {VC} LONG_MAX
         static const long ULIMITLONG;
+        //## end CCfits::Column::ULIMITLONG%3B41F0270291.attr
 
+        //## Attribute: ULIMITUSHORT%3B41F02B032A
+        //## begin CCfits::Column::ULIMITUSHORT%3B41F02B032A.attr preserve=no  private: static unsigned short {VC} USHRT_MAX
         static const unsigned short ULIMITUSHORT;
+        //## end CCfits::Column::ULIMITUSHORT%3B41F02B032A.attr
 
+        //## Attribute: ULIMITULONG%3B41F02F0325
+        //## begin CCfits::Column::ULIMITULONG%3B41F02F0325.attr preserve=no  private: static unsigned long {VC} ULONG_MAX
         static const unsigned long ULIMITULONG;
+        //## end CCfits::Column::ULIMITULONG%3B41F02F0325.attr
 
+        //## Attribute: ULIMITUCHAR%3B41F03701B2
+        //## begin CCfits::Column::ULIMITUCHAR%3B41F03701B2.attr preserve=no  private: static unsigned char {VC} UCHAR_MAX
         static const unsigned char ULIMITUCHAR;
+        //## end CCfits::Column::ULIMITUCHAR%3B41F03701B2.attr
 
+        //## Attribute: ULIMITFLOAT%3B41F03B00F1
+        //## begin CCfits::Column::ULIMITFLOAT%3B41F03B00F1.attr preserve=no  private: static float {VC} FLT_MAX
         static const float ULIMITFLOAT;
+        //## end CCfits::Column::ULIMITFLOAT%3B41F03B00F1.attr
 
+        //## Attribute: ULIMITDOUBLE%3B41F03F0040
+        //## begin CCfits::Column::ULIMITDOUBLE%3B41F03F0040.attr preserve=no  private: static double {VC} DBL_MAX
         static const double ULIMITDOUBLE;
+        //## end CCfits::Column::ULIMITDOUBLE%3B41F03F0040.attr
 
+        //## Attribute: LLIMITINT%3B41F0A5018E
+        //## begin CCfits::Column::LLIMITINT%3B41F0A5018E.attr preserve=no  private: static int {VC} INT_MIN
         static const int LLIMITINT;
+        //## end CCfits::Column::LLIMITINT%3B41F0A5018E.attr
 
+        //## Attribute: ULIMITINT%3B41F0A80334
+        //## begin CCfits::Column::ULIMITINT%3B41F0A80334.attr preserve=no  private: static int {VC} INT_MAX
         static const int ULIMITINT;
+        //## end CCfits::Column::ULIMITINT%3B41F0A80334.attr
 
+        //## Attribute: LLIMITUINT%3B41F0AC022F
+        //## begin CCfits::Column::LLIMITUINT%3B41F0AC022F.attr preserve=no  private: static unsigned int {VC} 0
         static const unsigned int LLIMITUINT;
+        //## end CCfits::Column::LLIMITUINT%3B41F0AC022F.attr
 
+        //## Attribute: ULIMITUINT%3B41F0AF028A
+        //## begin CCfits::Column::ULIMITUINT%3B41F0AF028A.attr preserve=no  private: static unsigned int {VC} UINT_MAX
         static const unsigned int ULIMITUINT;
+        //## end CCfits::Column::ULIMITUINT%3B41F0AF028A.attr
+
+        //## Attribute: LLIMITLONGLONG%4134E15F012E
+        //## begin CCfits::Column::LLIMITLONGLONG%4134E15F012E.attr preserve=no  private: static LONGLONG {VC} LONGLONG_MIN
+        static const LONGLONG LLIMITLONGLONG;
+        //## end CCfits::Column::LLIMITLONGLONG%4134E15F012E.attr
+
+        //## Attribute: ULIMITLONGLONG%4134E1D10336
+        //## begin CCfits::Column::ULIMITLONGLONG%4134E1D10336.attr preserve=no  private: static LONGLONG {VC} LONGLONG_MAX
+        static const LONGLONG ULIMITLONGLONG;
+        //## end CCfits::Column::ULIMITLONGLONG%4134E1D10336.attr
 
       // Data Members for Associations
 
-        std::string m_name;
-
-        std::string m_unit;
-
-        std::string m_format;
-
-        std::string m_comment;
-
+        //## Association: CCfits::Column::<unnamed>%397F36A20379
+        //## begin CCfits::Column::parent%397F36A203BF.role preserve=no  protected: CCfits::Table { -> 1..1RFHgN}
         Table* m_parent;
+        //## end CCfits::Column::parent%397F36A203BF.role
 
-        static std::vector<std::string> s_columnKeys;
+        //## Association: CCfits::Column::<unnamed>%3B41E8CC001E
+        //## begin CCfits::Column::columnKeys%3B41E8CD029C.role preserve=no  protected: static CCfits::String {1 -> 1..nVHgN}
+        static std::vector<String> s_columnKeys;
+        //## end CCfits::Column::columnKeys%3B41E8CD029C.role
+
+        //## Association: CCfits::Column::<unnamed>%3EEF75DE03A1
+        //## begin CCfits::Column::comment%3EEF75DE03A2.role preserve=no  protected: CCfits::String { -> 1..1VHgN}
+        String m_comment;
+        //## end CCfits::Column::comment%3EEF75DE03A2.role
+
+        //## Association: CCfits::Column::<unnamed>%3EEF75E500A5
+        //## begin CCfits::Column::format%3EEF75E500A6.role preserve=no  public: CCfits::String { -> 1..1VHgN}
+        String m_format;
+        //## end CCfits::Column::format%3EEF75E500A6.role
+
+        //## Association: CCfits::Column::<unnamed>%3EEF75EB025A
+        //## begin CCfits::Column::unit%3EEF75EB025B.role preserve=no  public: CCfits::String { -> 1..1VHgN}
+        String m_unit;
+        //## end CCfits::Column::unit%3EEF75EB025B.role
+
+        //## Association: CCfits::Column::<unnamed>%3EEF75F103BF
+        //## begin CCfits::Column::name%3EEF75F103C0.role preserve=no  public: CCfits::String { -> 1..1VHgN}
+        String m_name;
+        //## end CCfits::Column::name%3EEF75F103C0.role
 
       // Additional Implementation Declarations
+        //## begin CCfits::Column%3804E8D06FF8.implementation preserve=yes
+        //## end CCfits::Column%3804E8D06FF8.implementation
 
   };
 
+  //## begin CCfits::Column%3804E8D06FF8.postscript preserve=yes
+  //## end CCfits::Column%3804E8D06FF8.postscript
 
   // Class CCfits::Column::RangeError 
 
@@ -1349,220 +1649,300 @@ namespace CCfits {
   // Class CCfits::Column 
 
 
+  //## Other Operations (inline)
   inline void Column::setDimen ()
   {
+    //## begin CCfits::Column::setDimen%3948FF150314.body preserve=yes
   // default implementation: do nothing. Overridden by ColumnVectorData.
+    //## end CCfits::Column::setDimen%3948FF150314.body
   }
 
   inline std::ostream& operator << (std::ostream& s, const Column& right)
   {
+    //## begin CCfits::Column::operator<<%39513B5002D4.body preserve=yes
+    //## end CCfits::Column::operator<<%39513B5002D4.body
 
     return right.put(s);
   }
 
   inline bool operator < (const Column& left, const Column& right)
   {
+    //## begin CCfits::Column::operator<%3B24D02E0107.body preserve=yes
+    //## end CCfits::Column::operator<%3B24D02E0107.body
 
     return left.m_index < right.m_index;
   }
 
   inline bool operator > (const Column& left, const Column& right)
   {
+    //## begin CCfits::Column::operator>%3B24D08402F7.body preserve=yes
+    //## end CCfits::Column::operator>%3B24D08402F7.body
 
     return left.m_index > right.m_index;
   }
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   inline int Column::index () const
   {
+    //## begin CCfits::Column::index%385E756F4FE8.get preserve=no
     return m_index;
+    //## end CCfits::Column::index%385E756F4FE8.get
   }
 
   inline void Column::index (int value)
   {
+    //## begin CCfits::Column::index%385E756F4FE8.set preserve=no
     m_index = value;
+    //## end CCfits::Column::index%385E756F4FE8.set
   }
 
   inline bool Column::isRead () const
   {
+    //## begin CCfits::Column::isRead%387F44AD55B8.get preserve=no
     return m_isRead;
+    //## end CCfits::Column::isRead%387F44AD55B8.get
   }
 
   inline void Column::isRead (bool value)
   {
+    //## begin CCfits::Column::isRead%387F44AD55B8.set preserve=no
     m_isRead = value;
+    //## end CCfits::Column::isRead%387F44AD55B8.set
   }
 
   inline long Column::width () const
   {
+    //## begin CCfits::Column::width%38AC6549D488.get preserve=no
     return m_width;
+    //## end CCfits::Column::width%38AC6549D488.get
   }
 
   inline void Column::width (long value)
   {
+    //## begin CCfits::Column::width%38AC6549D488.set preserve=no
     m_width = value;
+    //## end CCfits::Column::width%38AC6549D488.set
   }
 
   inline size_t Column::repeat () const
   {
+    //## begin CCfits::Column::repeat%38AAF89B2B60.get preserve=no
     return m_repeat;
+    //## end CCfits::Column::repeat%38AAF89B2B60.get
   }
 
   inline bool Column::varLength () const
   {
+    //## begin CCfits::Column::varLength%38AB18B454A0.get preserve=no
     return m_varLength;
+    //## end CCfits::Column::varLength%38AB18B454A0.get
   }
 
   inline double Column::scale () const
   {
+    //## begin CCfits::Column::scale%3948E3A203B0.get preserve=no
     return m_scale;
+    //## end CCfits::Column::scale%3948E3A203B0.get
   }
 
   inline void Column::scale (double value)
   {
+    //## begin CCfits::Column::scale%3948E3A203B0.set preserve=yes
     m_scale = value;
     int status(0);
     if (fits_set_tscale(fitsPointer(),m_index,value,m_zero,&status)) throw FitsError(status);
+    //## end CCfits::Column::scale%3948E3A203B0.set
   }
 
   inline double Column::zero () const
   {
+    //## begin CCfits::Column::zero%3948E3C5034B.get preserve=no
     return m_zero;
+    //## end CCfits::Column::zero%3948E3C5034B.get
   }
 
   inline void Column::zero (double value)
   {
+    //## begin CCfits::Column::zero%3948E3C5034B.set preserve=no
     m_zero = value;
+    //## end CCfits::Column::zero%3948E3C5034B.set
   }
 
-  inline const string& Column::display () const
+  inline const String& Column::display () const
   {
+    //## begin CCfits::Column::display%3948FEAF0124.get preserve=no
     return m_display;
+    //## end CCfits::Column::display%3948FEAF0124.get
   }
 
-  inline const string& Column::dimen () const
+  inline const String& Column::dimen () const
   {
+    //## begin CCfits::Column::dimen%3948FEEE00BF.get preserve=no
     return m_dimen;
+    //## end CCfits::Column::dimen%3948FEEE00BF.get
   }
 
-  inline void Column::dimen (const string& value)
+  inline void Column::dimen (const String& value)
   {
+    //## begin CCfits::Column::dimen%3948FEEE00BF.set preserve=no
     m_dimen = value;
+    //## end CCfits::Column::dimen%3948FEEE00BF.set
   }
 
   inline ValueType Column::type () const
   {
+    //## begin CCfits::Column::type%39EC8D2D030E.get preserve=no
     return m_type;
+    //## end CCfits::Column::type%39EC8D2D030E.get
   }
 
   inline void Column::type (ValueType value)
   {
+    //## begin CCfits::Column::type%39EC8D2D030E.set preserve=no
     m_type = value;
+    //## end CCfits::Column::type%39EC8D2D030E.set
   }
 
-  inline const string& Column::TBCOL ()
+  inline const String& Column::TBCOL ()
   {
+    //## begin CCfits::Column::TBCOL%3B41E45800B2.get preserve=no
     return s_TBCOL;
+    //## end CCfits::Column::TBCOL%3B41E45800B2.get
   }
 
-  inline const string& Column::TTYPE ()
+  inline const String& Column::TTYPE ()
   {
+    //## begin CCfits::Column::TTYPE%3B41E4B6013B.get preserve=no
     return s_TTYPE;
+    //## end CCfits::Column::TTYPE%3B41E4B6013B.get
   }
 
-  inline const string& Column::TFORM ()
+  inline const String& Column::TFORM ()
   {
+    //## begin CCfits::Column::TFORM%3B41E4C401F8.get preserve=no
     return s_TFORM;
+    //## end CCfits::Column::TFORM%3B41E4C401F8.get
   }
 
-  inline const string& Column::TDISP ()
+  inline const String& Column::TDISP ()
   {
+    //## begin CCfits::Column::TDISP%3B41E4D4025C.get preserve=no
     return s_TDISP;
+    //## end CCfits::Column::TDISP%3B41E4D4025C.get
   }
 
-  inline const string& Column::TUNIT ()
+  inline const String& Column::TUNIT ()
   {
+    //## begin CCfits::Column::TUNIT%3B41E4EC0050.get preserve=no
     return s_TUNIT;
+    //## end CCfits::Column::TUNIT%3B41E4EC0050.get
   }
 
-  inline const string& Column::TSCAL ()
+  inline const String& Column::TSCAL ()
   {
+    //## begin CCfits::Column::TSCAL%3B41E4FE0096.get preserve=no
     return s_TSCAL;
+    //## end CCfits::Column::TSCAL%3B41E4FE0096.get
   }
 
-  inline const string& Column::TZERO ()
+  inline const String& Column::TZERO ()
   {
+    //## begin CCfits::Column::TZERO%3B41E6730238.get preserve=no
     return s_TZERO;
+    //## end CCfits::Column::TZERO%3B41E6730238.get
   }
 
-  inline const string& Column::TDIM ()
+  inline const String& Column::TDIM ()
   {
+    //## begin CCfits::Column::TDIM%3B41E793003F.get preserve=no
     return s_TDIM;
+    //## end CCfits::Column::TDIM%3B41E793003F.get
   }
 
-  inline const string& Column::TNULL ()
+  inline const String& Column::TNULL ()
   {
+    //## begin CCfits::Column::TNULL%3B41E807029A.get preserve=no
     return s_TNULL;
+    //## end CCfits::Column::TNULL%3B41E807029A.get
   }
 
-  inline const string& Column::TLMIN ()
+  inline const String& Column::TLMIN ()
   {
+    //## begin CCfits::Column::TLMIN%3B41E8300368.get preserve=no
     return s_TLMIN;
+    //## end CCfits::Column::TLMIN%3B41E8300368.get
   }
 
-  inline const string& Column::TLMAX ()
+  inline const String& Column::TLMAX ()
   {
+    //## begin CCfits::Column::TLMAX%3B41E8330127.get preserve=no
     return s_TLMAX;
+    //## end CCfits::Column::TLMAX%3B41E8330127.get
   }
 
-  inline const string& Column::TDMAX ()
+  inline const String& Column::TDMAX ()
   {
+    //## begin CCfits::Column::TDMAX%3B41E86F00AF.get preserve=no
     return s_TDMAX;
+    //## end CCfits::Column::TDMAX%3B41E86F00AF.get
   }
 
-  inline const string& Column::TDMIN ()
+  inline const String& Column::TDMIN ()
   {
+    //## begin CCfits::Column::TDMIN%3B41E87301A5.get preserve=no
     return s_TDMIN;
+    //## end CCfits::Column::TDMIN%3B41E87301A5.get
   }
 
-
-  inline const std::string& Column::name () const
-  {
-    return m_name;
-  }
-
-  inline const std::string& Column::unit () const
-  {
-    return m_unit;
-  }
-
-  inline const std::string& Column::format () const
-  {
-    return m_format;
-  }
-
-  inline const std::string& Column::comment () const
-  {
-    return m_comment;
-  }
-
-  inline void Column::comment (const std::string& value)
-  {
-    m_comment = value;
-  }
+  //## Get and Set Operations for Associations (inline)
 
   inline Table* Column::parent ()
   {
+    //## begin CCfits::Column::parent%397F36A203BF.get preserve=no
     return m_parent;
+    //## end CCfits::Column::parent%397F36A203BF.get
   }
 
-  inline const std::vector<std::string>& Column::columnKeys ()
+  inline const std::vector<String>& Column::columnKeys ()
   {
+    //## begin CCfits::Column::columnKeys%3B41E8CD029C.get preserve=no
     return s_columnKeys;
+    //## end CCfits::Column::columnKeys%3B41E8CD029C.get
+  }
+
+  inline const String& Column::comment () const
+  {
+    //## begin CCfits::Column::comment%3EEF75DE03A2.get preserve=no
+    return m_comment;
+    //## end CCfits::Column::comment%3EEF75DE03A2.get
+  }
+
+  inline const String& Column::format () const
+  {
+    //## begin CCfits::Column::format%3EEF75E500A6.get preserve=no
+    return m_format;
+    //## end CCfits::Column::format%3EEF75E500A6.get
+  }
+
+  inline const String& Column::unit () const
+  {
+    //## begin CCfits::Column::unit%3EEF75EB025B.get preserve=no
+    return m_unit;
+    //## end CCfits::Column::unit%3EEF75EB025B.get
+  }
+
+  inline const String& Column::name () const
+  {
+    //## begin CCfits::Column::name%3EEF75F103C0.get preserve=no
+    return m_name;
+    //## end CCfits::Column::name%3EEF75F103C0.get
   }
 
 } // namespace CCfits
 
+//## begin module%3804E9058790.epilog preserve=yes
+//## end module%3804E9058790.epilog
 
 
 #endif

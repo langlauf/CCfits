@@ -1,13 +1,17 @@
+//1
+//2
+//3
+//4
 
-//	This is version 1.2 dated April 2003
+//	This is version 1.3 dated Feb 2005
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
 
 #ifndef COLUMNT_H
 #define COLUMNT_H
@@ -24,7 +28,7 @@
 #include <algorithm>
 #include "NewKeyword.h"
 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 #       include <strstream>
 #else
 #       include <sstream>
@@ -34,6 +38,7 @@
 // by design, if the data are not read yet we will return an exception.
 // here the test is if the entire column has already been read. 
 using std::complex;
+using std::valarray;
 
 // get specified elements of a scalar column. These two functions allow the
 // user to return either a vector or a valarray depending on the input container.
@@ -52,7 +57,7 @@ namespace CCfits
         {
                 // problem: S does not give the type of the Column, but the return type,
                 // so the user must specify this.
-
+                parent()->makeThisCurrent();
                 long nelements = numberOfElements(first,last);
 
                 if  (ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
@@ -122,6 +127,15 @@ namespace CCfits
                                     if (nullValue) nullVal = static_cast<long>(*nullValue); 
                                     ColumnData<long>& col 
                                       = dynamic_cast<ColumnData<long>&>(*this);
+                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
+                                    FITSUtil::fill(vals,col.data(),first,last);
+                            }
+		            else if (type() == Tlonglong)
+		            {	
+                                    LONGLONG nullVal(0);
+                                    if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                    ColumnData<LONGLONG>& col 
+                                      = dynamic_cast<ColumnData<LONGLONG>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);                                  
                                     FITSUtil::fill(vals,col.data(),first,last);
                             }
@@ -199,7 +213,7 @@ namespace CCfits
 
 
                 long nelements = numberOfElements(first,last);
-                
+                parent()->makeThisCurrent();                
                 if ( ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
                 {
                         // fails if user requested outputType different from input type.
@@ -266,6 +280,15 @@ namespace CCfits
                                     if (nullValue) nullVal = static_cast<long>(*nullValue); 
                                     ColumnData<long>& col 
                                             = dynamic_cast<ColumnData<long>&>(*this);
+                                    if (!isRead()) col.readColumnData(first,nelements,&nullVal);
+                                    FITSUtil::fill(vals,col.data(),first,last);
+                            }
+		            else if (type() == Tlonglong)
+		            {	
+                                    LONGLONG nullVal(0);
+                                    if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                    ColumnData<LONGLONG>& col 
+                                            = dynamic_cast<ColumnData<LONGLONG>&>(*this);
                                     if (!isRead()) col.readColumnData(first,nelements,&nullVal);
                                     FITSUtil::fill(vals,col.data(),first,last);
                             }
@@ -344,8 +367,8 @@ namespace CCfits
         template <typename S>
         void Column::read(std::valarray<S>& vals, long row, S* nullValue) 
         {
+                parent()->makeThisCurrent();                
                 // isRead() returns true if the data were read in the ctor.
-                
                 if ( ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
                         // fails if user requested outputType different from input type.
@@ -425,6 +448,15 @@ namespace CCfits
                                     if (!isRead()) col.readRow(row,&nullVal); 
                                     FITSUtil::fill(vals,col.data(row));
                             }
+		            else if (type() == Tlonglong  || type() == VTlonglong )
+		            {	
+                                    LONGLONG nullVal(0);
+                                    if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                    ColumnVectorData<LONGLONG>& col 
+                                            = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
+                                    if (!isRead()) col.readRow(row,&nullVal); 
+                                    FITSUtil::fill(vals,col.data(row));
+                            }
 		            else if (type() == Tlogical  || type() == VTlogical )
 		            {	
                                     bool nullVal(0);
@@ -500,6 +532,7 @@ namespace CCfits
                                 long first, long last, S* nullValue)
         {
 
+                parent()->makeThisCurrent();
                 // again, can only call this if the entire column has been read from disk.
                 // user expects 1 based indexing. If 0 based indices are supplied,
                 // add one to both ranges.
@@ -579,6 +612,18 @@ namespace CCfits
                                     if (nullValue) nullVal  = static_cast<long>(*nullValue); 
                                     ColumnVectorData<long>& col 
                                             = dynamic_cast<ColumnVectorData<long>&>(*this);
+                                    for (int j = 0; j < range; ++j) 
+                                    {
+                                        if (!isRead()) col.readRow(j + first,&nullVal); 
+                                        FITSUtil::fill(vals[j],col.data(j+first));
+                                    }
+                            }
+                            else if  ( type() == Tlonglong   || type() == VTlonglong )
+		            {
+                                    LONGLONG nullVal(0);
+                                    if (nullValue) nullVal  = static_cast<LONGLONG>(*nullValue); 
+                                    ColumnVectorData<LONGLONG>& col 
+                                            = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
                                     for (int j = 0; j < range; ++j) 
                                     {
                                         if (!isRead()) col.readRow(j + first,&nullVal); 
@@ -700,6 +745,7 @@ namespace CCfits
                 // translates to a char** argument].
                 
                 
+                parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
                 if (ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
                 {
@@ -712,7 +758,7 @@ namespace CCfits
                         FITSUtil::MatchType<S> inType;
                         if ( inType() == type()) 
                         {
-                                string msg("Incorrect call: writing to vector column ");
+                                String msg("Incorrect call: writing to vector column ");
                                 msg += name();
                                 msg += " requires specification of # rows or vector lengths";
                                 throw WrongColumnType(msg);
@@ -762,6 +808,16 @@ namespace CCfits
                                 ColumnData<long>& col 
                                         = dynamic_cast<ColumnData<long>&>(*this);
                                 std::vector<long> __tmp;
+                                FITSUtil::fill(__tmp,indata,1,indata.size());
+                                col.writeData(__tmp,firstRow,&nullVal);
+                            }
+                            else if  ( type() == Tlonglong )
+		            {
+                                LONGLONG nullVal(0);
+                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                ColumnData<LONGLONG>& col 
+                                        = dynamic_cast<ColumnData<LONGLONG>&>(*this);
+                                std::vector<LONGLONG> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
                                 col.writeData(__tmp,firstRow,&nullVal);
                             }
@@ -852,6 +908,7 @@ namespace CCfits
                 // does not allow NULL value.
                 
                 using std::valarray;
+                parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
                 if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
@@ -864,7 +921,7 @@ namespace CCfits
                         FITSUtil::MatchType<S> inType;
                         if ( inType() == type()) 
                         {
-                                string msg("Incorrect call: scalar column ");
+                                String msg("Incorrect call: scalar column ");
                                 msg += name();
                                 msg += " does not have vector lengths";
                                 throw WrongColumnType(msg);
@@ -908,6 +965,14 @@ namespace CCfits
                                 ColumnVectorData<long>& col 
                                         = dynamic_cast<ColumnVectorData<long>&>(*this);
                                 valarray<long> __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,vectorLengths,firstRow);
+                            }
+                            else if  ( type() == Tlonglong )
+		            {
+                                ColumnVectorData<LONGLONG>& col 
+                                        = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
+                                valarray<LONGLONG> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,vectorLengths,firstRow);
                             }
@@ -965,7 +1030,7 @@ namespace CCfits
         {
                 // variable length write
                 // implement as valarray version
-                valarray<S> __tmp(indata.size());
+                std::valarray<S> __tmp(indata.size());
                 std::copy(indata.begin(),indata.end(),&__tmp[0]);
                 write(__tmp,vectorLengths,firstRow);  
 
@@ -977,7 +1042,7 @@ namespace CCfits
         {
                 // implement as valarray version, which will also check array size.
                 size_t n(vectorLengths.size());
-                valarray<S> __tmp(indata,nelements);
+                std::valarray<S> __tmp(indata,nelements);
                 write(__tmp,vectorLengths,firstRow);
         }        
  
@@ -1008,7 +1073,7 @@ namespace CCfits
                 // primary implementation,  nullValue: write fixed-length data
                 // to rows of a vector column.  
                 if (nRows <= 0) throw InvalidNumberOfRows(nRows);
-
+                parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
                 if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
@@ -1021,7 +1086,7 @@ namespace CCfits
                         FITSUtil::MatchType<S> inType;
                         if ( inType() == type()) 
                         {
-                                string 
+                                String 
                                   msg("Incorrect call: writing to valarray data to scalar column: ");
                                   msg += name();
                                   msg += " does not require specification of number of rows";
@@ -1072,6 +1137,16 @@ namespace CCfits
                                 ColumnVectorData<long>& col 
                                         = dynamic_cast<ColumnVectorData<long>&>(*this);
                                 std::valarray<long> __tmp;
+                                FITSUtil::fill(__tmp,indata);
+                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                            }
+                            else if  ( type() == Tlonglong )
+		            {
+                                LONGLONG nullVal(0);
+                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                ColumnVectorData<LONGLONG>& col 
+                                        = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
+                                std::valarray<LONGLONG> __tmp;
                                 FITSUtil::fill(__tmp,indata);
                                 col.writeData(__tmp,nRows,firstRow,&nullVal);
                             }
@@ -1139,7 +1214,7 @@ namespace CCfits
                 // fixed length write of vector
                 // implement as valarray version
                 if (nRows <= 0) throw InvalidNumberOfRows(nRows);
-                valarray<S> __tmp(indata.size());
+                std::valarray<S> __tmp(indata.size());
                 std::copy(indata.begin(),indata.end(),&__tmp[0]);
                 write(__tmp,nRows,firstRow, nullValue);  
         }
@@ -1150,7 +1225,7 @@ namespace CCfits
                 // fixed length write of C-array
                 // implement as valarray version
                 if (nRows <= 0) throw InvalidNumberOfRows(nRows);
-                valarray<S> __tmp(indata,nelements);
+                std::valarray<S> __tmp(indata,nelements);
                 write(__tmp,nRows,firstRow, nullValue);              
         }        
         
@@ -1171,6 +1246,7 @@ namespace CCfits
                 
                 using std::valarray;
                 using std::vector;
+                parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
                 if (ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))
                 {
@@ -1183,7 +1259,7 @@ namespace CCfits
                         FITSUtil::MatchType<S> inType;
                         if ( inType() == type()) 
                         {
-                                string msg("Incorrect call: writing vectors to scalar column ");
+                                String msg("Incorrect call: writing vectors to scalar column ");
                                 throw WrongColumnType(msg);
                         }
                         else
@@ -1244,6 +1320,19 @@ namespace CCfits
                                 vector<valarray<long> > __tmp(n);
                                 long nullVal(0);
                                 if (nullValue) nullVal = static_cast<long>(*nullValue);
+                                for (size_t i = 0; i < n; ++i)
+                                {
+                                        FITSUtil::fill(__tmp[i],indata[i]);
+                                }                                
+                                col.writeData(__tmp,firstRow,&nullVal);
+                            }
+                            else if  ( type() == Tlonglong )
+		            {
+                                ColumnVectorData<LONGLONG>& col 
+                                        = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
+                                vector<valarray<LONGLONG> > __tmp(n);
+                                LONGLONG nullVal(0);
+                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
@@ -1329,9 +1418,9 @@ namespace CCfits
         {
                 parent()->makeThisCurrent();
                 int status(0);
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                 std::ostrstream keyName;
-                keyName << "TNULL" << index();
+                keyName << "TNULL" << index() << std::ends;
                 char* nullKey = const_cast<char*>(keyName.str());
 #else
                 std::ostringstream keyName;          

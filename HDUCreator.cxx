@@ -1,16 +1,30 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%380B42B50B48.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%380B42B50B48.cm
 
+//## begin module%380B42B50B48.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%380B42B50B48.cp
 
+//## Module: HDUCreator%380B42B50B48; Package body
+//## Subsystem: CCfits::HDU%3826DF628F48
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/HDUCreator.cxx
 
+//## begin module%380B42B50B48.additionalIncludes preserve=no
+//## end module%380B42B50B48.additionalIncludes
 
+//## begin module%380B42B50B48.includes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" //for truncation warning
 #endif
@@ -19,13 +33,14 @@
 #include "config.h"
 #endif
 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 #include <strstream>
 #else
 #include <sstream>
 #endif
 
 #include <float.h>
+//## end module%380B42B50B48.includes
 
 // HDU
 #include "HDU.h"
@@ -51,34 +66,52 @@
 #include "FITS.h"
 
 
+//## begin module%380B42B50B48.declarations preserve=no
+//## end module%380B42B50B48.declarations
 
+//## begin module%380B42B50B48.additionalDeclarations preserve=yes
+//## end module%380B42B50B48.additionalDeclarations
 
 
 namespace CCfits {
-  char BSCALE[7] = {"BSCALE"};
-  char BZERO[6]  = {"BZERO"};
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
+    char BSCALE[7] = {"BSCALE"};
+    char BZERO[6]  = {"BZERO"};
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   // Class CCfits::HDUCreator 
 
   HDUCreator::HDUCreator (FITSBase* p)
+    //## begin CCfits::HDUCreator::HDUCreator%394FD3AC025B.hasinit preserve=no
+    //## end CCfits::HDUCreator::HDUCreator%394FD3AC025B.hasinit
+    //## begin CCfits::HDUCreator::HDUCreator%394FD3AC025B.initialization preserve=yes
   : m_hdu(0), m_parent(p) 
+    //## end CCfits::HDUCreator::HDUCreator%394FD3AC025B.initialization
   {
+    //## begin CCfits::HDUCreator::HDUCreator%394FD3AC025B.body preserve=yes
+    //## end CCfits::HDUCreator::HDUCreator%394FD3AC025B.body
   }
 
 
   HDUCreator::~HDUCreator()
   {
+    //## begin CCfits::HDUCreator::~HDUCreator%380B42942CC0_dest.body preserve=yes
+    //## end CCfits::HDUCreator::~HDUCreator%380B42942CC0_dest.body
   }
 
 
 
+  //## Other Operations (implementation)
   PHDU * HDUCreator::createImage (int bitpix, long naxis, const std::vector<long>& naxes)
   {
+    //## begin CCfits::HDUCreator::createImage%3816FF89CDC0.body preserve=yes
     return MakeImage(bitpix,naxis,naxes);
+    //## end CCfits::HDUCreator::createImage%3816FF89CDC0.body
   }
 
   PHDU * HDUCreator::MakeImage (int bpix, int naxis, const std::vector<long>& naxes)
   {
+    //## begin CCfits::HDUCreator::MakeImage%394FD34901AA.body preserve=yes
     m_hdu = m_parent->pHDU();
     if (!m_hdu) 
     {
@@ -114,23 +147,61 @@ namespace CCfits {
             } 
     }  
     return static_cast<PHDU*>(m_hdu);
+    //## end CCfits::HDUCreator::MakeImage%394FD34901AA.body
   }
 
-  HDU * HDUCreator::Make (const string& hduName, bool readDataFlag, const std::vector<string> &keys, bool primary, int version)
+  HDU * HDUCreator::Make (const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version)
   {
+    //## begin CCfits::HDUCreator::Make%394FD3660090.body preserve=yes
     static char bitkey[] = "BITPIX";
     long bpix = 0;
+    long unscaled = 0;
     int status = 0;
-    if ( !primary && fits_movnam_hdu(m_parent->fptr(),-1, 
+    bool isExtFound = true;
+    int extNum = -1;
+    // Are we dealing with a fake hduName ?
+    bool isFake = hduName.find(ExtHDU::missHDU()) == 0 &&
+                        hduName.length() > ExtHDU::missHDU().length();
+    if (isFake)
+    {
+#ifdef SSTREAM_DEFECT
+       std::istrstream extNumStr (hduName.substr(ExtHDU::missHDU().length().c_str()));
+#else
+       std::istringstream extNumStr (hduName.substr(ExtHDU::missHDU().length()));
+#endif
+       extNumStr >> extNum;
+       if (fits_movabs_hdu(m_parent->fptr(), extNum+1, 0, &status)) 
+       {
+          isExtFound = false;
+       }
+    }
+    else if ( !primary && fits_movnam_hdu(m_parent->fptr(),-1, 
              const_cast<char*>(hduName.c_str()),version,&status) )
     {
-#ifndef HAVE_SSTREAM
+       isExtFound = false;
+    }
+    
+    if (!isExtFound)
+    {
+#ifdef SSTREAM_DEFECT
         std::ostrstream msg;
 #else
         std::ostringstream msg;
 #endif
-        msg << "Cannot access HDU name " << hduName ;
+        msg << "Cannot access HDU name ";
+        if (isFake)
+        {
+           msg << "(No name)  " << "Index no. " << extNum;      
+        } 
+        else
+        {
+           msg << hduName ;
+        }
+        
         if (version) msg << " version " << version;
+#ifdef SSTREAM_DEFECT
+	msg << std::ends;
+#endif
 	throw FITS::NoSuchHDU(msg.str());
     }
     int htype = -1;
@@ -143,7 +214,7 @@ namespace CCfits {
     m_hdu = m_parent->pHDU();
     double unsignedZero(0);
     double scale(1);
-    getScaling(bpix,unsignedZero,scale);
+    getScaling(bpix,unsignedZero,scale,unscaled);
     switch(xtype)
     {
         case ImageHdu:
@@ -299,11 +370,14 @@ namespace CCfits {
     default:
                 throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
     }
+    m_hdu->bitpix(bpix);
     return m_hdu;
+    //## end CCfits::HDUCreator::Make%394FD3660090.body
   }
 
-  HDU* HDUCreator::MakeTable (const string &name, HduType xtype, int rows, const std::vector<string>& colName, const std::vector<string>& colFmt, const std::vector<string>& colUnit, int version)
+  HDU* HDUCreator::MakeTable (const String &name, HduType xtype, int rows, const std::vector<String>& colName, const std::vector<String>& colFmt, const std::vector<String>& colUnit, int version)
   {
+    //## begin CCfits::HDUCreator::MakeTable%39523AAE0033.body preserve=yes
   switch (xtype)
   {
         case AsciiTbl:
@@ -316,25 +390,31 @@ namespace CCfits {
                 throw HDU::InvalidExtensionType("unexpected");
   }
   return m_hdu;
+    //## end CCfits::HDUCreator::MakeTable%39523AAE0033.body
   }
 
-  HDU * HDUCreator::Make (int index, bool readDataFlag, const std::vector<string> &keys)
+  HDU * HDUCreator::Make (int index, bool readDataFlag, const std::vector<String> &keys)
   {
+    //## begin CCfits::HDUCreator::Make%3957CA840334.body preserve=yes
   bool primary = (index == 0);
-  string hduName("");
+  String hduName("");
   int version = 0;
   if (!primary) ExtHDU::readHduName(m_parent->fptr(),index,hduName,version );
   return Make(hduName,readDataFlag,keys,primary,version);
           
+    //## end CCfits::HDUCreator::Make%3957CA840334.body
   }
 
-  ExtHDU * HDUCreator::createImage (const string &name, int bitpix, long naxis, const std::vector<long>& naxes, int version)
+  ExtHDU * HDUCreator::createImage (const String &name, int bitpix, long naxis, const std::vector<long>& naxes, int version)
   {
+    //## begin CCfits::HDUCreator::createImage%3AF989A102CA.body preserve=yes
         return MakeImage(name,bitpix,naxis,naxes,version);
+    //## end CCfits::HDUCreator::createImage%3AF989A102CA.body
   }
 
-  ExtHDU * HDUCreator::MakeImage (const string &name, int bpix, long naxis, const std::vector<long>& naxes, int version)
+  ExtHDU * HDUCreator::MakeImage (const String &name, int bpix, long naxis, const std::vector<long>& naxes, int version)
   {
+    //## begin CCfits::HDUCreator::MakeImage%3AF989DB0029.body preserve=yes
   ExtHDU* newImage = 0;
   switch (bpix)
   {
@@ -369,10 +449,12 @@ namespace CCfits {
               throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
   } 
   return newImage;
+    //## end CCfits::HDUCreator::MakeImage%3AF989DB0029.body
   }
 
-  void HDUCreator::getScaling (long& type, double& zero, double& scale) const
+  void HDUCreator::getScaling (long& type, double& zero, double& scale, long& unscaledType) const
   {
+    //## begin CCfits::HDUCreator::getScaling%3CC6CFC40122.body preserve=yes
     float tmpScale(1.);
     float zval (0);
     int status (0);
@@ -411,9 +493,15 @@ namespace CCfits {
                         break; // do nothing.    
             }
     }                
+    //## end CCfits::HDUCreator::getScaling%3CC6CFC40122.body
   }
 
   // Additional Declarations
+    //## begin CCfits::HDUCreator%380B42942CC0.declarations preserve=yes
+    //## end CCfits::HDUCreator%380B42942CC0.declarations
 
 } // namespace CCfits
+
+//## begin module%380B42B50B48.epilog preserve=yes
+//## end module%380B42B50B48.epilog
 

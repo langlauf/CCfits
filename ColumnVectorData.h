@@ -1,34 +1,48 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%38BAD0CF1E60.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%38BAD0CF1E60.cm
 
+//## begin module%38BAD0CF1E60.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%38BAD0CF1E60.cp
 
+//## Module: ColumnVectorData%38BAD0CF1E60; Package specification
+//## Subsystem: CCfits::Column%3934116D0008
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnVectorData.h
 
 #ifndef COLUMNVECTORDATA_H
 #define COLUMNVECTORDATA_H 1
 
+//## begin module%38BAD0CF1E60.additionalIncludes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h"
 #endif
 #include "CCfits.h"
+//## end module%38BAD0CF1E60.additionalIncludes
 
-// valarray
-#include <valarray>
 // vector
 #include <vector>
+// valarray
+#include <valarray>
 // Column
 #include "Column.h"
+//## begin module%38BAD0CF1E60.includes preserve=yes
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
 #include <strstream>
 #else
 #include <sstream>
@@ -36,8 +50,12 @@
 
 #include <memory>
 #include <numeric>
+//## end module%38BAD0CF1E60.includes
 
+//## begin module%38BAD0CF1E60.declarations preserve=no
+//## end module%38BAD0CF1E60.declarations
 
+//## begin module%38BAD0CF1E60.additionalDeclarations preserve=yes
 namespace CCfits {
 
         class Table;
@@ -47,69 +65,111 @@ namespace CCfits {
 #include "FITS.h"
 #include "FITSUtil.h"
 using std::complex;
+//## end module%38BAD0CF1E60.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
+  //## end CCfits%37FE4140B6F8.initialDeclarations
+
+  //## begin CCfits::ColumnVectorData%38BAD1B0AA40.preface preserve=yes
+  //## end CCfits::ColumnVectorData%38BAD1B0AA40.preface
+
+  //## Class: ColumnVectorData%38BAD1B0AA40; Parameterized Class
+  //## Category: CCfits::Column%393417970264
+  //## Subsystem: CCfits::Column%3934116D0008
+  //## Persistence: Transient
+  //## Cardinality/Multiplicity: n
+  //## Space Complexity: T
 
 
 
-
-
+  //## Uses: <unnamed>%393EA834025B;std::valarray { -> }
 
   template <typename T>
   class ColumnVectorData : public Column  //## Inherits: <unnamed>%38BAD1D4D370
   {
+    //## begin CCfits::ColumnVectorData%38BAD1B0AA40.initialDeclarations preserve=yes
+    //## end CCfits::ColumnVectorData%38BAD1B0AA40.initialDeclarations
 
     public:
+      //## Constructors (generated)
         ColumnVectorData(const ColumnVectorData< T > &right);
 
+      //## Constructors (specified)
+        //## Operation: ColumnVectorData%3937D8940092
         ColumnVectorData (Table* p = 0, T nullVal = FITSUtil::FitsNullValue<T>()());
 
+        //## Operation: ColumnVectorData%3947C8B30086
         ColumnVectorData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt = 1, long w = 1, const string &comment = "", T nullVal = FITSUtil::FitsNullValue<T>()());
 
+      //## Destructor (generated)
         ~ColumnVectorData();
 
 
+      //## Other Operations (specified)
+        //## Operation: readData%38BAD4E55B38
         virtual void readData (long firstrow, long nelements, long firstelem = 1);
 
+        //## Operation: clone%38BAD53513B0
         virtual ColumnVectorData<T>* clone () const;
 
+        //## Operation: setDimen%3948FFA702E2
         virtual void setDimen ();
 
+        //## Operation: setDataLimits%3B420063035B
         void setDataLimits (T* limits);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: minLegalValue%3B3CED5D00E4
         const T minLegalValue () const;
         void minLegalValue (T value);
 
+        //## Attribute: maxLegalValue%3B3CED5F00EF
         const T maxLegalValue () const;
         void maxLegalValue (T value);
 
+        //## Attribute: minDataValue%3B3CED6002A7
         const T minDataValue () const;
         void minDataValue (T value);
 
+        //## Attribute: maxDataValue%3B3CED6200BF
         const T maxDataValue () const;
         void maxDataValue (T value);
 
+      //## Get and Set Operations for Associations (generated)
 
+        //## Association: CCfits::Column::Vector Data%3E9309C8002B
+        //## Role: ColumnVectorData::data%3E9309CC0097
+        //## Qualifier: i%3E9309DA03DA; int
         const std::vector<std::valarray<T> >& data () const;
         void setData (const std::vector<std::valarray<T> >& value);
         const std::valarray<T>& data (int i) const;
         void data (int i, const std::valarray<T>& value);
 
       // Additional Public Declarations
+        //## begin CCfits::ColumnVectorData%38BAD1B0AA40.public preserve=yes
         friend class Column;
+        //## end CCfits::ColumnVectorData%38BAD1B0AA40.public
     protected:
       // Additional Protected Declarations
+        //## begin CCfits::ColumnVectorData%38BAD1B0AA40.protected preserve=yes
+        //## end CCfits::ColumnVectorData%38BAD1B0AA40.protected
 
     private:
+      //## Assignment Operation (generated)
         ColumnVectorData< T > & operator=(const ColumnVectorData< T > &right);
 
 
+      //## Other Operations (specified)
+        //## Operation: compare%38BAD52BCDD0
         virtual bool compare (const Column &right) const;
 
+        //## Operation: resizeDataObject%3B20DBAA02B8
         void resizeDataObject (const std::vector<std::valarray<T> >& indata, size_t firstRow);
 
+        //## Operation: readColumnData%395A4FD40034
         //	Reads a specified number of column rows.
         //
         //	There are no default arguments. The function
@@ -117,12 +177,16 @@ namespace CCfits {
         //	 is designed for reading the whole column.
         virtual void readColumnData (long first, long last, T* nullValue = 0);
 
+        //## Operation: put%3985C35702F7
         virtual std::ostream& put (std::ostream& s) const;
 
+        //## Operation: writeData%3A018B000355
         void writeData (const std::valarray<T>& indata, long numRows, long firstRow = 1, T* nullValue = 0);
 
+        //## Operation: writeData%3B003FF302B8
         void writeData (const std::vector<std::valarray<T> >& indata, long firstRow = 1, T* nullValue = 0);
 
+        //## Operation: readRow%3B0A8227012E
         //	Reads a specified number of column rows.
         //
         //	There are no default arguments. The function
@@ -130,153 +194,217 @@ namespace CCfits {
         //	 is designed for reading the whole column.
         virtual void readRow (size_t row, T* nullValue = 0);
 
+        //## Operation: readVariableRow%3B0A91220009
         //	Reads a variable row..
         virtual void readVariableRow (size_t row, T* nullValue = 0);
 
+        //## Operation: readColumnData%3B0A98EF033F
         void readColumnData (long firstrow, long nelements, long firstelem, T* nullValue = 0);
 
+        //## Operation: writeData%3B0AAF0401BD
         void writeData (const std::valarray<T>& indata, const std::vector<long>& vectorLengths, long firstRow = 1, T* nullValue = 0);
 
+        //## Operation: writeRow%3B0AAFCD0312
         void writeRow (const std::valarray<T>& data, long row, long firstElem = 1, T* nullValue = 0);
 
+        //## Operation: writeFixedArray%3B0BDA2801BF
         void writeFixedArray (T* data, long nElements, long nRows, long firstRow, T* nullValue = 0);
 
+        //## Operation: writeData%3B0D34D1024A
         void writeData (T* indata, long nElements, long numRows, long firstRow = 1, T* nullValue = 0);
 
+        //## Operation: insertRows%3B2138F60241
         //	Insert one or more blank rows into a FITS column.
         virtual void insertRows (long first, long number = 1);
 
+        //## Operation: deleteRows%3B2138FF03A4
         virtual void deleteRows (long first, long number = 1);
 
+        //## Operation: doWrite%3CDFCBD402E6
         void doWrite (T* array, long row, long rowSize);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: nullValue%39F452200285
         const T nullValue () const;
         void nullValue (T value);
 
       // Additional Private Declarations
+        //## begin CCfits::ColumnVectorData%38BAD1B0AA40.private preserve=yes
+        //## end CCfits::ColumnVectorData%38BAD1B0AA40.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::ColumnVectorData::nullValue%39F452200285.attr preserve=no  private: T {U} nulVal
         T m_nullValue;
+        //## end CCfits::ColumnVectorData::nullValue%39F452200285.attr
 
+        //## begin CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.attr preserve=no  public: T {U} 
         T m_minLegalValue;
+        //## end CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.attr
 
+        //## begin CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.attr preserve=no  public: T {U} 
         T m_maxLegalValue;
+        //## end CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.attr
 
+        //## begin CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.attr preserve=no  public: T {U} 
         T m_minDataValue;
+        //## end CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.attr
 
+        //## begin CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.attr preserve=no  public: T {U} 
         T m_maxDataValue;
+        //## end CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.attr
 
       // Data Members for Associations
 
+        //## Association: CCfits::Column::Vector Data%3E9309C8002B
+        //## begin CCfits::ColumnVectorData::data%3E9309CC0097.role preserve=no  public: std::vector { -> 1VHgN}
         std::vector<std::valarray<T> > m_data;
+        //## end CCfits::ColumnVectorData::data%3E9309CC0097.role
 
       // Additional Implementation Declarations
+        //## begin CCfits::ColumnVectorData%38BAD1B0AA40.implementation preserve=yes
+        //## end CCfits::ColumnVectorData%38BAD1B0AA40.implementation
 
   };
 
+  //## begin CCfits::ColumnVectorData%38BAD1B0AA40.postscript preserve=yes
+  //## end CCfits::ColumnVectorData%38BAD1B0AA40.postscript
 
   // Parameterized Class CCfits::ColumnVectorData 
 
 
+  //## Other Operations (inline)
   template <typename T>
   inline void ColumnVectorData<T>::readData (long firstrow, long nelements, long firstelem)
   {
+    //## begin CCfits::ColumnVectorData::readData%38BAD4E55B38.body preserve=yes
     readColumnData(firstrow,nelements,firstelem,static_cast<T*>(0));
+    //## end CCfits::ColumnVectorData::readData%38BAD4E55B38.body
   }
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   template <typename T>
   inline const T ColumnVectorData<T>::nullValue () const
   {
+    //## begin CCfits::ColumnVectorData::nullValue%39F452200285.get preserve=no
     return m_nullValue;
+    //## end CCfits::ColumnVectorData::nullValue%39F452200285.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::nullValue (T value)
   {
+    //## begin CCfits::ColumnVectorData::nullValue%39F452200285.set preserve=no
     m_nullValue = value;
+    //## end CCfits::ColumnVectorData::nullValue%39F452200285.set
   }
 
   template <typename T>
   inline const T ColumnVectorData<T>::minLegalValue () const
   {
+    //## begin CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.get preserve=no
     return m_minLegalValue;
+    //## end CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::minLegalValue (T value)
   {
+    //## begin CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.set preserve=no
     m_minLegalValue = value;
+    //## end CCfits::ColumnVectorData::minLegalValue%3B3CED5D00E4.set
   }
 
   template <typename T>
   inline const T ColumnVectorData<T>::maxLegalValue () const
   {
+    //## begin CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.get preserve=no
     return m_maxLegalValue;
+    //## end CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::maxLegalValue (T value)
   {
+    //## begin CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.set preserve=no
     m_maxLegalValue = value;
+    //## end CCfits::ColumnVectorData::maxLegalValue%3B3CED5F00EF.set
   }
 
   template <typename T>
   inline const T ColumnVectorData<T>::minDataValue () const
   {
+    //## begin CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.get preserve=no
     return m_minDataValue;
+    //## end CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::minDataValue (T value)
   {
+    //## begin CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.set preserve=no
     m_minDataValue = value;
+    //## end CCfits::ColumnVectorData::minDataValue%3B3CED6002A7.set
   }
 
   template <typename T>
   inline const T ColumnVectorData<T>::maxDataValue () const
   {
+    //## begin CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.get preserve=no
     return m_maxDataValue;
+    //## end CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::maxDataValue (T value)
   {
+    //## begin CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.set preserve=no
     m_maxDataValue = value;
+    //## end CCfits::ColumnVectorData::maxDataValue%3B3CED6200BF.set
   }
 
+  //## Get and Set Operations for Associations (inline)
 
   template <typename T>
   inline const std::vector<std::valarray<T> >& ColumnVectorData<T>::data () const
   {
+    //## begin CCfits::ColumnVectorData::data%3E9309CC0097.get preserve=no
     return m_data;
+    //## end CCfits::ColumnVectorData::data%3E9309CC0097.get
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::setData (const std::vector<std::valarray<T> >& value)
   {
+    //## begin CCfits::ColumnVectorData::setData%3E9309CC0097.set preserve=no
     m_data = value;
+    //## end CCfits::ColumnVectorData::setData%3E9309CC0097.set
   }
 
   template <typename T>
   inline const std::valarray<T>& ColumnVectorData<T>::data (int i) const
   {
+    //## begin CCfits::ColumnVectorData::data%3E9309CC0097.qualget preserve=yes
     return m_data[i - 1];
+    //## end CCfits::ColumnVectorData::data%3E9309CC0097.qualget
   }
 
   template <typename T>
   inline void ColumnVectorData<T>::data (int i, const std::valarray<T>& value)
   {
+    //## begin CCfits::ColumnVectorData::data%3E9309CC0097.qualset preserve=yes
      m_data[i - 1] = value;
+    //## end CCfits::ColumnVectorData::data%3E9309CC0097.qualset
   }
 
   // Parameterized Class CCfits::ColumnVectorData 
 
   template <typename T>
   ColumnVectorData<T>::ColumnVectorData(const ColumnVectorData<T> &right)
+    //## begin ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.hasinit preserve=yes
       :Column(right),
        m_nullValue(right.m_nullValue),
        m_minLegalValue(right.m_minLegalValue),
@@ -284,22 +412,34 @@ namespace CCfits {
        m_minDataValue(right.m_minDataValue),
        m_maxDataValue(right.m_maxDataValue),
        m_data(right.m_data)
+    //## end ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.hasinit
+    //## begin ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.initialization preserve=yes
+    //## end ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.initialization
   {
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.body preserve=yes
+    //## end CCfits::ColumnVectorData::ColumnVectorData%38BAD1B0AA40_copy.body
   }
 
   template <typename T>
   ColumnVectorData<T>::ColumnVectorData (Table* p, T nullVal)
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.hasinit preserve=yes
     : Column(p), m_nullValue(nullVal),
        m_minLegalValue(0),
        m_maxLegalValue(0),
        m_minDataValue(0),
        m_maxDataValue(0),
        m_data() 
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.hasinit
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.initialization preserve=yes
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.initialization
   {
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.body preserve=yes
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3937D8940092.body
   }
 
   template <typename T>
   ColumnVectorData<T>::ColumnVectorData (int columnIndex, const string &columnName, ValueType type, const string &format, const string &unit, Table* p, int  rpt, long w, const string &comment, T nullVal)
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.hasinit preserve=yes
         : Column(columnIndex,columnName,type,format,unit,p,rpt,w,comment),
           m_nullValue(nullVal),
           m_minLegalValue(0),
@@ -307,21 +447,30 @@ namespace CCfits {
           m_minDataValue(0),
           m_maxDataValue(0), 
           m_data()
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.hasinit
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.initialization preserve=yes
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.initialization
   {
+    //## begin CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.body preserve=yes
+    //## end CCfits::ColumnVectorData::ColumnVectorData%3947C8B30086.body
   }
 
 
   template <typename T>
   ColumnVectorData<T>::~ColumnVectorData()
   {
+    //## begin CCfits::ColumnVectorData::~ColumnVectorData%38BAD1B0AA40_dest.body preserve=yes
   // valarray destructor should do all the work.
+    //## end CCfits::ColumnVectorData::~ColumnVectorData%38BAD1B0AA40_dest.body
   }
 
 
 
+  //## Other Operations (implementation)
   template <typename T>
   bool ColumnVectorData<T>::compare (const Column &right) const
   {
+    //## begin CCfits::ColumnVectorData::compare%38BAD52BCDD0.body preserve=yes
           if ( !Column::compare(right) ) return false;
           const ColumnVectorData<T>& that = static_cast<const ColumnVectorData<T>&>(right);
           size_t n = m_data.size();
@@ -338,17 +487,21 @@ namespace CCfits {
                 for (size_t j = 0; j < nn ; j++ ) if ( !test[j] ) return false;
           }
           return true;
+    //## end CCfits::ColumnVectorData::compare%38BAD52BCDD0.body
   }
 
   template <typename T>
   ColumnVectorData<T>* ColumnVectorData<T>::clone () const
   {
+    //## begin CCfits::ColumnVectorData::clone%38BAD53513B0.body preserve=yes
   return new ColumnVectorData<T>(*this);
+    //## end CCfits::ColumnVectorData::clone%38BAD53513B0.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::resizeDataObject (const std::vector<std::valarray<T> >& indata, size_t firstRow)
   {
+    //## begin CCfits::ColumnVectorData::resizeDataObject%3B20DBAA02B8.body preserve=yes
           // the rows() call is the value before updating.
           // the updateRows() call at the end sets the call to return the
           // value from the fits pointer - which is changed by writeFixedArray
@@ -395,22 +548,24 @@ namespace CCfits {
           }
 
 
+    //## end CCfits::ColumnVectorData::resizeDataObject%3B20DBAA02B8.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::setDimen ()
   {
+    //## begin CCfits::ColumnVectorData::setDimen%3948FFA702E2.body preserve=yes
   int status(0);
   FITSUtil:: auto_array_ptr<char> dimValue (new char[FLEN_VALUE]);
   
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
   std::ostrstream key;
 #else
   std::ostringstream key;
 #endif
   key << "TDIM" << index();
 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
   fits_read_key_str(fitsPointer(), key.str(), dimValue.get(),0,&status);
 #else
   char* keyChar = const_cast<char*>(key.str().c_str());
@@ -419,13 +574,15 @@ namespace CCfits {
   
   if (status == 0)
   {
-        dimen(string(dimValue.get()));
+        dimen(String(dimValue.get()));
   }
+    //## end CCfits::ColumnVectorData::setDimen%3948FFA702E2.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::readColumnData (long first, long last, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::readColumnData%395A4FD40034.body preserve=yes
   makeHDUCurrent();
    
    
@@ -441,11 +598,13 @@ namespace CCfits {
 
           readColumnData(first,nelements,1,nullValue);   
           if (first <= 1 && last == rows()) isRead(true);
+    //## end CCfits::ColumnVectorData::readColumnData%395A4FD40034.body
   }
 
   template <typename T>
   std::ostream& ColumnVectorData<T>::put (std::ostream& s) const
   {
+    //## begin CCfits::ColumnVectorData::put%3985C35702F7.body preserve=yes
   // output header information
     Column::put(s);
     if ( FITS::verboseMode() )
@@ -469,6 +628,7 @@ namespace CCfits {
 		  }
   	  }
     }
+    //## end CCfits::ColumnVectorData::put%3985C35702F7.body
 
     return s;
   }
@@ -476,10 +636,11 @@ namespace CCfits {
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::valarray<T>& indata, long numRows, long firstRow, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeData%3A018B000355.body preserve=yes
           
           if (!varLength() && indata.size() < numRows*repeat() )
           {      
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                 std::ostrstream msgStr;
 #else
                 std::ostringstream msgStr;
@@ -487,7 +648,7 @@ namespace CCfits {
                 msgStr << "column: " << name() 
                        <<  "\n input data size: " << indata.size() 
                        << " required: " << numRows*repeat();
-                string msg(msgStr.str());
+                String msg(msgStr.str());
                 throw InsufficientElements(msg);     
           }
           
@@ -516,11 +677,13 @@ namespace CCfits {
           
           writeData(internalFormat,firstRow,nullValue);    
 
+    //## end CCfits::ColumnVectorData::writeData%3A018B000355.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::vector<std::valarray<T> >& indata, long firstRow, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeData%3B003FF302B8.body preserve=yes
    
     // intended to optimize writing if user supplied data already in its internal
     // representation
@@ -594,23 +757,28 @@ namespace CCfits {
              // this is done by writeFixedArray in the upper block.         
             parent()->updateRows();            
     }
+    //## end CCfits::ColumnVectorData::writeData%3B003FF302B8.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::readRow (size_t row, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::readRow%3B0A8227012E.body preserve=yes
           makeHDUCurrent();
 
 
 
           if ( row > static_cast<size_t>(rows()) ) 
           {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                   std::ostrstream msg;
 #else
                   std::ostringstream msg;
 #endif
                 msg << " row requested: " << row << " row range: 1 - " << rows();                
+#ifdef SSTREAM_DEFECT
+                msg << std::ends;
+#endif
 
                 throw Column::InvalidRowNumber(msg.str()); 
           }
@@ -630,22 +798,26 @@ namespace CCfits {
           {      
               readColumnData(row,nelements,1,nullValue);      
           }
+    //## end CCfits::ColumnVectorData::readRow%3B0A8227012E.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::readVariableRow (size_t row, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::readVariableRow%3B0A91220009.body preserve=yes
       int status(0);
       long offset(0);
       long repeat(0);
       if (fits_read_descript(fitsPointer(),index(),static_cast<long>(row),
                       &repeat,&offset,&status)) throw FitsError(status);
       readColumnData(row,repeat,1,nullValue);   
+    //## end CCfits::ColumnVectorData::readVariableRow%3B0A91220009.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::readColumnData (long firstrow, long nelements, long firstelem, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::readColumnData%3B0A98EF033F.body preserve=yes
    int   status=0;
 
    FITSUtil::auto_array_ptr<T> pArray(new T[nelements]); 
@@ -722,11 +894,13 @@ namespace CCfits {
                 }
          }
     }
+    //## end CCfits::ColumnVectorData::readColumnData%3B0A98EF033F.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::valarray<T>& indata, const std::vector<long>& vectorLengths, long firstRow, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeData%3B0AAF0401BD.body preserve=yes
     using namespace std;
     const size_t N(vectorLengths.size());
     vector<long> sums(N);
@@ -735,13 +909,17 @@ namespace CCfits {
     // check that sufficient data have been supplied to carry out the entire operation.
     if (indata.size() < static_cast<size_t>(sums[N-1]) )
     {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
         ostrstream msgStr;
 #else
         ostringstream msgStr;
 #endif            
         msgStr << " input data size: " << indata.size() << " vector length sum: " << sums[N-1];
-        string msg(msgStr.str());
+#ifdef SSTREAM_DEFECT
+        msgStr << std::ends;
+#endif            
+
+        String msg(msgStr.str());
         throw InsufficientElements(msg);     
     }
           
@@ -754,20 +932,22 @@ namespace CCfits {
                valarray<T>& __tmp = vvArray[j];
                // these  make the code much more readable
                long& first = sums[j-1];
-               long& last = sums[j];
-               __tmp.resize(last - first);
-               for (long k = first; k < last; ++k)
+               long& jlast = sums[j];
+               __tmp.resize(jlast - first);
+               for (long k = first; k < jlast; ++k)
                { 
                         __tmp[k - first] = indata[k];
                }
     }       
 
     writeData(vvArray,firstRow,nullValue);
+    //## end CCfits::ColumnVectorData::writeData%3B0AAF0401BD.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeRow (const std::valarray<T>& data, long row, long firstElem, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeRow%3B0AAFCD0312.body preserve=yes
           
           
     //  The support for
@@ -790,7 +970,7 @@ namespace CCfits {
     {
         if ( n > repeat() || firstElem  + n - 1 > repeat() )
         { 
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                 std::ostrstream msgStr;
 #else
                 std::ostringstream msgStr;
@@ -805,7 +985,7 @@ namespace CCfits {
                         msgStr << " requested write " << firstElem << " to " 
                                << firstElem  + n - 1 << " exceeds vector length " << repeat();
                 }
-                string msg(msgStr.str());
+                String msg(msgStr.str());
                 throw InvalidRowParameter(msg);        
         }
          
@@ -853,11 +1033,13 @@ namespace CCfits {
     if (thisRow.size() != newRowSize) thisRow.resize(newRowSize);
     thisRow = __tmp;
     
+    //## end CCfits::ColumnVectorData::writeRow%3B0AAFCD0312.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeFixedArray (T* data, long nElements, long nRows, long firstRow, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeFixedArray%3B0BDA2801BF.body preserve=yes
     int status(0);
     
     // check for sanity of inputs, then write to file.
@@ -867,13 +1049,13 @@ namespace CCfits {
     
     if ( nElements < nRows*static_cast<long>(repeat()) )
     {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
         std::ostrstream msgStr;
 #else
         std::ostringstream msgStr;
 #endif
         msgStr << " input array size: " << nElements << " required " << nRows*repeat();
-        string msg(msgStr.str());
+        String msg(msgStr.str());
             
             throw Column::InsufficientElements(msg);
     } 
@@ -885,11 +1067,13 @@ namespace CCfits {
     
     parent()->updateRows();
     
+    //## end CCfits::ColumnVectorData::writeFixedArray%3B0BDA2801BF.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeData (T* indata, long nElements, long numRows, long firstRow, T* nullValue)
   {
+    //## begin CCfits::ColumnVectorData::writeData%3B0D34D1024A.body preserve=yes
           
           if (!varLength()) 
           {
@@ -936,11 +1120,13 @@ namespace CCfits {
           
           parent()->updateRows();
 
+    //## end CCfits::ColumnVectorData::writeData%3B0D34D1024A.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::insertRows (long first, long number)
   {
+    //## begin CCfits::ColumnVectorData::insertRows%3B2138F60241.body preserve=yes
     typename std::vector<std::valarray<T> >::iterator in;
     if (first !=0) 
     {
@@ -953,11 +1139,13 @@ namespace CCfits {
     
     // non-throwing operations.
     m_data.insert(in,number,std::valarray<T>(T(),0));
+    //## end CCfits::ColumnVectorData::insertRows%3B2138F60241.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::deleteRows (long first, long number)
   {
+    //## begin CCfits::ColumnVectorData::deleteRows%3B2138FF03A4.body preserve=yes
     // the following is an ugly workaround for a bug in g++ v3.0 that
     // does not erase vector elements cleanly in this case.
           
@@ -991,20 +1179,24 @@ namespace CCfits {
     		        m_data[j] = __tmp[j];
 		}
 	}
+    //## end CCfits::ColumnVectorData::deleteRows%3B2138FF03A4.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::setDataLimits (T* limits)
   {
+    //## begin CCfits::ColumnVectorData::setDataLimits%3B420063035B.body preserve=yes
     m_minLegalValue = limits[0];
     m_maxLegalValue = limits[1];
     m_minDataValue = std::max(limits[2],limits[0]);
     m_maxDataValue = std::min(limits[3],limits[1]);
+    //## end CCfits::ColumnVectorData::setDataLimits%3B420063035B.body
   }
 
   template <typename T>
   void ColumnVectorData<T>::doWrite (T* array, long row, long rowSize)
   {
+    //## begin CCfits::ColumnVectorData::doWrite%3CDFCBD402E6.body preserve=yes
     int status(0);
     // internal functioning of write_colnull forbids its use for writing
     // variable width columns. If a nullvalue argument was supplied it will
@@ -1020,9 +1212,11 @@ namespace CCfits {
                     array,&status)) throw FitsError(status);
             
     }
+    //## end CCfits::ColumnVectorData::doWrite%3CDFCBD402E6.body
   }
 
   // Additional Declarations
+    //## begin CCfits::ColumnVectorData%38BAD1B0AA40.declarations preserve=yes
  
   // all functions that operate on complex data that call cfitsio 
   // need to be specialized. The signature containing complex<T>* objects
@@ -1256,14 +1450,19 @@ void ColumnVectorData<complex<double> >::readColumnData (long firstRow,
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;
 #endif
                         msgStr << " input array size: " << nElements 
                                         << " required " << nRows*repeat();
-                        string msg(msgStr.str());
+#ifdef SSTREAM_DEFECT
+                        msgStr << std::ends;
+#endif
+                        
+                        
+                        String msg(msgStr.str());
             
                         throw Column::InsufficientElements(msg);
                 } 
@@ -1304,14 +1503,18 @@ void ColumnVectorData<complex<float> >::writeFixedArray
     
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
-#ifndef HAVE_SSTREAM
+#ifdef SSTREAM_DEFECT
                         std::ostrstream msgStr;
 #else
                         std::ostringstream msgStr;
 #endif
                         msgStr << " input array size: " << nElements 
                                         << " required " << nRows*repeat();
-                        string msg(msgStr.str());
+#ifdef SSTREAM_DEFECT
+                        msgStr << std::ends;
+#endif
+                        
+                        String msg(msgStr.str());
             
                         throw Column::InsufficientElements(msg);
                 } 
@@ -1386,8 +1589,11 @@ ColumnVectorData<complex<double> >::doWrite
                 ( complex<double>* data, long row, long rowSize );
 #endif
 
+    //## end CCfits::ColumnVectorData%38BAD1B0AA40.declarations
 } // namespace CCfits
 
+//## begin module%38BAD0CF1E60.epilog preserve=yes
+//## end module%38BAD0CF1E60.epilog
 
 
 #endif

@@ -6,7 +6,7 @@ dnl approach where the package's include dir and lib dir are underneath DIR,
 dnl but also allows the include and lib directories to be specified seperately
 dnl
 dnl adds the extra -Ipath to CPPFLAGS if needed
-dnl adds extra -Lpath to LD_FLAGS if needed
+dnl adds extra -Lpath and -Rpath to LD_FLAGS if needed
 dnl searches for the FUNCTION in the LIBRARY with
 dnl AC_CHECK_LIBRARY and thus adds the lib to LIBS
 dnl
@@ -15,7 +15,7 @@ dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
 dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
 dnl will have to add it to acconfig.h manually
 dnl
-dnl @version $Id: ac_check_package.m4,v 3.2 2003/03/18 23:02:37 pfkeb Exp $
+dnl @version $Id: ac_check_package.m4,v 3.5 2003/05/11 18:54:32 pfkeb Exp $
 dnl @author Paul_Kunz@slac.stanford.edu modified ac_caolan_check_package.m4 for all languages
 dnl
 AC_DEFUN([AC_CHECK_PACKAGE],
@@ -48,6 +48,7 @@ if test "${with_$1}" != no ; then
 
         if test "${$1_libdir}" ; then
                 LDFLAGS="$LDFLAGS -L${$1_libdir}"
+                RDFLAGS="${$1_libdir}"
         fi
         if test "${$1_include}" ; then
                 CPPFLAGS="$CPPFLAGS -I${$1_include}"
@@ -67,6 +68,7 @@ dnl     fixed
                 ifelse([$5], , , [$5])
 
                 AC_DEFINE(HAVE_PKG_$1, 1, Define if you have the package )
+                AC_SUBST(RDFLAGS)
         fi
 
 fi

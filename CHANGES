@@ -1,3 +1,18 @@
+Changes for CCfits 1.3 release  2/05
+
+- modify KeywordCreator getKeyword functions to allow reading of 
+keyword value string long format. (C. Gordon)
+
+- Fixed HDUCreator::Make and ExtHDU constructor so that extensions
+with no names are now properly handled on input. (C. Gordon)
+
+- Added ability to read in column data of type LONGLONG from binary tables.
+
+- (Important) Added implicit casting of keyword values entered as ints to
+keywords of type float and double.  Previously, the entered key value had
+to be of exactly the same type as the keyword, otherwise an exception was
+thrown.
+
 Changes for CCfits 1.2 release  4/03
 
 a) add configuration support for building on Windows 2000

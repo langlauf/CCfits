@@ -1,25 +1,38 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%37FE40B458D8.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%37FE40B458D8.cm
 
+//## begin module%37FE40B458D8.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%37FE40B458D8.cp
 
+//## Module: FITS%37FE40B458D8; Package specification
+//## Subsystem: CCfits::FITS%393411910327
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/FITS.h
 
 #ifndef FITS_H
 #define FITS_H 1
 
+//## begin module%37FE40B458D8.additionalIncludes preserve=no
+//## end module%37FE40B458D8.additionalIncludes
 
+// string
+#include <string>
 // exception
 #include <exception>
 // map
 #include <map>
-// string
-#include <string>
 // ExtHDU
 #include "ExtHDU.h"
 // HDUCreator
@@ -34,18 +47,24 @@ namespace CCfits {
 
 } // namespace CCfits
 
+//## begin module%37FE40B458D8.includes preserve=yes
 //class PHDU;
 extern "C"
 {
 #       include <sys/stat.h>
 }           
+//## end module%37FE40B458D8.includes
 
+//## begin module%37FE40B458D8.declarations preserve=no
+//## end module%37FE40B458D8.declarations
 
+//## begin module%37FE40B458D8.additionalDeclarations preserve=yes
 #include <memory>
-using std::string;
+//## end module%37FE40B458D8.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
 /*!  
         
      \class FITS
@@ -188,7 +207,7 @@ namespace CCfits {
 
 
 
-/*!      \fn  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 0);
+/*!      \fn  FITS::FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1);
       \brief open fits file and read HDU which contains supplied keywords
            with [optional] specified values (sometimes one just wants to know that the keyword is present).
 
@@ -334,7 +353,7 @@ namespace CCfits {
          
     
         
-   /*! \fn void FITS::read(const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version) ;
+   /*! \fn void FITS::read(const string &hduName, bool readDataFlag, const std::vector<string> &keys, int version=1) ;
        \brief get data from single HDU from disk file.
        
        This is provided to allow the adding of additional HDUs to the FITS
@@ -350,7 +369,7 @@ namespace CCfits {
        The parameter definitions are as documented for the corresponding constructor.
    */     
  
- /*!      \fn  FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys,  int version) ;
+ /*!      \fn  FITS::read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag, const std::vector<string>& hduKeys,  int version=1) ;
 
         \brief read method for read header or HDU that contains specified  keywords.
       
@@ -589,62 +608,105 @@ do this either).
         
         
    */
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
+  //## begin CCfits::FITS%37FE367A41D0.preface preserve=yes
+  //## end CCfits::FITS%37FE367A41D0.preface
 
+  //## Class: FITS%37FE367A41D0; private
   //	! The FITS object class. Contains a primary HDU and Extensions indexed by name.
+  //## Category: CCfits::FITS%393416E90118
+  //## Subsystem: CCfits::FITS%393411910327
+  //## Persistence: Transient
+  //## Cardinality/Multiplicity: n
 
 
 
+  //## Uses: <unnamed>%3937E43B002A;std::multimap { -> }
+  //## Uses: <unnamed>%397DFD74039E;Table { -> F}
+  //## Uses: <unnamed>%3A1934AA03B1;PHDU { -> F}
+  //## Uses: <unnamed>%3B374F7E0164;PrimaryHDU { -> }
+  //## Uses: <unnamed>%3EF07E5000FA;ExtHDU { -> }
 
   class FITS 
   {
+    //## begin CCfits::FITS%37FE367A41D0.initialDeclarations preserve=yes
+    //## end CCfits::FITS%37FE367A41D0.initialDeclarations
 
     public:
+      //## Class: NoSuchHDU%396C9033032A
+      //## Category: CCfits::FITS%393416E90118
+      //## Subsystem: CCfits::FITS%393411910327
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class NoSuchHDU : public FitsException  //## Inherits: <unnamed>%396C90CB0236
       {
         public:
-            NoSuchHDU (const string& diag, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: NoSuchHDU%396C908003D3
+            NoSuchHDU (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: OperationNotSupported%39806BFF003C
+      //## Category: CCfits::FITS%393416E90118
+      //## Subsystem: CCfits::FITS%393411910327
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class OperationNotSupported : public FitsException  //## Inherits: <unnamed>%39806C7600D5
       {
         public:
-            OperationNotSupported (const string& msg, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: OperationNotSupported%39806C3302FE
+            OperationNotSupported (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: CantOpen%39C8E9C401CF
+      //## Category: CCfits::FITS%393416E90118
+      //## Subsystem: CCfits::FITS%393411910327
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class CantOpen : public FitsException  //## Inherits: <unnamed>%39C8EB1D02C0
       {
         public:
-            CantOpen (const string& diag, bool silent = false);
+          //## Constructors (specified)
+            //## Operation: CantOpen%39C8E9FA01BA
+            CantOpen (const String& diag, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Class: CantCreate%39C8E9DF00D7
+      //## Category: CCfits::FITS%393416E90118
+      //## Subsystem: CCfits::FITS%393411910327
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       struct CantCreate : public FitsException  //## Inherits: <unnamed>%39C8EB10020B
       {
-            CantCreate (const string& diag, bool silent = false);
+          //## Constructors (specified)
+            //## Operation: CantCreate%39C8EA2C01E0
+            CantCreate (const String& diag, bool silent = false);
 
         public:
         protected:
@@ -652,171 +714,204 @@ do this either).
         private: //## implementation
       };
 
+      //## Constructors (specified)
+        //## Operation: FITS%38D292027BA0
+        FITS (const String &name, RWmode mode = Read, bool readDataFlag = false, const std::vector<String>& primaryKeys = std::vector<String>());
 
-
-
-
-      typedef std::multimap<string,ExtHDU*> ExtMap;
-
-
-
-
-
-
-      typedef ExtMap::iterator ExtMapIt;
-
-
-
-
-
-
-      typedef ExtMap::const_iterator ExtMapConstIt;
-
-
-        FITS (const string &name, RWmode mode = Read, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>());
-
+        //## Operation: FITS%38D2918EBC78
         //	Open a file and read a specified HDU.
         //
         //	Optional parameter allows the reading of specified primary HDU keys.
-        FITS (const string &name, RWmode mode, const string &hduName, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1);
+        FITS (const String &name, RWmode mode, const string &hduName, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), const std::vector<String>& primaryKey = std::vector<String>(), int version = 1);
 
+        //## Operation: FITS%38D290450D98
         //	Read data from a set of specified HDUs. keywords can only be specified for the primary here.
         //	The code will call a different constructor for the case where keywords are required for
         //	the extensions.
-        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, bool readDataFlag = false, const std::vector<string>& primaryKey = std::vector<string>());
+        FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, bool readDataFlag = false, const std::vector<String>& primaryKey = std::vector<String>());
 
+        //## Operation: FITS%3B38A690017E
         //	Initialize a new FITS file object with the primary from a
         //	different file.
-        FITS (const string& fileName, const FITS& source);
+        FITS (const String& fileName, const FITS& source);
 
+        //## Operation: FITS%37FE3AFC2620
         //	Fully general FITS HDU reader. May read any part of fits file by
         //	supplying HDU names and version numbers, and optionally
         //	the data read flag.
-        FITS (const string &name, RWmode mode, const std::vector<string>& hduNames, const std::vector<std::vector<string> >& hduKeys, bool readDataFlag = false, const std::vector<string>& primaryKeys = std::vector<string>(), const std::vector<int>& hduVersions = std::vector<int>());
+        FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, const std::vector<std::vector<String> >& hduKeys, bool readDataFlag = false, const std::vector<String>& primaryKeys = std::vector<String>(), const std::vector<int>& hduVersions = std::vector<int>());
 
+        //## Operation: FITS%38454495F730
         //	Writing constructor. Takes a name and information to create an empty
         //	Primary HDU which can then be filled with calls to HDU methods.
-        FITS (const string& name, int bitpix, int naxis, long *naxes);
+        FITS (const String& name, int bitpix, int naxis, long *naxes);
 
+        //## Operation: FITS%395B856A00D9
         //	Open a file and read a specified HDU.
         //
         //	Optional parameter allows the reading of specified primary HDU keys.
-        FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>());
+        FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), const std::vector<String>& primaryKey = std::vector<String>());
 
+        //## Operation: FITS%39B562CD0158
         //	Open a file and read a HDU that contains  specified
         //	search keywords with [optional] specified values
         //	(sometimes one just wants to know that the keyword is present).
         //
         //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
         //	the HDU of interest.
-        FITS (const string &name, RWmode mode, const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), const std::vector<string>& primaryKey = std::vector<string>(), int version = 1);
+        FITS (const String &name, RWmode mode, const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), const std::vector<String>& primaryKey = std::vector<string>(), int version = 1);
 
+      //## Destructor (generated)
         ~FITS();
 
 
+      //## Other Operations (specified)
+        //## Operation: clearErrors%3B66F73A007C
         static void clearErrors ();
 
-        void deleteExtension (const std::string& doomed, int version = 1);
+        //## Operation: deleteExtension%3B66F795013E
+        void deleteExtension (const String& doomed, int version = 1);
 
+        //## Operation: read%387DD1011578
         //	Read keys and data from a single ExtHDU in the file.
-        void read (const string &hduName, bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>(), int version = 0);
+        void read (const String &hduName, bool readDataFlag = false, const std::vector<String> &keys = std::vector<String>(), int version = 1);
 
+        //## Operation: read%387DFBA281E0
         //	Read multiple ExtHDUs. If the version number needs to be specified then one must call a
         //	different method.
-        void read (const std::vector<string> &hduNames, bool readDataFlag = false);
+        void read (const std::vector<String> &hduNames, bool readDataFlag = false);
 
+        //## Operation: read%38D2944902F0
         //	Read selected data from multiple ExtHDUs
-        void read (const std::vector<string> &hduNames, const std::vector<std::vector<string> > &keys, bool readDataFlag = false, const std::vector<int>& hduVersions = std::vector<int>());
+        void read (const std::vector<String> &hduNames, const std::vector<std::vector<String> > &keys, bool readDataFlag = false, const std::vector<int>& hduVersions = std::vector<int>());
 
+        //## Operation: clone%382039362818
         FITS * clone () const;
 
+        //## Operation: extension%381F03932200
         const ExtHDU& extension (int i) const;
 
+        //## Operation: extension%39463D1E003A
         ExtHDU& extension (int i);
 
-        const ExtHDU& extension (const string& hduName, int version = 1) const;
+        //## Operation: extension%39463E9502B8
+        const ExtHDU& extension (const String& hduName, int version = 1) const;
 
+        //## Operation: pHDU%394E7AC8015A
         const PHDU& pHDU () const;
 
+        //## Operation: pHDU%394E7B9F0063
         PHDU& pHDU ();
 
-        ExtHDU& extension (const string& hduName, int version = 1);
+        //## Operation: extension%394F8196015C
+        ExtHDU& extension (const String& hduName, int version = 1);
 
-        friend ostream& operator << (ostream& s, const FITS& right);
+        //## Operation: operator <<%3952303802B6
+        friend std::ostream& operator << (std::ostream& s, const FITS& right);
 
+        //## Operation: read%395B890A0390
         //	Read keys and data from a single ExtHDU in the file.
         void read (int hduIndex, 	// Construct and Read HDU specified by number. One can add further HDUs by number using
         	// the HDUCreator factory.
-        bool readDataFlag = false, const std::vector<string> &keys = std::vector<string>());
+        bool readDataFlag = false, const std::vector<String> &keys = std::vector<String>());
 
+        //## Operation: addTable%3964B05001A2
         //	! add a new Table extension to a FITS object
-        Table* addTable (string& hduName, int rows, 	// ! Number of rows in new table. Mandatory
-        const std::vector<string>& columnName = std::vector<string>(), 	// ! Optional set of column names for new table
-        const std::vector<string>& columnFmt = std::vector<string>(), 	// ! Column formats for column units. Mandatory if columnName is specified
-        const std::vector<string>& columnUnit = std::vector<string>(), 	// ! Column formats for column units. Optional
+        Table* addTable (const String& hduName, int rows, 	// ! Number of rows in new table. Mandatory
+        const std::vector<String>& columnName = std::vector<String>(), 	// ! Optional set of column names for new table
+        const std::vector<String>& columnFmt = std::vector<String>(), 	// ! Column formats for column units. Mandatory if columnName is specified
+        const std::vector<String>& columnUnit = std::vector<String>(), 	// ! Column formats for column units. Optional
         HduType type = BinaryTbl, int version = 1);
 
+        //## Operation: addImage%3964D03901D3
         //	! add a new ImageExt (image extension) to the FITS object. A "writing" method.
-        ExtHDU* addImage (const string& hduName, int bpix, std::vector<long>& naxes, int version = 1);
+        ExtHDU* addImage (const String& hduName, int bpix, std::vector<long>& naxes, int version = 1);
 
+        //## Operation: destroy%396E1B7B0088
         //	Force destruction of the FITS object. Essentially
         //	is a manual destructor call.
+        //## Exceptions: ()
         void destroy () throw ();
 
+        //## Operation: flush%3D88E4EE02FC
         void flush ();
 
-        const string& currentExtensionName () const;
+        //## Operation: currentExtensionName%39CA286C018F
+        const String& currentExtensionName () const;
 
+        //## Operation: read%3A0036810026
         //	Open a file and read a HDU that contains  specified
         //	search keywords with [optional] specified values
         //	(sometimes one just wants to know that the keyword is present).
         //
         //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
         //	the HDU of interest.
-        void read (const std::vector<string>& searchKeys, const std::vector<string> &searchValues, bool readDataFlag = false, const std::vector<string>& hduKeys = std::vector<string>(), int version = 1);
+        void read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), int version = 1);
 
-        const std::multimap<string,ExtHDU*>& extension () const;
+        //## Operation: extension%3A194B1F0133
+        const ExtMap& extension () const;
 
+        //## Operation: resetPosition%3B3C916C03A9
         void resetPosition ();
 
-        void currentExtensionName (const string& extName);
+        //## Operation: currentExtensionName%3A1950E101EF
+        void currentExtensionName (const String& extName);
 
-        const string& name () const;
+        //## Operation: name%3A1AD2260281
+        const String& name () const;
 
+        //## Operation: copy%3B38B52F009E
         void copy (const HDU& source);
 
-        Table& filter (const string& expression, ExtHDU& inputTable, bool overwrite = true, bool readData = false);
+        //## Operation: filter%3B38C51E035F
+        Table& filter (const String& expression, ExtHDU& inputTable, bool overwrite = true, bool readData = false);
 
+        //## Operation: currentExtension%3B3B6C9100E1
         ExtHDU& currentExtension ();
 
+        //## Operation: deleteExtension%3B66F7BB007D
         void deleteExtension (int doomed);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: verboseMode%39AA762B03E3
         static bool verboseMode ();
         static void setVerboseMode (bool value);
 
     public:
       // Additional Public Declarations
+        //## begin CCfits::FITS%37FE367A41D0.public preserve=yes
+        //## end CCfits::FITS%37FE367A41D0.public
 
     protected:
       // Additional Protected Declarations
+        //## begin CCfits::FITS%37FE367A41D0.protected preserve=yes
+        //## end CCfits::FITS%37FE367A41D0.protected
 
     private:
+      //## Constructors (generated)
         FITS(const FITS &right);
 
+      //## Assignment Operation (generated)
         FITS & operator=(const FITS &right);
 
 
+      //## Other Operations (specified)
+        //## Operation: unmapExtension%3B3B4E550101
         void unmapExtension (ExtHDU& doomed);
 
-        int nextVersionNumber (const string& inputName) const;
+        //## Operation: nextVersionNumber%3B3B79F50084
+        int nextVersionNumber (const String& inputName) const;
 
+        //## Operation: read%38D298347AE8
         //	read the primary HDU. Read the image if
         //	readDataFlag is true.
-        void read (bool readDataFlag = false, const std::vector<string>& keys = std::vector<string>());
+        void read (bool readDataFlag = false, const std::vector<String>& keys = std::vector<String>());
 
+        //## Operation: open%380B3C3FACA8
         void open (RWmode mode = Read);
 
+        //## Operation: create%383424B67D30
         //	Create returns true if a new file was created or an
         //	existing file overwritten, false if appending.
         //
@@ -824,54 +919,78 @@ do this either).
         //	It throws exception CantCreate or CantOpen if either fails.
         bool create ();
 
+        //## Operation: close%380B3C655888
         //	Close the fits file.
         //
         //	Called in destructors so must not throw.
+        //## Exceptions: ()
         int close () throw ();
 
-        ostream & put (ostream &s) const;
+        //## Operation: put%38ECDB29BE30
+        std::ostream & put (std::ostream &s) const;
 
+        //## Operation: fitsPointer%394122F101BF
         fitsfile*& fitsPointer () const;
 
-        ExtHDU& extbyVersion (const string& hduName, int version) const;
+        //## Operation: extbyVersion%394F892902A0
+        ExtHDU& extbyVersion (const String& hduName, int version) const;
 
+        //## Operation: pHDU%394FA9D0038C
         void pHDU (PHDU* value);
 
+        //## Operation: readExtensions%396CD0CF001A
         void readExtensions (bool readDataFlag = false);
 
+        //## Operation: addExtension%39CA34CA025B
         ExtHDU* addExtension (ExtHDU* ext);
 
+        //## Operation: swap%3A1942E100A9
         void swap (FITS& right);
 
+        //## Operation: fitsPointer%3B38A97B038A
         fitsfile*& fitsPointer ();
 
-        std::multimap<string,ExtHDU*>& extension ();
+        //## Operation: extension%3B38FA2B02EC
+        ExtMap& extension ();
 
-        string nameOfUnmapped (int hduNum) const;
+        //## Operation: nameOfUnmapped%3B3B85700157
+        String nameOfUnmapped (int hduNum) const;
 
+        //## Operation: cloneHeader%3B4073EA005D
         void cloneHeader (const ExtHDU& source);
 
       // Additional Private Declarations
+        //## begin CCfits::FITS%37FE367A41D0.private preserve=yes
+        //## end CCfits::FITS%37FE367A41D0.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::FITS::verboseMode%39AA762B03E3.attr preserve=no  public: static bool {V} false
         static bool s_verboseMode;
+        //## end CCfits::FITS::verboseMode%39AA762B03E3.attr
 
       // Data Members for Associations
 
+        //## Association: CCfits::<unnamed>%3A15B2C40372
+        //## Role: FITS::FITSImpl%3A15B2C50307
+        //## begin CCfits::FITS::FITSImpl%3A15B2C50307.role preserve=no  private: CCfits::FITSBase { -> 1RFHgN}
         FITSBase* m_FITSImpl;
+        //## end CCfits::FITS::FITSImpl%3A15B2C50307.role
 
       // Additional Implementation Declarations
+        //## begin CCfits::FITS%37FE367A41D0.implementation preserve=yes
       friend HDU* HDUCreator::Make (const string& hduName, bool readDataFlag, 
-                                        const std::vector<string> &keys, bool primary, int version);  
-      friend HDU* HDUCreator::Make (int index, bool readDataFlag, const std::vector<string> &keys);
+                                        const std::vector<String> &keys, bool primary, int version);  
+      friend HDU* HDUCreator::Make (int index, bool readDataFlag, const std::vector<String> &keys);
 
       friend fitsfile* HDU::fitsPointer() const;
       friend void HDU::makeThisCurrent() const;
-      friend void ExtHDU::makeThisCurrent() const;
+        //## end CCfits::FITS%37FE367A41D0.implementation
   };
 
+  //## begin CCfits::FITS%37FE367A41D0.postscript preserve=yes
+  //## end CCfits::FITS%37FE367A41D0.postscript
 
   // Class CCfits::FITS::NoSuchHDU 
 
@@ -884,31 +1003,43 @@ do this either).
   // Class CCfits::FITS 
 
 
-  inline ExtHDU& FITS::extension (const string& hduName, int version)
+  //## Other Operations (inline)
+  inline ExtHDU& FITS::extension (const String& hduName, int version)
   {
+    //## begin CCfits::FITS::extension%394F8196015C.body preserve=yes
+    //## end CCfits::FITS::extension%394F8196015C.body
 
     return extbyVersion(hduName,version);
   }
 
-  inline ostream& operator << (ostream& s, const FITS& right)
+  inline std::ostream& operator << (std::ostream& s, const FITS& right)
   {
+    //## begin CCfits::FITS::operator <<%3952303802B6.body preserve=yes
+    //## end CCfits::FITS::operator <<%3952303802B6.body
 
     return right.put(s);
   }
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   inline bool FITS::verboseMode ()
   {
+    //## begin CCfits::FITS::verboseMode%39AA762B03E3.get preserve=no
     return s_verboseMode;
+    //## end CCfits::FITS::verboseMode%39AA762B03E3.get
   }
 
   inline void FITS::setVerboseMode (bool value)
   {
+    //## begin CCfits::FITS::setVerboseMode%39AA762B03E3.set preserve=no
     s_verboseMode = value;
+    //## end CCfits::FITS::setVerboseMode%39AA762B03E3.set
   }
 
 } // namespace CCfits
 
+//## begin module%37FE40B458D8.epilog preserve=yes
+//## end module%37FE40B458D8.epilog
 
 
 #endif

@@ -1,13 +1,17 @@
+//1
+//2
+//3
+//4
 
-//	This is version 1.2 dated April 2003
+//	This is version 1.3 dated Feb 2005
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
 
 #ifndef KEYWORDT_H
 #define KEYWORDT_H
@@ -28,11 +32,22 @@ namespace CCfits
         {
                 try
                 {
-                        // downcast. Exact type match is required: this should
-                        // be smoothed out to allow implicit casting.
-                        const KeyData<T>& thisKey = dynamic_cast<const KeyData<T>&>(*this);
-		        val = thisKey.keyval();
-                        return val;
+                        // Exact type match is required, through use of dynamic_cast.
+                        // One exception (so far) is for case of converting ints
+                        // to floats or doubles.
+                        if ((typeid(val) == typeid(float) || typeid(val) == typeid(double)) 
+                           && typeid(*this) == typeid(KeyData<int>))
+                        {
+                           const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
+                           val = thisKey.keyval();
+                           return val;
+                        }
+                        else
+                        {
+                           const KeyData<T>& thisKey = dynamic_cast<const KeyData<T>&>(*this);
+		           val = thisKey.keyval();
+                           return val;
+                        }
                 }
                 catch (std::bad_cast)
                 {

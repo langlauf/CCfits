@@ -1,21 +1,34 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%380397F42760.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%380397F42760.cm
 
+//## begin module%380397F42760.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%380397F42760.cp
 
+//## Module: ExtHDU%380397F42760; Package specification
+//## Subsystem: CCfits::HDU%3826DF628F48
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ExtHDU.h
 
 #ifndef EXTHDU_H
 #define EXTHDU_H 1
 
+//## begin module%380397F42760.additionalIncludes preserve=no
+//## end module%380397F42760.additionalIncludes
 
-// string
-#include <string>
+// CCfitsHeader
+#include "CCfits.h"
 // HDU
 #include "HDU.h"
 // FitsError
@@ -26,12 +39,19 @@ namespace CCfits {
 
 } // namespace CCfits
 
+//## begin module%380397F42760.includes preserve=yes
 #include "KeywordT.h"
+//## end module%380397F42760.includes
 
+//## begin module%380397F42760.declarations preserve=no
+//## end module%380397F42760.declarations
 
+//## begin module%380397F42760.additionalDeclarations preserve=yes
+//## end module%380397F42760.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
 
 /*! \class ExtHDU::WrongExtensionType
     @ingroup FITSexcept
@@ -397,33 +417,55 @@ namespace CCfits {
 
 */
 
+  //## end CCfits%37FE4140B6F8.initialDeclarations
+
+  //## begin CCfits::ExtHDU%380481E172B0.preface preserve=yes
+  //## end CCfits::ExtHDU%380481E172B0.preface
+
+  //## Class: ExtHDU%380481E172B0; protected
+  //## Category: CCfits::HDU%393417220088
+  //## Subsystem: CCfits::HDU%3826DF628F48
+  //## Persistence: Transient
+  //## Cardinality/Multiplicity: n
 
 
 
-
-
+  //## Uses: <unnamed>%3A1BF7F302C5;FITS { -> }
+  //## Uses: <unnamed>%3B252C0702D0;Column { -> F}
+  //## Uses: <unnamed>%3B5DA64002B4;FITSBase { -> }
 
   class ExtHDU : public HDU  //## Inherits: <unnamed>%38048213E7A8
   {
+    //## begin CCfits::ExtHDU%380481E172B0.initialDeclarations preserve=yes
+    //## end CCfits::ExtHDU%380481E172B0.initialDeclarations
 
     public:
+      //## Class: WrongExtensionType%39E61D7601C3
+      //## Category: CCfits::HDU%393417220088
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class WrongExtensionType : public FitsException  //## Inherits: <unnamed>%39E61E630349
       {
         public:
-            WrongExtensionType (const string& msg, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: WrongExtensionType%39E61D960161
+            WrongExtensionType (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Constructors (generated)
         ExtHDU(const ExtHDU &right);
 
+      //## Destructor (generated)
         virtual ~ExtHDU();
 
+      //## Relational Operations (generated)
         friend bool operator<(const ExtHDU &left,const ExtHDU &right);
 
         friend bool operator>(const ExtHDU &left,const ExtHDU &right);
@@ -433,14 +475,20 @@ namespace CCfits {
         friend bool operator>=(const ExtHDU &left,const ExtHDU &right);
 
 
-        static void readHduName (const fitsfile* fptr, int hduIndex, string& hduName, int& hduVersion);
+      //## Other Operations (specified)
+        //## Operation: readHduName%394E89D202AE
+        static void readHduName (const fitsfile* fptr, int hduIndex, String& hduName, int& hduVersion);
 
-        virtual void readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) = 0;
+        //## Operation: readData%3950DDC6030F
+        virtual void readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>()) = 0;
 
-        const string& name () const;
+        //## Operation: name%39512F2002D9
+        const String& name () const;
 
+        //## Operation: clone%395A106302D7
         virtual HDU * clone (FITSBase* p) const = 0;
 
+        //## Operation: makeThisCurrent%39CA57850315
         //	By all means necessary, set the fitsfile pointer so that
         //	this HDU is the current HDU.
         //
@@ -448,25 +496,34 @@ namespace CCfits {
         //	interface.
         virtual void makeThisCurrent () const;
 
-        virtual Column& column (const string& colName) const;
+        //## Operation: column%39E61E7901A6
+        virtual Column& column (const String& colName) const;
 
+        //## Operation: column%39EDABAA0283
         virtual Column& column (int colIndex) const;
 
+        //## Operation: rows%3B0034DC031E
         virtual long rows () const;
 
-        virtual void addColumn (ValueType type, const string& columnName, long repeatWidth, const string& colUnit = string(""), long decimals = -1, size_t columnNumber = 0);
+        //## Operation: addColumn%3B0AB73900AB
+        virtual void addColumn (ValueType type, const String& columnName, long repeatWidth, const String& colUnit = String(""), long decimals = -1, size_t columnNumber = 0);
 
-        virtual void deleteColumn (const string& columnName);
+        //## Operation: deleteColumn%3B0AB77801E0
+        virtual void deleteColumn (const String& columnName);
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: version%394E85AC02DD
         int version () const;
         void version (int value);
 
-
-        std::string& name ();
+        //## Attribute: missHDU%3AFC4D0D00E4
+        static const String& missHDU ();
+        static void setMissHDU (const String& value);
 
     public:
       // Additional Public Declarations
+        //## begin CCfits::ExtHDU%380481E172B0.public preserve=yes
         
       // interface is virtually identical to PHDU. The implementation is
       // similar apart from a check for wrong extension type.
@@ -547,73 +604,108 @@ namespace CCfits {
                       S* nullValue) ; 
                       
       
+        //## end CCfits::ExtHDU%380481E172B0.public
     protected:
+      //## Constructors (specified)
+        //## Operation: ExtHDU%3846987DA210
         //	ExtHDU needs a default constructor. This is it.
-        ExtHDU (FITSBase* p = 0, HduType xtype = AnyHdu, const string &hduName = string(""), int version = 1);
+        ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int version);
 
+        //## Operation: ExtHDU%3805D2960BC8
         //	The writing constructor. Forces the user to supply a name
         //	for the HDU
-        ExtHDU (FITSBase* p, HduType xtype, const string &hduName, int bitpix, int naxis, const std::vector<long>& axes, int version = 1);
+        ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int bitpix, int naxis, const std::vector<long>& axes, int version);
 
+        //## Operation: ExtHDU%395116540257
         //	ExtHDU constructor for getting ExtHDUs by number.
         //	Necessary since EXTNAME is a reserved not required
         //	keyword.
         ExtHDU (FITSBase* p, HduType xtype, int number);
 
 
-        virtual ostream & put (ostream &s) const = 0;
+      //## Other Operations (specified)
+        //## Operation: put%385A3E30D278
+        virtual std::ostream & put (std::ostream &s) const = 0;
 
-        virtual void column (const string& colname, Column* value);
+        //## Operation: column%39E620F802DE
+        virtual void column (const String& colname, Column* value);
 
+        //## Operation: checkExtensionType%3B045BEC0213
         virtual void checkExtensionType () const;
 
+        //## Operation: getVersion%3B38EDCD0324
         int getVersion ();
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: pcount%384EC4333548
         long pcount () const;
         void pcount (long value);
 
+        //## Attribute: gcount%3805C8319C28
         long gcount () const;
         void gcount (long value);
 
+        //## Attribute: xtension%394E931301DA
         HduType xtension () const;
         void xtension (HduType value);
 
       // Additional Protected Declarations
+        //## begin CCfits::ExtHDU%380481E172B0.protected preserve=yes
+        //## end CCfits::ExtHDU%380481E172B0.protected
 
     private:
 
+      //## Other Operations (specified)
+        //## Operation: initRead%3846B7BB86C0
         virtual void initRead () = 0;
 
+        //## Operation: checkXtension%38D14FAB5EB8
         void checkXtension ();
 
-
-        static const string& missHDU ();
-        static void setMissHDU (const string& value);
-
       // Additional Private Declarations
+        //## begin CCfits::ExtHDU%380481E172B0.private preserve=yes
+        //## end CCfits::ExtHDU%380481E172B0.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::ExtHDU::pcount%384EC4333548.attr preserve=no  protected: long {U} 0
         long m_pcount;
+        //## end CCfits::ExtHDU::pcount%384EC4333548.attr
 
+        //## begin CCfits::ExtHDU::gcount%3805C8319C28.attr preserve=no  protected: long {U} 1
         long m_gcount;
+        //## end CCfits::ExtHDU::gcount%3805C8319C28.attr
 
+        //## begin CCfits::ExtHDU::version%394E85AC02DD.attr preserve=no  public: int {U} 0
         int m_version;
+        //## end CCfits::ExtHDU::version%394E85AC02DD.attr
 
+        //## begin CCfits::ExtHDU::xtension%394E931301DA.attr preserve=no  protected: HduType {U} xtype
         HduType m_xtension;
+        //## end CCfits::ExtHDU::xtension%394E931301DA.attr
 
-        static string s_missHDU;
+        //## begin CCfits::ExtHDU::missHDU%3AFC4D0D00E4.attr preserve=no  public: static String {V} "$HDU$"
+        static String s_missHDU;
+        //## end CCfits::ExtHDU::missHDU%3AFC4D0D00E4.attr
 
       // Data Members for Associations
 
-        std::string m_name;
+        //## Association: CCfits::Column::<unnamed>%3EEF75D2033A
+        //## Role: ExtHDU::name%3EEF75D2033B
+        //## begin CCfits::ExtHDU::name%3EEF75D2033B.role preserve=no  public: CCfits::String { -> 1..1VHgN}
+        String m_name;
+        //## end CCfits::ExtHDU::name%3EEF75D2033B.role
 
       // Additional Implementation Declarations
+        //## begin CCfits::ExtHDU%380481E172B0.implementation preserve=yes
+        //## end CCfits::ExtHDU%380481E172B0.implementation
 
   };
 
+  //## begin CCfits::ExtHDU%380481E172B0.postscript preserve=yes
+  //## end CCfits::ExtHDU%380481E172B0.postscript
 
   // Class CCfits::ExtHDU::WrongExtensionType 
 
@@ -621,6 +713,7 @@ namespace CCfits {
 
   inline bool operator<(const ExtHDU &left,const ExtHDU &right)
   {
+    //## begin CCfits::ExtHDU::operator<%380481E172B0_ls.body preserve=yes
         if (left.m_name < right.m_name) return true; 
         if (left.m_name > right.m_name) return false;
         if (left.m_name == right.m_name)
@@ -628,94 +721,121 @@ namespace CCfits {
                 if (left.m_version < right.m_version) return true;
         }      
         return false;       
+    //## end CCfits::ExtHDU::operator<%380481E172B0_ls.body
   }
 
   inline bool operator>(const ExtHDU &left,const ExtHDU &right)
   {
+    //## begin CCfits::ExtHDU::operator>%380481E172B0_gt.body preserve=yes
      return !operator<=(left,right);
+    //## end CCfits::ExtHDU::operator>%380481E172B0_gt.body
   }
 
   inline bool operator<=(const ExtHDU &left,const ExtHDU &right)
   {
+    //## begin CCfits::ExtHDU::operator<=%380481E172B0_lseq.body preserve=yes
         if (left.m_name <= right.m_name) 
         {
                 if (left.m_version <= right.m_version) return true;
         }
         return false;     
+    //## end CCfits::ExtHDU::operator<=%380481E172B0_lseq.body
   }
 
   inline bool operator>=(const ExtHDU &left,const ExtHDU &right)
   {
+    //## begin CCfits::ExtHDU::operator>=%380481E172B0_gteq.body preserve=yes
     return !operator<(left,right);    
+    //## end CCfits::ExtHDU::operator>=%380481E172B0_gteq.body
   }
 
 
 
-  inline const string& ExtHDU::name () const
+  //## Other Operations (inline)
+  inline const String& ExtHDU::name () const
   {
+    //## begin CCfits::ExtHDU::name%39512F2002D9.body preserve=yes
+    //## end CCfits::ExtHDU::name%39512F2002D9.body
 
     return m_name;
   }
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   inline long ExtHDU::pcount () const
   {
+    //## begin CCfits::ExtHDU::pcount%384EC4333548.get preserve=no
     return m_pcount;
+    //## end CCfits::ExtHDU::pcount%384EC4333548.get
   }
 
   inline void ExtHDU::pcount (long value)
   {
+    //## begin CCfits::ExtHDU::pcount%384EC4333548.set preserve=no
     m_pcount = value;
+    //## end CCfits::ExtHDU::pcount%384EC4333548.set
   }
 
   inline long ExtHDU::gcount () const
   {
+    //## begin CCfits::ExtHDU::gcount%3805C8319C28.get preserve=no
     return m_gcount;
+    //## end CCfits::ExtHDU::gcount%3805C8319C28.get
   }
 
   inline void ExtHDU::gcount (long value)
   {
+    //## begin CCfits::ExtHDU::gcount%3805C8319C28.set preserve=no
     m_gcount = value;
+    //## end CCfits::ExtHDU::gcount%3805C8319C28.set
   }
 
   inline int ExtHDU::version () const
   {
+    //## begin CCfits::ExtHDU::version%394E85AC02DD.get preserve=no
     return m_version;
+    //## end CCfits::ExtHDU::version%394E85AC02DD.get
   }
 
   inline void ExtHDU::version (int value)
   {
+    //## begin CCfits::ExtHDU::version%394E85AC02DD.set preserve=no
     m_version = value;
+    //## end CCfits::ExtHDU::version%394E85AC02DD.set
   }
 
   inline HduType ExtHDU::xtension () const
   {
+    //## begin CCfits::ExtHDU::xtension%394E931301DA.get preserve=no
     return m_xtension;
+    //## end CCfits::ExtHDU::xtension%394E931301DA.get
   }
 
   inline void ExtHDU::xtension (HduType value)
   {
+    //## begin CCfits::ExtHDU::xtension%394E931301DA.set preserve=no
     m_xtension = value;
+    //## end CCfits::ExtHDU::xtension%394E931301DA.set
   }
 
-  inline const string& ExtHDU::missHDU ()
+  inline const String& ExtHDU::missHDU ()
   {
+    //## begin CCfits::ExtHDU::missHDU%3AFC4D0D00E4.get preserve=no
     return s_missHDU;
+    //## end CCfits::ExtHDU::missHDU%3AFC4D0D00E4.get
   }
 
-  inline void ExtHDU::setMissHDU (const string& value)
+  inline void ExtHDU::setMissHDU (const String& value)
   {
+    //## begin CCfits::ExtHDU::setMissHDU%3AFC4D0D00E4.set preserve=no
     s_missHDU = value;
-  }
-
-
-  inline std::string& ExtHDU::name ()
-  {
-    return m_name;
+    //## end CCfits::ExtHDU::setMissHDU%3AFC4D0D00E4.set
   }
 
 } // namespace CCfits
 
+//## begin module%380397F42760.epilog preserve=yes
+//## end module%380397F42760.epilog
 
 
 #endif

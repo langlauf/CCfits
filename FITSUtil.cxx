@@ -1,34 +1,56 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%384D204305C0.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%384D204305C0.cm
 
+//## begin module%384D204305C0.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%384D204305C0.cp
 
+//## Module: FITSUtil%384D204305C0; Package body
+//## Subsystem: CCfits::Utility%3949241F026A
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/FITSUtil.cxx
 
+//## begin module%384D204305C0.additionalIncludes preserve=no
+//## end module%384D204305C0.additionalIncludes
 
+//## begin module%384D204305C0.includes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
+//## end module%384D204305C0.includes
 
 // FITSUtil
 #include "FITSUtil.h"
+//## begin module%384D204305C0.declarations preserve=no
+//## end module%384D204305C0.declarations
 
+//## begin module%384D204305C0.additionalDeclarations preserve=yes
 #include "FitsError.h"
 #include "FITS.h"
 #include <algorithm>
 using std::string;
+//## end module%384D204305C0.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
   const unsigned long USBASE = 1 << 15;
   const unsigned long ULBASE = 1 << 31;
+  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   namespace FITSUtil {
+    //## begin CCfits::FITSUtil%3820548A5050.initialDeclarations preserve=yes
   InvalidConversion::InvalidConversion (const string& diag, bool silent)
   : FitsException(string("Fits Error: Attempt to perform invalid implicit conversion"),silent)
   {       
@@ -133,6 +155,8 @@ namespace CCfits {
         case Tlong:
                 keyString = "long";
                 break;
+        case Tlonglong:
+                keyString = "long long";
         case Tfloat:
                 keyString = "float";
                 break;
@@ -667,18 +691,27 @@ namespace CCfits {
                         outArray[j] = std::complex<double>(inArray[j].real(),inArray[j].imag());
                 }
 	}       
+    //## end CCfits::FITSUtil%3820548A5050.initialDeclarations
 
     // Parameterized Class CCfits::FITSUtil::FitsNullValue 
 
     // Class CCfits::FITSUtil::UnrecognizedType 
 
     UnrecognizedType::UnrecognizedType (string diag, bool silent)
+      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.hasinit preserve=yes
       : FitsException(" Invalid type for FITS I/O ",silent)
+      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.hasinit
+      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.initialization preserve=yes
+      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.initialization
     {
+      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.body preserve=yes
         std::cerr << diag << '\n';
+      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.body
     }
 
 
   } // namespace FITSUtil
 } // namespace CCfits
 
+//## begin module%384D204305C0.epilog preserve=yes
+//## end module%384D204305C0.epilog

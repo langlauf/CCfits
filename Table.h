@@ -1,18 +1,31 @@
+//## begin module%1.4%.codegen_version preserve=yes
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//## end module%1.4%.codegen_version
 
-//	This is version 1.2 release dated April 2003
+//## begin module%3804A089FCC8.cm preserve=no
+//	This is version 1.3 release dated Feb 2005
+//## end module%3804A089FCC8.cm
 
+//## begin module%3804A089FCC8.cp preserve=no
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
-//
-//	April 2003 Ben Dorman, L3-Communications EER Systems Inc.
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
+//
+//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//## end module%3804A089FCC8.cp
 
+//## Module: Table%3804A089FCC8; Package specification
+//## Subsystem: CCfits::HDU::Table%3826E0E37A78
+//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/Table.h
 
 #ifndef TABLE_H
 #define TABLE_H 1
 
+//## begin module%3804A089FCC8.additionalIncludes preserve=no
+//## end module%3804A089FCC8.additionalIncludes
 
 // ExtHDU
 #include "ExtHDU.h"
@@ -24,6 +37,7 @@ namespace CCfits {
 
 } // namespace CCfits
 
+//## begin module%3804A089FCC8.includes preserve=yes
 
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
@@ -33,17 +47,22 @@ namespace CCfits {
 #include "config.h"
 #endif
 
-#ifdef HAVE_SSTREAM
-#include <sstream>
-#else
+#ifdef SSTREAM_DEFECT
 #include <strstream>
-using std::ostrstream;
+#else
+#include <sstream>
 #endif
+//## end module%3804A089FCC8.includes
 
+//## begin module%3804A089FCC8.declarations preserve=no
+//## end module%3804A089FCC8.declarations
 
+//## begin module%3804A089FCC8.additionalDeclarations preserve=yes
+//## end module%3804A089FCC8.additionalDeclarations
 
 
 namespace CCfits {
+  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
 
 /*! \class Table
 
@@ -283,24 +302,44 @@ namespace CCfits {
         
  */
 
+  //## end CCfits%37FE4140B6F8.initialDeclarations
+
+  //## begin CCfits::Table%3804A0588338.preface preserve=yes
+  //## end CCfits::Table%3804A0588338.preface
+
+  //## Class: Table%3804A0588338
+  //## Category: CCfits::HDU::Table%3934174000CE
+  //## Subsystem: CCfits::HDU::Table%3826E0E37A78
+  //## Persistence: Persistent
+  //## Cardinality/Multiplicity: n
 
 
 
-
-
+  //## Uses: <unnamed>%397F439401BF;Column { -> F}
+  //## Uses: <unnamed>%39DDEA440302;ColumnCreator { -> }
 
   class Table : public ExtHDU  //## Inherits: <unnamed>%3804A126EB10
   {
+    //## begin CCfits::Table%3804A0588338.initialDeclarations preserve=yes
+    //## end CCfits::Table%3804A0588338.initialDeclarations
 
     public:
+      //## Class: NoSuchColumn%397CB04E00FB
+      //## Category: CCfits::HDU::Table%3934174000CE
+      //## Subsystem: CCfits::HDU::Table%3826E0E37A78
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class NoSuchColumn : public FitsException  //## Inherits: <unnamed>%397CB0970174
       {
         public:
-            NoSuchColumn (const string& name, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: NoSuchColumn%397CB0CD0015
+            NoSuchColumn (const String& name, bool silent = true);
 
+            //## Operation: NoSuchColumn%397CB0F60292
             NoSuchColumn (int index, bool silent = true);
 
         protected:
@@ -308,109 +347,167 @@ namespace CCfits {
         private: //## implementation
       };
 
+      //## Class: InvalidColumnSpecification%3B1E527503B2
+      //## Category: CCfits::HDU::Table%3934174000CE
+      //## Subsystem: CCfits::HDU::Table%3826E0E37A78
+      //## Persistence: Transient
+      //## Cardinality/Multiplicity: n
 
 
 
       class InvalidColumnSpecification : public FitsException  //## Inherits: <unnamed>%3B1E52D703B0
       {
         public:
-            InvalidColumnSpecification (const string& msg, bool silent = true);
+          //## Constructors (specified)
+            //## Operation: InvalidColumnSpecification%3B1E52EC03B0
+            InvalidColumnSpecification (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
 
+      //## Constructors (generated)
         Table(const Table &right);
 
+      //## Destructor (generated)
         virtual ~Table();
 
 
-        const std::map<string,Column*>& column () const;
+      //## Other Operations (specified)
+        //## Operation: column%395139580181
+        const std::map<String,Column*>& column () const;
 
+        //## Operation: column%397CAE7402E5
         //	! return reference to a column given by column name.
-        virtual Column& column (const string& colName) const;
+        virtual Column& column (const String& colName) const;
 
+        //## Operation: column%397CAF0E01AB
         virtual Column& column (int colIndex	// ! return reference to a column given by a column index number
         ) const;
 
+        //## Operation: rows%397F35AE0022
         virtual long rows () const;
 
+        //## Operation: updateRows%3AFAB13302EB
         void updateRows ();
 
+        //## Operation: rows%3B04653502FD
         void rows (long numRows);
 
-        virtual void deleteColumn (const string& name);
+        //## Operation: deleteColumn%3B0AB97600D2
+        virtual void deleteColumn (const String& name);
 
+        //## Operation: insertRows%3B24ECDE013F
         //	Insert one or more blank rows into a FITS column.
         void insertRows (long first, long number = 1);
 
+        //## Operation: deleteRows%3B24ECE30071
         void deleteRows (long first, long number = 1);
 
+        //## Operation: deleteRows%3B24ECE80306
         void deleteRows (const std::vector<long>& rowList);
 
+      //## Get and Set Operations for Associations (generated)
 
+        //## Association: CCfits::<unnamed>%3804EA595B88
+        //## Role: Table::column%3804EA597BF0
+        //## Qualifier: colname%385E58B84C00; string
         virtual std::map<string, Column*>& column ();
 
     public:
       // Additional Public Declarations
+        //## begin CCfits::Table%3804A0588338.public preserve=yes
+        //## end CCfits::Table%3804A0588338.public
 
     protected:
-        Table (FITSBase* p, HduType xtype, const string &hduName, int rows, 	// ! Number of rows in table at creation, to be used to initialize NAXIS2
-        const std::vector<string>& columnName, const std::vector<string>& columnFmt, const std::vector<string>& columnUnit = std::vector<string>(), int version = 1);
+      //## Constructors (specified)
+        //## Operation: Table%3805D315D0D0
+        Table (FITSBase* p, HduType xtype, const String &hduName, int rows, 	// ! Number of rows in table at creation, to be used to initialize NAXIS2
+        const std::vector<String>& columnName, const std::vector<String>& columnFmt, const std::vector<String>& columnUnit = std::vector<String>(), int version = 1);
 
+        //## Operation: Table%3950DF79004B
         //	To be called by reading operations.
-        Table (FITSBase* p, HduType xtype, const string &hduName = string(""), int version = 1);
+        Table (FITSBase* p, HduType xtype, const String &hduName = String(""), int version = 1);
 
+        //## Operation: Table%395117FC018F
         //	ExtHDU constructor for getting ExtHDUs by number.
         //	Necessary since EXTNAME is a reserved not required
         //	keyword.
         Table (FITSBase* p, HduType xtype, int number);
 
 
-        virtual ostream & put (ostream &s) const;
+      //## Other Operations (specified)
+        //## Operation: put%385A3E921210
+        virtual std::ostream & put (std::ostream &s) const;
 
+        //## Operation: column%387C9CD66838
         void column (int columnNum, Column *value);
 
-        void init (bool readFlag = false, const std::vector<string>& keys = std::vector<string>());
+        //## Operation: init%395118A40342
+        void init (bool readFlag = false, const std::vector<String>& keys = std::vector<String>());
 
-        virtual void column (const string& colname, Column* value);
+        //## Operation: column%3B042E810363
+        virtual void column (const String& colname, Column* value);
 
+        //## Operation: reindex%3B5DA20E0398
         void reindex ();
 
+      //## Get and Set Operations for Class Attributes (generated)
 
+        //## Attribute: numCols%3805D88D9ED8
         int numCols () const;
         void numCols (int value);
 
       // Additional Protected Declarations
+        //## begin CCfits::Table%3804A0588338.protected preserve=yes
+        //## end CCfits::Table%3804A0588338.protected
 
     private:
 
+      //## Other Operations (specified)
+        //## Operation: initRead%3846B8A79D78
         virtual void initRead ();
 
-        virtual void readTableHeader (int ncols, std::vector<string>& colName, std::vector<string>& colFmt, std::vector<string>& colUnit) = 0;
+        //## Operation: readTableHeader%38D7E36F4AB0
+        virtual void readTableHeader (int ncols, std::vector<String>& colName, std::vector<String>& colFmt, std::vector<String>& colUnit) = 0;
 
+        //## Operation: clearData%39521D3A00B3
         //	deep erasure , to be called by  assignment and dtors.
         void clearData ();
 
+        //## Operation: copyData%39521E260007
         void copyData (const Table& right);
 
       // Additional Private Declarations
+        //## begin CCfits::Table%3804A0588338.private preserve=yes
+        //## end CCfits::Table%3804A0588338.private
 
     private: //## implementation
       // Data Members for Class Attributes
 
+        //## begin CCfits::Table::numCols%3805D88D9ED8.attr preserve=no  protected: int {U} 0
         int m_numCols;
+        //## end CCfits::Table::numCols%3805D88D9ED8.attr
 
       // Data Members for Associations
 
+        //## Association: CCfits::<unnamed>%3804EA595B88
+        //## begin CCfits::Table::column%3804EA597BF0.role preserve=no  public: CCfits::Column {1..n -> 1..nRFHgN}
         std::map<string, Column*> m_column;
+        //## end CCfits::Table::column%3804EA597BF0.role
 
       // Additional Implementation Declarations
+        //## begin CCfits::Table%3804A0588338.implementation preserve=yes
+        //## end CCfits::Table%3804A0588338.implementation
 
+    //## begin CCfits::Table%3804A0588338.friends preserve=no
       friend class Column;
+    //## end CCfits::Table%3804A0588338.friends
   };
 
+  //## begin CCfits::Table%3804A0588338.postscript preserve=yes
+  //## end CCfits::Table%3804A0588338.postscript
 
   // Class CCfits::Table::NoSuchColumn 
 
@@ -419,42 +516,59 @@ namespace CCfits {
   // Class CCfits::Table 
 
 
-  inline const std::map<string,Column*>& Table::column () const
+  //## Other Operations (inline)
+  inline const std::map<String,Column*>& Table::column () const
   {
+    //## begin CCfits::Table::column%395139580181.body preserve=yes
   return m_column;
+    //## end CCfits::Table::column%395139580181.body
   }
 
   inline long Table::rows () const
   {
+    //## begin CCfits::Table::rows%397F35AE0022.body preserve=yes
+    //## end CCfits::Table::rows%397F35AE0022.body
 
     return axis(1);
   }
 
   inline void Table::rows (long numRows)
   {
+    //## begin CCfits::Table::rows%3B04653502FD.body preserve=yes
+    //## end CCfits::Table::rows%3B04653502FD.body
 
     naxes(1) = numRows;
   }
 
+  //## Get and Set Operations for Class Attributes (inline)
 
   inline int Table::numCols () const
   {
+    //## begin CCfits::Table::numCols%3805D88D9ED8.get preserve=no
     return m_numCols;
+    //## end CCfits::Table::numCols%3805D88D9ED8.get
   }
 
   inline void Table::numCols (int value)
   {
+    //## begin CCfits::Table::numCols%3805D88D9ED8.set preserve=no
     m_numCols = value;
+    //## end CCfits::Table::numCols%3805D88D9ED8.set
   }
 
+  //## Get and Set Operations for Associations (inline)
 
   inline std::map<string, Column*>& Table::column ()
   {
+    //## begin CCfits::Table::column%3804EA597BF0.get preserve=no
     return m_column;
+    //## end CCfits::Table::column%3804EA597BF0.get
   }
 
 } // namespace CCfits
 
+//## begin module%3804A089FCC8.epilog preserve=yes
+//## end module%3804A089FCC8.epilog
 
 
 #endif
