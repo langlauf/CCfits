@@ -7,7 +7,7 @@
 # The following set, else would follow GNU conventions.  Add
 # "no-dependencies" if your compiler doesn't support dependency
 # generation like gcc does
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
 
 # Trick to add options to aclocal command

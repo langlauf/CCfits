@@ -38,16 +38,17 @@
 <tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a21">addTable</a> (string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), HduType type=BinaryTbl, int version=1)</td></tr>
 <tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>*&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a22">addImage</a> (const string &amp;hduName, int bpix, std::vector&lt; long &gt; &amp;naxes, int version=1)</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a23">destroy</a> ()  throw ()</td></tr>
-<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a24">currentExtensionName</a> () const</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a25">read</a> (const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a24">flush</a> ()</td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a25">currentExtensionName</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a26">read</a> (const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)</td></tr>
 <tr><td nowrap align=right valign=top>const std::multimap&lt;string,<br>
-<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a26">extension</a> () const</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a27">resetPosition</a> ()</td></tr>
-<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a29">name</a> () const</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a30">copy</a> (const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp;source)</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a31">filter</a> (const string &amp;expression, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;inputTable, bool overwrite=true, bool readData=false)</td></tr>
-<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a32">currentExtension</a> ()</td></tr>
-<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a33">deleteExtension</a> (int doomed)</td></tr>
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>*&gt;&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a27">extension</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a28">resetPosition</a> ()</td></tr>
+<tr><td nowrap align=right valign=top>const string&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a30">name</a> () const</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a31">copy</a> (const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp;source)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1Table.html">Table</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a32">filter</a> (const string &amp;expression, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;inputTable, bool overwrite=true, bool readData=false)</td></tr>
+<tr><td nowrap align=right valign=top><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a33">currentExtension</a> ()</td></tr>
+<tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#a34">deleteExtension</a> (int doomed)</td></tr>
 <tr><td colspan=2><br><h2>Static Public Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#d0">clearErrors</a> ()</td></tr>
 <tr><td nowrap align=right valign=top>bool&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1FITS.html#d1">verboseMode</a> ()</td></tr>
@@ -906,7 +907,7 @@ clone function: to allow implementation later of reference counting.
     </td>
   </tr>
 </table>
-<a name="a30" doxytag="CCfits::FITS::copy"></a><p>
+<a name="a31" doxytag="CCfits::FITS::copy"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -937,7 +938,7 @@ copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a
 This function adds a copy of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from another file into *this. It does not create a duplicate of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> in the file associated with *this.     </td>
   </tr>
 </table>
-<a name="a32" doxytag="CCfits::FITS::currentExtension"></a><p>
+<a name="a33" doxytag="CCfits::FITS::currentExtension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -968,7 +969,7 @@ return a non-const reference to whichever is the current extension.
     </td>
   </tr>
 </table>
-<a name="a24" doxytag="CCfits::FITS::currentExtensionName"></a><p>
+<a name="a25" doxytag="CCfits::FITS::currentExtensionName"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -999,7 +1000,7 @@ return the name of the extension that the fitsfile is currently addressing.
 If the extension in question does not have an EXTNAME or HDUNAME keyword, then the function returns $<a class="el" href="classCCfits_1_1HDU.html">HDU</a>$n, where n is the sequential <a class="el" href="classCCfits_1_1HDU.html">HDU</a> index number (primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> = 0).     </td>
   </tr>
 </table>
-<a name="a33" doxytag="CCfits::FITS::deleteExtension"></a><p>
+<a name="a34" doxytag="CCfits::FITS::deleteExtension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1126,7 +1127,7 @@ Erase <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and close co
 destroy is public to allow users to reuse a symbol for a new file, but it is identical in operation to the destructor.     </td>
   </tr>
 </table>
-<a name="a26" doxytag="CCfits::FITS::extension"></a><p>
+<a name="a27" doxytag="CCfits::FITS::extension"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1154,7 +1155,7 @@ const std::multimap&lt; string, <a class="el" href="classCCfits_1_1ExtHDU.html">
 <p>
 return const reference to the extension container.
 <p>
-This is useful for such operations as <a class="el" href="classCCfits_1_1FITS.html#a26">extension</a>().size() etc.     </td>
+This is useful for such operations as <a class="el" href="classCCfits_1_1FITS.html#a27">extension</a>().size() etc.     </td>
   </tr>
 </table>
 <a name="a19" doxytag="CCfits::FITS::extension"></a><p>
@@ -1293,7 +1294,7 @@ return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index
     </td>
   </tr>
 </table>
-<a name="a31" doxytag="CCfits::FITS::filter"></a><p>
+<a name="a32" doxytag="CCfits::FITS::filter"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1346,7 +1347,40 @@ Filter the rows of the inputTable with the condition expression, and return a re
 [N.B. the "append" functionality described below does not work when linked with cfitsio 2.202 or prior because of a known issue with that version of the library. This causes the output to be a new extension with a correct header copy and version number but without the filtered data]. If the inputTable is an Extension <a class="el" href="classCCfits_1_1HDU.html">HDU</a> of this <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object, then if overwrite is true the operation will overwrite the inputTable with the filtered version, otherwise it will append a new <a class="el" href="classCCfits_1_1HDU.html">HDU</a> with the same extension name but the next highest version (EXTVER) number available.     </td>
   </tr>
 </table>
-<a name="a29" doxytag="CCfits::FITS::name"></a><p>
+<a name="a24" doxytag="CCfits::FITS::flush"></a><p>
+<table width="100%" cellpadding="2" cellspacing="0" border="0">
+  <tr>
+    <td class="md">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td nowrap valign="top"><b> 
+void CCfits::FITS::flush (
+          </b></td>
+          <td valign="bottom"><b>
+)
+          </b></td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing=5 cellpadding=0 border=0>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+flush buffer contents to disk.
+<p>
+
+<p>
+ Provides manual control of disk writing operation. Image data are flushed automatically to disk after the write operation is completed, but not column data.     </td>
+  </tr>
+</table>
+<a name="a30" doxytag="CCfits::FITS::name"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1439,7 +1473,7 @@ return a const reference to the primary <a class="el" href="classCCfits_1_1HDU.h
     </td>
   </tr>
 </table>
-<a name="a25" doxytag="CCfits::FITS::read"></a><p>
+<a name="a26" doxytag="CCfits::FITS::read"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1702,7 +1736,7 @@ All the read functions will throw <a class="el" href="classCCfits_1_1FITS_1_1NoS
 The parameter definitions are as documented for the corresponding constructor.     </td>
   </tr>
 </table>
-<a name="a27" doxytag="CCfits::FITS::resetPosition"></a><p>
+<a name="a28" doxytag="CCfits::FITS::resetPosition"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1801,7 +1835,7 @@ return verbose setting for library.
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>FITS.h<li>FITS.cxx</ul>
-<hr><address><small>Generated at Tue Jun 18 11:54:11 2002 for CCfits by
+<hr><address><small>Generated at Thu Sep 19 15:34:48 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -125,11 +125,7 @@ namespace CCfits {
    if (status != 0)  throw FitsError(status);
   }
 
-#ifdef CLONE_DEFECT
-  HDU * BinTable::clone (FITSBase* p) const
-#else
   BinTable * BinTable::clone (FITSBase* p) const
-#endif
   {
   BinTable* cloned = new BinTable(*this);
   cloned->parent() = p;

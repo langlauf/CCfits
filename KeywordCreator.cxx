@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -248,7 +248,8 @@ namespace CCfits {
 	   return new KeyData<std::complex<float> >(name, Tcomplex, xvalue, hdu, comment);
         case 'C':
         default:
-	   return  new KeyData<string>(name, Tstring, value, hdu, comment);                 
+	   return  new KeyData<string>(name, Tstring, 
+                        value.substr(0,value.find_last_not_of(" ")+1),hdu, comment);                 
      }
   }
 

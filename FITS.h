@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -561,6 +561,16 @@ do this either).
     
    */
    
+   /*! \fn void FITS::flush()
+        
+        \brief flush buffer contents to disk
+        
+        Provides manual control of disk writing operation. Image data are flushed
+        automatically to disk after the write operation is completed, but not
+        column data.
+   
+   */
+   
    /*! \fn const std::string& FITS::name () const
    
         \brief return filename of file corresponding to FITS object
@@ -752,6 +762,8 @@ do this either).
         //	Force destruction of the FITS object. Essentially
         //	is a manual destructor call.
         void destroy () throw ();
+
+        void flush ();
 
         const string& currentExtensionName () const;
 

@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -14,12 +14,12 @@
 #define IMAGE_H 1
 
 
+// functional
+#include <functional>
 // vector
 #include <vector>
 // valarray
 #include <valarray>
-// functional
-#include <functional>
 // numeric
 #include <numeric>
 #ifdef _MSC_VER
@@ -295,11 +295,13 @@ namespace CCfits {
      long type(imageType());
      
      if (fits_write_imgnull(fPtr,type,first,nElements,array,
-                     nullValue,&status) != 0)
+                     nullValue,&status) || fits_flush_file(fPtr,&status) != 0)
      {
                 throw FitsError(status);        
              
      }
+     
+     
      
      m_image[std::slice(first,nElements,1)]  = inData;
 
@@ -319,8 +321,8 @@ namespace CCfits {
         FITSUtil::MatchType<T> imageType;        
         int status(0);
         
-        if ( fits_write_subset(fPtr,imageType(),
-                            fPixel,lPixel,array,&status) != 0) throw FitsError(status);
+        if ( fits_write_subset(fPtr,imageType(),fPixel,lPixel,array,&status) 
+                        || fits_flush_file(fPtr,&status)  != 0) throw FitsError(status);
           
           // must be specialized.
   }

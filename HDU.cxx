@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -470,6 +470,9 @@ namespace CCfits {
   }
 
   // Additional Declarations
-
+    Keyword& HDU::addKey(const string& name, const char* charString, const string& comment)
+    {
+        return addKey(name,std::string(charString),comment);      
+    }
 } // namespace CCfits
 

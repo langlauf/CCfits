@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -79,7 +79,7 @@ namespace CCfits {
   FITS::CantCreate::CantCreate (const string& diag, bool silent)
    : FitsException(string("FITS Error: Cannot create file "),silent)
   {
-  std::cerr << diag << '\n';
+  if ( FITS::verboseMode() || !silent) std::cerr << diag << '\n';
   }
 
 
@@ -390,8 +390,19 @@ namespace CCfits {
         {
                 // getHdu can throw.
                 // add a specified HDU in the file to the list of extensions.
-                addExtension(static_cast<ExtHDU*>
+                if ( hduVersions.size() != hduNames.size())
+                {
+                
+                
+                        addExtension(static_cast<ExtHDU*>
+                            (create.getHdu(hduNames[i], readDataFlag,keys[i],false)));
+                }
+                else
+                {
+                        addExtension(static_cast<ExtHDU*>
                             (create.getHdu(hduNames[i], readDataFlag,keys[i],false,hduVersions[i])));
+                        
+                }
 
                 create.reset();
         }
@@ -731,6 +742,12 @@ namespace CCfits {
         // nullify the fitsfile pointer, so that it passes "deallocated" tests
         // such as: if ( x.fptr() == 0 )
         m_FITSImpl = 0;
+  }
+
+  void FITS::flush ()
+  {
+    int status (0);
+    if (fits_flush_file(m_FITSImpl->fptr(),&status)) throw FitsError(status);
   }
 
   const string& FITS::currentExtensionName () const

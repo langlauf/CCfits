@@ -53,8 +53,8 @@
 <tr><td nowrap align=right valign=top>const <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a29">keyWord</a> (const string &amp;keyname) const</td></tr>
 <tr><td nowrap align=right valign=top>void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a30">setKeyWord</a> (const string &amp;keyname, <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp;value)</td></tr>
 <tr><td nowrap align=right valign=top>template&lt;typename T&gt; <a class="el" href="classCCfits_1_1Keyword.html">Keyword</a>&amp;&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a31">addKey</a> (const string &amp;name, T val, const string &amp;comment)</td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a32">readKey</a> (const string &amp;keyName, T &amp;val)</td></tr>
-<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a33">readKeys</a> (std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a33">readKey</a> (const string &amp;keyName, T &amp;val)</td></tr>
+<tr><td nowrap align=right valign=top>template&lt;typename T&gt; void&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#a34">readKeys</a> (std::vector&lt; string &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td></tr>
 <tr><td colspan=2><br><h2>Protected Methods</h2></td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b0">HDU</a> (FITSBase *p=0)</td></tr>
 <tr><td nowrap align=right valign=top>&nbsp;</td><td valign=bottom><a class="el" href="classCCfits_1_1HDU.html#b1">HDU</a> (FITSBase *p, int bitpix, int naxis, const std::vector&lt; long &gt; &amp;axes)</td></tr>
@@ -1051,7 +1051,7 @@ This member function reads keys that are not meta data for columns or image info
 Note that readAllKeys can only construct keys of type string, float, complex&lt;float&gt;, integer, and bool because the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> header records do not encode exact type information.     </td>
   </tr>
 </table>
-<a name="a32" doxytag="CCfits::HDU::readKey"></a><p>
+<a name="a33" doxytag="CCfits::HDU::readKey"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1094,7 +1094,7 @@ read a keyword of specified type from the header of a disk <a class="el" href="c
  T is one of the types std::string, float, int, std::complex&lt;float&gt;, and bool.     </td>
   </tr>
 </table>
-<a name="a33" doxytag="CCfits::HDU::readKeys"></a><p>
+<a name="a34" doxytag="CCfits::HDU::readKeys"></a><p>
 <table width="100%" cellpadding="2" cellspacing="0" border="0">
   <tr>
     <td class="md">
@@ -1341,7 +1341,7 @@ Reimplemented in <a class="el" href="classCCfits_1_1PHDU.html#a5">CCfits::PHDU</
 </table>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li>HDU.h<li>FITS.h<li>HDU.cxx</ul>
-<hr><address><small>Generated at Tue Jun 18 11:54:11 2002 for CCfits by
+<hr><address><small>Generated at Thu Sep 19 15:34:49 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,

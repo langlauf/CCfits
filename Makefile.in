@@ -86,7 +86,7 @@ STLPORT = @STLPORT@
 VERSION = @VERSION@
 pfk_cxx_lib_path = @pfk_cxx_lib_path@
 
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
 # Trick to add options to aclocal command
 ACLOCAL = aclocal -I config/m4
@@ -160,7 +160,7 @@ all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .cxx .lo .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --foreign Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -395,8 +395,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-
-
 info-am:
 info: info-am
 dvi-am:

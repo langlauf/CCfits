@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -938,6 +938,7 @@ namespace CCfits {
         const string& display () const;
 
         const string& dimen () const;
+        void dimen (const string& value);
 
         ValueType type () const;
         void type (ValueType value);
@@ -1172,8 +1173,6 @@ namespace CCfits {
         virtual std::ostream& put (std::ostream& s) const;
 
         Table* parent () const;
-
-        void dimen (const string& value);
 
         void varLength (bool value);
 
@@ -1444,6 +1443,11 @@ namespace CCfits {
   inline const string& Column::dimen () const
   {
     return m_dimen;
+  }
+
+  inline void Column::dimen (const string& value)
+  {
+    m_dimen = value;
   }
 
   inline ValueType Column::type () const

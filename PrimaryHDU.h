@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -45,11 +45,7 @@ namespace CCfits {
 
     public:
 
-#ifdef CLONE_DEFECT
-        virtual HDU * clone ( FITSBase * p ) const;
-#else
         virtual PrimaryHDU<T> * clone (FITSBase* p) const;
-#endif
 
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
@@ -184,11 +180,7 @@ namespace CCfits {
 
 
   template <typename T>
-#ifdef CLONE_DEFECT
-  HDU * PrimaryHDU<T>::clone (FITSBase* p) const
-#else
   PrimaryHDU<T> * PrimaryHDU<T>::clone (FITSBase* p) const
-#endif
   {
   PrimaryHDU<T>* cloned = new PrimaryHDU<T>(*this);
   cloned->parent() = p;

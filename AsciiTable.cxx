@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated May 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	September 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -138,11 +138,7 @@ namespace CCfits {
    delete [] tbcol;
   }
 
-#ifdef CLONE_DEFECT
-  HDU * AsciiTable::clone (FITSBase* p) const
-#else
   AsciiTable * AsciiTable::clone (FITSBase* p) const
-#endif
   {
   AsciiTable* cloned = new AsciiTable(*this);
   cloned->parent() = p;

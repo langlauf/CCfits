@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -49,11 +49,7 @@ namespace CCfits {
         virtual ~KeyData();
 
 
-#ifdef CLONE_DEFECT
-        virtual Keyword* clone () const;
-#else
         virtual KeyData <T>* clone () const;
-#endif
 
         virtual void write ();
 
@@ -301,11 +297,7 @@ template<> void KeyData<std::complex<double> >::keyval(const std::complex<double
   }
 
   template <typename T>
-#ifdef CLONE_DEFECT
-  Keyword* KeyData<T>::clone () const
-#else
   KeyData <T>* KeyData<T>::clone () const
-#endif
   {
   return new KeyData<T>(*this);
   }

@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -15,6 +15,8 @@
 
 #include <map>
 
+// vector
+#include <vector>
 #include <list>
 // Keyword
 #include "Keyword.h"
@@ -22,8 +24,6 @@
 #include "NewKeyword.h"
 // FitsError
 #include "FitsError.h"
-// vector
-#include <vector>
 // FITSUtil
 #include "FITSUtil.h"
 
@@ -583,6 +583,8 @@ and return its value.
       template <typename T>
       Keyword& addKey(const string& name, T val,  const string& comment);
   
+      Keyword& addKey(const string& name, const char* charString, const string& comment);
+      
       template <typename T>
       void readKey(const string& keyName, T& val);
       
@@ -592,6 +594,7 @@ and return its value.
 #ifdef TEMPLATE_AMBIG_DEFECT
       inline void readKeyMS(const string& keyName, int & val);
       inline void readKeys(std::vector<string>& keyNames, std::vector<string>& vals);
+      
 #endif
 
     protected:

@@ -1,12 +1,12 @@
 
-//	This is version 1.1 release dated May 2002
+//	This is version 1.1.1 release dated Sept 2002
 
 //	Laboratory for High Energy Astrophysics,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //
-//	May 2002 Ben Dorman, L3-Com Analytics Corporation
+//	Sept 2002 Ben Dorman, L3-Communications
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 
 
@@ -52,11 +52,7 @@ namespace CCfits {
         ~ColumnData();
 
 
-#ifdef CLONE_DEFECT
-        virtual Column* clone () const;
-#else
         virtual ColumnData<T>* clone () const;
-#endif
 
         virtual void readData (long firstRow, long nelements, long firstElem = 1);
 
@@ -318,12 +314,8 @@ namespace CCfits {
   }
 
   template <typename T>
-#ifdef CLONE_DEFECT
-  Column *       ColumnData<T>::clone () const
-#else
   ColumnData<T>* ColumnData<T>::clone () const
-#endif
-{
+  {
         return new ColumnData<T>(*this);
   }
 

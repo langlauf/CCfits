@@ -1,3 +1,7 @@
+ // The CCfits headers are expected to be installed in a subdirectory of
+// the include path.
+
+// The <CCfits> header file contains all that is necessary to use both the CCfits
 // library and the cfitsio library (for example, it includes fitsio.h) thus making
 // all of cfitsio's symbolic names available.
 
@@ -297,6 +301,9 @@ int writeAscii ()
     
     pFits->pHDU().addKey("NEWVALUE",42," Test of adding keyword to different extension");
     
+    pFits->pHDU().addKey("STRING"," Rope ","trailing blank test 1 "); 
+    
+    pFits->pHDU().addKey("STRING2","Cord","trailing blank test 2 "); 
     // demonstrate increaing number of rows and null values.
     long ignoreVal(12112); 
     long nullNumber(-999);    

@@ -12,18 +12,18 @@
 <li><a class="el" href="classCCfits_1_1FITS.html#a21">addTable</a>(string &amp;hduName, int rows, const std::vector&lt; string &gt; &amp;columnName=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnFmt=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;columnUnit=std::vector&lt; string &gt;(), HduType type=BinaryTbl, int version=1)
 <li><a class="el" href="classCCfits_1_1FITS.html#d0">clearErrors</a>()
 <code> [static]</code><li><a class="el" href="classCCfits_1_1FITS.html#a13">clone</a>() const
-<li><a class="el" href="classCCfits_1_1FITS.html#a30">copy</a>(const HDU &amp;source)
-<li><a class="el" href="classCCfits_1_1FITS.html#a32">currentExtension</a>()
-<li><a class="el" href="classCCfits_1_1FITS.html#a24">currentExtensionName</a>() const
+<li><a class="el" href="classCCfits_1_1FITS.html#a31">copy</a>(const HDU &amp;source)
+<li><a class="el" href="classCCfits_1_1FITS.html#a33">currentExtension</a>()
+<li><a class="el" href="classCCfits_1_1FITS.html#a25">currentExtensionName</a>() const
 <li><a class="el" href="classCCfits_1_1FITS.html#a9">deleteExtension</a>(const std::string &amp;doomed, int version=1)
-<li><a class="el" href="classCCfits_1_1FITS.html#a33">deleteExtension</a>(int doomed)
+<li><a class="el" href="classCCfits_1_1FITS.html#a34">deleteExtension</a>(int doomed)
 <li><a class="el" href="classCCfits_1_1FITS.html#a23">destroy</a>()
 <li><a class="el" href="classCCfits_1_1FITS.html#a14">extension</a>(int i) const
 <li><a class="el" href="classCCfits_1_1FITS.html#a15">extension</a>(int i)
 <li><a class="el" href="classCCfits_1_1FITS.html#a16">extension</a>(const string &amp;hduName, int version=1) const
 <li><a class="el" href="classCCfits_1_1FITS.html#a19">extension</a>(const string &amp;hduName, int version=1)
-<code> [inline]</code><li><a class="el" href="classCCfits_1_1FITS.html#a26">extension</a>() const
-<li><a class="el" href="classCCfits_1_1FITS.html#a31">filter</a>(const string &amp;expression, ExtHDU &amp;inputTable, bool overwrite=true, bool readData=false)
+<code> [inline]</code><li><a class="el" href="classCCfits_1_1FITS.html#a27">extension</a>() const
+<li><a class="el" href="classCCfits_1_1FITS.html#a32">filter</a>(const string &amp;expression, ExtHDU &amp;inputTable, bool overwrite=true, bool readData=false)
 <li><a class="el" href="classCCfits_1_1FITS.html#a0">FITS</a>(const string &amp;name, RWmode mode=Read, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKeys=std::vector&lt; string &gt;())
 <li><a class="el" href="classCCfits_1_1FITS.html#a1">FITS</a>(const string &amp;name, RWmode mode, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)
 <li><a class="el" href="classCCfits_1_1FITS.html#a2">FITS</a>(const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;hduNames, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())
@@ -32,20 +32,21 @@
 <li><a class="el" href="classCCfits_1_1FITS.html#a5">FITS</a>(const string &amp;name, int bitpix, int naxis, long *naxes)
 <li><a class="el" href="classCCfits_1_1FITS.html#a6">FITS</a>(const string &amp;name, RWmode mode, int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;())
 <li><a class="el" href="classCCfits_1_1FITS.html#a7">FITS</a>(const string &amp;name, RWmode mode, const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), const std::vector&lt; string &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)
-<li><a class="el" href="classCCfits_1_1FITS.html#a29">name</a>() const
+<li><a class="el" href="classCCfits_1_1FITS.html#a24">flush</a>()
+<li><a class="el" href="classCCfits_1_1FITS.html#a30">name</a>() const
 <li><a class="el" href="classCCfits_1_1FITS.html#a17">pHDU</a>() const
 <li><a class="el" href="classCCfits_1_1FITS.html#a18">pHDU</a>()
 <li><a class="el" href="classCCfits_1_1FITS.html#a10">read</a>(const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;(), int version=0)
 <li><a class="el" href="classCCfits_1_1FITS.html#a11">read</a>(const std::vector&lt; string &gt; &amp;hduNames, bool readDataFlag=false)
 <li><a class="el" href="classCCfits_1_1FITS.html#a12">read</a>(const std::vector&lt; string &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; string &gt; &gt; &amp;keys, bool readDataFlag=false, const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())
 <li><a class="el" href="classCCfits_1_1FITS.html#a20">read</a>(int hduIndex, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;keys=std::vector&lt; string &gt;())
-<li><a class="el" href="classCCfits_1_1FITS.html#a25">read</a>(const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)
-<li><a class="el" href="classCCfits_1_1FITS.html#a27">resetPosition</a>()
+<li><a class="el" href="classCCfits_1_1FITS.html#a26">read</a>(const std::vector&lt; string &gt; &amp;searchKeys, const std::vector&lt; string &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; string &gt; &amp;hduKeys=std::vector&lt; string &gt;(), int version=1)
+<li><a class="el" href="classCCfits_1_1FITS.html#a28">resetPosition</a>()
 <li><a class="el" href="classCCfits_1_1FITS.html#d2">setVerboseMode</a>(bool value)
 <code> [inline, static]</code><li><a class="el" href="classCCfits_1_1FITS.html#d1">verboseMode</a>()
 <code> [inline, static]</code><li><a class="el" href="classCCfits_1_1FITS.html#a8">~FITS</a>()
 </ul>
-<hr><address><small>Generated at Tue Jun 18 11:54:11 2002 for CCfits by
+<hr><address><small>Generated at Thu Sep 19 15:34:48 2002 for CCfits by
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.gif" alt="doxygen" align="middle" border=0 
 width=110 height=53></a>1.2.7 written by <a href="mailto:dimitri@stack.nl">Dimitri van Heesch</a>,
