@@ -149,15 +149,15 @@ namespace CCfits {
 
   FITS::FITS (const String &name, RWmode mode, bool readDataFlag, const std::vector<String>& primaryKeys)
     //## begin CCfits::FITS::FITS%38D292027BA0.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%38D292027BA0.hasinit
     //## begin CCfits::FITS::FITS%38D292027BA0.initialization preserve=yes
     //## end CCfits::FITS::FITS%38D292027BA0.initialization
   {
     //## begin CCfits::FITS::FITS%38D292027BA0.body preserve=yes
- 
-
-
+          std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+          m_FITSImpl = apBase.get();
+    
           if (mode == Read) 
           {
                 open(mode);
@@ -191,17 +191,21 @@ namespace CCfits {
                         read();
                 }
           }
+          apBase.release();
     //## end CCfits::FITS::FITS%38D292027BA0.body
   }
 
   FITS::FITS (const String &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
     //## begin CCfits::FITS::FITS%38D2918EBC78.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%38D2918EBC78.hasinit
     //## begin CCfits::FITS::FITS%38D2918EBC78.initialization preserve=yes
     //## end CCfits::FITS::FITS%38D2918EBC78.initialization
   {
     //## begin CCfits::FITS::FITS%38D2918EBC78.body preserve=yes
+          std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+          m_FITSImpl = apBase.get();
+          
           open(mode);
 
           // create and read the Primary: assume here that a single HDU other than
@@ -215,34 +219,39 @@ namespace CCfits {
           // this ensures that every FITS object has exactly one PHDU
 
           read(hduName, readDataFlag, hduKeys,version);
+          apBase.release();
     //## end CCfits::FITS::FITS%38D2918EBC78.body
   }
 
   FITS::FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, bool readDataFlag, const std::vector<String>& primaryKey)
     //## begin CCfits::FITS::FITS%38D290450D98.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%38D290450D98.hasinit
     //## begin CCfits::FITS::FITS%38D290450D98.initialization preserve=yes
     //## end CCfits::FITS::FITS%38D290450D98.initialization
   {
     //## begin CCfits::FITS::FITS%38D290450D98.body preserve=yes
+        std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+        m_FITSImpl = apBase.get();
 
         open(mode);
 
         read(readDataFlag,primaryKey);
         read(hduNames,readDataFlag);
-
+        apBase.release();
     //## end CCfits::FITS::FITS%38D290450D98.body
   }
 
   FITS::FITS (const String& fileName, const FITS& source)
     //## begin CCfits::FITS::FITS%3B38A690017E.hasinit preserve=yes
-    : m_FITSImpl(new FITSBase(fileName,Write))
+    : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%3B38A690017E.hasinit
     //## begin CCfits::FITS::FITS%3B38A690017E.initialization preserve=yes
     //## end CCfits::FITS::FITS%3B38A690017E.initialization
   {
     //## begin CCfits::FITS::FITS%3B38A690017E.body preserve=yes
+    std::auto_ptr<FITSBase> apBase(new FITSBase(fileName,Write));
+    m_FITSImpl = apBase.get();
           
     if (create() )
     {
@@ -257,18 +266,20 @@ namespace CCfits {
     source.pHDU().makeThisCurrent();
        
     if (fits_copy_hdu(source.fitsPointer(),m_FITSImpl->fptr(),0,&status)) throw FitsError(status);
-  
+    apBase.release();
     //## end CCfits::FITS::FITS%3B38A690017E.body
   }
 
   FITS::FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, const std::vector<std::vector<String> >& hduKeys, bool readDataFlag, const std::vector<String>& primaryKeys, const std::vector<int>& hduVersions)
     //## begin CCfits::FITS::FITS%37FE3AFC2620.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%37FE3AFC2620.hasinit
     //## begin CCfits::FITS::FITS%37FE3AFC2620.initialization preserve=yes
     //## end CCfits::FITS::FITS%37FE3AFC2620.initialization
   {
     //## begin CCfits::FITS::FITS%37FE3AFC2620.body preserve=yes
+          std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+          m_FITSImpl = apBase.get();
           
           open(mode);
 
@@ -285,17 +296,20 @@ namespace CCfits {
           // this ensures that every FITS object has exactly one PHDU
 
           read(hduNames, hduKeys, readDataFlag, hduVersions);
+          apBase.release();
     //## end CCfits::FITS::FITS%37FE3AFC2620.body
   }
 
   FITS::FITS (const String& name, int bitpix, int naxis, long *naxes)
     //## begin CCfits::FITS::FITS%38454495F730.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,Write))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%38454495F730.hasinit
     //## begin CCfits::FITS::FITS%38454495F730.initialization preserve=yes
     //## end CCfits::FITS::FITS%38454495F730.initialization
   {
     //## begin CCfits::FITS::FITS%38454495F730.body preserve=yes
+        std::auto_ptr<FITSBase> apBase(new FITSBase(name,Write));
+        m_FITSImpl = apBase.get();
 
         std::vector<long>    va_naxes(naxis);
         std::copy(&naxes[0],&naxes[naxis],va_naxes.begin());
@@ -307,17 +321,20 @@ namespace CCfits {
   
         // set the PrimaryHDU. bitpix will determine the data type.
         pHDU(makePrimary.createImage(bitpix,naxis,va_naxes));
+        apBase.release();
     //## end CCfits::FITS::FITS%38454495F730.body
   }
 
   FITS::FITS (const string &name, RWmode mode, int hduIndex, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey)
     //## begin CCfits::FITS::FITS%395B856A00D9.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%395B856A00D9.hasinit
     //## begin CCfits::FITS::FITS%395B856A00D9.initialization preserve=yes
     //## end CCfits::FITS::FITS%395B856A00D9.initialization
   {
     //## begin CCfits::FITS::FITS%395B856A00D9.body preserve=yes
+        std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+        m_FITSImpl = apBase.get();
 
         open(mode);
         // read the primary header. Allowing the user to read the primary data
@@ -326,18 +343,20 @@ namespace CCfits {
         read(readDataFlag,primaryKey);
   
         read(hduIndex,readDataFlag,hduKeys);
-  
+        apBase.release();
     //## end CCfits::FITS::FITS%395B856A00D9.body
   }
 
   FITS::FITS (const String &name, RWmode mode, const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
     //## begin CCfits::FITS::FITS%39B562CD0158.hasinit preserve=yes
-  : m_FITSImpl(new FITSBase(name,mode))
+  : m_FITSImpl(0)
     //## end CCfits::FITS::FITS%39B562CD0158.hasinit
     //## begin CCfits::FITS::FITS%39B562CD0158.initialization preserve=yes
     //## end CCfits::FITS::FITS%39B562CD0158.initialization
   {
     //## begin CCfits::FITS::FITS%39B562CD0158.body preserve=yes
+        std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+        m_FITSImpl = apBase.get();
           
         open(mode);
 
@@ -352,6 +371,7 @@ namespace CCfits {
         // this ensures that every FITS object has exactly one PHDU
 
         read(searchKeys, searchValues, readDataFlag, hduKeys, version);
+        apBase.release();
     //## end CCfits::FITS::FITS%39B562CD0158.body
   }
 
@@ -654,6 +674,7 @@ namespace CCfits {
   if (m_FITSImpl == 0) return 0;
 
   status = fits_close_file(m_FITSImpl->fptr(), &status);
+  if (!status)  m_FITSImpl->fptr() = 0;
   return status;
     //## end CCfits::FITS::close%380B3C655888.body
   }

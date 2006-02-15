@@ -95,9 +95,14 @@ namespace CCfits {
   {
     //## begin CCfits::FITSBase::~FITSBase%3A15B16501F3_dest.body preserve=yes
           
-    destroyPrimary();
-    
+    destroyPrimary();    
     destroyExtensions();
+    
+    int status=0;
+    if (m_fptr)
+    {
+       fits_close_file(m_fptr, &status);
+    }
     //## end CCfits::FITSBase::~FITSBase%3A15B16501F3_dest.body
   }
 

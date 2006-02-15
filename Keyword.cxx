@@ -42,6 +42,7 @@
 //## end module%3803537BD3E0.declarations
 
 //## begin module%3803537BD3E0.additionalDeclarations preserve=yes
+#include "KeyData.h"
 //## end module%3803537BD3E0.additionalDeclarations
 
 
@@ -164,4 +165,91 @@ namespace CCfits {
 } // namespace CCfits
 
 //## begin module%3803537BD3E0.epilog preserve=yes
+namespace CCfits
+{
+#ifndef SPEC_TEMPLATE_IMP_DEFECT
+#ifndef SPEC_TEMPLATE_DECL_DEFECT
+   template<>
+   float& Keyword::value(float& val) const
+   {
+      double dval=.0;
+      val = static_cast<float>(value(dval));
+      return val;
+   }
+   
+   template<>
+   double& Keyword::value(double& val) const
+   {
+      switch (m_keytype)
+      {
+         case Tint:
+            {
+               const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tfloat:
+            {
+               const KeyData<float>& thisKey = static_cast<const KeyData<float>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tdouble:
+            {
+               // Note: if val is of type float some precision will be lost here,
+               // but allow anyway.  Presumably the user doesn't mind or they
+               // wouldn't be using single precision.
+               const KeyData<double>& thisKey = static_cast<const KeyData<double>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tstring:
+            {
+               // Allow only if string can be converted to an integer.
+               const KeyData<String>& thisKey = static_cast<const KeyData<String>&>(*this); 
+               std::istringstream testStream(thisKey.keyval());
+               int stringInt = 0;
+               if (!(testStream >> stringInt) || !testStream.eof())
+               {
+                  throw Keyword::WrongKeywordValueType(name());
+               }
+               val = stringInt;
+            }
+            break;
+         default:
+            throw Keyword::WrongKeywordValueType(name());
+            break;
+      }
+      return val;
+   }
+   
+   template <>
+   int& Keyword::value(int& val) const
+   {
+         if (m_keytype == Tstring)
+         {
+            // Allow only if string can be converted to an integer.
+            const KeyData<String>& thisKey = static_cast<const KeyData<String>&>(*this); 
+            std::istringstream testStream(thisKey.keyval());
+            int stringInt = 0;
+            if (!(testStream >> stringInt) || !testStream.eof())
+            {
+               throw Keyword::WrongKeywordValueType(name());
+            }
+            val = stringInt;         
+         } 
+         else if (m_keytype == Tint)
+         {
+            const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
+            val = thisKey.keyval();
+         } 
+         else
+         {
+            throw Keyword::WrongKeywordValueType(name());
+         }
+         return val;    
+   }
+#endif
+#endif
+}
 //## end module%3803537BD3E0.epilog

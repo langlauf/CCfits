@@ -52,6 +52,7 @@ namespace CCfits {
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
+#include "KeywordT.h"
 //## end module%38034DE11FA8.includes
 
 //## begin module%38034DE11FA8.declarations preserve=no

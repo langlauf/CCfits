@@ -458,28 +458,19 @@ namespace CCfits {
     float tmpScale(1.);
     float zval (0);
     int status (0);
+    if ( !fits_read_key_flt(m_parent->fptr(),BZERO,&zval,0,&status))
+        zero = zval;
     bool scalePresent = !fits_read_key_flt(m_parent->fptr(),BSCALE,&tmpScale,0,&status);
     // if there is no BSCALE key present or BSCALE == 1 ... 
     if (!scalePresent || scalePresent &&  tmpScale == 1)
     {
          if (scalePresent) scale = tmpScale;
-         if ( !fits_read_key_flt(m_parent->fptr(),BZERO,&zval,0,&status))
-         {
-                 switch (type)
-                 {
-                         case SHORT_IMG:
-                                 if (zval == USBASE)  zero = USBASE;  // 2^15
-                                 break;
-                         case LONG_IMG:
-                                 if (zval == ULBASE)  zero = ULBASE;  // 2^31
-                                 break;
-                         default:
-                                 break;
-                 }        
-         }       
     }
-    else // scale present and tmpScale != 1.
+    else 
     {
+       // Scale present and tmpScale != 1, signed or unsigned question is
+       // irrelevant since data will be read into a floating-point type. 
+            scale = tmpScale;
             switch (type)
             {
                 case BYTE_IMG:

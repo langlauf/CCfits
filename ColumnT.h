@@ -367,6 +367,10 @@ namespace CCfits
         template <typename S>
         void Column::read(std::valarray<S>& vals, long row, S* nullValue) 
         {
+                if (row > parent()->rows())
+                {
+                   throw Column::InvalidRowNumber(name());
+                }
                 parent()->makeThisCurrent();                
                 // isRead() returns true if the data were read in the ctor.
                 if ( ColumnVectorData<S>* col = dynamic_cast<ColumnVectorData<S>*>(this))

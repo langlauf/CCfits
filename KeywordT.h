@@ -18,6 +18,11 @@
 #include "KeyData.h"
 #include "HDU.h"
 #include <typeinfo>
+#include <sstream>
+
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
 
 // contains definitions of templated member functions for Keyword. This separate
 // file organization is necessary to break cyclic dependency of Keyword on its
@@ -27,50 +32,121 @@
 namespace CCfits 
 {
 
-        template <typename T>
-        T& Keyword::value (T& val) const
-        {
-                try
-                {
-                        // Exact type match is required, through use of dynamic_cast.
-                        // One exception (so far) is for case of converting ints
-                        // to floats or doubles.
-                        if ((typeid(val) == typeid(float) || typeid(val) == typeid(double)) 
-                           && typeid(*this) == typeid(KeyData<int>))
-                        {
-                           const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
-                           val = thisKey.keyval();
-                           return val;
-                        }
-                        else
-                        {
-                           const KeyData<T>& thisKey = dynamic_cast<const KeyData<T>&>(*this);
-		           val = thisKey.keyval();
-                           return val;
-                        }
-                }
-                catch (std::bad_cast)
-                {
-                        throw Keyword::WrongKeywordValueType(name());
-                }
+   template <typename T>
+   T& Keyword::value (T& val) const
+   {
+      try
+      {
+            const KeyData<T>& thisKey = dynamic_cast<const KeyData<T>&>(*this);
+	    val = thisKey.keyval();
+      }
+      catch (std::bad_cast)
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+      return val;
+   }
 
-        }
+   template <typename T>
+   void Keyword::setValue (const T& newValue)
+   {
+           try
+           {
+                   KeyData<T>& thisKey = dynamic_cast<KeyData<T>&>(*this);
+		   thisKey.keyval(newValue);
+           }
+           catch (std::bad_cast)
+           {
+                   throw Keyword::WrongKeywordValueType(name());
+           }
 
-        template <typename T>
-        void Keyword::setValue (const T& newValue)
-        {
-                try
-                {
-                        KeyData<T>& thisKey = dynamic_cast<KeyData<T>&>(*this);
-		        thisKey.keyval(newValue);
-                }
-                catch (std::bad_cast)
-                {
-                        throw Keyword::WrongKeywordValueType(name());
-                }
-
-        }
+   }
         
+#if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
+   template<>
+   inline double& Keyword::value(double& val) const
+   {
+      switch (m_keytype)
+      {
+         case Tint:
+            {
+               const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tfloat:
+            {
+               const KeyData<float>& thisKey = static_cast<const KeyData<float>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tdouble:
+            {
+               // Note: if val is of type float some precision will be lost here,
+               // but allow anyway.  Presumably the user doesn't mind or they
+               // wouldn't be using single precision.
+               const KeyData<double>& thisKey = static_cast<const KeyData<double>&>(*this);
+               val = thisKey.keyval();
+            }
+            break;
+         case Tstring:
+            {
+               // Allow only if string can be converted to an integer.
+               const KeyData<String>& thisKey = static_cast<const KeyData<String>&>(*this); 
+               std::istringstream testStream(thisKey.keyval());
+               int stringInt = 0;
+               if (!(testStream >> stringInt) || !testStream.eof())
+               {
+                  throw Keyword::WrongKeywordValueType(name());
+               }
+               val = stringInt;
+            }
+            break;
+         default:
+            throw Keyword::WrongKeywordValueType(name());
+            break;
+      }
+      return val;
+   }
+   
+   // NOTE: This function actually instantiates Keyword::value<double>
+   // and therefore must be defined AFTER the specialized 
+   // definition/declaration.
+   template<>
+   inline float& Keyword::value(float& val) const
+   {
+      double dval=.0;
+      val = static_cast<float>(value(dval));
+      return val;
+   }
+   
+   template <>
+   inline int& Keyword::value(int& val) const
+   {
+         if (m_keytype == Tstring)
+         {
+            // Allow only if string can be converted to an integer.
+            const KeyData<String>& thisKey = static_cast<const KeyData<String>&>(*this); 
+            std::istringstream testStream(thisKey.keyval());
+            int stringInt = 0;
+            if (!(testStream >> stringInt) || !testStream.eof())
+            {
+               throw Keyword::WrongKeywordValueType(name());
+            }
+            val = stringInt;         
+         } 
+         else if (m_keytype == Tint)
+         {
+            const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
+            val = thisKey.keyval();
+         } 
+         else
+         {
+            throw Keyword::WrongKeywordValueType(name());
+         }
+         return val;    
+   }
+#endif
 } // namespace CCfits
 
 #endif

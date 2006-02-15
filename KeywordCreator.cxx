@@ -279,7 +279,7 @@ namespace CCfits {
      char keyType('\0');
      String value ("");
      bool bvalue (0);
-     float fvalue (0);
+     double dvalue (0);
      int ivalue (0);
      std::complex<float> xvalue(0,0);
      int status (0);
@@ -310,8 +310,8 @@ namespace CCfits {
 	   return  new KeyData<bool>(name, Tlogical, bvalue, hdu, comment);
 	   break;
         case 'F':
-           vstream >> fvalue;
-           return  new KeyData<float>(name, Tfloat, fvalue, hdu, comment);
+           vstream >> dvalue;
+           return  new KeyData<double>(name, Tdouble, dvalue, hdu, comment);
 	   break;
         case 'I':
         case 'T':

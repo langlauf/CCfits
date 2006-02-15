@@ -40,7 +40,6 @@ namespace CCfits {
 } // namespace CCfits
 
 //## begin module%380397F42760.includes preserve=yes
-#include "KeywordT.h"
 //## end module%380397F42760.includes
 
 //## begin module%380397F42760.declarations preserve=no

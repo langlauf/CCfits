@@ -27,6 +27,9 @@
 //## begin module%380353775EB0.additionalIncludes preserve=yes
 #include "CCfits.h"
 // using namespace CCfits;
+#ifdef _MSC_VER
+#include "MSconfig.h"
+#endif
 //## end module%380353775EB0.additionalIncludes
 
 // FitsError
@@ -320,6 +323,14 @@ namespace CCfits {
   };
 
   //## begin CCfits::Keyword%380395442F18.postscript preserve=yes
+#ifndef SPEC_TEMPLATE_IMP_DEFECT
+#ifndef SPEC_TEMPLATE_DECL_DEFECT
+  template <> float& Keyword::value(float& val) const;
+  template <> double& Keyword::value(double& val) const;
+  template <> int& Keyword::value(int& val) const;
+#endif 
+#endif 
+  
 inline std::ostream& operator << (std::ostream &s, const Keyword &right)
 {
    return right.put(s);

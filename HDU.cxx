@@ -296,6 +296,12 @@ namespace CCfits {
   	using std::pair;  
         Keyword* newKey(KeywordCreator::getKeyword(keyname,this));
         std::map<String,Keyword*>::value_type refToEntry(keyname,newKey);
+        std::map<String,Keyword*>::iterator itOld = m_keyWord.find(keyname);
+        if (itOld != m_keyWord.end())
+        {
+           delete itOld->second;
+           m_keyWord.erase(itOld);
+        }
         m_keyWord.insert(refToEntry);
   	return *(refToEntry.second);
   
@@ -344,6 +350,12 @@ namespace CCfits {
   	newKey->write();
         const String& keyname = newKey->name(); 
         std::map<String,Keyword*>::value_type refToEntry(keyname,newKey);
+        std::map<String,Keyword*>::iterator itOld = m_keyWord.find(keyname);
+        if (itOld != m_keyWord.end())
+        {
+           delete itOld->second;
+           m_keyWord.erase(itOld);
+        }
         m_keyWord.insert(refToEntry);
   	return refToEntry.second;
     //## end CCfits::HDU::addKeyword%397EFAA40263.body
@@ -385,6 +397,12 @@ namespace CCfits {
   for (std::map<String,Keyword*>::const_iterator key = right.m_keyWord.begin(); 
           key != right.m_keyWord.end(); key++)
   {
+        std::map<String,Keyword*>::iterator itOld = m_keyWord.find(key->first);
+        if (itOld != m_keyWord.end())
+        {
+           delete itOld->second;
+           m_keyWord.erase(itOld);
+        }
         m_keyWord[(*key).first] = ((*key).second)->clone();
   }
     //## end CCfits::HDU::copyKeys%395221E50097.body
@@ -501,8 +519,14 @@ namespace CCfits {
     char* date = pDate.get();
     if (fits_read_key_str(fitsPointer(),
         const_cast<char*>(DATE.c_str()),date,pDateComment.get(),&status))   throw FitsError(status);
-    NewKeyword<String> creator(this,pDate.release());
-    Keyword* newKey = creator.MakeKeyword(DATE,String(pDateComment.release()));
+    NewKeyword<String> creator(this,String(date));
+    Keyword* newKey = creator.MakeKeyword(DATE,String(pDateComment.get()));
+    std::map<String,Keyword*>::iterator itOld = m_keyWord.find(DATE);
+    if (itOld != m_keyWord.end())
+    {
+       delete itOld->second;
+       m_keyWord.erase(itOld);
+    }
     m_keyWord[DATE] = newKey;               
 
     

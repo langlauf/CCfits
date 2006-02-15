@@ -1,4 +1,35 @@
-Changes for CCfits 1.3 release  2/05
+Changes for CCfits 1.4 release 11/05
+- Fixed reading in of BSCALE and BZERO.  Previously these keyword
+values were not being saved in getScaling function.
+   HDUCreator::getScaling (10/05)
+
+- Now reads in all floating-point keyword values as doubles rather
+than floats.  In conjunction, needed to allow Keyword casting from
+doubles to floats to keep things backward compatible
+   KeywordCreator.cxx, KeywordT.h, Keyword.cxx, .h. (8/05)
+
+- In ColumnT.h read function which takes row as a parameter, test and
+throw for case of row out-of-bounds of table.
+
+- Memory leak fix in HDU.cxx.  Everywhere insertions into m_keyWord
+map were taking place, needed to check for previously existing entry
+with same key name and delete if it existed.  FITS::read often does 
+insertions twice with the same Keyword, which was causing a memory leak.
+Also fixed a couple minor leaks in HDU::writeDate.
+(C. Gordon 6/05)
+
+- Exception safety / mem leak fix in FITS.cxx and FITSBase.cxx.  
+All FITS constructors (except copy c-tor) now use auto_ptr when creating 
+FITSBase* m_FITSImpl.  Also FITSBase destructor now checks if it needs
+to close file, indicated by non-zero m_fptr.  To make this work,
+FITS::close now resets fptr to 0 after it closes file.
+
+
+- Add another case of allowed casting of keyword values, this time
+from strings to int/float/double if the string contains an integer value
+   KeywordT.h (C.Gordon 5/05)
+
+Changes for CCfits 1.3 release 4/05
 
 - modify KeywordCreator getKeyword functions to allow reading of 
 keyword value string long format. (C. Gordon)
@@ -6,7 +37,7 @@ keyword value string long format. (C. Gordon)
 - Fixed HDUCreator::Make and ExtHDU constructor so that extensions
 with no names are now properly handled on input. (C. Gordon)
 
-- Added ability to read in column data of type LONGLONG from binary tables.
+- Added ability to ready in column data of type LONGLONG from binary tables.
 
 - (Important) Added implicit casting of keyword values entered as ints to
 keywords of type float and double.  Previously, the entered key value had
