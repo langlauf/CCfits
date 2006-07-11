@@ -117,7 +117,7 @@ namespace CCfits {
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
-        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData);
+        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData);
 
       // Additional Public Declarations
         //## begin CCfits::PrimaryHDU%380481CF79A8.public preserve=yes
@@ -364,10 +364,10 @@ namespace CCfits {
   }
 
   template <typename T>
-  void PrimaryHDU<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData)
+  void PrimaryHDU<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData)
   {
     //## begin CCfits::PrimaryHDU::writeImage%3AF9A0E102E2.body preserve=yes
-    m_data.writeImage(fitsPointer(),firstVertex,lastVertex,inData,naxes());
+    m_data.writeImage(fitsPointer(),firstVertex,lastVertex,stride,inData,naxes());
     //## end CCfits::PrimaryHDU::writeImage%3AF9A0E102E2.body
   }
 

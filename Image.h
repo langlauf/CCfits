@@ -110,6 +110,9 @@ namespace CCfits {
         //	Read data reads the image if readFlag is true and
         //	optional keywords if supplied. Thus, with no arguments,
         //	readData() does nothing.
+        void writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData, const std::vector<long>& naxes);
+
+        //## Operation: writeImage%4450D9DF01DA
         void writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes);
 
       //## Get and Set Operations for Class Attributes (generated)
@@ -144,7 +147,10 @@ namespace CCfits {
         std::valarray<T>& image ();
 
         //## Operation: prepareForSubset%3AFC075A02DE
-        void prepareForSubset (const std::vector<long>& naxes, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, long* firstPtr, long* lastPtr);
+        void prepareForSubset (const std::vector<long>& naxes, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData, std::valarray<T>& subset);
+
+        //## Operation: loop%4450C8450170
+        void loop (size_t iDim, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, size_t iPos, const std::vector<size_t>& incr, const std::valarray<T>& inData, size_t& iDat, const std::vector<size_t>& subIncr, std::valarray<T>& subset, size_t iSub);
 
       // Additional Private Declarations
         //## begin CCfits::Image%3AF96959039F.private preserve=yes
@@ -409,16 +415,26 @@ namespace CCfits {
   }
 
   template <typename T>
-  void Image<T>::writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes)
+  void Image<T>::writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData, const std::vector<long>& naxes)
   {
     //## begin CCfits::Image::writeImage%3AF96D3C013C.body preserve=yes
-        long* fPixel = 0;
-        long* lPixel = 0;
+        // input vectors' size equality will be verified in prepareForSubset.
+        const size_t nDim = naxes.size();
+        FITSUtil::auto_array_ptr<long> pFPixel(new long[nDim]);
+        FITSUtil::auto_array_ptr<long> pLPixel(new long[nDim]);
+        std::valarray<T> subset;
+        prepareForSubset(naxes,firstVertex,lastVertex,stride,inData,subset);
         
-        prepareForSubset(naxes,firstVertex,lastVertex,inData,fPixel,lPixel);
-
+        long* fPixel = pFPixel.get();
+        long* lPixel = pLPixel.get();
+        for (size_t i=0; i<nDim; ++i)
+        {
+           fPixel[i] = firstVertex[i];
+           lPixel[i] = lastVertex[i];
+        }
+        
         FITSUtil::CAarray<T> convert;
-        FITSUtil::auto_array_ptr<T> pArray(convert(inData));
+        FITSUtil::auto_array_ptr<T> pArray(convert(subset));
         T* array = pArray.get();
         FITSUtil::MatchType<T> imageType;        
         int status(0);
@@ -426,7 +442,6 @@ namespace CCfits {
         if ( fits_write_subset(fPtr,imageType(),fPixel,lPixel,array,&status) 
                         || fits_flush_file(fPtr,&status)  != 0) throw FitsError(status);
           
-          // must be specialized.
     //## end CCfits::Image::writeImage%3AF96D3C013C.body
   }
 
@@ -440,73 +455,127 @@ namespace CCfits {
   }
 
   template <typename T>
-  void Image<T>::prepareForSubset (const std::vector<long>& naxes, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, long* firstPtr, long* lastPtr)
+  void Image<T>::prepareForSubset (const std::vector<long>& naxes, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, const std::valarray<T>& inData, std::valarray<T>& subset)
   {
     //## begin CCfits::Image::prepareForSubset%3AFC075A02DE.body preserve=yes
     
-    // in 3 words: What A Mess!      
-          
-          
-    const size_t N(naxes.size()); 
-    const size_t M(firstVertex.size()); 
-    size_t init(1);   
-    FITSUtil::auto_array_ptr<long> pLast(new long[M]);
-    long* last = pLast.get();
-    FITSUtil::auto_array_ptr<long> pFirst(new long[M]);
+    // naxes, firstVertex, lastVertex, and stride must all be the same size.
+    const size_t N = naxes.size();
+    if (N != firstVertex.size() || N != lastVertex.size() || N != stride.size())
+    {
+       string errMsg("*** CCfits Error: Image write function requires that naxes, firstVertex,");
+       errMsg += "       \nlastVertex, and stride vectors all be the same size.\n";
+       bool silent = false;
+       throw FitsException(errMsg, silent);
+    }
+    for (size_t i=0; i<N; ++i)
+    {
+       if (naxes[i] < 1)
+       {
+          bool silent = false;
+          throw FitsException("*** CCfits Error: Invalid naxes value sent to image write function.\n", silent);
+       }
+       string rangeErrMsg("*** CCfits Error: Out-of-range value sent to image write function in arg: ");
+       if (firstVertex[i] < 1 || firstVertex[i] > naxes[i]) 
+       {
+          bool silent = false;
+          rangeErrMsg += "firstVertex\n";
+          throw FitsException(rangeErrMsg, silent);
+       }
+       if (lastVertex[i] < firstVertex[i] || lastVertex[i] > naxes[i])
+       {
+          bool silent = false;
+          rangeErrMsg += "lastVertex\n";
+          throw FitsException(rangeErrMsg, silent);
+       }
+       if (stride[i] < 1)
+       {
+          bool silent = false;
+          rangeErrMsg += "stride\n";
+          throw FitsException(rangeErrMsg, silent);
+       }
+    }
     
-    size_t imageSize(std::accumulate(&naxes[0],&naxes[N],init,std::multiplies<long>() ));
+    // nPoints refers to the subset of m_image INCLUDING the zero'ed elements 
+    // resulting from the stride parameter.  
+    // subSizeWithStride refers to the same subset, not counting the zeros.
+    size_t subSizeWithStride = 1;
+    size_t nPoints = 1;
+    std::vector<size_t> subIncr(N);
+    for (size_t i=0; i<N; ++i)
+    {
+       subIncr[i] = nPoints;
+       nPoints *= static_cast<size_t>(1+lastVertex[i]-firstVertex[i]);
+       subSizeWithStride *= static_cast<size_t>(1+(lastVertex[i]-firstVertex[i])/stride[i]);
+    }
     FITSUtil::FitsNullValue<T> null;
-    if (m_image.size() != imageSize) 
+    subset.resize(nPoints, null());
+    
+    // Trying to avoid at all costs an assignment between 2 valarrays of 
+    // different sizes when m_image gets set below.
+    if (subSizeWithStride != inData.size())
     {
-            m_image.resize(imageSize,null());
+       bool silent = false;
+       string errMsg("*** CCfits Error: Data array size is not consistent with the values");
+       errMsg += "\n      in range and stride vectors sent to the image write function.\n";
+       throw FitsException(errMsg, silent);
     }
     
-    // ensure that the lastVertex and stride vectors are the same size as firstVertex.
-
-    long ml(std::min(lastVertex.size(),M));
-    
-    
-    // valarrays are all very well, but it's nice to have random access iterators...
-    std::copy(firstVertex.begin(),firstVertex.end(),&pFirst.get()[0]);
-    std::copy(lastVertex.begin(),lastVertex.begin()+ml,&last[0]);
-    
-    // non-unit strides not currently supported.
-    //ms = std::min(stride.size(),M);
-    //std::copy(stride.begin(),stride.begin()+ms,fullLast.begin());
-    
-    //std::vector<long> offsets(M,1);
-    //for (size_t j  = M - 2; j > 0 ; --j)
-    //{
-    //           offsets[j] *= offsets[j+1]; 
-    //}
-     
-    
-    std::valarray<size_t> vLength(1,M);  
-    {  
-        for (size_t j = 0; j < M; ++j)
-        {
-                last[j] = std::max(firstVertex[j],last[j]);
-                vLength[j]   = last[j]-pFirst.get()[j]+1;
-        }   
-    }
-    
-    size_t startPoint(firstVertex[0] - 1);
-    
-
+    size_t startPoint = 0;
+    size_t dimMult = 1;
+    std::vector<size_t> incr(N);
+    for (size_t j = 0; j < N; ++j)
     {
-        for (size_t j = 1; j < M; ++j)
-        {
-                startPoint += naxes[j]*(firstVertex[j] - 1);       
-        }
+       startPoint += dimMult*(firstVertex[j]-1);
+       incr[j] = dimMult;
+       dimMult *= static_cast<size_t>(naxes[j]);
     }
-    std::valarray<size_t> vStride(1,M);
+    const size_t imageSize = dimMult;
+    m_image.resize(imageSize,null());
     
-    m_image[std::gslice(startPoint,vLength,vStride)] = inData;
-    
-    firstPtr = pFirst.release();
-    lastPtr = pLast.release();
- 
+    size_t inDataPos = 0;
+    size_t iSub = 0;
+    loop(N-1, firstVertex, lastVertex, stride, startPoint, incr, inData, inDataPos, subIncr, subset, iSub);           
     //## end CCfits::Image::prepareForSubset%3AFC075A02DE.body
+  }
+
+  template <typename T>
+  void Image<T>::loop (size_t iDim, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, size_t iPos, const std::vector<size_t>& incr, const std::valarray<T>& inData, size_t& iDat, const std::vector<size_t>& subIncr, std::valarray<T>& subset, size_t iSub)
+  {
+    //## begin CCfits::Image::loop%4450C8450170.body preserve=yes
+     size_t start = static_cast<size_t>(firstVertex[iDim]);
+     size_t stop = static_cast<size_t>(lastVertex[iDim]);
+     size_t skip = static_cast<size_t>(stride[iDim]);
+     if (iDim == 0)
+     {
+        size_t length = stop - start + 1;
+        for (size_t i=0; i<length; i+=skip)
+        {
+           m_image[i+iPos] = inData[iDat];
+           subset[i+iSub] = inData[iDat++];
+        }
+     }
+     else
+     {
+        size_t jump = incr[iDim]*skip;
+        size_t subJump = subIncr[iDim]*skip;
+        for (size_t i=start; i<=stop; i+=skip)
+        {
+           loop(iDim-1, firstVertex, lastVertex, stride, iPos, incr, inData, iDat, subIncr, subset, iSub);
+           iPos += jump;
+           iSub += subJump;
+        }
+     }
+    //## end CCfits::Image::loop%4450C8450170.body
+  }
+
+  template <typename T>
+  void Image<T>::writeImage (fitsfile* fPtr, const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData, const std::vector<long>& naxes)
+  {
+    //## begin CCfits::Image::writeImage%4450D9DF01DA.body preserve=yes
+     std::vector<long> stride(firstVertex.size(), 1);
+     writeImage(fPtr, firstVertex, lastVertex, stride, inData, naxes);
+    //## end CCfits::Image::writeImage%4450D9DF01DA.body
   }
 
   // Additional Declarations

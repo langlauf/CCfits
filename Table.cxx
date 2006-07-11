@@ -134,12 +134,16 @@ namespace CCfits {
    char** cname = new char*[n];
    char** cformat = new char*[n];
    char** cunit = new char*[n];
+   char nullString[] = {'\0'};
 
    for (size_t i = 0; i < n; ++i)
    {
         cname[i] = const_cast<char*>(columnName[i].c_str());       
-        cformat[i] =  const_cast<char*>(columnFmt[i].c_str());       
-        cunit[i]  = const_cast<char*>(columnUnit[i].c_str());
+        cformat[i] =  const_cast<char*>(columnFmt[i].c_str());
+        if (i < columnUnit.size())       
+           cunit[i]  = const_cast<char*>(columnUnit[i].c_str());
+        else
+           cunit[i] = nullString;
    }
    
    

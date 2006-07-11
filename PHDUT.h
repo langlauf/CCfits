@@ -141,7 +141,8 @@ namespace CCfits
                 long firstElement(0);
                 long dimSize(1);
                 std::vector<long> inputDimensions(naxis(),1);
-                size_t n(std::min(naxis(),first.size()));
+                size_t sNaxis = static_cast<size_t>(naxis());
+                size_t n(std::min(sNaxis,first.size()));
                 std::copy(&first[0],&first[n],&inputDimensions[0]);                
                 for (long i = 0; i < naxis(); ++i)
                 {

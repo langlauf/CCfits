@@ -97,9 +97,12 @@ namespace CCfits {
      status = fits_binary_tform(const_cast<char *>(columnFmt[i].c_str()), 
 				&colType, &repeat, &width, &status);
      
+     string unitString("");
+     if (i < columnUnit.size())
+        unitString = columnUnit[i];
      column(columnName[i],create.createColumn(i+1, ValueType(colType),
                                 columnName[i], columnFmt[i], 
-                                columnUnit[i],repeat,width));
+                                unitString,repeat,width));
      
      column(columnName[i]).setLimits(ValueType(colType));
      
@@ -376,7 +379,7 @@ namespace CCfits {
         switch (type)
         {
                 case Tstring:
-                        tformStr << 'A' << repeatWidth;
+                        tformStr << repeatWidth << 'A';
                         break;
                 case Tbyte:
                 case VTbyte:
