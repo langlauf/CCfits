@@ -1,56 +1,28 @@
-//## begin module%1.4%.codegen_version preserve=yes
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//## end module%1.4%.codegen_version
-
-//## begin module%384D204305C0.cm preserve=no
-//	This is version 1.3 release dated Feb 2005
-//## end module%384D204305C0.cm
-
-//## begin module%384D204305C0.cp preserve=no
-//	Laboratory for High Energy Astrophysics,
+//	This is version 1.6 release dated Nov 2006
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
 //	Original author: Ben Dorman, L3-Communications EER Systems Inc.
-//## end module%384D204305C0.cp
-
-//## Module: FITSUtil%384D204305C0; Package body
-//## Subsystem: CCfits::Utility%3949241F026A
-//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/FITSUtil.cxx
-
-//## begin module%384D204305C0.additionalIncludes preserve=no
-//## end module%384D204305C0.additionalIncludes
-
-//## begin module%384D204305C0.includes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
-//## end module%384D204305C0.includes
 
 // FITSUtil
 #include "FITSUtil.h"
-//## begin module%384D204305C0.declarations preserve=no
-//## end module%384D204305C0.declarations
-
-//## begin module%384D204305C0.additionalDeclarations preserve=yes
 #include "FitsError.h"
 #include "FITS.h"
 #include <algorithm>
 using std::string;
-//## end module%384D204305C0.additionalDeclarations
 
 
 namespace CCfits {
-  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
   const unsigned long USBASE = 1 << 15;
   const unsigned long ULBASE = 1 << 31;
-  //## end CCfits%37FE4140B6F8.initialDeclarations
 
   namespace FITSUtil {
-    //## begin CCfits::FITSUtil%3820548A5050.initialDeclarations preserve=yes
   InvalidConversion::InvalidConversion (const string& diag, bool silent)
   : FitsException(string("Fits Error: Attempt to perform invalid implicit conversion"),silent)
   {       
@@ -62,14 +34,14 @@ namespace CCfits {
       size_t n = inArray.size();
       if (n == 0) return 0;
       char** c  = new char*[n];
-      
+
       for (size_t i = 0; i < n; ++i)
       {
          size_t m(inArray[i].length());
 	 c[i] = new char[m+1];
 	 strncpy(c[i],inArray[i].c_str(),m + 1);
       }
-      
+
       return c;      
   }
 #if TEMPLATE_AMBIG_DEFECT || TEMPLATE_AMBIG7_DEFECT
@@ -101,12 +73,12 @@ namespace CCfits {
         }
         return outputString;  
   }
-  
+
   string upperCase(const string& inputString)
   {
         size_t n(inputString.length());
         string outputString("");
-        
+
         outputString.resize(n,' ');
         for (size_t l = 0 ; l < n; ++l)
         {
@@ -114,11 +86,19 @@ namespace CCfits {
         }
         return outputString;  
   }
-  
+
+  string::size_type checkForCompressString(const string& fileName)
+  {
+     // Simply look for the first occurrence of the form "[compress....".
+     const string leadIndicator("[compress");
+     string::size_type start = fileName.find(leadIndicator);
+     return start;
+  }
+
   string FITSType2String ( int typeInt )
   {
     string keyString("");
-    
+
     switch (typeInt)        
     {
         default:
@@ -170,10 +150,10 @@ namespace CCfits {
                 keyString = "double complex";
                 break;
     }
-          
+
     return keyString;     
   }
-  
+
   bool MatchStem::operator()(const string& left, const string& right) const
   {
           static const string DIGITS("0123456789");
@@ -182,54 +162,54 @@ namespace CCfits {
           else return (left == right);
   }
 
-    
-  
+
+
   fitsfile* 
   copyFitsPtr(fitsfile* inPtr)
   {
       // allocate all the memory and convert any errors to a standard exception    
-          
+
       fitsfile* outPtr = 0;
       if ( (outPtr  = (fitsfile*)calloc(1,sizeof(fitsfile))) == 0 ) throw std::bad_alloc();
-      
+
       outPtr->Fptr = 0;
       if ( (outPtr->Fptr = (FITSfile*)calloc(1,sizeof(FITSfile))) == 0 ) throw std::bad_alloc();
-          
+
       outPtr->Fptr->filename = 0;
       if ( (outPtr->Fptr->filename = 
                 (char*)malloc(strlen(inPtr->Fptr->filename)+1))  == 0 ) throw std::bad_alloc();
-      
+
       outPtr->Fptr->tableptr = 0;
           /* pointer to the table structure */
       if ( (outPtr->Fptr->tableptr  = (tcolumn*)malloc(sizeof(tcolumn))) == 0 )
                throw std::bad_alloc();
-          
+
       outPtr->HDUposition = inPtr->HDUposition;
-      
+
       outPtr->Fptr->filehandle = inPtr->Fptr->filehandle;
       /* defines which set of I/O drivers should be used */
       outPtr->Fptr->driver = inPtr->Fptr->driver;  
-         
+
       strcpy(outPtr->Fptr->filename,inPtr->Fptr->filename);
-      
+
       /* current size of the physical disk file in bytes */
       outPtr->Fptr->filesize = inPtr->Fptr->filesize;   
-                   
+
       /* logical size of file, including unflushed buffers */
       outPtr->Fptr->logfilesize = inPtr->Fptr->logfilesize; 
-      
+
       /* 0 = readonly, 1 = readwrite */
       outPtr->Fptr->writemode = inPtr->Fptr->writemode;  
-      
+
       /* byte offset in file to beginning of next keyword */
       outPtr->Fptr->datastart = inPtr->Fptr->datastart;
-       
+
       /* current I/O pointer position in the physical file */
       outPtr->Fptr->curbuf = inPtr->Fptr->curbuf;
-           
+
       /* number of opened 'fitsfiles' using this structure */  
       outPtr->Fptr->open_count = inPtr->Fptr->open_count; 
-          
+
       /* magic value used to verify that structure is valid */
       outPtr->Fptr->validcode = inPtr->Fptr->validcode;  
 
@@ -319,7 +299,7 @@ namespace CCfits {
           /* first compression parameter */
           outPtr->Fptr->rice_blocksize = inPtr->Fptr->rice_blocksize;     
           /* second compression parameter */
-          outPtr->Fptr->rice_nbits = inPtr->Fptr->rice_nbits;         
+          outPtr->Fptr->noise_nbits = inPtr->Fptr->noise_nbits;         
 
 
           /* column name = FITS TTYPEn keyword; */
@@ -353,9 +333,9 @@ namespace CCfits {
            outPtr->Fptr->tableptr->twidth = inPtr->Fptr->tableptr->twidth;     
 
         return outPtr;
-          
+
   }      
- 
+
 // VF<-VF
 #ifdef TEMPLATE_AMBIG_DEFECT
 	void 
@@ -604,7 +584,7 @@ namespace CCfits {
                 if (outArray.size() != N) outArray.resize(N);
                 outArray = inArray;
 	}   
-        
+
 // AD<-AD        
 	void 
 	fill(std::valarray<std::complex<double> >& outArray, 
@@ -615,7 +595,7 @@ namespace CCfits {
                 if (outArray.size() != N) outArray.resize(N);
                 outArray = inArray;
 	}  
-                        
+
 // AF<-AD
 	void 
 	fill(std::valarray<std::complex<float> >& outArray, 
@@ -642,7 +622,7 @@ namespace CCfits {
                         outArray[j] = std::complex<double>(inArray[j].real(),inArray[j].imag());
                 }
 	}                  
-                 
+
 // VF<-AF
 	void 
 	fill(std::vector<std::complex<float> >& outArray, 
@@ -653,7 +633,7 @@ namespace CCfits {
                 if (outArray.size() != N) outArray.resize(N);
                 for (size_t j = 0; j < N; ++j) outArray[j] = inArray[j];
 	}   
-        
+
 // VD<-AD        
 	void 
 	fill(std::vector<std::complex<double> >& outArray, 
@@ -664,7 +644,7 @@ namespace CCfits {
                 if (outArray.size() != N) outArray.resize(N);
                 for (size_t j = 0; j < N; ++j) outArray[j] = inArray[j];
 	}  
-                        
+
 // VF<-AD
 	void 
 	fill(std::vector<std::complex<float> >& outArray, 
@@ -691,27 +671,17 @@ namespace CCfits {
                         outArray[j] = std::complex<double>(inArray[j].real(),inArray[j].imag());
                 }
 	}       
-    //## end CCfits::FITSUtil%3820548A5050.initialDeclarations
 
     // Parameterized Class CCfits::FITSUtil::FitsNullValue 
 
     // Class CCfits::FITSUtil::UnrecognizedType 
 
     UnrecognizedType::UnrecognizedType (string diag, bool silent)
-      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.hasinit preserve=yes
       : FitsException(" Invalid type for FITS I/O ",silent)
-      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.hasinit
-      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.initialization preserve=yes
-      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.initialization
     {
-      //## begin CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.body preserve=yes
         std::cerr << diag << '\n';
-      //## end CCfits::FITSUtil::UnrecognizedType::UnrecognizedType%3CE143740244.body
     }
 
 
   } // namespace FITSUtil
 } // namespace CCfits
-
-//## begin module%384D204305C0.epilog preserve=yes
-//## end module%384D204305C0.epilog

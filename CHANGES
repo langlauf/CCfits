@@ -1,3 +1,34 @@
+Changes for CCfits 1.6 release 11/06
+- Added capbility to write compressed images, including 6 new wrapper
+public functions in FITS class.
+   FITS.cxx,.h
+   FITSUtil.cxx,.h
+   PHDU.cxx
+   FITSBase.cxx,.h
+- In FITS::addImage, corrected the logic which checks for a pre-existing
+image extension with the same version number.
+   FITS.cxx
+- CFITSIO 3.02 renamed fitsfile struct member rice_nbits to noise_nbits.
+Made corresponding change in copyFitsPtr function in FITSUtil.cxx.  As it
+stands, this makes this version of CCfits incompatible with earlier
+versions of CFITSIO
+   FITSUtil.cxx
+- In FITS.h definition, removed both friend declarations of HDUCreator
+Make functions.  It seems neither function needs to be a friend, and one
+of them is actually private.  The standard is vague about this, and anyway 
+some compilers (Visual C++ 2002 or 2003) don't allow it.  
+   FITS.h
+- Bug fix in Make function of HDUCreator.cxx.  When creating a new
+ImageExt (and not the primary), it was only passing the version number
+along for float and double types.  This causes problems when there is
+more than 1 image extension with the same name, and it needs the version
+number to distinguish them.
+   HDUCreator.cxx
+- A couple of bug fixes to the first/last/stride version of PHDU read
+image subset.  It was not passing the proper parameters to 
+fits_read_subset, and was not always correctly resizing the m_image array.
+   Image.h
+
 Changes for CCfits 1.5 release 7/06 
 - More thorough fix to PHDUT.h write function:  Now genuinely handles
 the stride vector parameter. (4/06)

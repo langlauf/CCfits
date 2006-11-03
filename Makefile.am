@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 #
-# $Id: Makefile.am,v 3.7 2003/06/18 15:46:40 pfkeb Exp $
+# $Id: Makefile.am,v 3.8 2006/11/01 19:47:06 irby Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
@@ -23,7 +23,7 @@ CXX_LIB_PATH = @CXX_LIB_PATH@
 
 MSVC_FILES = MSconfig.h
 
-EXTRA_DIST = config BUILD CHANGES $(MSVC_FILES)
+EXTRA_DIST = config CHANGES README.INSTALL License.txt file1.pha $(MSVC_FILES)
 
 
 bin_PROGRAMS = cookbook

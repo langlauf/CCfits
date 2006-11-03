@@ -1,138 +1,108 @@
-$Id: README.INSTALL,v 3.2 2003/03/29 23:40:37 pfkeb Exp $
+$Id: README.INSTALL,v 3.3 2006/11/01 20:02:03 irby Exp $
 
-   To build and install CCfits  from source code on a UNIX-like
-(e.g. UNIX, Linux, or Cygwin) platform, take the following steps.  For
-building on a Microsoft Windows platform with Visual Developer Studio,
-or with Mac OS X, see below.
+To build and install CCfits  from source code on a UNIX-like (e.g. UNIX,
+Linux, or Cygwin) platform, take the following steps.  For building on
+a Microsoft Windows platform with Visual Developer Studio, see below.
 
-1. Autogen 
+===============================================================================
+Instructions for Building CCfits on UNIX-like platforms:
+===============================================================================
 
-If you obtained the source from the CVS repository, you need to do
-this first step.  If you obtained the source from a gzipped tar file,
-skip to the step 2.  
-
-If you want to do a build with a compiler other than GCC, then you
-need to turn off automatic dependency generation which only works with
-GCC.  Edit the Makefile.am file by adding `no-dependencies' to the
-line
-
-	AUTOMAKE_OPTIONS = foreign
-
-If you do not do this, some options will be passed to compiler that it
-might not understand.  At least with the Sun C++ compiler, these
-options are ignored but lead to a warning message for each file that
-is compiled.   Other compiler may treat it as an error.
-
-Type in the following in the toplevel source directory:
-
-> ./autogen
-
-autogen is a UNIX shell script that runs a series of commands in a
-particular order.  It requires automake, autoconf and libtool to be
-installed on your system.   
-
-Note that you will obtain the following message after running
-'autogen':
-
-	configure.in: 36: required file `config/ltconfig' not found
-
-On most systems it is not an error.  But for some, like Red Hat Linux
-8.0 it is a real error.  Check the config directory and add the
-following symbolic link if it is missing.
-
-ltmain.sh -> /usr/share/libtool/ltmain.sh
-
-or `/usr/local/share' if that is where libtool was installed.
-
-
-2. Configure
+1. Configure
  
-By default, the GCC compiler and linker will be used.  If you want to
-compile and link with a different compiler and linker, you can set
-some environment variable before running the configure script.  For
-example, to use Sun's C++ compiler, do the following if you are a csh
-user...
+   By default, the GCC compiler and linker will be used.  If you want to
+   compile and link with a different compiler and linker, you can set
+   some environment variable before running the configure script.  For
+   example, to use Sun's C++ compiler, do the following:
 
-> setenv CXX CC
+   > setenv CXX CC  (csh syntax)
 
-and the equivalent if you are not.  You can set the absolute path to
-the compiler you want to use if necessary.   
+     or
 
-CCfits requires that the `cfitsio' package, version 2.0 or later, is
-available on your system.  The configure script that you will run
-takes an option to specify the location of the cfitsio package.
+   > export CXX=CC  (bash syntax)
 
-If the `cfitsio' package is installed in a directory consisting of a
-`lib' subdirectory with the libcfitsio.a file and a `include'
-subdirectory with the fitsio.h file, then you can run the configure
-script with as single option.  For example, if the cfitsio package is
-installed in this fashion in ``/usr/local/ftools' then the configure
-script option will be...
+   You can set the absolute path to the compiler you want to use if necessary.
 
-	--with-cfitsio=/usr/local/ftools
+   CCfits requires that the CFITSIO package, version 2.0 or later, is
+   available on your system.  See
 
-If the `cfitsio' package is not installed in the above manner, then
-you need to run the configure script with two options, one to specify
-the include directory and the other to specify the library directory.
-For example, if the cfitsio package was built in `/home/user/cfitsio'
-then the two options will be...
+     http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html
+
+   for more information.  The configure script that you will run takes an
+   option to specify the location of the CFITSIO package.
+
+   If the CFITSIO package is installed in a directory consisting of a
+   'lib' subdirectory containing "libcfitsio.a" or "libcfitsio.so" and
+   an 'include' subdirectory containing "fitsio.h", then you can run the
+   configure script with a single option.  For example, if the cfitsio
+   package is installed in this fashion in /usr/local/cfitsio/ then the
+   configure script option will be
+
+	--with-cfitsio=/usr/local/cfitsio
+
+   If the CFITSIO package is not installed in the above manner, then you
+   need to run the configure script with two options, one to specify the
+   include directory and the other to specify the library directory.  For
+   example, if the cfitsio package was built in /home/user/cfitsio/ then
+   the two options will be
 
 	--with-cfitsio-include=/home/user/cfitsio 
 	--with-cfitsio-libdir=/home/user/cfitsio
 
-You have the option of carrying out the build in a separate directory
-from the source directory or in hhe same directory as the source.  In
-either case, you need to run the `configure' script in the directory
-where the build will occour.   So for example, if building in the source directory with the `cfitsio' directory in `/usr/local/ftools' then the configure coammand should be issued like this...
-
-> ./configure --with-cfitsio=/usr/local/fttools
-
-If you do the build in separate directory from the source, you may need to issue the configure command something like this...
-
-> ../CCfits//configure --with-cfitsio=/usr/local/fttools
-
-The configure script will create the Makefile with the path to the
-compiler you choose (or GCC by default), and the path to cfitsio
-package.  The configure script has other options, just as the install
-location.  To see this options type
-
-> ./configure --help
-
-Note to developers:
+   For users of HEASOFT (instead of stand-alone CFITSIO):
+   Note that modern distributions of HEASOFT only include a
+   "libcfitsio_X.XX.so" library by default, but the configure script
+   needs to find "libcfitsio.so", so you will need to create a symbolic
+   link in $HEADAS/lib/ linking libcfitsio.so -> libcfitsio_X.XX.so in
+   order for CCfits to configure properly.  You can then configure
+   CCfits using "--with-cfitsio=$HEADAS/lib".
 
 
-3. Build
+   You have the option of carrying out the build in a separate directory
+   from the source directory or in the same directory as the source.  In
+   either case, you need to run the configure script in the directory
+   where the build will occur.   For example, if building in the source
+   directory with the cfitsio directory in /usr/local/cfitsio/ then the
+   configure command should be issued like this:
+
+   > ./configure --with-cfitsio=/usr/local/cfitsio
+
+   If you do the build in a separate directory from the source, you may
+   need to issue the configure command something like this:
+
+   > ../CCfits/configure --with-cfitsio=/usr/local/cfitsio
+
+   The configure script will create the Makefile with the path to the
+   compiler you choose (or GCC by default), and the path to the CFITSIO
+   package.  The configure script has other options, such as the install
+   location.  To see these options type
+
+   > ./configure --help
+
+
+2. Build
 
    Building the C++ shared library and Java classes will be done
-automatically by running make without arguments like thus...
+   automatically by running make without arguments like this:
 
-> gmake
-
-Finally, type in the following to generate the html
-documentation...
-
-> make docs
-
-This will create a directory in your current directory called /html,
-and all of the html documentation will be created in this directory.
-The tool `Doxygen' (http://www.doxygen.org) is required to create the
-documentation.
+   > gmake
 
 
-4. Install
+3. Install
 
-   To install, type...
+   To install, type:
 
-> make install
+   > make install
 
-The default install location will be /usr/local/lib for the library
-and /usr/local/include for the header files.  You can change this with
-the --prefix option when you configure, or with something like...
+   The default install location will be /usr/local/lib for the library
+   and /usr/local/include for the header files.  You can change this with
+   the --prefix option when you configure, or with something like...
 
-> make DESTDIR=/usr/local/ftools install
+   > make DESTDIR=/usr/local/CCfits install
 
-
-Instructions for Microsft Windows build.
+===============================================================================
+Instructions for Microsft Windows build:
+===============================================================================
 
 Compiling CCfits with MS VC++ requires VC++ 7.0 or later.  This is the
 compiler that comes with Visual Studio.NET.  Earlier versions of the
@@ -152,24 +122,4 @@ To build the test program, cookbook, use the
 vs.net/cookbook.cookbook.sln file
 
 Author: Paul_Kunz@slac.stanford.edu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Revised 1 Nov 2006 by Bryan Irby

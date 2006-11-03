@@ -1,45 +1,18 @@
-//## begin module%1.4%.codegen_version preserve=yes
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//## end module%1.4%.codegen_version
-
-//## begin module%38BAD0D3F230.cm preserve=no
-//	This is version 1.3 release dated Feb 2005
-//## end module%38BAD0D3F230.cm
-
-//## begin module%38BAD0D3F230.cp preserve=no
-//	Laboratory for High Energy Astrophysics,
+//	This is version 1.6 release dated Nov 2006
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
 //	Original author: Ben Dorman, L3-Communications EER Systems Inc.
-//## end module%38BAD0D3F230.cp
-
-//## Module: ColumnVectorData%38BAD0D3F230; Package body
-//## Subsystem: CCfits::Column%3934116D0008
-//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnVectorData.cxx
-
-//## begin module%38BAD0D3F230.additionalIncludes preserve=no
-//## end module%38BAD0D3F230.additionalIncludes
-
-//## begin module%38BAD0D3F230.includes preserve=yes
-//## end module%38BAD0D3F230.includes
 
 // ColumnVectorData
 #include "ColumnVectorData.h"
-//## begin module%38BAD0D3F230.declarations preserve=no
-//## end module%38BAD0D3F230.declarations
 
-//## begin module%38BAD0D3F230.additionalDeclarations preserve=yes
-//## end module%38BAD0D3F230.additionalDeclarations
-
-
-//## begin module%38BAD0D3F230.epilog preserve=yes
 namespace CCfits
 {
-        
+
 #ifndef SPEC_TEMPLATE_IMP_DEFECT
 #ifndef SPEC_TEMPLATE_DECL_DEFECT
 	    // duplicated for each complex type to work around imagined or
@@ -232,12 +205,12 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
         {
 
                 int status(0);
-    
+
     // check for sanity of inputs, then write to file.
     // this function writes only complete rows to a table with
     // fixed width rows.
-    
-    
+
+
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
 #ifdef SSTREAM_DEFECT
@@ -250,26 +223,26 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
 #ifdef SSTREAM_DEFECT
                         msgStr << std::ends;
 #endif
-                        
-                        
+
+
                         String msg(msgStr.str());
-            
+
                         throw Column::InsufficientElements(msg);
                 } 
-                
+
                 FITSUtil::auto_array_ptr<float> realData(new float[2*nElements]);
-                
+
                 for (int j = 0; j < nElements; ++j)
                 {
                         realData[2*j] = data[j].real();
                         realData[2*j+1] = data[j].imag();       
                 }
-                
-                
-    
+
+
+
                 if (fits_write_col_cmp(fitsPointer(),index(),firstRow,
                         1,nElements,realData.get(),&status)) throw FitsError(status);
-    
+
                 parent()->updateRows();
         }
 
@@ -279,12 +252,12 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                          complex<double>* nullValue)
         {
                 int status(0);
-    
+
     // check for sanity of inputs, then write to file.
     // this function writes only complete rows to a table with
     // fixed width rows.
-    
-    
+
+
                 if ( nElements < nRows*static_cast<long>(repeat()) )
                 {
 #ifdef SSTREAM_DEFECT
@@ -295,23 +268,23 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                         msgStr << " input array size: " << nElements 
                                         << " required " << nRows*repeat();
                         String msg(msgStr.str());
-            
+
                         throw Column::InsufficientElements(msg);
                 } 
-                
+
                 FITSUtil::auto_array_ptr<double> realData(new double[2*nElements]);
-                
+
                 for (int j = 0; j < nElements; ++j)
                 {
                         realData[2*j] = data[j].real();
                         realData[2*j+1] = data[j].imag();       
                 }
-                
-                
-    
+
+
+
                 if (fits_write_col_dblcmp(fitsPointer(),index(),firstRow,
                         1,nElements,realData.get(),&status)) throw FitsError(status);
-    
+
                 parent()->updateRows();
 
         }
@@ -353,6 +326,5 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
 
         }
 #endif
-        
+
 }
-//## end module%38BAD0D3F230.epilog

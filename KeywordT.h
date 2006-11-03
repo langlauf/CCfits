@@ -1,11 +1,7 @@
-//1
-//2
-//3
-//4
 
-//	This is version 1.3 dated Feb 2005
+//	This is version 1.6 release dated Nov 2006
 
-//	Laboratory for High Energy Astrophysics,
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
@@ -61,7 +57,7 @@ namespace CCfits
            }
 
    }
-        
+
 #if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
    template<>
    inline double& Keyword::value(double& val) const
@@ -108,7 +104,7 @@ namespace CCfits
       }
       return val;
    }
-   
+
    // NOTE: This function actually instantiates Keyword::value<double>
    // and therefore must be defined AFTER the specialized 
    // definition/declaration.
@@ -119,7 +115,7 @@ namespace CCfits
       val = static_cast<float>(value(dval));
       return val;
    }
-   
+
    template <>
    inline int& Keyword::value(int& val) const
    {

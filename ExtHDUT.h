@@ -1,11 +1,7 @@
-//1
-//2
-//3
-//4
 
-//	This is version 1.3 dated Feb 2005
+//	This is version 1.6 dated Nov 2006
 
-//	Laboratory for High Energy Astrophysics,
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
@@ -30,10 +26,10 @@ namespace CCfits
                                 std::multiplies<long>()));
                 read(image,1,nElements,static_cast<S*>(0));
 
-                
+
         }
 
-        
+
 
         template <typename S>
         void ExtHDU::read (std::valarray<S>& image, long first,long nElements) 
@@ -41,11 +37,11 @@ namespace CCfits
                 makeThisCurrent();
                 read(image, first,nElements,static_cast<S*>(0));
         }
-        
+
         template <typename S>
         void ExtHDU::read (std::valarray<S>& image, long first, long nElements,  S* nulValue) 
         {
-                
+
                 makeThisCurrent();                
                 if ( ImageExt<S>* extimage = dynamic_cast<ImageExt<S>*>(this))
                 {
@@ -135,7 +131,7 @@ namespace CCfits
                 }
 
         }  
-        
+
         template<typename S>
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& first,
 				long nElements, 
@@ -155,12 +151,12 @@ namespace CCfits
                    dimSize *=naxes(i);   
                 }
                 ++firstElement;                
-                
+
 
                 read(image, firstElement,nElements,nulValue);
 
 
-                   
+
         } 
 
         template<typename S>
@@ -169,9 +165,9 @@ namespace CCfits
         {
                 makeThisCurrent();
                 read(image, first,nElements,static_cast<S*>(0));
-                   
+
         } 
-                
+
         template<typename S>
         void ExtHDU::read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
@@ -313,7 +309,7 @@ namespace CCfits
                                         std::valarray<S> copyData(data);
                                         std::replace(&copyData[0],&copyData[data.size()],
                                             static_cast<unsigned char>(*nulValue),blankVal);
-                                 
+
                                         FITSUtil::fill(__tmp,copyData);                                        
 
                                         imageExt.writeImage(first,nElements,__tmp);                          }
@@ -427,7 +423,7 @@ namespace CCfits
         void ExtHDU::write(long first,
                             long nElements,const std::valarray<S>& data)
         {                
-                
+
                 makeThisCurrent();
                 if (ImageExt<S>* extimage = dynamic_cast<ImageExt<S>*>(this))
                 {
@@ -503,7 +499,7 @@ namespace CCfits
                         }        
                 }
         }
-        
+
         template <typename S>
         void ExtHDU::write(const std::vector<long>& first,
                         long nElements,
@@ -521,10 +517,10 @@ namespace CCfits
                         dimSize *=naxes(i);   
                 }       
                 ++firstElement;
-                
+
                 write(firstElement,nElements,data,nulValue);
         }
-        
+
         template <typename S>
         void ExtHDU::write(const std::vector<long>& first,
                         long nElements,
@@ -542,10 +538,10 @@ namespace CCfits
                         dimSize *=naxes(i);   
                 }       
                 ++firstElement;
-                
+
                 write(firstElement,nElements,data);                     
         }        
-        
+
 
         template <typename S>
         void ExtHDU::write(const std::vector<long>& firstVertex,
@@ -637,7 +633,7 @@ namespace CCfits
                         }        
                 }  
         }  
-        
+
 
 } //namespace CCfits
 

@@ -1,5 +1,5 @@
-// cookbook CCfits demonstration program, for release version 1.3 Feb 2005
-//	Laboratory for High Energy Astrophysics,
+// cookbook CCfits demonstration program, for release version 1.6 Nov 2006
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov

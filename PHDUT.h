@@ -1,11 +1,7 @@
-//1
-//2
-//3
-//4
 
-//	This is version 1.3 dated Feb 2005
+//	This is version 1.6 release dated Nov 2006
 
-//	Laboratory for High Energy Astrophysics,
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
@@ -22,24 +18,24 @@
 
 namespace CCfits
 {
-        
+
         template <typename S>
         void PHDU::read (std::valarray<S>& image)
         {
                 long init(1);
                 long nElements(std::accumulate(naxes().begin(),naxes().end(),init,
                                 std::multiplies<long>()));
-                
+
                 read(image,1,nElements,static_cast<S*>(0));
         }
-        
-        
+
+
         template <typename S>
         void  PHDU::read (std::valarray<S>& image, long first,long nElements) 
         {
                 read(image, first,nElements,static_cast<S*>(0));
         }
-        
+
         template <typename S>
         void  PHDU::read (std::valarray<S>& image, long first, long nElements,  S* nullValue) 
         {
@@ -60,7 +56,7 @@ namespace CCfits
                                 float nulVal(0);
                                 if (nullValue) nulVal = static_cast<float>(*nullValue);                                 
                                 FITSUtil::fill(image,phdu.readImage(first,nElements,&nulVal));
-                                
+
                         }
                         else if (bitpix() == Idouble)
                         {
@@ -69,7 +65,7 @@ namespace CCfits
                                 double nulVal(0);
                                 if (nullValue) nulVal = static_cast<double>(*nullValue);                                 
                                 FITSUtil::fill(image,phdu.readImage(first,nElements,&nulVal));
-                              
+
                         }
                         else if (bitpix() == Ibyte)
                         {
@@ -121,7 +117,7 @@ namespace CCfits
                                         if (nullValue) nulVal = static_cast<short>(*nullValue);                                 
                                         FITSUtil::fill(image,
                                                         phdu.readImage(first,nElements,&nulVal));                             
-                                        
+
                                 }
                         }          
                         else 
@@ -131,7 +127,7 @@ namespace CCfits
                 }
 
         }  
-        
+
         template<typename S>
         void  PHDU::read (std::valarray<S>& image, const std::vector<long>& first, 
 				long nElements, 
@@ -151,12 +147,12 @@ namespace CCfits
                    dimSize *=naxes(i);   
                 }
                 ++firstElement;                
-                
+
 
                 read(image, firstElement,nElements,nullValue);
 
 
-                   
+
         } 
 
         template<typename S>
@@ -164,9 +160,9 @@ namespace CCfits
 				long nElements)
         {
                 read(image, first,nElements,static_cast<S*>(0));
-                   
+
         } 
-                
+
         template<typename S>
         void  PHDU::read (std::valarray<S>& image, const std::vector<long>& firstVertex, 
 				const std::vector<long>& lastVertex, 
@@ -274,7 +270,7 @@ namespace CCfits
                         const std::valarray<S>& data,
                         S* nullValue)
         {                
-                
+
                 // for integer types, must do the null value substitution before
                 // data conversion.
                 makeThisCurrent();
@@ -312,7 +308,7 @@ namespace CCfits
                                         std::valarray<S> copyData(data);
                                         std::replace(&copyData[0],&copyData[data.size()],
                                                 static_cast<unsigned char>(*nullValue),blankVal);
-                             
+
                                         FITSUtil::fill(__tmp,copyData);                                        
 
                                         phdu.writeImage(first,nElements,__tmp);                          }
@@ -418,13 +414,13 @@ namespace CCfits
                 }
         }
 
-  
+
         template <typename S>
         void PHDU::write(long first,
                             long nElements,
                         const std::valarray<S>& data)
         {                
-                
+
                 // for integer types, must do the null value substitution before
                 // data conversion.
                 makeThisCurrent();
@@ -502,7 +498,7 @@ namespace CCfits
                         }        
                 }
         }        
-              
+
         template <typename S>
         void PHDU::write(const std::vector<long>& first,
                         long nElements,
@@ -519,10 +515,10 @@ namespace CCfits
                         dimSize *=naxes(i);   
                 }       
                 ++firstElement;
-                
+
                 write(firstElement,nElements,data,nullValue);
         }
-        
+
         template <typename S>
         void PHDU::write(const std::vector<long>& first,
                         long nElements,
@@ -539,10 +535,10 @@ namespace CCfits
                         dimSize *=naxes(i);   
                 }       
                 ++firstElement;
-                
+
                 write(firstElement,nElements,data);                     
         }        
-        
+
 
         template <typename S>
         void PHDU::write(const std::vector<long>& firstVertex,
@@ -597,7 +593,7 @@ namespace CCfits
                                         std::valarray<unsigned long> __tmp(n);
                                         for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
                                         phdu.writeImage(firstVertex,lastVertex,stride,__tmp);                         
-                                        
+
                                 }
                                 else
                                 {
@@ -619,7 +615,7 @@ namespace CCfits
                                         std::valarray<unsigned short> __tmp(n);
                                         for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
                                         phdu.writeImage(firstVertex,lastVertex,stride,__tmp);                         
-                                        
+
                                 }
                                 else
                                 {
@@ -638,9 +634,9 @@ namespace CCfits
                         }        
                 }  
         }  
-        
-                
-        
-        
+
+
+
+
 } // namespace CCfits
 #endif

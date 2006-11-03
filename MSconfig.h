@@ -4,7 +4,7 @@
     frequently seen warning messages.  The functions defined are part
     of the standard of the standard C++ library, but are missing from
     the MicroSoft library.
- 
+
     This file is included directly when autoconf/automake is not being used
     on a MicroSoft Windows platform.  If autoconf/automake is being
     used, then it is also included in config.h.
@@ -15,9 +15,9 @@
 
     @todo @b Oded: Associate icons with executable and document files.
     .bmp files for this purpose are in the images subdirectory.
-  
-    $Id: MSconfig.h,v 3.3 2003/05/09 19:40:14 pfkeb Exp $
- 
+
+    $Id: MSconfig.h,v 3.4 2006/11/01 16:45:10 gordon Exp $
+
     Author: Paul_Kunz@slac.stanford.edu */
 
 // Use "#pragma once" instead of "ifndef MSCONFIG_H, define MSCONFIG_H,

@@ -1,42 +1,18 @@
-//## begin module%1.4%.codegen_version preserve=yes
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//## end module%1.4%.codegen_version
-
-//## begin module%385E52DC1BA0.cm preserve=no
-//	This is version 1.3 release dated Feb 2005
-//## end module%385E52DC1BA0.cm
-
-//## begin module%385E52DC1BA0.cp preserve=no
-//	Laboratory for High Energy Astrophysics,
+//	This is version 1.6 release dated Nov 2006
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
 //	Original author: Ben Dorman, L3-Communications EER Systems Inc.
-//## end module%385E52DC1BA0.cp
-
-//## Module: ColumnData%385E52DC1BA0; Package body
-//## Subsystem: CCfits::Column%3934116D0008
-//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ColumnData.cxx
-
-//## begin module%385E52DC1BA0.additionalIncludes preserve=no
-//## end module%385E52DC1BA0.additionalIncludes
-
-//## begin module%385E52DC1BA0.includes preserve=yes
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
-//## end module%385E52DC1BA0.includes
 
 // ColumnData
 #include "ColumnData.h"
-//## begin module%385E52DC1BA0.declarations preserve=yes
 #include <algorithm>
-//## end module%385E52DC1BA0.declarations
-
-//## begin module%385E52DC1BA0.additionalDeclarations preserve=yes
 namespace CCfits
 {
 
@@ -59,8 +35,8 @@ namespace CCfits
                   std::copy(__tmp.begin(),__tmp.end(),m_data.begin());
           }
           std::copy(indata.begin(),indata.end(),m_data.begin()+firstRow-1);
-           
-          
+
+
           for (size_t i = 0; i < indata.size(); ++i)
           {
                 delete [] columnData[i];
@@ -185,7 +161,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 
           for (int j = firstRow; j < nelements; ++j)
           {
-                
+
                 m_data[j - 1] = std::complex<float>(array[2*j],array[2*j+1]);
           }
 
@@ -217,7 +193,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 
           for (int j = firstRow; j < nelements; j++)
           {
-                
+
                 m_data[j - 1] = std::complex<double>(array[2*j],array[2*j+1]);
           }
 
@@ -241,7 +217,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                         Data[ 2*j] = inData[j].real();
                         Data[ 2*j + 1] = inData[j].imag();
                 }     
-                
+
                 try
                 {
 
@@ -285,7 +261,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                         pData[ 2*j] = inData[j].real();
                         pData[ 2*j + 1] = inData[j].imag();
                 }     
-                
+
                 try
                 {
 
@@ -314,8 +290,4 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 #endif       
 
 } // namespace CCfits
-//## end module%385E52DC1BA0.additionalDeclarations
 
-
-//## begin module%385E52DC1BA0.epilog preserve=yes
-//## end module%385E52DC1BA0.epilog

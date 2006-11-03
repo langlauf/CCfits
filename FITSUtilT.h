@@ -1,11 +1,7 @@
-//1
-//2
-//3
-//4
 
-//	This is version 1.3 dated Feb 2005
+//	This is version 1.6 release dated Nov 2006
 
-//	Laboratory for High Energy Astrophysics,
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
@@ -42,7 +38,7 @@ namespace CCfits
         {
 
                 // vector to vector conversion.
-                
+
 	        template <typename S, typename T> 
 	        void 
 	        fill(std::vector<S>& outArray, const std::vector<T>& inArray, size_t first, size_t last)
@@ -80,7 +76,7 @@ namespace CCfits
                          for (size_t j = 0;j < n; ++j) outArray[j] 
                                  = static_cast<S>(inArray[j]);
 	        }
-                
+
 #ifdef TEMPLATE_AMBIG7_DEFECT
 	        template <typename S, typename T> 
 	        void fillMSva(std::vector<S>& outArray, const std::valarray<T>& inArray)
@@ -101,7 +97,7 @@ namespace CCfits
                                  = static_cast<S>(inArray[j]);
 	        }
 #endif
-               
+
                 // throw exceptions for string conversions to anything other than string.
 
 
@@ -143,6 +139,6 @@ namespace CCfits
         }
 
 } // namespace CCfits
-                      
-                        
+
+
 #endif

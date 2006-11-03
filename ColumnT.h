@@ -1,11 +1,7 @@
-//1
-//2
-//3
-//4
 
-//	This is version 1.3 dated Feb 2005
+//	This is version 1.6 release dated Nov 2006
 
-//	Laboratory for High Energy Astrophysics,
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
@@ -50,7 +46,7 @@ namespace CCfits
         {
                 read(vals,first,last,static_cast<S*>(0));
         }
-        
+
 
         template <typename S>
         void Column::read(std::vector<S>& vals, long first, long last, S* nullValue) 
@@ -64,7 +60,7 @@ namespace CCfits
                 {
                         // fails if user requested outputType different from input type.
 
-                        
+
                         if (!isRead()) col->readColumnData(first,nelements,nullValue);
                         // scalar column with vector output can just be assigned.
                         FITSUtil::fill(vals,col->data(),first,last);
@@ -218,7 +214,7 @@ namespace CCfits
                 {
                         // fails if user requested outputType different from input type.
 
-                        
+
                         if (!isRead()) col->readColumnData(first,nelements,nullValue);                                  
                         FITSUtil::fill(vals,col->data(),first,last);
 
@@ -377,7 +373,7 @@ namespace CCfits
                 {
                         // fails if user requested outputType different from input type.
 
-                        
+
 
                         // input and output are both valarrays. Since one should not
                         // be able to call a constructor for a non-numeric valarray type,
@@ -738,7 +734,7 @@ namespace CCfits
                 write(indata,nRows,firstRow,static_cast<S*>(0));                
         }
 
-        
+
         template <typename S>                   
         void Column::write (const std::vector<S>& indata, long firstRow, S* nullValue)
         {
@@ -747,8 +743,8 @@ namespace CCfits
                 // [which the others call] because it accepts string arguments
                 // which the version with a pointer won't. [no version that
                 // translates to a char** argument].
-                
-                
+
+
                 parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
                 if (ColumnData<S>* col = dynamic_cast<ColumnData<S>*>(this))
@@ -882,8 +878,8 @@ namespace CCfits
                         }
                 }
         }
-        
-                
+
+
         template <typename S>                   
         void Column::write (const std::valarray<S>& indata, long firstRow, S* nullValue)
         {
@@ -903,14 +899,14 @@ namespace CCfits
                 write(__tmp,firstRow, nullValue);
 
         }
-        
+
         template <typename S>
         void Column::write (const std::valarray<S>& indata, const std::vector<long>& vectorLengths,  
                                 long firstRow)
         {
                 // variable length arrays written from an input valarray.
                 // does not allow NULL value.
-                
+
                 using std::valarray;
                 parent()->makeThisCurrent();
                 firstRow = std::max(firstRow,static_cast<long>(1));
@@ -1027,7 +1023,7 @@ namespace CCfits
                         }
                 }
         }
-        
+
         template <typename S>
         void Column::write (const std::vector<S>& indata,const std::vector<long>& vectorLengths,
                                 long firstRow)
@@ -1039,7 +1035,7 @@ namespace CCfits
                 write(__tmp,vectorLengths,firstRow);  
 
         }
-        
+
         template <typename S>
         void Column::write (S* indata, long nelements, const std::vector<long>& vectorLengths,
                                         long firstRow)
@@ -1049,26 +1045,26 @@ namespace CCfits
                 std::valarray<S> __tmp(indata,nelements);
                 write(__tmp,vectorLengths,firstRow);
         }        
- 
+
         template <typename S>
         void Column::write (const std::valarray<S>& indata, long nRows, long firstRow)
         {
                 write(indata,nRows,firstRow,static_cast<S*>(0));
         }
-        
+
         template <typename S>
         void Column::write (const std::vector<S>& indata, long nRows, long firstRow)
         {
                 write(indata,nRows,firstRow,static_cast<S*>(0));  
         }
-        
+
         template <typename S>
         void Column::write (S* indata, long nelements, long nRows, long firstRow)
         {
                 write(indata,nelements,nRows,firstRow,static_cast<S*>(0));              
         }        
 
-        
+
 
         template <typename S>
         void Column::write (const std::valarray<S>& indata, long nRows, long firstRow,
@@ -1211,7 +1207,7 @@ namespace CCfits
                         }
                 }
         }
-        
+
         template <typename S>
         void Column::write (const std::vector<S>& indata, long nRows, long firstRow, S* nullValue)
         {
@@ -1222,7 +1218,7 @@ namespace CCfits
                 std::copy(indata.begin(),indata.end(),&__tmp[0]);
                 write(__tmp,nRows,firstRow, nullValue);  
         }
-        
+
         template <typename S>
         void Column::write (S* indata, long nelements, long nRows, long firstRow, S* nullValue)
         {
@@ -1232,22 +1228,22 @@ namespace CCfits
                 std::valarray<S> __tmp(indata,nelements);
                 write(__tmp,nRows,firstRow, nullValue);              
         }        
-        
-               
+
+
         template <typename S>
         void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow)
         {
                 // vector<valarray>, no null value. 
                 writeArrays(indata,firstRow,static_cast<S*>(0));
         } 
-        
+
         template <typename S>
         void Column::writeArrays (const std::vector<std::valarray<S> >& indata, long firstRow,
                                         S* nullValue)
         {
                 // vector<valarray>, null value. primary
-                
-                
+
+
                 using std::valarray;
                 using std::vector;
                 parent()->makeThisCurrent();
@@ -1415,8 +1411,8 @@ namespace CCfits
                         }
                 }
         } 
-        
-        
+
+
         template <typename T>
         void Column::addNullValue(T nullVal)
         {
@@ -1431,10 +1427,10 @@ namespace CCfits
                 keyName << "TNULL" << index();
                 char* nullKey = const_cast<char*>(keyName.str().c_str());
 #endif
-                
-             
+
+
                 FITSUtil::MatchType<T> type;
-                
+
                 T dataType(type());
                 // update key but don't add to keyword list because it's really a column
                 // property not a table metadata property. And it needs to be automatically
@@ -1443,11 +1439,11 @@ namespace CCfits
                         throw FitsError(status);
 
                 if (fits_set_hdustruc(fitsPointer(),&status)) throw FitsError(status);   
-                
-                
+
+
                 if (ColumnVectorData<T>* col = dynamic_cast<ColumnVectorData<T>*>(this))
                 {
-                        
+
                         col->nullValue(nullVal);
                 }
                 else
@@ -1463,7 +1459,7 @@ namespace CCfits
                                 throw InvalidDataType(" setting null value for column ");
                         }                       
                 }
-                
+
         }
 } // namespace CCfits
 

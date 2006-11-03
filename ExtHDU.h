@@ -1,36 +1,19 @@
-//## begin module%1.4%.codegen_version preserve=yes
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//## end module%1.4%.codegen_version
-
-//## begin module%380397F42760.cm preserve=no
-//	This is version 1.3 release dated Feb 2005
-//## end module%380397F42760.cm
-
-//## begin module%380397F42760.cp preserve=no
-//	Laboratory for High Energy Astrophysics,
+//	This is version 1.6 release dated Nov 2006
+//	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
 //	Original author: Ben Dorman, L3-Communications EER Systems Inc.
-//## end module%380397F42760.cp
-
-//## Module: ExtHDU%380397F42760; Package specification
-//## Subsystem: CCfits::HDU%3826DF628F48
-//## Source file: /local/data/xerxes1/gordon/headas/heacore/CCfits/ExtHDU.h
 
 #ifndef EXTHDU_H
 #define EXTHDU_H 1
 
-//## begin module%380397F42760.additionalIncludes preserve=no
-//## end module%380397F42760.additionalIncludes
-
-// CCfitsHeader
-#include "CCfits.h"
 // HDU
 #include "HDU.h"
+// CCfitsHeader
+#include "CCfits.h"
 // FitsError
 #include "FitsError.h"
 
@@ -39,33 +22,23 @@ namespace CCfits {
 
 } // namespace CCfits
 
-//## begin module%380397F42760.includes preserve=yes
-//## end module%380397F42760.includes
-
-//## begin module%380397F42760.declarations preserve=no
-//## end module%380397F42760.declarations
-
-//## begin module%380397F42760.additionalDeclarations preserve=yes
-//## end module%380397F42760.additionalDeclarations
-
 
 namespace CCfits {
-  //## begin CCfits%37FE4140B6F8.initialDeclarations preserve=yes
 
 /*! \class ExtHDU::WrongExtensionType
     @ingroup FITSexcept
     @brief Exception to be thrown on unmatched extension types
-    
+
     This exception is to be thrown if the user requested a particular
     extension and it does not correspond to the expected type.
-    
+
 
 */
- 
-/*! \fn ExtHDU::WrongExtensionType::WrongExtensionType (const string& msg, bool silent);
+
+/*! \fn ExtHDU::WrongExtensionType::WrongExtensionType (const String& msg, bool silent);
 
         \brief Exception ctor, prefixes the string "Fits Error: wrong extension type" before the specific message.
-                        
+
         \param msg A specific diagnostic message
         \param silent if true, print message whether FITS::verboseMode is set or not.
 
@@ -74,7 +47,7 @@ namespace CCfits {
 /*! \class ExtHDU
 
     \brief base class for all FITS extension HDUs, i.e. Image Extensions and Tables.
-    
+
     ExtHDU needs to have the combined public interface of Table objects and images.
     It achieves this by providing the same set of read and write operations as PHDU,
     and also providing the same operations for extracting columns from the extension
@@ -83,7 +56,7 @@ namespace CCfits {
     access image data structures on a Table object through the ExtHDU interface
     will or trying to return a Column reference from an Image extension will both
     throw an exception
-        
+
 
 */
 
@@ -99,10 +72,10 @@ namespace CCfits {
 */
 
 
-/*! \fn      static void ExtHDU::readHduName (const fitsfile* fptr, int hduIndex, string& hduName, int& hduVersion);
+/*! \fn      static void ExtHDU::readHduName (const fitsfile* fptr, int hduIndex, String& hduName, int& hduVersion);
         \brief read extension name. 
-                
-                
+
+
         Used primarily to allow extensions to be specified by HDU number and provide
         their name for the associative array that contains them. Alternatively, if
         there is no name keyword in the extension, one is synthesized from the 
@@ -110,14 +83,14 @@ namespace CCfits {
 
 */
 
-/*! \fn      virtual void ExtHDU::readData (bool readFlag = false, const std::vector<string>& keys = std::vector<string>()) = 0;
-   
+/*! \fn      virtual void ExtHDU::readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>()) = 0;
+
         \brief read data from HDU depending on readFlag and keys.
-                
+
 
 */
 
-/*! \fn      const string& ExtHDU::name () const;
+/*! \fn      const String& ExtHDU::name () const;
         \brief return the name of the extension.
 
 */
@@ -126,65 +99,61 @@ namespace CCfits {
         \brief virtual copy constructor
 
 */
-                        
-/*! \fn  virtual Column& ExtHDU::column (const string& colName) const ;
+
+/*! \fn  virtual Column& ExtHDU::column (const String& colName) const ;
 
         \brief return a reference to a Table column specified by name. 
-                        
-                        
+
+
         The overridden base class implementation ExtHDU::column throws an exception,
         which is thus the action to be taken if self is an image extension
-                        
-        \exceptions WrongExtensionType see above
-                        
+
+        \exception WrongExtensionType see above
+
 */
-                        
+
 /*! \fn  virtual Column& ExtHDU::column (int colIndex) const;
 
         \brief return a reference to a Table column specified by column index. 
-                        
+
         This version is provided for convenience; the 'return by name' version is
         more efficient because columns are stored in an associative array sorted
         by name.     
-                                   
 
-        \exceptions WrongExtensionType thrown if *this is an image extension.
-                        
+
+        \exception WrongExtensionType thrown if *this is an image extension.
+
 */                       
-                        
-                        
+
+
 
 /*! \fn      const int ExtHDU::version () const;
         \brief return the extension version number.
 
 */
-      
+
 /*! \fn      void ExtHDU::version (int value);
         \brief set the extension version number
 
 */
 
-/*! \fn      std::string& ExtHDU::name ();
-        \brief set/return the extension name
 
-*/
-                        
 /*! \fn      long ExtHDU::rows () const;
         \brief return the number of rows in the extension.
-                        
+
         \exception WrongExtensionType thrown if *this is an image extension.
 
 */
 
 
-/*! \fn      ExtHDU::ExtHDU (FITSBase* p, HduType xtype, const string &hduName, int version);
+/*! \fn      ExtHDU::ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int version);
         \brief default constructor, required as Standard Library Container content.
 
 */
 
-/*! \fn      ExtHDU::ExtHDU (FITSBase* p, HduType xtype, const string &hduName, int bitpix, int naxis, const std::vector<long>& axes, int version);
+/*! \fn      ExtHDU::ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int bitpix, int naxis, const std::vector<long>& axes, int version);
         \brief	writing constructor. 
-      
+
       The writing constructor forces the user to supply a name for the HDU. The bitpix,
       naxes and naxis data required by this constructor are required FITS keywords for
       any HDUs.
@@ -192,86 +161,86 @@ namespace CCfits {
 
 /*! \fn      ExtHDU::ExtHDU (FITSBase* p, HduType xtype, int number);
       \brief ExtHDU constructor for getting ExtHDUs by number.
-              
+
       Necessary since EXTNAME is a reserved, not required, keyword. But
       a synthetic name is supplied by static ExtHDU::readHduName which
       is called by this constructor.
-        
+
 
 */
-                      
-/*!  \fn      virtual void ExtHDU::addColumn (ValueType type, const string& columnName, long repeatWidth, const string& colUnit = string(""), long decimals = -1, size_t  columnNumber = 0);
+
+/*!  \fn      virtual void ExtHDU::addColumn (ValueType type, const String& columnName, long repeatWidth, const String& colUnit = String(""), long decimals = -1, size_t  columnNumber = 0);
 
         \brief add a new column to an existing table HDU.
-                        
+
         \param type The data type of the column to be added
         \param columnName The name of the column to be added
         \param repeatWidth for a string valued, this is the width of a string. For
             a numeric column it supplies the vector length of the rows. It is ignored for
             ascii table numeric data.
         \param colUnit an optional field specifying the units of the data (TUNITn)
-        \param decimal optional parameter specifying the number of decimals for an ascii numeric column
+        \param decimals optional parameter specifying the number of decimals for an ascii numeric column
         \param columnNumber optional parameter specifying column number to be created. If not specified
                         the column is added to the end. If specified, the column is inserted and the
                         columns already read are reindexed.
                         This parameter is provided as a convenience to support existing code rather than 
                         recommended.                
-                        
+
 
 */
 
-/*! \fn      virtual void ExtHDU::deleteColumn(const string& columnName);
-        
+/*! \fn      virtual void ExtHDU::deleteColumn(const String& columnName);
+
         \brief delete a column in a Table extension by name.
-                        
+
         \param  columnName The name of the column to be deleted.
-                        
-        \exceptions  WrongExtensionType if extension is an image.
+
+        \exception  WrongExtensionType if extension is an image.
 */
-                        
+
 /*! \fn      template <typename S> void ExtHDU::read (std::valarray<S>& image); 
-                        
+
         \brief Read image data into container.
-                        
+
         The container image contains the entire image array after the call.
         This and all the other variants of read() throw a WrongExtensionType
         exception if called for a Table object.
 
 */
-                        
-                        
+
+
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                         long first,
                                         long nElements, 
                                         S* nullValue) ; 
-        
+
                 \brief read part of an image array, processing null values.
-                                
+
                 Implicit data conversion is supported (i.e. user does not need to know the 
                 type of the data stored. A WrongExtensionType extension is thrown
                 if *this is not an image. 
-                                
+
                 \param image The receiving container, a std::valarray reference 
                 \param first The first pixel from the array to read [a long value]
                 \param nElements The number of values to read
                 \param nullValue A pointer containing the value in the table to be 
                         considered as undefined. See cfitsio for details
-                
+
 
 */      
-                
+
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first, 
 		                long nElements, 
                                 S* nullValue)  ;
-                                
+
              \brief read part of an image array, processing null values.
-                             
+
              As above except for 
-                             
+
              \param first a vector<long> representing an n-tuple giving the
                     coordinates in the image of the first pixel.
- 
+
 
 */      
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
@@ -279,30 +248,30 @@ namespace CCfits {
 		                const std::vector<long>& lastVertex, 
 		                const std::vector<long>& stride, 
                                 S* nullValue) ; 
-                                
-                                
+
+
              \brief read an image subset into valarray image, processing null values
-                             
+
                 The image subset is defined by two vertices and a stride
                 indicating the 'denseness' of the values to be picked in each
                 dimension (a stride = (1,1,1,...) means picking every 
                 pixel in every dimension, whereas stride = (2,2,2,...)
                 means picking every other value in each dimension.
-                             
-                             
+
+
 */      
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 long first,
                                 long nElements) ; 
-                        
+
               \brief read an image section starting at a specified pixel
 
 */      
-                
+
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
                                 const std::vector<long>& first,
                                 long nElements); 
-                                                   
+
               \brief read an image section starting at a location specified by an n-tuple
 */      
 /*! \fn      template<typename S> void ExtHDU::read (std::valarray<S>& image, 
@@ -319,60 +288,60 @@ namespace CCfits {
                     long nElements,
                     const std::valarray<S>& data,
                     S* nullValue);
-                    
+
         \brief Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data
 
         All the overloaded versions of ExtHDU::write perform operations on *this if
         it is an image and throw a WrongExtensionType exception if not.
         Where appropriate, alternate versions allow undefined data to be processed
-                        
+
         \param first an n-tuple of dimension equal to the image dimension specifying the 
                 first pixel in the range to be written
         \param nElements number of pixels to be written
         \param data array of data to be written
-        \param pointer to null value (data with this value written as undefined; needs
+        \param nullValue pointer to null value (data with this value written as undefined; needs
                 the BLANK keyword to have been specified).
-                                
+
 */
-                        
-      
+
+
 /*! \fn template <typename S> void ExtHDU::write(long first,
                     long nElements, const std::valarray<S>& data, S* nullValue);
-                
+
         \brief write array to image starting with a specified pixel and allowing undefined data to be processed
-                        
+
         parameters after the first are as for version with n-tuple specifying first element.
         these two version are equivalent, except that it is possible for the
         first pixel number to exceed the range of 32-bit integers, which is
         how long datatype is commonly implemented.                
 */
-                
+
 /*! \fn template <typename S> void ExtHDU::write(const std::vector<long>& first,
                     long nElements, const std::valarray<S>& data);
-                
+
         \brief write array starting from specified n-tuple, without undefined data processing
 */
-                
+
 /*! \fn template <typename S> void ExtHDU::write(long first, long nElements,
                     const std::valarray<S>& data);
-                    
+
         \brief write array starting from specified pixel number, without undefined data processing
-             
-                    
+
+
 */
-                
+
 /*! \fn      template <typename S> void ExtHDU::write(const std::vector<long>& firstVertex,
                     const std::vector<long>& lastVertex,
                     const std::valarray<S>& data);     
-                
+
               \brief write a subset (generalize slice) of data to the image
-                        
+
                 A generalized slice/subset is a subset of the image (e.g. one plane
                 of a data cube of size <= the dimension of the cube). It is specified
                 by two opposite vertices. The equivalent cfitsio call does not support
                 undefined data processing so there is no version that allows a null
                 value to be specified.
-                              
+
                 \param firstVertex the coordinates specifying lower and upper vertices of the n-dimensional slice 
                 \param lastVertex
                 \param data The data to be written              
@@ -400,7 +369,7 @@ namespace CCfits {
 
 /*! \fn      const HduType ExtHDU::xtension () const;
         \brief return the extension type
-                
+
              allowed values are ImageHDU, AsciiTbl, and BinaryTbl
 
 */
@@ -416,55 +385,26 @@ namespace CCfits {
 
 */
 
-  //## end CCfits%37FE4140B6F8.initialDeclarations
 
-  //## begin CCfits::ExtHDU%380481E172B0.preface preserve=yes
-  //## end CCfits::ExtHDU%380481E172B0.preface
-
-  //## Class: ExtHDU%380481E172B0; protected
-  //## Category: CCfits::HDU%393417220088
-  //## Subsystem: CCfits::HDU%3826DF628F48
-  //## Persistence: Transient
-  //## Cardinality/Multiplicity: n
-
-
-
-  //## Uses: <unnamed>%3A1BF7F302C5;FITS { -> }
-  //## Uses: <unnamed>%3B252C0702D0;Column { -> F}
-  //## Uses: <unnamed>%3B5DA64002B4;FITSBase { -> }
 
   class ExtHDU : public HDU  //## Inherits: <unnamed>%38048213E7A8
   {
-    //## begin CCfits::ExtHDU%380481E172B0.initialDeclarations preserve=yes
-    //## end CCfits::ExtHDU%380481E172B0.initialDeclarations
 
     public:
-      //## Class: WrongExtensionType%39E61D7601C3
-      //## Category: CCfits::HDU%393417220088
-      //## Persistence: Transient
-      //## Cardinality/Multiplicity: n
 
 
 
       class WrongExtensionType : public FitsException  //## Inherits: <unnamed>%39E61E630349
       {
         public:
-          //## Constructors (specified)
-            //## Operation: WrongExtensionType%39E61D960161
             WrongExtensionType (const String& msg, bool silent = true);
 
         protected:
         private:
         private: //## implementation
       };
-
-      //## Constructors (generated)
         ExtHDU(const ExtHDU &right);
-
-      //## Destructor (generated)
         virtual ~ExtHDU();
-
-      //## Relational Operations (generated)
         friend bool operator<(const ExtHDU &left,const ExtHDU &right);
 
         friend bool operator>(const ExtHDU &left,const ExtHDU &right);
@@ -473,57 +413,29 @@ namespace CCfits {
 
         friend bool operator>=(const ExtHDU &left,const ExtHDU &right);
 
-
-      //## Other Operations (specified)
-        //## Operation: readHduName%394E89D202AE
         static void readHduName (const fitsfile* fptr, int hduIndex, String& hduName, int& hduVersion);
-
-        //## Operation: readData%3950DDC6030F
         virtual void readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>()) = 0;
-
-        //## Operation: name%39512F2002D9
         const String& name () const;
-
-        //## Operation: clone%395A106302D7
         virtual HDU * clone (FITSBase* p) const = 0;
-
-        //## Operation: makeThisCurrent%39CA57850315
         //	By all means necessary, set the fitsfile pointer so that
         //	this HDU is the current HDU.
         //
         //	This would appear to be a good candidate for the public
         //	interface.
         virtual void makeThisCurrent () const;
-
-        //## Operation: column%39E61E7901A6
         virtual Column& column (const String& colName) const;
-
-        //## Operation: column%39EDABAA0283
         virtual Column& column (int colIndex) const;
-
-        //## Operation: rows%3B0034DC031E
         virtual long rows () const;
-
-        //## Operation: addColumn%3B0AB73900AB
         virtual void addColumn (ValueType type, const String& columnName, long repeatWidth, const String& colUnit = String(""), long decimals = -1, size_t columnNumber = 0);
-
-        //## Operation: deleteColumn%3B0AB77801E0
         virtual void deleteColumn (const String& columnName);
-
-      //## Get and Set Operations for Class Attributes (generated)
-
-        //## Attribute: version%394E85AC02DD
         int version () const;
         void version (int value);
-
-        //## Attribute: missHDU%3AFC4D0D00E4
         static const String& missHDU ();
         static void setMissHDU (const String& value);
 
     public:
       // Additional Public Declarations
-        //## begin CCfits::ExtHDU%380481E172B0.public preserve=yes
-        
+
       // interface is virtually identical to PHDU. The implementation is
       // similar apart from a check for wrong extension type.
 
@@ -558,12 +470,12 @@ namespace CCfits {
       void write(const std::vector<long>& firstVertex,
                     const std::vector<long>& lastVertex,
                     const std::valarray<S>& data);     
-      
+
       // read image data & return the array. Can't return a reference because type
       // conversion in general requires allocating a new object.
       // note semantics of reading column data are easily distinguished: they require
       // the user to perform the operation EXT.column({name,index}).read(...)
-      
+
       template <typename S>
       void read (std::valarray<S>& image) ; 
 
@@ -584,7 +496,7 @@ namespace CCfits {
                       const std::vector<long>& firstVertex, 
 		      const std::vector<long>& lastVertex, 
 		      const std::vector<long>& stride) ; 
-      
+
       template<typename S>
       void read (std::valarray<S>& image, 
                       long first,
@@ -594,117 +506,58 @@ namespace CCfits {
       void read (std::valarray<S>& image, 
                       const std::vector<long>& first,
                       long nElements) ; 
-      
+
       template<typename S>
       void read (std::valarray<S>& image, 
                       const std::vector<long>& firstVertex, 
 		      const std::vector<long>& lastVertex, 
 		      const std::vector<long>& stride, 
                       S* nullValue) ; 
-                      
-      
-        //## end CCfits::ExtHDU%380481E172B0.public
+
     protected:
-      //## Constructors (specified)
-        //## Operation: ExtHDU%3846987DA210
         //	ExtHDU needs a default constructor. This is it.
         ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int version);
-
-        //## Operation: ExtHDU%3805D2960BC8
         //	The writing constructor. Forces the user to supply a name
         //	for the HDU
         ExtHDU (FITSBase* p, HduType xtype, const String &hduName, int bitpix, int naxis, const std::vector<long>& axes, int version);
-
-        //## Operation: ExtHDU%395116540257
         //	ExtHDU constructor for getting ExtHDUs by number.
         //	Necessary since EXTNAME is a reserved not required
         //	keyword.
         ExtHDU (FITSBase* p, HduType xtype, int number);
 
-
-      //## Other Operations (specified)
-        //## Operation: put%385A3E30D278
         virtual std::ostream & put (std::ostream &s) const = 0;
-
-        //## Operation: column%39E620F802DE
         virtual void column (const String& colname, Column* value);
-
-        //## Operation: checkExtensionType%3B045BEC0213
         virtual void checkExtensionType () const;
-
-        //## Operation: getVersion%3B38EDCD0324
         int getVersion ();
-
-      //## Get and Set Operations for Class Attributes (generated)
-
-        //## Attribute: pcount%384EC4333548
         long pcount () const;
         void pcount (long value);
-
-        //## Attribute: gcount%3805C8319C28
         long gcount () const;
         void gcount (long value);
-
-        //## Attribute: xtension%394E931301DA
         HduType xtension () const;
         void xtension (HduType value);
 
       // Additional Protected Declarations
-        //## begin CCfits::ExtHDU%380481E172B0.protected preserve=yes
-        //## end CCfits::ExtHDU%380481E172B0.protected
 
     private:
-
-      //## Other Operations (specified)
-        //## Operation: initRead%3846B7BB86C0
         virtual void initRead () = 0;
-
-        //## Operation: checkXtension%38D14FAB5EB8
         void checkXtension ();
 
       // Additional Private Declarations
-        //## begin CCfits::ExtHDU%380481E172B0.private preserve=yes
-        //## end CCfits::ExtHDU%380481E172B0.private
 
     private: //## implementation
       // Data Members for Class Attributes
-
-        //## begin CCfits::ExtHDU::pcount%384EC4333548.attr preserve=no  protected: long {U} 0
         long m_pcount;
-        //## end CCfits::ExtHDU::pcount%384EC4333548.attr
-
-        //## begin CCfits::ExtHDU::gcount%3805C8319C28.attr preserve=no  protected: long {U} 1
         long m_gcount;
-        //## end CCfits::ExtHDU::gcount%3805C8319C28.attr
-
-        //## begin CCfits::ExtHDU::version%394E85AC02DD.attr preserve=no  public: int {U} 0
         int m_version;
-        //## end CCfits::ExtHDU::version%394E85AC02DD.attr
-
-        //## begin CCfits::ExtHDU::xtension%394E931301DA.attr preserve=no  protected: HduType {U} xtype
         HduType m_xtension;
-        //## end CCfits::ExtHDU::xtension%394E931301DA.attr
-
-        //## begin CCfits::ExtHDU::missHDU%3AFC4D0D00E4.attr preserve=no  public: static String {V} "$HDU$"
         static String s_missHDU;
-        //## end CCfits::ExtHDU::missHDU%3AFC4D0D00E4.attr
 
       // Data Members for Associations
-
-        //## Association: CCfits::Column::<unnamed>%3EEF75D2033A
-        //## Role: ExtHDU::name%3EEF75D2033B
-        //## begin CCfits::ExtHDU::name%3EEF75D2033B.role preserve=no  public: CCfits::String { -> 1..1VHgN}
         String m_name;
-        //## end CCfits::ExtHDU::name%3EEF75D2033B.role
 
       // Additional Implementation Declarations
-        //## begin CCfits::ExtHDU%380481E172B0.implementation preserve=yes
-        //## end CCfits::ExtHDU%380481E172B0.implementation
 
   };
-
-  //## begin CCfits::ExtHDU%380481E172B0.postscript preserve=yes
-  //## end CCfits::ExtHDU%380481E172B0.postscript
 
   // Class CCfits::ExtHDU::WrongExtensionType 
 
@@ -712,7 +565,6 @@ namespace CCfits {
 
   inline bool operator<(const ExtHDU &left,const ExtHDU &right)
   {
-    //## begin CCfits::ExtHDU::operator<%380481E172B0_ls.body preserve=yes
         if (left.m_name < right.m_name) return true; 
         if (left.m_name > right.m_name) return false;
         if (left.m_name == right.m_name)
@@ -720,121 +572,85 @@ namespace CCfits {
                 if (left.m_version < right.m_version) return true;
         }      
         return false;       
-    //## end CCfits::ExtHDU::operator<%380481E172B0_ls.body
   }
 
   inline bool operator>(const ExtHDU &left,const ExtHDU &right)
   {
-    //## begin CCfits::ExtHDU::operator>%380481E172B0_gt.body preserve=yes
      return !operator<=(left,right);
-    //## end CCfits::ExtHDU::operator>%380481E172B0_gt.body
   }
 
   inline bool operator<=(const ExtHDU &left,const ExtHDU &right)
   {
-    //## begin CCfits::ExtHDU::operator<=%380481E172B0_lseq.body preserve=yes
         if (left.m_name <= right.m_name) 
         {
                 if (left.m_version <= right.m_version) return true;
         }
         return false;     
-    //## end CCfits::ExtHDU::operator<=%380481E172B0_lseq.body
   }
 
   inline bool operator>=(const ExtHDU &left,const ExtHDU &right)
   {
-    //## begin CCfits::ExtHDU::operator>=%380481E172B0_gteq.body preserve=yes
     return !operator<(left,right);    
-    //## end CCfits::ExtHDU::operator>=%380481E172B0_gteq.body
   }
 
 
-
-  //## Other Operations (inline)
   inline const String& ExtHDU::name () const
   {
-    //## begin CCfits::ExtHDU::name%39512F2002D9.body preserve=yes
-    //## end CCfits::ExtHDU::name%39512F2002D9.body
 
     return m_name;
   }
 
-  //## Get and Set Operations for Class Attributes (inline)
-
   inline long ExtHDU::pcount () const
   {
-    //## begin CCfits::ExtHDU::pcount%384EC4333548.get preserve=no
     return m_pcount;
-    //## end CCfits::ExtHDU::pcount%384EC4333548.get
   }
 
   inline void ExtHDU::pcount (long value)
   {
-    //## begin CCfits::ExtHDU::pcount%384EC4333548.set preserve=no
     m_pcount = value;
-    //## end CCfits::ExtHDU::pcount%384EC4333548.set
   }
 
   inline long ExtHDU::gcount () const
   {
-    //## begin CCfits::ExtHDU::gcount%3805C8319C28.get preserve=no
     return m_gcount;
-    //## end CCfits::ExtHDU::gcount%3805C8319C28.get
   }
 
   inline void ExtHDU::gcount (long value)
   {
-    //## begin CCfits::ExtHDU::gcount%3805C8319C28.set preserve=no
     m_gcount = value;
-    //## end CCfits::ExtHDU::gcount%3805C8319C28.set
   }
 
   inline int ExtHDU::version () const
   {
-    //## begin CCfits::ExtHDU::version%394E85AC02DD.get preserve=no
     return m_version;
-    //## end CCfits::ExtHDU::version%394E85AC02DD.get
   }
 
   inline void ExtHDU::version (int value)
   {
-    //## begin CCfits::ExtHDU::version%394E85AC02DD.set preserve=no
     m_version = value;
-    //## end CCfits::ExtHDU::version%394E85AC02DD.set
   }
 
   inline HduType ExtHDU::xtension () const
   {
-    //## begin CCfits::ExtHDU::xtension%394E931301DA.get preserve=no
     return m_xtension;
-    //## end CCfits::ExtHDU::xtension%394E931301DA.get
   }
 
   inline void ExtHDU::xtension (HduType value)
   {
-    //## begin CCfits::ExtHDU::xtension%394E931301DA.set preserve=no
     m_xtension = value;
-    //## end CCfits::ExtHDU::xtension%394E931301DA.set
   }
 
   inline const String& ExtHDU::missHDU ()
   {
-    //## begin CCfits::ExtHDU::missHDU%3AFC4D0D00E4.get preserve=no
     return s_missHDU;
-    //## end CCfits::ExtHDU::missHDU%3AFC4D0D00E4.get
   }
 
   inline void ExtHDU::setMissHDU (const String& value)
   {
-    //## begin CCfits::ExtHDU::setMissHDU%3AFC4D0D00E4.set preserve=no
     s_missHDU = value;
-    //## end CCfits::ExtHDU::setMissHDU%3AFC4D0D00E4.set
   }
 
 } // namespace CCfits
-
-//## begin module%380397F42760.epilog preserve=yes
-//## end module%380397F42760.epilog
 
 
 #endif
