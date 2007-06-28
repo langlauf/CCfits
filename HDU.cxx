@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -163,44 +165,65 @@ namespace CCfits {
   // Read BITPIX and NAXIS keywords 
   int status = 0;
   char* comment = 0;
-  //string keyname("BITPIX");
-  //
-  //
-  //if (fits_read_key_lng(fitsPointer(),const_cast<char*>(keyname.c_str()),&m_bitpix,comment,&status) )
-  //    throw FitsError(status);
 
-  String keyname = String("NAXIS");
-
-  if (fits_read_key_lng(fitsPointer(),const_cast<char*>(keyname.c_str()),&m_naxis,comment,&status) )
-      throw FitsError(status);
+  int htype = -1;
+  if (fits_get_hdu_type(fitsPointer(),&htype,&status))
+     throw FitsError(status);
+  HduType xtype = HduType(htype);
+  if (xtype == ImageHdu)
+  {
+     // Do not try and read BITPIX or NAXIS directly.  If this is a
+     // compressed image, the relevant information will need to come
+     // from ZBITPIX and ZNAXIS instead.
+     int temp = 0;
+     if (fits_get_img_type(fitsPointer(), &temp, &status))
+        throw FitsError(status);
+     m_bitpix = temp;
+     if (fits_get_img_dim(fitsPointer(), &temp, &status))
+        throw FitsError(status);
+     m_naxis = temp;
+  }
+  else
+  {
+     // m_bitpix will retain its default value, 8.
+     string keyname("NAXIS");
+     if (fits_read_key_lng(fitsPointer(),const_cast<char*>(keyname.c_str()),
+                &m_naxis, comment, &status))
+        throw FitsError(status);
+  }
 
   // okay, we have the number of axes and therefore the number of values
-  // NAXISn.
-
+  // (z)NAXISn.
 
   FITSUtil::auto_array_ptr<long> axes(new long[m_naxis]);
   long* pAxes = axes.get();
 
-
-  // create strings NAXIS1 - NAXISn, where n = NAXIS, and read keyword.
-
-  for (int i=0; i <m_naxis; i++)
-  {  
-#ifdef SSTREAM_DEFECT
-        std::ostrstream axisKey;
-	axisKey << keyname << i+1 << std::ends;
-        if (fits_read_key_lng(fitsPointer(),axisKey.str(),&pAxes[i],comment,&status) ) 
-                throw FitsError(status);
-#else
-	std::ostringstream axisKey;
-	axisKey << keyname << i+1;
-        if (fits_read_key_lng(fitsPointer(),const_cast<char*>(axisKey.str().c_str()),
-                                                                &pAxes[i],comment,&status) ) 
-                throw FitsError(status);
-#endif
+  if (xtype == ImageHdu)
+  {
+     if (fits_get_img_size(fitsPointer(), m_naxis, pAxes, &status))
+        throw FitsError(status);
   }
+  else
+  {
+     // create strings NAXIS1 - NAXISn, where n = NAXIS, and read keyword.
+     for (int i=0; i <m_naxis; i++)
+     {  
+        string keyname("NAXIS");
+        #ifdef SSTREAM_DEFECT
+           std::ostrstream axisKey;
+	   axisKey << keyname << i+1 << std::ends;
+           if (fits_read_key_lng(fitsPointer(),axisKey.str(),&pAxes[i],comment,&status) ) 
+                   throw FitsError(status);
+        #else
+	   std::ostringstream axisKey;
+	   axisKey << keyname << i+1;
+           if (fits_read_key_lng(fitsPointer(),const_cast<char*>(axisKey.str().c_str()),
+                                                                   &pAxes[i],comment,&status) ) 
+                   throw FitsError(status);
+        #endif
+     }
 
-
+  }
   std::copy(&pAxes[0],&pAxes[m_naxis], std::back_inserter(m_naxes));
   }
 

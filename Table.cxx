@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -11,10 +13,10 @@
 #include "Column.h"
 // ColumnCreator
 #include "ColumnCreator.h"
-// Table
-#include "Table.h"
 // FITS
 #include "FITS.h"
+// Table
+#include "Table.h"
 
 #include <algorithm>
 

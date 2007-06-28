@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,24 +12,24 @@
 #ifndef HDUCREATOR_H
 #define HDUCREATOR_H 1
 
-// typeinfo
-#include <typeinfo>
-// valarray
-#include <valarray>
-// string
-#include <string>
-// vector
-#include <vector>
-// CCfitsHeader
-#include "CCfits.h"
 // FitsError
 #include "FitsError.h"
+// typeinfo
+#include <typeinfo>
+// CCfitsHeader
+#include "CCfits.h"
+// string
+#include <string>
+// valarray
+#include <valarray>
+// vector
+#include <vector>
 
 namespace CCfits {
+  class ExtHDU;
+  class PHDU;
   class FITSBase;
   class HDU;
-  class PHDU;
-  class ExtHDU;
 
 } // namespace CCfits
 

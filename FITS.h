@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,23 +12,23 @@
 #ifndef FITS_H
 #define FITS_H 1
 
-// exception
-#include <exception>
+// FitsError
+#include "FitsError.h"
+// ExtHDU
+#include "ExtHDU.h"
 // string
 #include <string>
 // map
 #include <map>
-// ExtHDU
-#include "ExtHDU.h"
+// exception
+#include <exception>
 // HDUCreator
 #include "HDUCreator.h"
-// FitsError
-#include "FitsError.h"
 
 namespace CCfits {
-  class FITSBase;
-  class PHDU;
   class Table;
+  class PHDU;
+  class FITSBase;
 
 } // namespace CCfits
 //class PHDU;
@@ -617,7 +619,7 @@ do this either).
        \brief Get the int specifying the compression algorithm to be used when adding an image extension.       
    */
 
-   /*! \fn  int FITS::getTileDimensions (std::vector<long>& tileSizes) const
+   /*! \fn  void FITS::getTileDimensions (std::vector<long>& tileSizes) const
        \brief Get the current settings of dimension sizes for tiles used in image compression.
 
        \param tileSizes A vector to be filled with cfitsio's current tile dimension settings.

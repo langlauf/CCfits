@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,14 +12,14 @@
 #ifndef IMAGEEXT_H
 #define IMAGEEXT_H 1
 
-// ExtHDU
-#include "ExtHDU.h"
-// HDUCreator
-#include "HDUCreator.h"
 // Image
 #include "Image.h"
+// ExtHDU
+#include "ExtHDU.h"
 // FITSUtil
 #include "FITSUtil.h"
+// HDUCreator
+#include "HDUCreator.h"
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif

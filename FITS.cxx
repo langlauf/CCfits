@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -1033,15 +1035,65 @@ namespace CCfits {
   void FITS::copy (const HDU& source)
   {
     int status(0);
+    bool isOK = true;    
 
-    source.makeThisCurrent();
+    const ExtHDU* testSource = dynamic_cast<const ExtHDU*>(&source);
+    if (!testSource)
+    {
+       // If not an ExtHDU, source must be a PHDU.  At the moment there's
+       // no way to convert it to an ExtHDU, which is necessary to insert
+       // it into the extension map. 
+       std::cerr << "Cannot copy a primary HDU of one file into an extension of another.\n"; 
+       return;
+    }
 
-    if (fits_copy_hdu(source.fitsPointer(),fitsPointer(),0,&status)) 
-                throw FitsError(status);      
+    HDU* hduCopy = source.clone(m_FITSImpl);
+    std::auto_ptr<ExtHDU> extCopy(static_cast<ExtHDU*>(hduCopy));
+    const String& hduName = extCopy->name(); 
+    size_t N = extension().count(hduName);
+    std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+    if ( N > 0 )
+    {
+       ExtMapIt s(matches.first);
+       while  ( s != matches.second )
+       {
+          ExtHDU* current = s->second;
+          if (current->version() == extCopy->version()) 
+          {
+             std::cerr << " Extension " << hduName << " with version " 
+                     << extCopy->version() << " already exists.\n ";
+             isOK = false;
+             break;
+          }
+          ++s;       
+       } 
+    }      
 
-    // the fits file has been updated, although the data have not 
-    // been read.
+    if (isOK)
+    {    
+       source.makeThisCurrent();
 
+       if (fits_copy_hdu(source.fitsPointer(),fitsPointer(),0,&status))
+                   throw FitsError(status); 
+
+       // the fits file has been updated, although the data have not 
+       // been read.
+
+       addExtension(extCopy.get());
+       Table* tableCopy = dynamic_cast<Table*>(extCopy.get());
+       extCopy.release();
+       if (!tableCopy)
+       {
+          // Assume this is copying an image
+          if (getCompressionType())
+          {
+             if (extCopy->axes() > m_FITSImpl->currentCompressionTileDim())
+             {
+                m_FITSImpl->currentCompressionTileDim(extCopy->axes());
+             }
+          }
+       }
+    }
   }
 
   Table& FITS::filter (const String& expression, ExtHDU& inputTable, bool overwrite, bool readData)

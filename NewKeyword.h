@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,10 +12,10 @@
 #ifndef NEWKEYWORD_H
 #define NEWKEYWORD_H 1
 
-// KeywordCreator
-#include "KeywordCreator.h"
 // KeyData
 #include "KeyData.h"
+// KeywordCreator
+#include "KeywordCreator.h"
 // FITSUtil
 #include "FITSUtil.h"
 

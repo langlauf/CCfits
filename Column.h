@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -11,14 +13,14 @@
 #define COLUMN_H 1
 #include <iostream>
 
-// CCfitsHeader
-#include "CCfits.h"
-// Table
-#include "Table.h"
 // FitsError
 #include "FitsError.h"
+// CCfitsHeader
+#include "CCfits.h"
 // FITSUtil
 #include "FITSUtil.h"
+// Table
+#include "Table.h"
 
 #include <complex>
 

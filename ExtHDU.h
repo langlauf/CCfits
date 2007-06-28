@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,12 +12,12 @@
 #ifndef EXTHDU_H
 #define EXTHDU_H 1
 
-// HDU
-#include "HDU.h"
-// CCfitsHeader
-#include "CCfits.h"
 // FitsError
 #include "FitsError.h"
+// CCfitsHeader
+#include "CCfits.h"
+// HDU
+#include "HDU.h"
 
 namespace CCfits {
   class Column;

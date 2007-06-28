@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,10 +12,10 @@
 #ifndef KEYWORDCREATOR_H
 #define KEYWORDCREATOR_H 1
 
-// KeyData
-#include "KeyData.h"
 // FitsError
 #include "FitsError.h"
+// KeyData
+#include "KeyData.h"
 
 namespace CCfits {
   class HDU;

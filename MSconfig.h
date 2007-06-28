@@ -1,3 +1,7 @@
+//1
+//2
+//3
+//4
 /** MicroSoft Visual C++ required macros, pragmas, and functions.  The
     macros are defined so alternate code can be conditionally compiled
     to work around the defects.  The pragmas are used to turn off some

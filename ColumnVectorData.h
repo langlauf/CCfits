@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -16,10 +18,10 @@
 
 // valarray
 #include <valarray>
-// vector
-#include <vector>
 // Column
 #include "Column.h"
+// vector
+#include <vector>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -360,8 +362,7 @@ namespace CCfits {
 #ifdef SSTREAM_DEFECT
   fits_read_key_str(fitsPointer(), key.str(), dimValue.get(),0,&status);
 #else
-  char* keyChar = const_cast<char*>(key.str().c_str());
-  fits_read_key_str(fitsPointer(),keyChar,dimValue.get(),0,&status);
+  fits_read_key_str(fitsPointer(),const_cast<char*>(key.str().c_str()),dimValue.get(),0,&status);
 #endif
 
   if (status == 0)

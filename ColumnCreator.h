@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -17,8 +19,8 @@
 #include "ColumnData.h"
 
 namespace CCfits {
-  class Table;
   class Column;
+  class Table;
 
 } // namespace CCfits
 #include <string>

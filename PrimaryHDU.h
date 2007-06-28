@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,16 +12,16 @@
 #ifndef PRIMARYHDU_H
 #define PRIMARYHDU_H 1
 
-// valarray
-#include <valarray>
-// PHDU
-#include "PHDU.h"
-// HDUCreator
-#include "HDUCreator.h"
 // Image
 #include "Image.h"
+// PHDU
+#include "PHDU.h"
 // FITS
 #include "FITS.h"
+// valarray
+#include <valarray>
+// HDUCreator
+#include "HDUCreator.h"
 #include "CCfits.h"
 #include <functional>
 #include <numeric>

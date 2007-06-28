@@ -1,5 +1,9 @@
+//1
+//2
+//3
+//4
 
-//	This is version 1.6 release dated Nov 2006
+//	This is version 1.7 release dated June 2007
 
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center

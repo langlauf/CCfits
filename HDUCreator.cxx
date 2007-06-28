@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -32,18 +34,18 @@
 #include "FitsError.h"
 // FITSBase
 #include "FITSBase.h"
+// AsciiTable
+#include "AsciiTable.h"
+// FITS
+#include "FITS.h"
+// BinTable
+#include "BinTable.h"
 // ImageExt
 #include "ImageExt.h"
 // HDUCreator
 #include "HDUCreator.h"
 // PrimaryHDU
 #include "PrimaryHDU.h"
-// AsciiTable
-#include "AsciiTable.h"
-// BinTable
-#include "BinTable.h"
-// FITS
-#include "FITS.h"
 
 
 
@@ -110,7 +112,6 @@ namespace CCfits {
 
   HDU * HDUCreator::Make (const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version)
   {
-    static char bitkey[] = "BITPIX";
     long bpix = 0;
     long unscaled = 0;
     int status = 0;
@@ -132,7 +133,7 @@ namespace CCfits {
           isExtFound = false;
        }
     }
-    else if ( !primary && fits_movnam_hdu(m_parent->fptr(),-1, 
+    else if ( !primary && fits_movnam_hdu(m_parent->fptr(),ANY_HDU, 
              const_cast<char*>(hduName.c_str()),version,&status) )
     {
        isExtFound = false;
@@ -167,14 +168,18 @@ namespace CCfits {
 
     HduType xtype = HduType(htype);
 
-    if ( fits_read_key_lng(m_parent->fptr(),bitkey,&bpix,0,&status) ) throw FitsError(status);
     m_hdu = m_parent->pHDU();
-    double unsignedZero(0);
-    double scale(1);
-    getScaling(bpix,unsignedZero,scale,unscaled);
     switch(xtype)
     {
         case ImageHdu:
+        {
+            int tmpBpix=0;
+            if (fits_get_img_type(m_parent->fptr(), &tmpBpix, &status))
+               throw FitsError(status);
+            bpix = static_cast<long>(tmpBpix);
+            double unsignedZero(0);
+            double scale(1);
+            getScaling(bpix,unsignedZero,scale,unscaled);
             // ImageHDU types are templated
             switch (bpix)
             {
@@ -315,13 +320,16 @@ namespace CCfits {
             }    
             m_hdu->zero(unsignedZero);
             m_hdu->scale(scale);
+        }
 	    break;
     case AsciiTbl:
 	    m_hdu = new AsciiTable(m_parent, hduName, readDataFlag, keys, version);
+            bpix = 8;
 	    break;
 
     case BinaryTbl:
 	    m_hdu = new BinTable(m_parent, hduName, readDataFlag, keys, version);
+            bpix = 8;
 	    break;
 
     default:
@@ -406,6 +414,7 @@ namespace CCfits {
     int status (0);
     if ( !fits_read_key_flt(m_parent->fptr(),BZERO,&zval,0,&status))
         zero = zval;
+    status = 0;
     bool scalePresent = !fits_read_key_flt(m_parent->fptr(),BSCALE,&tmpScale,0,&status);
     // if there is no BSCALE key present or BSCALE == 1 ... 
     if (!scalePresent || scalePresent &&  tmpScale == 1)

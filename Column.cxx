@@ -1,4 +1,6 @@
-//	This is version 1.6 dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -346,10 +348,14 @@ namespace CCfits {
     char* dmin(slmin.str());
     char* dmax(slmax.str());
 #else
-    char* lmin = const_cast<char*>(slmin.str().c_str());
-    char* lmax = const_cast<char*>(slmax.str().c_str());
-    char* dmin = const_cast<char*>(sdmin.str().c_str());
-    char* dmax = const_cast<char*>(sdmax.str().c_str());
+    String slminStr(slmin.str());
+    String slmaxStr(slmax.str());
+    String sdminStr(sdmin.str());
+    String sdmaxStr(sdmax.str());
+    char* lmin = const_cast<char*>(slminStr.c_str());
+    char* lmax = const_cast<char*>(slmaxStr.c_str());
+    char* dmin = const_cast<char*>(sdminStr.c_str());
+    char* dmax = const_cast<char*>(sdmaxStr.c_str());
 #endif
 
     size_t j = 0; // for MS VC++

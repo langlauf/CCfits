@@ -1,3 +1,25 @@
+Changes for CCfits 1.7 release 06/07
+- FITS::copy function now creates a corresponding object for the
+newly created HDU.  Previously it only modified the file without 
+updating or adding to the FITS extension map. (6/07)
+   FITS.cxx
+- Bug fix for reading in compressed images.  It had been using the
+BITPIX and NAXIS keywords when it should have ben using ZBITPIX and
+ZNAXIS.  These changes were based on a patch submitted by Patrik
+Jonsson.
+   HDU.cxx
+   HDUCreator.cxx
+- BSCALE was being ingored if the BZERO keyword didn't also exist.
+   HDUCreator.cxx.
+- Same type of bug fix as below, but for addNullValue in ColumnT.h and
+  ColumnVectorData::setDimen(). (3/07)
+   ColumnT.h
+   ColumnVectorData.h
+- Bug fix to Column::setLimits.  It had been assigning char pointers
+from temporary string objects using c_str().  (Fix submitted by Jeremy
+Sanders) (2/07)
+   Column.cxx
+
 Changes for CCfits 1.6 release 11/06
 - Added capbility to write compressed images, including 6 new wrapper
 public functions in FITS class.

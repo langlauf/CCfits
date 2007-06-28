@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -10,10 +12,10 @@
 #ifndef BINTABLE_H
 #define BINTABLE_H 1
 
-// HDUCreator
-#include "HDUCreator.h"
 // Table
 #include "Table.h"
+// HDUCreator
+#include "HDUCreator.h"
 
 // needed for CLONE_DEFECT
 #ifdef _MSC_VER

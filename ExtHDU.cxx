@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -27,10 +29,10 @@ using std::ostrstream;
 #include "FITS.h"
 // FITSBase
 #include "FITSBase.h"
-// ExtHDU
-#include "ExtHDU.h"
 // FitsError
 #include "FitsError.h"
+// ExtHDU
+#include "ExtHDU.h"
 // FITSUtil
 #include "FITSUtil.h"
 

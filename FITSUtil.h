@@ -1,4 +1,6 @@
-//	This is version 1.6 release dated Nov 2006
+//   Read the documentation to learn more about C++ code generator
+//   versioning.
+//	This is version 1.7 release dated June 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -11,18 +13,18 @@
 #define FITSUTIL_H 1
 #include "CCfits.h"
 
-// complex
-#include <complex>
-// functional
-#include <functional>
-// valarray
-#include <valarray>
-// string
-#include <string>
-// vector
-#include <vector>
 // FitsError
 #include "FitsError.h"
+// functional
+#include <functional>
+// string
+#include <string>
+// complex
+#include <complex>
+// valarray
+#include <valarray>
+// vector
+#include <vector>
 #include <typeinfo>
 
 
