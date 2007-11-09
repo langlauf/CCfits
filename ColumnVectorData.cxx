@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -297,7 +297,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
         template <>
         void  
         ColumnVectorData<std::complex<float> >::doWrite 
-                        (std::complex<float>* data, long row, long rowSize )
+                        (std::complex<float>* data, long row, long rowSize, long firstElem )
         {
                 int status(0);
                 FITSUtil::auto_array_ptr<float> carray( new float[2*rowSize]); 
@@ -306,7 +306,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                         carray[2*j] = data[j].real();
                         carray[2*j + 1] = data[j].imag();
                 }
-                if (fits_write_col_cmp(fitsPointer(),index(),row,1,rowSize,
+                if (fits_write_col_cmp(fitsPointer(),index(),row,firstElem,rowSize,
                         carray.get(),&status)) throw FitsError(status);
         }
 
@@ -314,7 +314,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
         template <>
         void  
         ColumnVectorData<std::complex<double> >::doWrite
-                        (std::complex<double>* data, long row, long rowSize )
+                        (std::complex<double>* data, long row, long rowSize, long firstElem )
         {
                 int status(0);
                 FITSUtil::auto_array_ptr<double> carray( new double[2*rowSize]); 
@@ -323,7 +323,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                         carray[2*j] = data[j].real();
                         carray[2*j + 1] = data[j].imag();
                 }
-                if (fits_write_col_dblcmp(fitsPointer(),index(),row,1,rowSize,
+                if (fits_write_col_dblcmp(fitsPointer(),index(),row,firstElem,rowSize,
                         carray.get(),&status)) throw FitsError(status);
 
         }

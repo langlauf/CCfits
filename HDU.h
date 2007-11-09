@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -13,19 +13,19 @@
 #define HDU_H 1
 #include <map>
 
-// FitsError
-#include "FitsError.h"
+// vector
+#include <vector>
+#include <list>
+// CCfitsHeader
+#include "CCfits.h"
 // Keyword
 #include "Keyword.h"
 // NewKeyword
 #include "NewKeyword.h"
-// CCfitsHeader
-#include "CCfits.h"
+// FitsError
+#include "FitsError.h"
 // FITSUtil
 #include "FITSUtil.h"
-#include <list>
-// vector
-#include <vector>
 
 namespace CCfits {
   class FITS;

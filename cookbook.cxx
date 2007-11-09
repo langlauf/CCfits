@@ -1,4 +1,4 @@
-// cookbook CCfits demonstration program, for release version 1.7 June 2007
+// cookbook CCfits demonstration program, for release version 1.8 Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC

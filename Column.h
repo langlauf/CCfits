@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -13,14 +13,14 @@
 #define COLUMN_H 1
 #include <iostream>
 
-// FitsError
-#include "FitsError.h"
 // CCfitsHeader
 #include "CCfits.h"
-// FITSUtil
-#include "FITSUtil.h"
 // Table
 #include "Table.h"
+// FitsError
+#include "FitsError.h"
+// FITSUtil
+#include "FITSUtil.h"
 
 #include <complex>
 
@@ -327,7 +327,7 @@ namespace CCfits {
 
 /*!   \fn  template <typename S> void Column::write(const std::vector<S>& indata, long firstRow);
 
-      \brief write a vector of values into a row starting with firstRow
+      \brief write a vector of values into a scalar column starting with firstRow
 
       \param indata   The data to be written.
       \param firstRow The first row to be written
@@ -343,7 +343,7 @@ namespace CCfits {
 
  /*!   \fn  template <typename S> void Column::write(const std::vector<S>& indata, long firstRow,  S* nullValue);
 
-      \brief write a vector of values into a row starting with firstRow with undefined values set to nullValue.
+      \brief write a vector of values into a scalar column starting with firstRow with undefined values set to nullValue.
 
       \param indata   The data to be written.
       \param firstRow The first row to be written
@@ -395,10 +395,10 @@ namespace CCfits {
 
         \brief write a valarray of values into a range of rows of a vector column.
 
-        This and the equivalent vector version write a vector of values into nRows. The primary use of this
-        is for fixed width columns, in which case Column's repeat attribute is used to determine how many
-        elements are written to each row; if indata.size() is too small an exception will be thrown. 
-        If the column is variable width, the call will write indata.size()/nRows elements to each row.
+        The primary use of this is for fixed width columns, in which case Column's repeat attribute is 
+        used to determine how many elements are written to each row; if indata.size() is too small an 
+        exception will be thrown. If the column is variable width, the call will write indata.size()/nRows 
+        elements to each row.
 
       \param indata   The data to be written.
       \param nRows    the number of rows to which to write the data.
@@ -420,7 +420,16 @@ namespace CCfits {
 
         \brief write a vector of values into a range of rows of a vector column
 
-        see valarray version for details.
+        The primary use of this is for fixed width columns, in which case Column's repeat attribute is 
+        used to determine how many elements are written to each row; if indata.size() is too small an 
+        exception will be thrown. If the column is variable width, the call will write indata.size()/nRows 
+        elements to each row.
+
+      \param indata   The data to be written.
+      \param nRows    the number of rows to which to write the data.
+      \param firstRow The first row to be written
+
+
 
 */
 
@@ -428,7 +437,7 @@ namespace CCfits {
 
         \brief write a vector of values into a range of rows of a vector column, processing undefined values 
 
-         see valarray version for details.
+         see version without undefined processing for details.
 
 */
 
@@ -449,6 +458,8 @@ namespace CCfits {
 
         \brief write a C array of values into a range of rows of a vector column, processing undefined values.
 
+         see version without undefined processing for details.
+
 */        
 
 /*!   \fn   template <typename S>   void Column::write (const std::valarray<S>& indata,  
@@ -458,9 +469,12 @@ namespace CCfits {
         \brief write a valarray of values into a column with specified number of entries written per row.
 
         Data are written into vectorLengths.size() rows, with vectorLength[n] elements written to
-        row n+firstRow -1. Although clearly designed for wrapping calls to multiple variable-width
-        vector column rows, the code is written to write a variable number of elements to fixed-width
-        column rows (cfitsio requires these operations to be done on a row-by-row basis).
+        row n+firstRow -1. Although primarily intended for wrapping calls to multiple variable-width
+        vector column rows, it may also be used to write a variable number of elements to fixed-width
+        column rows. 
+
+        When writing to fixed-width column rows, if the number of elements sent to a particular row
+        are fewer than the column's repeat value, the remaining elements in the row will not be modified.
 
         Since cfitsio does not support null value processing for variable width columns
         this function and its variants do not have version which process undefined values
@@ -477,13 +491,21 @@ namespace CCfits {
 
         \brief write a vector of values into a column with specified number of entries written per row.
 
+        Intended for writing a varying number of elements to multiple rows in a vector column, this
+        may be used for either variable or fixed-width columns.  See the indata valarray version 
+        of this function for a complete description.
+
 */
 
 /*!   \fn   template <typename S>  void Column::write (S* indata, long nElements,  
                         const std::vector<long>& vectorLengths, 
                         long firstRow);
 
-        \brief write a C-array of values of size nElements into a column with specified number of entries written per row.
+        \brief write a C-array of values of size nElements into a vector column with specified number of entries written per row.
+
+        Intended for writing a varying number of elements to multiple rows in a vector column, this
+        may be used for either variable or fixed-width columns.  See the indata valarray version 
+        of this function for a complete description.
 
 */
 
@@ -491,6 +513,13 @@ namespace CCfits {
 
         \brief write a vector of valarray objects to the column, starting at row firstRow >= 1
 
+        Intended for writing a varying number of elements to multiple rows in a vector column, this
+        may be used for either variable or fixed-width columns.  When writing to fixed-width column rows, 
+        if the number of elements sent to a particular row are fewer than the column's repeat value, the 
+        remaining elements in the row will not be modified.
+
+        \param indata The data to be written
+        \param firstRow the first row to be written.        
 
 */
 
@@ -498,6 +527,7 @@ namespace CCfits {
 
         \brief write a vector of valarray objects to the column, starting at row firstRow >= 1, processing undefined values
 
+         see version without undefined processing for details.
 
 */              
 

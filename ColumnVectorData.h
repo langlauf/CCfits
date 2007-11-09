@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -16,12 +16,12 @@
 #endif
 #include "CCfits.h"
 
+// vector
+#include <vector>
 // valarray
 #include <valarray>
 // Column
 #include "Column.h"
-// vector
-#include <vector>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -105,13 +105,12 @@ namespace CCfits {
         virtual void readVariableRow (size_t row, T* nullValue = 0);
         void readColumnData (long firstrow, long nelements, long firstelem, T* nullValue = 0);
         void writeData (const std::valarray<T>& indata, const std::vector<long>& vectorLengths, long firstRow = 1, T* nullValue = 0);
-        void writeRow (const std::valarray<T>& data, long row, long firstElem = 1, T* nullValue = 0);
+        void writeFixedRow (const std::valarray<T>& data, long row, long firstElem = 1, T* nullValue = 0);
         void writeFixedArray (T* data, long nElements, long nRows, long firstRow, T* nullValue = 0);
-        void writeData (T* indata, long nElements, long numRows, long firstRow = 1, T* nullValue = 0);
         //	Insert one or more blank rows into a FITS column.
         virtual void insertRows (long first, long number = 1);
         virtual void deleteRows (long first, long number = 1);
-        void doWrite (T* array, long row, long rowSize);
+        void doWrite (T* array, long row, long rowSize, long firstElem = 1);
         const T nullValue () const;
         void nullValue (T value);
 
@@ -221,6 +220,8 @@ namespace CCfits {
   template <typename T>
   inline void ColumnVectorData<T>::data (int i, const std::valarray<T>& value)
   {
+     if (m_data[i-1].size() != value.size())
+        m_data[i-1].resize(value.size());
      m_data[i - 1] = value;
   }
 
@@ -299,51 +300,51 @@ namespace CCfits {
   template <typename T>
   void ColumnVectorData<T>::resizeDataObject (const std::vector<std::valarray<T> >& indata, size_t firstRow)
   {
-          // the rows() call is the value before updating.
-          // the updateRows() call at the end sets the call to return the
-          // value from the fits pointer - which is changed by writeFixedArray
-          // or writeRow.
+    // the rows() call is the value before updating.
+    // the updateRows() call at the end sets the call to return the
+    // value from the fits pointer - which is changed by writeFixedArray
+    // or writeFixedRow.
 
-          const size_t MM(indata.size() + firstRow - 1);
-          const size_t newLastRow = std::max(MM,static_cast<size_t>(rows()));
+    const size_t lastInputRow(indata.size() + firstRow - 1);
+    const size_t newLastRow = std::max(lastInputRow,static_cast<size_t>(rows()));
 
-          // if the write instruction increases the rows, we need to add
-          // rows to the data member and preserve its current contents.
-          // if not, we might have to preserve data in cells which may be 
-          // only partially overwritten by this call.
+    // if the write instruction increases the rows, we need to add
+    // rows to the data member and preserve its current contents.
 
-          // rows() >= M, of course.
-          const size_t M(m_data.size());
-          // so this will always be an expansion. vector.resize() doesn't
-          // invalidate any data on an expansion.
-	  if (newLastRow > M) m_data.resize(newLastRow);
+    // rows() >= origNRows since it is the value for entire table, 
+    // not just this column.
+    const size_t origNRows(m_data.size());
+    // This will always be an expansion. vector.resize() doesn't
+    // invalidate any data on an expansion.
+    if (newLastRow > origNRows) m_data.resize(newLastRow);
 
-          // overlapping data, if any.
-          for (size_t k = firstRow - 1; k < MM; ++k)
-          {
-                  std::valarray<T>& current = m_data[k];    
-                  if (current.size() < indata[k - firstRow + 1].size())
-                  {
-                          // if the column is fixed width, make sure its
-                          // width is repeat(), otherwise it's the width
-                          // of the input array.
-                          std::valarray<T> __tmp(current);
-                          size_t n(current.size());
-                          size_t validVecSize 
-                                = !varLength() ? repeat() : indata[k - firstRow + 1].size();
-                          current.resize(validVecSize);
-                          std::copy(&__tmp[0],&__tmp[n],&current[0]);
-                  }
-          }
+    if (varLength())
+    {
+       // The incoming data will determine each row size, thus
+       // no need to preserve any existing values in the row.
+       // Each value will eventually be overwritten.
+       for (size_t iRow = firstRow-1; iRow < lastInputRow; ++iRow)
+       {
+          std::valarray<T>& current = m_data[iRow];
+          const size_t newSize = indata[iRow - (firstRow-1)].size();
+          if (current.size() != newSize)
+             current.resize(newSize);          
+       }
+    }
+    else
+    {
+       // All row sizes in m_data should ALWAYS be either repeat(),
+       // or 0 if they haven't been initialized.  This is true regardless
+       // of the incoming data row size.  
 
-          // only if input size was smaller.
-          for (size_t kk = M; kk < newLastRow; ++kk)
-          {
-                  size_t validVecSize 
-                                = !varLength() ? repeat() : indata[kk - firstRow + 1].size();
-                  m_data[kk].resize(validVecSize);       
-          }
-
+       // Perform LAZY initialization of m_data rows.  Only
+       // expand a row valarray when it is first needed.
+       for (size_t iRow = firstRow-1; iRow < lastInputRow; ++iRow)
+       {
+          if (m_data[iRow].size() != repeat())
+             m_data[iRow].resize(repeat());
+       }       
+    }
   }
 
   template <typename T>
@@ -424,123 +425,148 @@ namespace CCfits {
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::valarray<T>& indata, long numRows, long firstRow, T* nullValue)
   {
+     // This version of writeData is called by Column write functions which 
+     // can only write the same number of elements to each row.  
+     // For fixed width columns, this must be equal to the repeat value
+     // or an exception is thrown.  For variable width, it only requires
+     // that indata.size()/numRows is an int.
 
-          if (!varLength() && indata.size() < numRows*repeat() )
-          {      
+     // won't do anything if < 0, and will give divide check if == 0.
+     if (numRows <= 0) throw InvalidNumberOfRows(numRows);
+
 #ifdef SSTREAM_DEFECT
-                std::ostrstream msgStr;
+     std::ostrstream msgStr;
 #else
-                std::ostringstream msgStr;
+     std::ostringstream msgStr;
 #endif            
-                msgStr << "column: " << name() 
-                       <<  "\n input data size: " << indata.size() 
-                       << " required: " << numRows*repeat();
-                String msg(msgStr.str());
-                throw InsufficientElements(msg);     
-          }
+     if (indata.size() % static_cast<size_t>(numRows))
+     {
+        msgStr << "To use this write function, input array size"
+           <<"\n must be exactly divisible by requested num rows: "
+           << numRows;
+        throw InsufficientElements(msgStr.str());
+     }
+     const size_t cellsize = indata.size()/static_cast<size_t>(numRows);
 
-          std::vector<std::valarray<T> > internalFormat(numRows);
+     if (!varLength() && cellsize != repeat() )
+     {      
+        msgStr << "column: " << name() 
+               <<  "\n input data size: " << indata.size() 
+               << " required: " << numRows*repeat();
+        String msg(msgStr.str());
+        throw InsufficientElements(msg);     
+     }
 
-          // support writing equal row lengths to variable columns.
+     std::vector<std::valarray<T> > internalFormat(numRows);
 
-          size_t cellsize = repeat();
-          // won't do anything if < 0, and will give divide check if == 0.
-          if (numRows <= 0) throw InvalidNumberOfRows(numRows);
+     // support writing equal row lengths to variable columns.
 
-          if (varLength())  cellsize = indata.size()/numRows;
+     for (long j = 0; j < numRows; ++j)
+     {
+        internalFormat[j].resize(cellsize);
+        internalFormat[j] = indata[std::slice(cellsize*j,cellsize,1)];
+     }
 
+     // change the size of m_data based on the first row to be written
+     // and on the input data vector sizes.
 
-
-
-          for (long j = 0; j < numRows; ++j)
-          {
-                  internalFormat[j].resize(cellsize);
-                  internalFormat[j] = indata[std::slice(cellsize*j,cellsize,1)];
-          }
-
-          // change the size of m_data based on the first row to be written
-          // and on the input data vector sizes.
-
-
-          writeData(internalFormat,firstRow,nullValue);    
+     writeData(internalFormat,firstRow,nullValue);    
   }
 
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::vector<std::valarray<T> >& indata, long firstRow, T* nullValue)
   {
-
-    // intended to optimize writing if user supplied data already in its internal
-    // representation
-
-    const size_t N(indata.size());   
+     // This is called directly by Column's writeArrays functions, and indirectly
+     // by both categories of write functions, ie. those which allow differing
+     // lengths per row and those that don't.
+    const size_t nInputRows(indata.size());   
     using  std::valarray;
-    size_t totalElements(0);
 
-    resizeDataObject(indata,firstRow);         
+    resizeDataObject(indata,firstRow); 
+    // After the above call, can assume all m_data arrays to be written to 
+    // have been properly resized whether we're dealing with fixed or
+    // variable length.       
 
-    // suppose the user wanted to write non-contiguous data to a vector column...
-    // then the write would be short, and must be treated like a varlength array.
-    if (!varLength())
+    if (varLength())
     {
-            for (size_t j = 0; j < N; ++j) totalElements += indata[j].size();
-    }
-
-    if (!varLength() && totalElements >= repeat()*N)
-    {
-            // concatenate the valarrays and write.
-            const size_t M(repeat());         
-            size_t nElements (M*N);
-            FITSUtil::CVAarray<T> convert;
-	    FITSUtil::auto_array_ptr<T> pArray(convert(indata));
-            T* array = pArray.get();
-
-            // if T is complex, then CVAarray returns a 
-            // C-array of complex objects. But FITS requires an array of complex's
-            // value_type.
-            writeFixedArray(array,nElements,N,firstRow,nullValue);            
-
-            // if successful, write the output array (writeFixedArray will throw
-            // on errors in input data size and in fits writing).
-
-
-            for (size_t j = 0; j < N ; ++j)
-            {
-                const valarray<T>& input   = indata[j];
-                valarray<T>& current = m_data[j + firstRow - 1];
-                // current should be resized by resizeDataObject.
-                current = input;
-            }
-
-
+       // nullValue is ignored for var-length cols, still to keep
+       // things consistent...
+       if (nullValue)
+          m_nullValue = *nullValue;
+       // firstRow is 1-based, but all these internal row variables 
+       // will be 0-based.  
+       const size_t endRow = nInputRows + firstRow-1;
+       for (size_t iRow = firstRow-1; iRow < endRow; ++iRow)
+       {
+          m_data[iRow] = indata[iRow - (firstRow-1)];
+          // doWrite wants 1-based rows.
+          doWrite(&m_data[iRow][0], iRow+1, m_data[iRow].size());
+       }
+       parent()->updateRows();
     }
     else
     {
+       // Check for simplest case of all valarrays of size repeat().
+       // If any are greater, throw an error.
+       const size_t colRepeat = repeat();
+       bool allEqualRepeat = true;
+       for (size_t i=0; i<nInputRows; ++i)
+       {
+          const size_t sz = indata[i].size();
+          if (sz > colRepeat)
+          {
+#ifdef SSTREAM_DEFECT
+             std::ostrstream oss;
+#else
+             std::ostringstream oss;
+#endif 
+             oss << " vector column length " << colRepeat 
+                <<", input valarray length " << sz;
+             throw InvalidRowParameter(oss.str());               
+          }
+          if (sz < colRepeat)
+             allEqualRepeat = false;
+       }
 
-            // monumental pain in the neck but here goes
+       if (allEqualRepeat)
+       {
+          // concatenate the valarrays and write.
+          const size_t nElements (colRepeat*nInputRows);
+          FITSUtil::CVAarray<T> convert;
+          FITSUtil::auto_array_ptr<T> pArray(convert(indata));
+          T* array = pArray.get();
 
+          // if T is complex, then CVAarray returns a 
+          // C-array of complex objects. But FITS requires an array of complex's
+          // value_type.
 
-            // loop must be executed exactly N times starting with firstRow,
-            // where firstRow >= 1 and row 1 corresponds to array 0.   
-            for (size_t j = firstRow - 1; j < N + firstRow - 1; ++j)
-            {
-                    // each row must be resized, original contents preserved and
-                    // data copied. Throw away any requested input that doesn't
-                    // fit in a fixed row.
-                    valarray<T>& current = m_data[j];
-                    const valarray<T>& input   = indata[j - firstRow + 1];                   
-                    size_t ic(input.size());
-                    size_t tmpSize(std::max(current.size(),ic));
-                    valarray<T> __tmp(tmpSize);
-                    size_t validVecSize = !varLength() ? repeat()  : tmpSize;
-                    current.resize(validVecSize);
-                    std::copy(&current[ic],&current[validVecSize],&__tmp[ic]);
-                    for (size_t k = 0; k < ic; ++k) __tmp[k] = input[k];
-                    writeRow(__tmp,j,1,nullValue);
-                    current = __tmp;
-            } 
-             // this is done by writeFixedArray in the upper block.         
-            parent()->updateRows();            
-    }
+          // This writes to the file and also calls updateRows.
+          writeFixedArray(array,nElements,nInputRows,firstRow,nullValue);            
+
+          for (size_t j = 0; j < nInputRows ; ++j)
+          {
+              const valarray<T>& input   = indata[j];
+              valarray<T>& current = m_data[j + firstRow - 1];
+              // current should be resized by resizeDataObject.
+              current = input;
+          }
+       }
+       else
+       {
+          // Some input arrays have fewer than colRepeat elements. 
+          const size_t endRow = nInputRows + firstRow-1;
+          for (size_t iRow = firstRow-1; iRow<endRow; ++iRow)
+          {
+             // resizeDataObject should already have resized all
+             // corresponding m_data rows to repeat().
+             valarray<T>& current = m_data[iRow];
+             const valarray<T>& input = indata[iRow-(firstRow-1)];
+             writeFixedRow(input, iRow, 1, nullValue);
+          }
+          parent()->updateRows();          
+       }  
+
+    } // end if !varLength
   }
 
   template <typename T>
@@ -677,6 +703,8 @@ namespace CCfits {
   template <typename T>
   void ColumnVectorData<T>::writeData (const std::valarray<T>& indata, const std::vector<long>& vectorLengths, long firstRow, T* nullValue)
   {
+     // Called from Column write functions which allow differing lengths
+     // for each row.
     using namespace std;
     const size_t N(vectorLengths.size());
     vector<long> sums(N);
@@ -701,6 +729,7 @@ namespace CCfits {
 
     vector<valarray<T> > vvArray(N);
     long& last = sums[0];
+    vvArray[0].resize(last);
     for (long jj = 0; jj < last; ++jj) vvArray[0][jj] = indata[jj];
 
     for (size_t j = 1; j < N; ++j)
@@ -720,52 +749,42 @@ namespace CCfits {
   }
 
   template <typename T>
-  void ColumnVectorData<T>::writeRow (const std::valarray<T>& data, long row, long firstElem, T* nullValue)
+  void ColumnVectorData<T>::writeFixedRow (const std::valarray<T>& data, long row, long firstElem, T* nullValue)
   {
 
+    // This is to be called only for FIXED length vector columns.  It will 
+    // throw if data.size()+firstElem goes beyond the repeat value.
+    // If data.size() is less than repeat, it leaves the remaining values
+    // undisturbed both in the file and in m_data storage.
 
-    //  The support for
-    // writing to any arbitrary individual row makes it possible to use the
-    // variable row length versions of writeData to write arbitrary vector lengths 
-    // < repeat() to a range of rows - not expected to be a common use, but fairly
-    // simple to support. It throws an exception when asked to write more than 
-    // will fit on the row, though.
+#ifdef SSTREAM_DEFECT
+    std::ostrstream msgStr;
+#else
+    std::ostringstream msgStr;
+#endif            
+    if (varLength())
+    {
+       msgStr <<"Calling ColumnVectorData::writeFixedRow for a variable length column.\n";
+       throw FitsFatal(msgStr.str()); 
+    }
 
     if (nullValue) m_nullValue = *nullValue;      
 
-    std::valarray<T>& thisRow = m_data[row];    
-    size_t n(data.size());
-    long m(thisRow.size());
-
-    long rowWidth(n);
-    rowWidth += firstElem - 1;
-
-    if ( type() > 0) 
+    std::valarray<T>& storedRow = m_data[row];    
+    long inputSize = static_cast<long>(data.size());
+    long storedSize(storedRow.size());
+    if (storedSize != static_cast<long>(repeat()))
     {
-        if ( n > repeat() || firstElem  + n - 1 > repeat() )
-        { 
-#ifdef SSTREAM_DEFECT
-                std::ostrstream msgStr;
-#else
-                std::ostringstream msgStr;
-#endif            
-                if (n > repeat()) 
-                {
-                        msgStr << " vector length " << repeat() 
-                                        << " input data vector length " << n;
-                }
-                else
-                {
-                        msgStr << " requested write " << firstElem << " to " 
-                               << firstElem  + n - 1 << " exceeds vector length " << repeat();
-                }
-                String msg(msgStr.str());
-                throw InvalidRowParameter(msg);        
-        }
-
-
+       msgStr<<"stored array size vs. column width mismatch in ColumnVectorData::writeFixedRow.\n";
+       throw FitsFatal(msgStr.str());
     }
 
+    if (inputSize + firstElem - 1 > storedSize)
+    { 
+          msgStr << " requested write " << firstElem << " to " 
+                 << firstElem  + inputSize - 1 << " exceeds vector length " << repeat();
+       throw InvalidRowParameter(msgStr.str());        
+    }
 
     // CANNOT give a strong exception safety guarantee because writing
     // data changes the file. Any corrective action that could be taken
@@ -775,37 +794,22 @@ namespace CCfits {
 
     // routine does however give the weak guarantee (no resource leaks).    
 
+    // It's never a good thing to cast away a const, but doWrite calls the 
+    // CFITSIO write functions which take a non-const pointer (though
+    // it shouldn't actually modify the array), and I'd rather not 
+    // copy the entire valarray just to avoid this problem.
+    std::valarray<T>& lvData = const_cast<std::valarray<T>&>(data);
+    T* inPointer = &lvData[0];
+    doWrite(inPointer, row+1, inputSize, firstElem); 
 
-    size_t newRowSize(std::max(m,rowWidth));
-    FITSUtil::auto_array_ptr<T> pArray(new T[newRowSize]);
-    T* array = pArray.get();
-
-
-    // copy existing data to new T array if there is any (the test
-    // just protects against an unnecessary function call).
-    if (m != 0) std::copy(&thisRow[0],&thisRow[m],&array[0]);
-    for (size_t j = 0; j < n; ++j) array[j+firstElem-1] = data[j];
-
-    if (firstElem > 1 && m < firstElem)
+    // Writing to disk was successful, now update FITS object and return.
+    const size_t offset = static_cast<size_t>(firstElem) - 1;
+    for (size_t iElem=0; iElem < static_cast<size_t>(inputSize); ++iElem)
     {
-        // write sensible value to entries not defined by call.
-        // tests mean: there are entries in the array which were not
-        // assigned values from the existing data [thisRow] and won't be assigned
-        // values from the input data [data]. This isn't the same as the user-supplied
-        // "nullValue" that sets to TNULLn or NaN any array points that are equal to nullValue
-        FITSUtil::FitsNullValue<T> null;
-        T nullVal(null());
-        for (long j= 0; j < firstElem - 1; ++j)  array[j] = nullVal;
+       // This doesn't require inPointer's non-constness.  It's just
+       // used here to speed things up a bit.
+       storedRow[iElem + offset] = inPointer[iElem];
     }
-
-    doWrite( array, row, newRowSize  );
-
-
-
-    // writing to disk was successful. Now update FITS object and return.
-    std::valarray<T> __tmp(array,newRowSize);
-    if (thisRow.size() != newRowSize) thisRow.resize(newRowSize);
-    thisRow = __tmp;
   }
 
   template <typename T>
@@ -837,56 +841,6 @@ namespace CCfits {
                         1,nElements,data,nullValue,&status)) throw FitsError(status);
 
     parent()->updateRows();
-  }
-
-  template <typename T>
-  void ColumnVectorData<T>::writeData (T* indata, long nElements, long numRows, long firstRow, T* nullValue)
-  {
-
-          if (!varLength()) 
-          {
-                //
-                // writeFixedArray will throw if the writeData inputs are invalid.
-                // so, if the call is successful, we can assume that indata is large
-                // enough for the following operations.
-                writeFixedArray(indata,nElements,numRows,firstRow,nullValue);          
-
-                size_t offset(0);
-                size_t newLastRow(std::max(static_cast<long>(rows()),numRows+firstRow-1));
-                m_data.resize(newLastRow);
-
-                // writing contiguous data in C-array:
-                // input data size and row size must be the same.
-                for (long j = 0; j < numRows; ++j)
-                {
-                        std::valarray<T>& current = m_data[firstRow-1];
-                        if (current.size() != repeat())  current.resize(repeat());
-                        current = std::valarray<T>(indata + offset,repeat());
-                        offset +=repeat();
-                }
-
-          }          
-          else
-          {
-                // it's possible  that a user might want to write
-                // equal lengths of data to columns of variable length row, 
-                // so support this here.
-                size_t offset(0);
-
-                if (numRows <= 0) throw InvalidNumberOfRows(numRows);
-
-                size_t vectorLength = nElements/numRows;
-
-                for (long j = 0; j < numRows; ++j)
-                {
-                        writeRow(std::valarray<T>(indata+offset,vectorLength),
-                                        j+firstRow-1,1,nullValue);
-                        offset += vectorLength;
-                }
-
-          }    
-
-          parent()->updateRows();
   }
 
   template <typename T>
@@ -954,7 +908,7 @@ namespace CCfits {
   }
 
   template <typename T>
-  void ColumnVectorData<T>::doWrite (T* array, long row, long rowSize)
+  void ColumnVectorData<T>::doWrite (T* array, long row, long rowSize, long firstElem)
   {
     int status(0);
     // internal functioning of write_colnull forbids its use for writing
@@ -962,12 +916,12 @@ namespace CCfits {
     // be ignored.
     if ( !varLength())
     {
-        if (fits_write_colnull(fitsPointer(),type(),index(),row,1,rowSize,
+        if (fits_write_colnull(fitsPointer(),type(),index(),row, firstElem, rowSize,
                     array,&m_nullValue,&status)) throw FitsError(status);
     }
     else
     {
-        if (fits_write_col(fitsPointer(),abs(type()),index(),row,1,rowSize,
+        if (fits_write_col(fitsPointer(),abs(type()),index(),row,firstElem,rowSize,
                     array,&status)) throw FitsError(status);
 
     }
@@ -1303,7 +1257,7 @@ void ColumnVectorData<complex<double> >::writeFixedArray
   template <>
   inline void  
   ColumnVectorData<std::complex<float> >::doWrite 
-  (std::complex<float>* data, long row, long rowSize )
+  (std::complex<float>* data, long row, long rowSize, long firstElem )
   {
     int status(0);
     FITSUtil::auto_array_ptr<float> carray( new float[2*rowSize]); 
@@ -1312,7 +1266,7 @@ void ColumnVectorData<complex<double> >::writeFixedArray
 	carray[2*j] = data[j].real();
 	carray[2*j + 1] = data[j].imag();
       }
-    if (fits_write_col_cmp(fitsPointer(),index(),row,1,rowSize,
+    if (fits_write_col_cmp(fitsPointer(),index(),row,firstElem,rowSize,
 			   carray.get(),&status)) throw FitsError(status);
   }
 
@@ -1320,7 +1274,7 @@ void ColumnVectorData<complex<double> >::writeFixedArray
   template <>
   inline void  
   ColumnVectorData<std::complex<double> >::doWrite
-  (std::complex<double>* data, long row, long rowSize )
+  (std::complex<double>* data, long row, long rowSize, long firstElem )
   {
     int status(0);
     FITSUtil::auto_array_ptr<double> carray( new double[2*rowSize]); 
@@ -1329,7 +1283,7 @@ void ColumnVectorData<complex<double> >::writeFixedArray
 	carray[2*j] = data[j].real();
 	carray[2*j + 1] = data[j].imag();
       }
-    if (fits_write_col_dblcmp(fitsPointer(),index(),row,1,rowSize,
+    if (fits_write_col_dblcmp(fitsPointer(),index(),row,firstElem,rowSize,
 			      carray.get(),&status)) throw FitsError(status);
 
   }
@@ -1338,12 +1292,12 @@ void ColumnVectorData<complex<double> >::writeFixedArray
 template<>
 void 
 ColumnVectorData<complex<float> >::doWrite 
-                ( complex<float>* data, long row, long rowSize );
+                ( complex<float>* data, long row, long rowSize, long firstElem );
 
 template<>
 void 
 ColumnVectorData<complex<double> >::doWrite 
-                ( complex<double>* data, long row, long rowSize );
+                ( complex<double>* data, long row, long rowSize, long firstElem );
 #endif
 } // namespace CCfits
 

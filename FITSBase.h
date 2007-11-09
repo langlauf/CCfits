@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -12,18 +12,18 @@
 #ifndef FITSBASE_H
 #define FITSBASE_H 1
 
-// CCfitsHeader
-#include "CCfits.h"
-// fitsio
-#include "fitsio.h"
 // string
 #include <string>
 // map
 #include <map>
+// fitsio
+#include "fitsio.h"
+// CCfitsHeader
+#include "CCfits.h"
 
 namespace CCfits {
-  class ExtHDU;
   class PHDU;
+  class ExtHDU;
 
 } // namespace CCfits
 using std::string;

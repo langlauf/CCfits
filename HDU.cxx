@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -460,22 +460,31 @@ namespace CCfits {
 
     for (int j = 1; j <= n; ++j)
     {
-            // get keywords by header position and store all the keys that
-            // are neither metadata for columns nor history/comment cards.
-            std::auto_ptr<Keyword> key(KeywordCreator::getKeyword(j,this));
-            // comment/history cards have no value field and return 0 here.
-            if (key.get() != 0)
-            {
-                int keyClass = fits_get_keyclass(const_cast<char*>(key->name().c_str()));
-                if ( (keyClass == TYP_USER_KEY  ) ||
-                        (keyClass == TYP_WCS_KEY   ) ||
-                        (keyClass == TYP_CMPRS_KEY ) ||
-                        (keyClass == TYP_CKSUM_KEY ) ||
-                        (keyClass == TYP_REFSYS_KEY) )
-                {
-                        saveReadKeyword(key.get());
-                }  
-            }       
+       // If the reading of a particular keyword fails, most likely due
+       // to an undefined value, simply skip and continue to next
+       // keyword.
+       try
+       {
+          // get keywords by header position and store all the keys that
+          // are neither metadata for columns nor history/comment cards.
+          std::auto_ptr<Keyword> key(KeywordCreator::getKeyword(j,this));
+          // comment/history cards have no value field and return 0 here.
+          if (key.get() != 0)
+          {
+              int keyClass = fits_get_keyclass(const_cast<char*>(key->name().c_str()));
+              if ( (keyClass == TYP_USER_KEY  ) ||
+                      (keyClass == TYP_WCS_KEY   ) ||
+                      (keyClass == TYP_CMPRS_KEY ) ||
+                      (keyClass == TYP_CKSUM_KEY ) ||
+                      (keyClass == TYP_REFSYS_KEY) )
+              {
+                      saveReadKeyword(key.get());
+              }  
+          }       
+       }
+       catch (FitsError& )
+       {
+       }
     }
 
     getHistory();

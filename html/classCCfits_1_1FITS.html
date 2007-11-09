@@ -33,91 +33,148 @@
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#913bc6d48a4ff69013e49e1ae4fbb696">FITS</a> (const String &amp;name, RWmode mode=Read, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;primaryKeys=std::vector&lt; String &gt;())</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">basic constructor  <a href="#913bc6d48a4ff69013e49e1ae4fbb696"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#1cb56c87695f73c6110cdd3dd1fb03b0">FITS</a> (const String &amp;name, RWmode mode, const string &amp;hduName, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;hduKeys=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;primaryKey=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Open a <a class="el" href="classCCfits_1_1FITS.html">FITS</a> file and read a single specified <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.  <a href="#1cb56c87695f73c6110cdd3dd1fb03b0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#1d7fca4f600df79fce819b86f8727368">FITS</a> (const String &amp;name, RWmode mode, const std::vector&lt; String &gt; &amp;hduNames, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;primaryKey=std::vector&lt; String &gt;())</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#cb344d192a9cce91ef4fa70d983af305">FITS</a> (const String &amp;fileName, const <a class="el" href="classCCfits_1_1FITS.html">FITS</a> &amp;source)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a new <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and corresponding file with copy of the primary header of the source  <a href="#cb344d192a9cce91ef4fa70d983af305"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#b83f4abde51f181d69016a1aa971a290">FITS</a> (const String &amp;name, RWmode mode, const std::vector&lt; String &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; String &gt; &gt; &amp;hduKeys, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;primaryKeys=std::vector&lt; String &gt;(), const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="classCCfits_1_1FITS.html">FITS</a> read constructor in full generality.  <a href="#b83f4abde51f181d69016a1aa971a290"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#a3dd737a0211193e99d09459b1b09564">FITS</a> (const String &amp;name, int bitpix, int naxis, long *naxes)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor for creating new <a class="el" href="classCCfits_1_1FITS.html">FITS</a> objects containing images.  <a href="#a3dd737a0211193e99d09459b1b09564"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#691405118727baad47e504c16998e404">FITS</a> (const string &amp;name, RWmode mode, int hduIndex, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;hduKeys=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;primaryKey=std::vector&lt; String &gt;())</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read a single numbered <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.  <a href="#691405118727baad47e504c16998e404"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#59493b5e36616b7904ddede84df78430">FITS</a> (const String &amp;name, RWmode mode, const std::vector&lt; String &gt; &amp;searchKeys, const std::vector&lt; String &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;hduKeys=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;primaryKey=std::vector&lt; string &gt;(), int version=1)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#53b2988c54661d9e03af4a152da5dbae">~FITS</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">open fits file and read <a class="el" href="classCCfits_1_1HDU.html">HDU</a> which contains supplied keywords with [optional] specified values (sometimes one just wants to know that the keyword is present).  <a href="#59493b5e36616b7904ddede84df78430"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="53b2988c54661d9e03af4a152da5dbae"></a><!-- doxytag: member="CCfits::FITS::~FITS" ref="53b2988c54661d9e03af4a152da5dbae" args="()" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#53b2988c54661d9e03af4a152da5dbae">~FITS</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">destructor <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#ac73f0a1f2742c0f1ea5eeb5bc0f8df5">deleteExtension</a> (const String &amp;doomed, int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete extension specified by name and version number.  <a href="#ac73f0a1f2742c0f1ea5eeb5bc0f8df5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#3640e3ad1c29931b37a13ac91106504e">read</a> (const String &amp;hduName, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get data from single <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from disk file.  <a href="#3640e3ad1c29931b37a13ac91106504e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#c592041903c94b09cee8cdc29e185b0a">read</a> (const std::vector&lt; String &gt; &amp;hduNames, bool readDataFlag=false)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get data from a set of HDUs from disk file.  <a href="#c592041903c94b09cee8cdc29e185b0a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6e3ebb1d61fd6374c0f1033ba0777112">read</a> (const std::vector&lt; String &gt; &amp;hduNames, const std::vector&lt; std::vector&lt; String &gt; &gt; &amp;keys, bool readDataFlag=false, const std::vector&lt; int &gt; &amp;hduVersions=std::vector&lt; int &gt;())</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1FITS.html">FITS</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6d41f90e72906f7c4d5eec3cc364df73">clone</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">get data from a set of HDUs from disk file, specifying keys and version numbers.  <a href="#6e3ebb1d61fd6374c0f1033ba0777112"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6d41f90e72906f7c4d5eec3cc364df73"></a><!-- doxytag: member="CCfits::FITS::clone" ref="6d41f90e72906f7c4d5eec3cc364df73" args="() const " -->
+<a class="el" href="classCCfits_1_1FITS.html">FITS</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6d41f90e72906f7c4d5eec3cc364df73">clone</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#17d7f2a579835881a3b74c765ac612e1">extension</a> (int i) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">clone function: to allow implementation later of reference counting. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="17d7f2a579835881a3b74c765ac612e1"></a><!-- doxytag: member="CCfits::FITS::extension" ref="17d7f2a579835881a3b74c765ac612e1" args="(int i) const " -->
+const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#17d7f2a579835881a3b74c765ac612e1">extension</a> (int i) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#4b5b4cccb7912bb0cf8c03600e2f89b4">extension</a> (int i)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. N.B. The input index number is currently defined as enumerating extensions, so the extension(1) returns <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number 2. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4b5b4cccb7912bb0cf8c03600e2f89b4"></a><!-- doxytag: member="CCfits::FITS::extension" ref="4b5b4cccb7912bb0cf8c03600e2f89b4" args="(int i)" -->
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#4b5b4cccb7912bb0cf8c03600e2f89b4">extension</a> (int i)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#f29d26cb351ba86544648203d5dbf5dc">extension</a> (const String &amp;hduName, int version=1) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. non-const version. see const version for details. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="f29d26cb351ba86544648203d5dbf5dc"></a><!-- doxytag: member="CCfits::FITS::extension" ref="f29d26cb351ba86544648203d5dbf5dc" args="(const String &amp;hduName, int version=1) const " -->
+const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#f29d26cb351ba86544648203d5dbf5dc">extension</a> (const String &amp;hduName, int version=1) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#18d1d822d3eecbf6298f974504863c05">pHDU</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="18d1d822d3eecbf6298f974504863c05"></a><!-- doxytag: member="CCfits::FITS::pHDU" ref="18d1d822d3eecbf6298f974504863c05" args="() const " -->
+const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#18d1d822d3eecbf6298f974504863c05">pHDU</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#69714491156b3f1452f37f9277505925">pHDU</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a const reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="69714491156b3f1452f37f9277505925"></a><!-- doxytag: member="CCfits::FITS::pHDU" ref="69714491156b3f1452f37f9277505925" args="()" -->
+<a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#69714491156b3f1452f37f9277505925">pHDU</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#21ee1ab28908eb2ed74b5f88cfcc97bf">extension</a> (const String &amp;hduName, int version=1)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="21ee1ab28908eb2ed74b5f88cfcc97bf"></a><!-- doxytag: member="CCfits::FITS::extension" ref="21ee1ab28908eb2ed74b5f88cfcc97bf" args="(const String &amp;hduName, int version=1)" -->
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#21ee1ab28908eb2ed74b5f88cfcc97bf">extension</a> (const String &amp;hduName, int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#dafc3aecf2d2398109d2c42f6025f2e5">read</a> (int hduIndex, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;())</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> specified by index number.  <a href="#dafc3aecf2d2398109d2c42f6025f2e5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1Table.html">Table</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#867732f42c7863550baf28795efc6876">addTable</a> (const String &amp;hduName, int rows, const std::vector&lt; String &gt; &amp;columnName=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;columnFmt=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;columnUnit=std::vector&lt; String &gt;(), HduType type=BinaryTbl, int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a table extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. Add extension to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object for file with w or rw access.  <a href="#867732f42c7863550baf28795efc6876"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#fe53063dd05cf44654a311e5d17d4da8">addImage</a> (const String &amp;hduName, int bpix, std::vector&lt; long &gt; &amp;naxes, int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an image extension to an existing <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. (File with w or rw access).  <a href="#fe53063dd05cf44654a311e5d17d4da8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#fbc014a0dd8bfcc9d883e550f971f669">destroy</a> ()  throw ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Erase <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object and close corresponding file.  <a href="#fbc014a0dd8bfcc9d883e550f971f669"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#2df185878082d2dabe76f3f25600311b">flush</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">flush buffer contents to disk  <a href="#2df185878082d2dabe76f3f25600311b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const String &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#fc795a249942094157a54fedb6325eb0">currentExtensionName</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return the name of the extension that the fitsfile is currently addressing.  <a href="#fc795a249942094157a54fedb6325eb0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6237260607e157ec5f521522f137f09c">read</a> (const std::vector&lt; String &gt; &amp;searchKeys, const std::vector&lt; String &gt; &amp;searchValues, bool readDataFlag=false, const std::vector&lt; String &gt; &amp;hduKeys=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read method for read header or <a class="el" href="classCCfits_1_1HDU.html">HDU</a> that contains specified keywords.  <a href="#6237260607e157ec5f521522f137f09c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const ExtMap &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#5e4b2efb2d9c75db28fe264cb8576280">extension</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#9d5050b4a572ea98e0c830295894c142">resetPosition</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return const reference to the extension container  <a href="#5e4b2efb2d9c75db28fe264cb8576280"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="9d5050b4a572ea98e0c830295894c142"></a><!-- doxytag: member="CCfits::FITS::resetPosition" ref="9d5050b4a572ea98e0c830295894c142" args="()" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#9d5050b4a572ea98e0c830295894c142">resetPosition</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">const String &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#46ee9a7cb851501eb921149f1173d11d">name</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">explicit call to set the fits file pointer to the primary. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="46ee9a7cb851501eb921149f1173d11d"></a><!-- doxytag: member="CCfits::FITS::name" ref="46ee9a7cb851501eb921149f1173d11d" args="() const " -->
+const String &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#46ee9a7cb851501eb921149f1173d11d">name</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return filename of file corresponding to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#80ed085f917280e58c6bddf95de93c3c">copy</a> (const <a class="el" href="classCCfits_1_1HDU.html">HDU</a> &amp;source)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.  <a href="#80ed085f917280e58c6bddf95de93c3c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1Table.html">Table</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#dd1f740bb5706da76773951cbb1f5f89">filter</a> (const String &amp;expression, <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;inputTable, bool overwrite=true, bool readData=false)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#7d675f1654f0678461bac0d47e202d49">currentExtension</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Filter the rows of the inputTable with the condition expression, and return a reference to the resulting <a class="el" href="classCCfits_1_1Table.html">Table</a>.  <a href="#dd1f740bb5706da76773951cbb1f5f89"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7d675f1654f0678461bac0d47e202d49"></a><!-- doxytag: member="CCfits::FITS::currentExtension" ref="7d675f1654f0678461bac0d47e202d49" args="()" -->
+<a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#7d675f1654f0678461bac0d47e202d49">currentExtension</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a non-const reference to whichever is the current extension. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#d865b86fabd85a36b6e3ec782a3fad83">deleteExtension</a> (int doomed)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete extension specified by extension number.  <a href="#d865b86fabd85a36b6e3ec782a3fad83"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#d65169c171ad79257367716d8f93b3f2">setCompressionType</a> (int compType)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the compression algorithm to be used when adding image extensions to the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object.  <a href="#d65169c171ad79257367716d8f93b3f2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#a0bfb6b1a6dc55c585482ba703773f50">setTileDimensions</a> (const std::vector&lt; long &gt; &amp;tileSizes)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dimensions of the tiles into which the image is divided during compression.  <a href="#a0bfb6b1a6dc55c585482ba703773f50"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#224f6b22c1c3129c07c077d4b5617d2f">setNoiseBits</a> (int noiseBits)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#785184269e4cdf607cb844b5b45ad105">getCompressionType</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the cfitsio noisebits parameter used when compressing floating-point images.  <a href="#224f6b22c1c3129c07c077d4b5617d2f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="785184269e4cdf607cb844b5b45ad105"></a><!-- doxytag: member="CCfits::FITS::getCompressionType" ref="785184269e4cdf607cb844b5b45ad105" args="() const " -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#785184269e4cdf607cb844b5b45ad105">getCompressionType</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the int specifying the compression algorithm to be used when adding an image extension. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#879b8f7cb81cfbc781e8a7b6c6982ca9">getTileDimensions</a> (std::vector&lt; long &gt; &amp;tileSizes) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#4af2b8fb489f7fbfeabc1a381c94834c">getNoiseBits</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current settings of dimension sizes for tiles used in image compression.  <a href="#879b8f7cb81cfbc781e8a7b6c6982ca9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="4af2b8fb489f7fbfeabc1a381c94834c"></a><!-- doxytag: member="CCfits::FITS::getNoiseBits" ref="4af2b8fb489f7fbfeabc1a381c94834c" args="() const " -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#4af2b8fb489f7fbfeabc1a381c94834c">getNoiseBits</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the cfitsio noisebits parameter used when compressing floating-point images. <br></td></tr>
 <tr><td colspan="2"><br><h2>Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6f151c247fb7d0b13cd7c1d5994417d1">clearErrors</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6f151c247fb7d0b13cd7c1d5994417d1"></a><!-- doxytag: member="CCfits::FITS::clearErrors" ref="6f151c247fb7d0b13cd7c1d5994417d1" args="()" -->
+static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#6f151c247fb7d0b13cd7c1d5994417d1">clearErrors</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">clear the error stack and set status to zero. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#c897e39e93234792d519913e656be5fc">verboseMode</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#b0e7b06ebbb6097ed6fa2fd555af4ca3">setVerboseMode</a> (bool value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return verbose setting for library  <a href="#c897e39e93234792d519913e656be5fc"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="b0e7b06ebbb6097ed6fa2fd555af4ca3"></a><!-- doxytag: member="CCfits::FITS::setVerboseMode" ref="b0e7b06ebbb6097ed6fa2fd555af4ca3" args="(bool value)" -->
+static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1FITS.html#b0e7b06ebbb6097ed6fa2fd555af4ca3">setVerboseMode</a> (bool value)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set verbose setting for library <br></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCCfits_1_1FITS_1_1CantCreate.html">CantCreate</a></td></tr>
 
@@ -629,27 +686,6 @@ Optional parameters allows the reading of specified primary <a class="el" href="
 
 </div>
 </div><p>
-<a class="anchor" name="53b2988c54661d9e03af4a152da5dbae"></a><!-- doxytag: member="CCfits::FITS::~FITS" ref="53b2988c54661d9e03af4a152da5dbae" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::FITS::~FITS           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-destructor 
-<p>
-
-</div>
-</div><p>
 <hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="fe53063dd05cf44654a311e5d17d4da8"></a><!-- doxytag: member="CCfits::FITS::addImage" ref="fe53063dd05cf44654a311e5d17d4da8" args="(const String &amp;hduName, int bpix, std::vector&lt; long &gt; &amp;naxes, int version=1)" -->
 <div class="memitem">
@@ -767,48 +803,6 @@ Add a table extension to an existing <a class="el" href="classCCfits_1_1FITS.htm
 
 </div>
 </div><p>
-<a class="anchor" name="6f151c247fb7d0b13cd7c1d5994417d1"></a><!-- doxytag: member="CCfits::FITS::clearErrors" ref="6f151c247fb7d0b13cd7c1d5994417d1" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void CCfits::FITS::clearErrors           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-clear the error stack and set status to zero. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="6d41f90e72906f7c4d5eec3cc364df73"></a><!-- doxytag: member="CCfits::FITS::clone" ref="6d41f90e72906f7c4d5eec3cc364df73" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classCCfits_1_1FITS.html">FITS</a> * CCfits::FITS::clone           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-clone function: to allow implementation later of reference counting. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="80ed085f917280e58c6bddf95de93c3c"></a><!-- doxytag: member="CCfits::FITS::copy" ref="80ed085f917280e58c6bddf95de93c3c" args="(const HDU &amp;source)" -->
 <div class="memitem">
 <div class="memproto">
@@ -829,27 +823,6 @@ clone function: to allow implementation later of reference counting.
 copy the <a class="el" href="classCCfits_1_1HDU.html">HDU</a> source into the <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object. 
 <p>
 This function adds a copy of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> from another file into *this. It does not create a duplicate of an <a class="el" href="classCCfits_1_1HDU.html">HDU</a> in the file associated with *this. 
-</div>
-</div><p>
-<a class="anchor" name="7d675f1654f0678461bac0d47e202d49"></a><!-- doxytag: member="CCfits::FITS::currentExtension" ref="7d675f1654f0678461bac0d47e202d49" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::FITS::currentExtension           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return a non-const reference to whichever is the current extension. 
-<p>
-
 </div>
 </div><p>
 <a class="anchor" name="fc795a249942094157a54fedb6325eb0"></a><!-- doxytag: member="CCfits::FITS::currentExtensionName" ref="fc795a249942094157a54fedb6325eb0" args="() const " -->
@@ -982,112 +955,6 @@ return const reference to the extension container
 This is useful for such operations as extension().size() etc. 
 </div>
 </div><p>
-<a class="anchor" name="21ee1ab28908eb2ed74b5f88cfcc97bf"></a><!-- doxytag: member="CCfits::FITS::extension" ref="21ee1ab28908eb2ed74b5f88cfcc97bf" args="(const String &amp;hduName, int version=1)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension           </td>
-          <td>(</td>
-          <td class="paramtype">const String &amp;&nbsp;</td>
-          <td class="paramname"> <em>hduName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>version</em> = <code>1</code></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="f29d26cb351ba86544648203d5dbf5dc"></a><!-- doxytag: member="CCfits::FITS::extension" ref="f29d26cb351ba86544648203d5dbf5dc" args="(const String &amp;hduName, int version=1) const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> &amp; CCfits::FITS::extension           </td>
-          <td>(</td>
-          <td class="paramtype">const String &amp;&nbsp;</td>
-          <td class="paramname"> <em>hduName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>version</em> = <code>1</code></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by name and (optionally) version number. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="4b5b4cccb7912bb0cf8c03600e2f89b4"></a><!-- doxytag: member="CCfits::FITS::extension" ref="4b5b4cccb7912bb0cf8c03600e2f89b4" args="(int i)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">FITS::ExtHDU &amp; CCfits::FITS::extension           </td>
-          <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>i</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. non-const version. see const version for details. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="17d7f2a579835881a3b74c765ac612e1"></a><!-- doxytag: member="CCfits::FITS::extension" ref="17d7f2a579835881a3b74c765ac612e1" args="(int i) const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const FITS::ExtHDU &amp; CCfits::FITS::extension           </td>
-          <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>i</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return <a class="el" href="classCCfits_1_1FITS.html">FITS</a> extension by index number. N.B. The input index number is currently defined as enumerating extensions, so the extension(1) returns <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number 2. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="dd1f740bb5706da76773951cbb1f5f89"></a><!-- doxytag: member="CCfits::FITS::filter" ref="dd1f740bb5706da76773951cbb1f5f89" args="(const String &amp;expression, ExtHDU &amp;inputTable, bool overwrite=true, bool readData=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1153,48 +1020,6 @@ flush buffer contents to disk
 Provides manual control of disk writing operation. Image data are flushed automatically to disk after the write operation is completed, but not column data. 
 </div>
 </div><p>
-<a class="anchor" name="785184269e4cdf607cb844b5b45ad105"></a><!-- doxytag: member="CCfits::FITS::getCompressionType" ref="785184269e4cdf607cb844b5b45ad105" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CCfits::FITS::getCompressionType           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Get the int specifying the compression algorithm to be used when adding an image extension. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="4af2b8fb489f7fbfeabc1a381c94834c"></a><!-- doxytag: member="CCfits::FITS::getNoiseBits" ref="4af2b8fb489f7fbfeabc1a381c94834c" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CCfits::FITS::getNoiseBits           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Get the cfitsio noisebits parameter used when compressing floating-point images. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="879b8f7cb81cfbc781e8a7b6c6982ca9"></a><!-- doxytag: member="CCfits::FITS::getTileDimensions" ref="879b8f7cb81cfbc781e8a7b6c6982ca9" args="(std::vector&lt; long &gt; &amp;tileSizes) const " -->
 <div class="memitem">
 <div class="memproto">
@@ -1219,69 +1044,6 @@ Get the current settings of dimension sizes for tiles used in image compression.
     <tr><td valign="top"></td><td valign="top"><em>tileSizes</em>&nbsp;</td><td>A vector to be filled with cfitsio's current tile dimension settings. CCfits will resize this vector to contain the proper number of values. </td></tr>
   </table>
 </dl>
-
-</div>
-</div><p>
-<a class="anchor" name="46ee9a7cb851501eb921149f1173d11d"></a><!-- doxytag: member="CCfits::FITS::name" ref="46ee9a7cb851501eb921149f1173d11d" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::string &amp; CCfits::FITS::name           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return filename of file corresponding to <a class="el" href="classCCfits_1_1FITS.html">FITS</a> object 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="69714491156b3f1452f37f9277505925"></a><!-- doxytag: member="CCfits::FITS::pHDU" ref="69714491156b3f1452f37f9277505925" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp; CCfits::FITS::pHDU           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return a reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="18d1d822d3eecbf6298f974504863c05"></a><!-- doxytag: member="CCfits::FITS::pHDU" ref="18d1d822d3eecbf6298f974504863c05" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp; CCfits::FITS::pHDU           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const</td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return a const reference to the primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a>. 
-<p>
 
 </div>
 </div><p>
@@ -1499,27 +1261,6 @@ All the read functions will throw <a class="el" href="classCCfits_1_1FITS_1_1NoS
 The parameter definitions are as documented for the corresponding constructor. 
 </div>
 </div><p>
-<a class="anchor" name="9d5050b4a572ea98e0c830295894c142"></a><!-- doxytag: member="CCfits::FITS::resetPosition" ref="9d5050b4a572ea98e0c830295894c142" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::FITS::resetPosition           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-explicit call to set the fits file pointer to the primary. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="d65169c171ad79257367716d8f93b3f2"></a><!-- doxytag: member="CCfits::FITS::setCompressionType" ref="d65169c171ad79257367716d8f93b3f2" args="(int compType)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1596,28 +1337,6 @@ Set the dimensions of the tiles into which the image is divided during compressi
 The default cfitsio behavior is to create tiles with dimensions NAXIS1 x 1 x 1 etc. up to the number of image dimensions. 
 </div>
 </div><p>
-<a class="anchor" name="b0e7b06ebbb6097ed6fa2fd555af4ca3"></a><!-- doxytag: member="CCfits::FITS::setVerboseMode" ref="b0e7b06ebbb6097ed6fa2fd555af4ca3" args="(bool value)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::FITS::setVerboseMode           </td>
-          <td>(</td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>value</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [inline, static]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-set verbose setting for library 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="c897e39e93234792d519913e656be5fc"></a><!-- doxytag: member="CCfits::FITS::verboseMode" ref="c897e39e93234792d519913e656be5fc" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1641,7 +1360,7 @@ If true, all messages that are reported by exceptions are printed to std::cerr.
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="FITS_8h-source.html">FITS.h</a><li>FITS.cxx</ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 28 11:49:11 2007 for CCfits by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Oct 12 13:39:41 2007 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

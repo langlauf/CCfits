@@ -36,48 +36,75 @@
 <a href="classCCfits_1_1Table-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#0b1f880e7bb883a2b05ee20909d94fbf">Table</a> (const <a class="el" href="classCCfits_1_1Table.html">Table</a> &amp;right)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0b1f880e7bb883a2b05ee20909d94fbf"></a><!-- doxytag: member="CCfits::Table::Table" ref="0b1f880e7bb883a2b05ee20909d94fbf" args="(const Table &amp;right)" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#0b1f880e7bb883a2b05ee20909d94fbf">Table</a> (const <a class="el" href="classCCfits_1_1Table.html">Table</a> &amp;right)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#933afd64667d8ad6a7291686ca3d8603">~Table</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">copy constructor <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="933afd64667d8ad6a7291686ca3d8603"></a><!-- doxytag: member="CCfits::Table::~Table" ref="933afd64667d8ad6a7291686ca3d8603" args="()" -->
+virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#933afd64667d8ad6a7291686ca3d8603">~Table</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">destructor <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const std::map&lt; String, <a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#6d1b5125f1ebdbca5714c0b651610be8">column</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a reference to the array containing the columns.  <a href="#6d1b5125f1ebdbca5714c0b651610be8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#06aae1d43dc40aa960c5d5ea36d1e712">column</a> (const String &amp;colName) const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by name.  <a href="#06aae1d43dc40aa960c5d5ea36d1e712"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#67eb478179846fc940e202476b4c08a3">column</a> (int colIndex) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#63b3ceb651637d7e73fd4a787b136450">rows</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a reference to the column identified by colIndex  <a href="#67eb478179846fc940e202476b4c08a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="63b3ceb651637d7e73fd4a787b136450"></a><!-- doxytag: member="CCfits::Table::rows" ref="63b3ceb651637d7e73fd4a787b136450" args="() const " -->
+virtual long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#63b3ceb651637d7e73fd4a787b136450">rows</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return the number of rows in the table (NAXIS2). <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a610c082528ac5ed89b715e3f3b2e4e6">updateRows</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#af11d6f4b77aa533bd09562edcea4c10">rows</a> (long numRows)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">update the number of rows in the table  <a href="#a610c082528ac5ed89b715e3f3b2e4e6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="af11d6f4b77aa533bd09562edcea4c10"></a><!-- doxytag: member="CCfits::Table::rows" ref="af11d6f4b77aa533bd09562edcea4c10" args="(long numRows)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#af11d6f4b77aa533bd09562edcea4c10">rows</a> (long numRows)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the number of rows in the <a class="el" href="classCCfits_1_1Table.html">Table</a>. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#19bde9d4a37a2ee07016ef627e5fecde">deleteColumn</a> (const String &amp;columnName)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">delete a column in a <a class="el" href="classCCfits_1_1Table.html">Table</a> extension by name.  <a href="#19bde9d4a37a2ee07016ef627e5fecde"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#470beae464348ac917729b0d1d693ba0">insertRows</a> (long first, long number=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">insert empty rows into the table  <a href="#470beae464348ac917729b0d1d693ba0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a89bbe572a86b8bc4ca4249ba0b21dbb">deleteRows</a> (long first, long number=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">delete a range of rows in a table.  <a href="#a89bbe572a86b8bc4ca4249ba0b21dbb"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#7dc1b5bfcfde698946777e045b532ba2">deleteRows</a> (const std::vector&lt; long &gt; &amp;rowList)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">delete a set of rows in the table specified by an input array.  <a href="#7dc1b5bfcfde698946777e045b532ba2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual std::map&lt; string,<br>
  <a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#c41ac8e02386d095a969142b486d3890">column</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return a reference to the array containing the columns.  <a href="#c41ac8e02386d095a969142b486d3890"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#37f73f59845f49a01fbd587ce1bd06f3">Table</a> (FITSBase *p, HduType xtype, const String &amp;hduName, int rows, const std::vector&lt; String &gt; &amp;columnName, const std::vector&lt; String &gt; &amp;columnFmt, const std::vector&lt; String &gt; &amp;columnUnit=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#3325a78088498051760efde16dfae9b8">Table</a> (FITSBase *p, HduType xtype, const String &amp;hduName=String(&quot;&quot;), int version=1)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor to be used for creating new HDUs.  <a href="#37f73f59845f49a01fbd587ce1bd06f3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="3325a78088498051760efde16dfae9b8"></a><!-- doxytag: member="CCfits::Table::Table" ref="3325a78088498051760efde16dfae9b8" args="(FITSBase *p, HduType xtype, const String &amp;hduName=String(&quot;&quot;), int version=1)" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#3325a78088498051760efde16dfae9b8">Table</a> (FITSBase *p, HduType xtype, const String &amp;hduName=String(&quot;&quot;), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor to be called by operations that read <a class="el" href="classCCfits_1_1Table.html">Table</a> specified by hduName and version. <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#f79b97361d3f64e7b6fa48296a971818">Table</a> (FITSBase *p, HduType xtype, int number)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><a class="el" href="classCCfits_1_1Table.html">Table</a> constructor for getting Tables by number.  <a href="#f79b97361d3f64e7b6fa48296a971818"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#b5ade7dd546fe55f2c0e1f5ff7e0eddf">init</a> (bool readFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;())</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#e03870d4c17e4a4fbbcd027cb9fc4da7">column</a> (const String &amp;colname, <a class="el" href="classCCfits_1_1Column.html">Column</a> *value)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="e03870d4c17e4a4fbbcd027cb9fc4da7"></a><!-- doxytag: member="CCfits::Table::column" ref="e03870d4c17e4a4fbbcd027cb9fc4da7" args="(const String &amp;colname, Column *value)" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#e03870d4c17e4a4fbbcd027cb9fc4da7">column</a> (const String &amp;colname, <a class="el" href="classCCfits_1_1Column.html">Column</a> *value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#7a10118f8f79786fa1c8813e2e838076">numCols</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the column with name colname to the input value. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7a10118f8f79786fa1c8813e2e838076"></a><!-- doxytag: member="CCfits::Table::numCols" ref="7a10118f8f79786fa1c8813e2e838076" args="() const " -->
+int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#7a10118f8f79786fa1c8813e2e838076">numCols</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#7a9b5c4231233847904f841d023978a5">numCols</a> (int value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> (the TFIELDS keyword). <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="7a9b5c4231233847904f841d023978a5"></a><!-- doxytag: member="CCfits::Table::numCols" ref="7a9b5c4231233847904f841d023978a5" args="(int value)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#7a9b5c4231233847904f841d023978a5">numCols</a> (int value)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">set the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> <br></td></tr>
 <tr><td colspan="2"><br><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table_1_1NoSuchColumn.html">NoSuchColumn</a></td></tr>
 
@@ -88,49 +115,6 @@
 <a class="el" href="classCCfits_1_1Table.html">Table</a> is a subclass of <a class="el" href="classCCfits_1_1ExtHDU.html">ExtHDU</a> that contains an associative array of <a class="el" href="classCCfits_1_1Column.html">Column</a> objects. It implements methods for reading and writing columns 
 <p>
 <hr><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" name="0b1f880e7bb883a2b05ee20909d94fbf"></a><!-- doxytag: member="CCfits::Table::Table" ref="0b1f880e7bb883a2b05ee20909d94fbf" args="(const Table &amp;right)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::Table::Table           </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classCCfits_1_1Table.html">Table</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>right</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-copy constructor 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="933afd64667d8ad6a7291686ca3d8603"></a><!-- doxytag: member="CCfits::Table::~Table" ref="933afd64667d8ad6a7291686ca3d8603" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::Table::~Table           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-destructor 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="37f73f59845f49a01fbd587ce1bd06f3"></a><!-- doxytag: member="CCfits::Table::Table" ref="37f73f59845f49a01fbd587ce1bd06f3" args="(FITSBase *p, HduType xtype, const String &amp;hduName, int rows, const std::vector&lt; String &gt; &amp;columnName, const std::vector&lt; String &gt; &amp;columnFmt, const std::vector&lt; String &gt; &amp;columnUnit=std::vector&lt; String &gt;(), int version=1)" -->
 <div class="memitem">
 <div class="memproto">
@@ -210,49 +194,6 @@ Constructor to be used for creating new HDUs.
 
 </div>
 </div><p>
-<a class="anchor" name="3325a78088498051760efde16dfae9b8"></a><!-- doxytag: member="CCfits::Table::Table" ref="3325a78088498051760efde16dfae9b8" args="(FITSBase *p, HduType xtype, const String &amp;hduName=String(&quot;&quot;), int version=1)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::Table::Table           </td>
-          <td>(</td>
-          <td class="paramtype">FITSBase *&nbsp;</td>
-          <td class="paramname"> <em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">HduType&nbsp;</td>
-          <td class="paramname"> <em>xtype</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const String &amp;&nbsp;</td>
-          <td class="paramname"> <em>hduName</em> = <code>String(&quot;&quot;)</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>version</em> = <code>1</code></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Constructor to be called by operations that read <a class="el" href="classCCfits_1_1Table.html">Table</a> specified by hduName and version. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="f79b97361d3f64e7b6fa48296a971818"></a><!-- doxytag: member="CCfits::Table::Table" ref="f79b97361d3f64e7b6fa48296a971818" args="(FITSBase *p, HduType xtype, int number)" -->
 <div class="memitem">
 <div class="memproto">
@@ -291,39 +232,6 @@ Necessary since EXTNAME is a reserved not required keyword, and users may thus r
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="e03870d4c17e4a4fbbcd027cb9fc4da7"></a><!-- doxytag: member="CCfits::Table::column" ref="e03870d4c17e4a4fbbcd027cb9fc4da7" args="(const String &amp;colname, Column *value)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::Table::column           </td>
-          <td>(</td>
-          <td class="paramtype">const String &amp;&nbsp;</td>
-          <td class="paramname"> <em>colname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classCCfits_1_1Column.html">Column</a> *&nbsp;</td>
-          <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-set the column with name colname to the input value. 
-<p>
-
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a>.
-</div>
-</div><p>
 <a class="anchor" name="c41ac8e02386d095a969142b486d3890"></a><!-- doxytag: member="CCfits::Table::column" ref="c41ac8e02386d095a969142b486d3890" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -608,94 +516,6 @@ insert empty rows into the table
 
 </div>
 </div><p>
-<a class="anchor" name="7a9b5c4231233847904f841d023978a5"></a><!-- doxytag: member="CCfits::Table::numCols" ref="7a9b5c4231233847904f841d023978a5" args="(int value)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::Table::numCols           </td>
-          <td>(</td>
-          <td class="paramtype">int&nbsp;</td>
-          <td class="paramname"> <em>value</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [inline, protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-set the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="7a10118f8f79786fa1c8813e2e838076"></a><!-- doxytag: member="CCfits::Table::numCols" ref="7a10118f8f79786fa1c8813e2e838076" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int CCfits::Table::numCols           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [inline, protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> (the TFIELDS keyword). 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="af11d6f4b77aa533bd09562edcea4c10"></a><!-- doxytag: member="CCfits::Table::rows" ref="af11d6f4b77aa533bd09562edcea4c10" args="(long numRows)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::Table::rows           </td>
-          <td>(</td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>numRows</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [inline]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-set the number of rows in the <a class="el" href="classCCfits_1_1Table.html">Table</a>. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="63b3ceb651637d7e73fd4a787b136450"></a><!-- doxytag: member="CCfits::Table::rows" ref="63b3ceb651637d7e73fd4a787b136450" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long CCfits::Table::rows           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [inline, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return the number of rows in the table (NAXIS2). 
-<p>
-
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#b94cb470d13b5a574728c49589963a36">CCfits::ExtHDU</a>.
-</div>
-</div><p>
 <a class="anchor" name="a610c082528ac5ed89b715e3f3b2e4e6"></a><!-- doxytag: member="CCfits::Table::updateRows" ref="a610c082528ac5ed89b715e3f3b2e4e6" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -719,7 +539,7 @@ Called to force the <a class="el" href="classCCfits_1_1Table.html">Table</a> to 
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="Table_8h-source.html">Table.h</a><li>Table.cxx</ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 28 11:49:14 2007 for CCfits by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Oct 12 13:39:44 2007 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

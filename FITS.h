@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -12,23 +12,23 @@
 #ifndef FITS_H
 #define FITS_H 1
 
-// FitsError
-#include "FitsError.h"
-// ExtHDU
-#include "ExtHDU.h"
+// exception
+#include <exception>
 // string
 #include <string>
 // map
 #include <map>
-// exception
-#include <exception>
+// ExtHDU
+#include "ExtHDU.h"
 // HDUCreator
 #include "HDUCreator.h"
+// FitsError
+#include "FitsError.h"
 
 namespace CCfits {
-  class Table;
-  class PHDU;
   class FITSBase;
+  class PHDU;
+  class Table;
 
 } // namespace CCfits
 //class PHDU;

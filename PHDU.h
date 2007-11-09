@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -12,14 +12,14 @@
 #ifndef PHDU_H
 #define PHDU_H 1
 
-// FITS
-#include "FITS.h"
 // valarray
 #include <valarray>
-// FITSUtil
-#include "FITSUtil.h"
 // HDU
 #include "HDU.h"
+// FITS
+#include "FITS.h"
+// FITSUtil
+#include "FITSUtil.h"
 
 namespace CCfits {
   class FITSBase;

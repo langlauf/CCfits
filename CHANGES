@@ -1,3 +1,15 @@
+Changes for CCfits 1.8 release 10/07
+- Redid the writeData functions (and their private helper functions)
+in ColumnVectorData.  This allows the writing of variable length
+column arrays, which hadn't been working, and now allows writing a 
+partial section of a fixed length column without overwriting the
+entire row.
+   ColumnVectorData.cxx, .h
+- In HDU::readAllKeys, do not throw if unable to read a particular
+individual keyword.  Instead, skip and move to the next keyword.  This
+will allow this function to be used even if there undefined keywords.
+   HDU.cxx
+
 Changes for CCfits 1.7 release 06/07
 - FITS::copy function now creates a corresponding object for the
 newly created HDU.  Previously it only modified the file without 

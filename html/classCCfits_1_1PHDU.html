@@ -38,54 +38,82 @@
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#ebb0d9bac5b961e7de036ad10f1a02c2">~PHDU</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#6cefe66318d6014ef2d489e7a779f299">clone</a> (FITSBase *p) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">destructor  <a href="#ebb0d9bac5b961e7de036ad10f1a02c2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="6cefe66318d6014ef2d489e7a779f299"></a><!-- doxytag: member="CCfits::PHDU::clone" ref="6cefe66318d6014ef2d489e7a779f299" args="(FITSBase *p) const =0" -->
+virtual <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#6cefe66318d6014ef2d489e7a779f299">clone</a> (FITSBase *p) const =0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#bcc25c1d318581d9b650a784b799285d">zero</a> (double value)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">virtual copy constructor, to be implemented in subclasses. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="bcc25c1d318581d9b650a784b799285d"></a><!-- doxytag: member="CCfits::PHDU::zero" ref="bcc25c1d318581d9b650a784b799285d" args="(double value)" -->
+virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#bcc25c1d318581d9b650a784b799285d">zero</a> (double value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#04b7249f250f651a96b6423930c6e4e2">zero</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the BZERO keyword value. <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="04b7249f250f651a96b6423930c6e4e2"></a><!-- doxytag: member="CCfits::PHDU::zero" ref="04b7249f250f651a96b6423930c6e4e2" args="() const " -->
+virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#04b7249f250f651a96b6423930c6e4e2">zero</a> () const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#0205708df85524ee37eddb7485604591">scale</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return the BZERO keyword value <br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="0205708df85524ee37eddb7485604591"></a><!-- doxytag: member="CCfits::PHDU::scale" ref="0205708df85524ee37eddb7485604591" args="() const " -->
+virtual double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#0205708df85524ee37eddb7485604591">scale</a> () const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">return the BSCALE keyword value <br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#2a7dfaa22263656ba9db636f82b89850">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.  <a href="#2a7dfaa22263656ba9db636f82b89850"></a><br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#d162386d06461d014092abeb6f3d03f0">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data, S *nullValue)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write array to image starting with a specified pixel and allowing undefined data to be processed  <a href="#d162386d06461d014092abeb6f3d03f0"></a><br></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="9a62bc12990d9dc0de3620eb8cfa96df"></a><!-- doxytag: member="CCfits::PHDU::write" ref="9a62bc12990d9dc0de3620eb8cfa96df" args="(const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)" -->
+template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#9a62bc12990d9dc0de3620eb8cfa96df">write</a> (const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write array starting from specified n-tuple, without undefined data processing <br></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="394889162e09898e2308a2d96b82532d"></a><!-- doxytag: member="CCfits::PHDU::write" ref="394889162e09898e2308a2d96b82532d" args="(long first, long nElements, const std::valarray&lt; S &gt; &amp;data)" -->
+template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#394889162e09898e2308a2d96b82532d">write</a> (long first, long nElements, const std::valarray&lt; S &gt; &amp;data)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write array starting from specified pixel number, without undefined data processing <br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#f73983e4398c0a4f1d8b30ff3193966b">write</a> (const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, const std::valarray&lt; S &gt; &amp;data)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">write a subset (generalize slice) of data to the image  <a href="#f73983e4398c0a4f1d8b30ff3193966b"></a><br></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="1b5e3bd0bc683e93c650cb9d048e0936"></a><!-- doxytag: member="CCfits::PHDU::read" ref="1b5e3bd0bc683e93c650cb9d048e0936" args="(std::valarray&lt; S &gt; &amp;image, long first, long nElements)" -->
+template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#1b5e3bd0bc683e93c650cb9d048e0936">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read an image section starting at a specified pixel <br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#c074b0454bf0d2085d90ab4993062365">read</a> (std::valarray&lt; S &gt; &amp;image, long first, long nElements, S *nullValue)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read part of an image array, processing null values.  <a href="#c074b0454bf0d2085d90ab4993062365"></a><br></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="004d7be51b8b85374f20d458e75b27a4"></a><!-- doxytag: member="CCfits::PHDU::read" ref="004d7be51b8b85374f20d458e75b27a4" args="(std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)" -->
+template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#004d7be51b8b85374f20d458e75b27a4">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read an image section starting at a location specified by an n-tuple <br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#0adff697d584756db2576b691e97d2af">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)</td></tr>
 
-<tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read part of an image array, processing null values.  <a href="#0adff697d584756db2576b691e97d2af"></a><br></td></tr>
+<tr><td class="memTemplParams" nowrap colspan="2"><a class="anchor" name="f9ed96fd745f937fe547b1284f8b0fa0"></a><!-- doxytag: member="CCfits::PHDU::read" ref="f9ed96fd745f937fe547b1284f8b0fa0" args="(std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)" -->
+template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#f9ed96fd745f937fe547b1284f8b0fa0">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read an image subset <br></td></tr>
 <tr><td class="memTemplParams" nowrap colspan="2">template&lt;typename S&gt; </td></tr>
 <tr><td class="memTemplItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#7d1b97ee19fbf6e2d9b700e0fd181fba">read</a> (std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, S *nullValue)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read an image subset into valarray image, processing null values  <a href="#7d1b97ee19fbf6e2d9b700e0fd181fba"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#bd7c1f8131fa1acd2c638a9b9372e55a">PHDU</a> (const <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a> &amp;right)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">copy constructor  <a href="#bd7c1f8131fa1acd2c638a9b9372e55a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#567c35924aaecf4841e2a467667f2e76">PHDU</a> (FITSBase *p, int bpix, int naxis, const std::vector&lt; long &gt; &amp;axes)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Writing Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> constructor, called by PrimaryHDU&lt;T&gt; class.  <a href="#567c35924aaecf4841e2a467667f2e76"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#6edaf40ab3bc6b1450d41ba3f55485d1">PHDU</a> (FITSBase *p=0)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reading Primary <a class="el" href="classCCfits_1_1HDU.html">HDU</a> constructor.  <a href="#6edaf40ab3bc6b1450d41ba3f55485d1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1PHDU.html#04e290b1a4d638db9dee0e6a03d30ede">initRead</a> ()</td></tr>
 
 </table>
@@ -209,30 +237,6 @@ Constructor used when reading the primary <a class="el" href="classCCfits_1_1HDU
 </div>
 </div><p>
 <hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="6cefe66318d6014ef2d489e7a779f299"></a><!-- doxytag: member="CCfits::PHDU::clone" ref="6cefe66318d6014ef2d489e7a779f299" args="(FITSBase *p) const =0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="classCCfits_1_1PHDU.html">PHDU</a>* CCfits::PHDU::clone           </td>
-          <td>(</td>
-          <td class="paramtype">FITSBase *&nbsp;</td>
-          <td class="paramname"> <em>p</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-virtual copy constructor, to be implemented in subclasses. 
-<p>
-
-<p>
-Implements <a class="el" href="classCCfits_1_1HDU.html#5d4af8d84676f20b1c79b785f1a22cde">CCfits::HDU</a>.
-</div>
-</div><p>
 <a class="anchor" name="04e290b1a4d638db9dee0e6a03d30ede"></a><!-- doxytag: member="CCfits::PHDU::initRead" ref="04e290b1a4d638db9dee0e6a03d30ede" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -305,51 +309,6 @@ read an image subset into valarray image, processing null values
 The image subset is defined by two vertices and a stride indicating the 'denseness' of the values to be picked in each dimension (a stride = (1,1,1,...) means picking every pixel in every dimension, whereas stride = (2,2,2,...) means picking every other value in each dimension. 
 </div>
 </div><p>
-<a class="anchor" name="f9ed96fd745f937fe547b1284f8b0fa0"></a><!-- doxytag: member="CCfits::PHDU::read" ref="f9ed96fd745f937fe547b1284f8b0fa0" args="(std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::read           </td>
-          <td>(</td>
-          <td class="paramtype">std::valarray&lt; S &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; long &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>firstVertex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; long &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>lastVertex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; long &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>stride</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-read an image subset 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="0adff697d584756db2576b691e97d2af"></a><!-- doxytag: member="CCfits::PHDU::read" ref="0adff697d584756db2576b691e97d2af" args="(std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements, S *nullValue)" -->
 <div class="memitem">
 <div class="memproto">
@@ -398,45 +357,6 @@ As above except for<p>
     <tr><td valign="top"></td><td valign="top"><em>first</em>&nbsp;</td><td>a vector&lt;long&gt; representing an n-tuple giving the coordinates in the image of the first pixel. </td></tr>
   </table>
 </dl>
-
-</div>
-</div><p>
-<a class="anchor" name="004d7be51b8b85374f20d458e75b27a4"></a><!-- doxytag: member="CCfits::PHDU::read" ref="004d7be51b8b85374f20d458e75b27a4" args="(std::valarray&lt; S &gt; &amp;image, const std::vector&lt; long &gt; &amp;first, long nElements)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::read           </td>
-          <td>(</td>
-          <td class="paramtype">std::valarray&lt; S &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; long &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>nElements</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-read an image section starting at a location specified by an n-tuple 
-<p>
 
 </div>
 </div><p>
@@ -494,68 +414,6 @@ Implicit data conversion is supported (i.e. user does not need to know the type 
 
 </div>
 </div><p>
-<a class="anchor" name="1b5e3bd0bc683e93c650cb9d048e0936"></a><!-- doxytag: member="CCfits::PHDU::read" ref="1b5e3bd0bc683e93c650cb9d048e0936" args="(std::valarray&lt; S &gt; &amp;image, long first, long nElements)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::read           </td>
-          <td>(</td>
-          <td class="paramtype">std::valarray&lt; S &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>nElements</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-read an image section starting at a specified pixel 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="0205708df85524ee37eddb7485604591"></a><!-- doxytag: member="CCfits::PHDU::scale" ref="0205708df85524ee37eddb7485604591" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double CCfits::PHDU::scale           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return the BSCALE keyword value 
-<p>
-
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#f1ffd58e00cd8f3a903976df8f91bc0a">CCfits::HDU</a>.
-</div>
-</div><p>
 <a class="anchor" name="f73983e4398c0a4f1d8b30ff3193966b"></a><!-- doxytag: member="CCfits::PHDU::write" ref="f73983e4398c0a4f1d8b30ff3193966b" args="(const std::vector&lt; long &gt; &amp;firstVertex, const std::vector&lt; long &gt; &amp;lastVertex, const std::vector&lt; long &gt; &amp;stride, const std::valarray&lt; S &gt; &amp;data)" -->
 <div class="memitem">
 <div class="memproto">
@@ -607,84 +465,6 @@ A generalized slice/subset is a subset of the image (e.g. one plane of a data cu
     <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>The data to be written </td></tr>
   </table>
 </dl>
-
-</div>
-</div><p>
-<a class="anchor" name="394889162e09898e2308a2d96b82532d"></a><!-- doxytag: member="CCfits::PHDU::write" ref="394889162e09898e2308a2d96b82532d" args="(long first, long nElements, const std::valarray&lt; S &gt; &amp;data)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::write           </td>
-          <td>(</td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>nElements</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::valarray&lt; S &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-write array starting from specified pixel number, without undefined data processing 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="9a62bc12990d9dc0de3620eb8cfa96df"></a><!-- doxytag: member="CCfits::PHDU::write" ref="9a62bc12990d9dc0de3620eb8cfa96df" args="(const std::vector&lt; long &gt; &amp;first, long nElements, const std::valarray&lt; S &gt; &amp;data)" -->
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::write           </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; long &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>first</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long&nbsp;</td>
-          <td class="paramname"> <em>nElements</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::valarray&lt; S &gt; &amp;&nbsp;</td>
-          <td class="paramname"> <em>data</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-write array starting from specified n-tuple, without undefined data processing 
-<p>
 
 </div>
 </div><p>
@@ -787,56 +567,9 @@ All the overloaded versions of <a class="el" href="classCCfits_1_1PHDU.html#2a7d
 
 </div>
 </div><p>
-<a class="anchor" name="04b7249f250f651a96b6423930c6e4e2"></a><!-- doxytag: member="CCfits::PHDU::zero" ref="04b7249f250f651a96b6423930c6e4e2" args="() const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double CCfits::PHDU::zero           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-return the BZERO keyword value 
-<p>
-
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1HDU.html#23317074fa7362c7522c01f3f1756618">CCfits::HDU</a>.
-</div>
-</div><p>
-<a class="anchor" name="bcc25c1d318581d9b650a784b799285d"></a><!-- doxytag: member="CCfits::PHDU::zero" ref="bcc25c1d318581d9b650a784b799285d" args="(double value)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CCfits::PHDU::zero           </td>
-          <td>(</td>
-          <td class="paramtype">double&nbsp;</td>
-          <td class="paramname"> <em>value</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Set the BZERO keyword value. 
-<p>
-
-<p>
-Reimplemented from <a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a>.
-</div>
-</div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="PHDU_8h-source.html">PHDU.h</a><li>PHDU.cxx<li><a class="el" href="PHDUT_8h-source.html">PHDUT.h</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 28 11:49:14 2007 for CCfits by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Oct 12 13:39:44 2007 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>

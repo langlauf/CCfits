@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.7 release dated June 2007
+//	This is version 1.8 release dated Oct 2007
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -12,12 +12,12 @@
 #ifndef IMAGE_H
 #define IMAGE_H 1
 
-// functional
-#include <functional>
-// valarray
-#include <valarray>
 // vector
 #include <vector>
+// valarray
+#include <valarray>
+// functional
+#include <functional>
 // numeric
 #include <numeric>
 #ifdef _MSC_VER

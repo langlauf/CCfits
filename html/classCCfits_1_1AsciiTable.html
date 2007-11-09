@@ -38,21 +38,30 @@
 <a href="classCCfits_1_1AsciiTable-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#ef13a5add47a41179c1f751c2235a17e">clone</a> (FITSBase *p) const </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ef13a5add47a41179c1f751c2235a17e"></a><!-- doxytag: member="CCfits::AsciiTable::clone" ref="ef13a5add47a41179c1f751c2235a17e" args="(FITSBase *p) const " -->
+virtual <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#ef13a5add47a41179c1f751c2235a17e">clone</a> (FITSBase *p) const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">virtual copy constructor <br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#7560ef2a9c29653a9685e6d20371e15e">readData</a> (bool readFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;())</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read columns and keys specified in the input array.  <a href="#7560ef2a9c29653a9685e6d20371e15e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#245630609bfb16d581263b7ee868ce10">addColumn</a> (ValueType type, const String &amp;columnName, long repeatWidth, const String &amp;colUnit=String(&quot;&quot;), long decimals=0, size_t columnNumber=0)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">add a new column to an existing table <a class="el" href="classCCfits_1_1HDU.html">HDU</a>.  <a href="#245630609bfb16d581263b7ee868ce10"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#1c5cfbf4c9bcecf8b0bee071fca37d32">AsciiTable</a> (FITSBase *p, const String &amp;hduName=String(&quot;&quot;), bool readFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">reading constructor: Construct a <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> extension from an extension of an existing disk file.  <a href="#1c5cfbf4c9bcecf8b0bee071fca37d32"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#56e7f260511c4a4ee08c84d00c624913">AsciiTable</a> (FITSBase *p, const String &amp;hduName, int rows, const std::vector&lt; String &gt; &amp;columnName=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;columnFmt=std::vector&lt; String &gt;(), const std::vector&lt; String &gt; &amp;columnUnit=std::vector&lt; String &gt;(), int version=1)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">writing constructor: create new Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> object with the specified columns  <a href="#56e7f260511c4a4ee08c84d00c624913"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#69d98cb082fc738212066f583242c67c">AsciiTable</a> (FITSBase *p, int number)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#ddd0761345234235bd36d3dc46d452f6">~AsciiTable</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">read <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> with <a class="el" href="classCCfits_1_1HDU.html">HDU</a> number <code>number</code> from existing file.  <a href="#69d98cb082fc738212066f583242c67c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="ddd0761345234235bd36d3dc46d452f6"></a><!-- doxytag: member="CCfits::AsciiTable::~AsciiTable" ref="ddd0761345234235bd36d3dc46d452f6" args="()" -->
+&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1AsciiTable.html#ddd0761345234235bd36d3dc46d452f6">~AsciiTable</a> ()</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">destructor. <br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Class Representing Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> Extensions. 
@@ -225,27 +234,6 @@ read <a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> with <a 
 This is used internally by methods that need to access HDUs for which no EXTNAME [or equivalent] keyword exists. 
 </div>
 </div><p>
-<a class="anchor" name="ddd0761345234235bd36d3dc46d452f6"></a><!-- doxytag: member="CCfits::AsciiTable::~AsciiTable" ref="ddd0761345234235bd36d3dc46d452f6" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">CCfits::AsciiTable::~AsciiTable           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-destructor. 
-<p>
-
-</div>
-</div><p>
 <hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="245630609bfb16d581263b7ee868ce10"></a><!-- doxytag: member="CCfits::AsciiTable::addColumn" ref="245630609bfb16d581263b7ee868ce10" args="(ValueType type, const String &amp;columnName, long repeatWidth, const String &amp;colUnit=String(&quot;&quot;), long decimals=0, size_t columnNumber=0)" -->
 <div class="memitem">
@@ -314,30 +302,6 @@ add a new column to an existing table <a class="el" href="classCCfits_1_1HDU.htm
 Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#1a4ee80da434b132a5b9015e3d939c11">CCfits::ExtHDU</a>.
 </div>
 </div><p>
-<a class="anchor" name="ef13a5add47a41179c1f751c2235a17e"></a><!-- doxytag: member="CCfits::AsciiTable::clone" ref="ef13a5add47a41179c1f751c2235a17e" args="(FITSBase *p) const " -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classCCfits_1_1AsciiTable.html">AsciiTable</a> * CCfits::AsciiTable::clone           </td>
-          <td>(</td>
-          <td class="paramtype">FITSBase *&nbsp;</td>
-          <td class="paramname"> <em>p</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-virtual copy constructor 
-<p>
-
-<p>
-Implements <a class="el" href="classCCfits_1_1ExtHDU.html#da85c7b4b9b38f6e410db8794779ed60">CCfits::ExtHDU</a>.
-</div>
-</div><p>
 <a class="anchor" name="7560ef2a9c29653a9685e6d20371e15e"></a><!-- doxytag: member="CCfits::AsciiTable::readData" ref="7560ef2a9c29653a9685e6d20371e15e" args="(bool readFlag=false, const std::vector&lt; String &gt; &amp;keys=std::vector&lt; String &gt;())" -->
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +337,7 @@ Implements <a class="el" href="classCCfits_1_1ExtHDU.html#166d6a339f64d7d8d4715d
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="AsciiTable_8h-source.html">AsciiTable.h</a><li>AsciiTable.cxx</ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 28 11:49:09 2007 for CCfits by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Oct 12 13:39:38 2007 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.7 </small></address>
 </body>
