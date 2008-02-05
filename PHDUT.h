@@ -3,7 +3,7 @@
 //3
 //4
 
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
@@ -11,7 +11,7 @@
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 
 #ifndef PHDUT_H

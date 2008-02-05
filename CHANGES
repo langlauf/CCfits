@@ -1,3 +1,86 @@
+Changes for CCfits 2.0 release 02/08
+- The scale and zero set functions (public in HDU) will now write
+or update the keywords rather than call fits_set_bscale.  They also
+now check for allowed image data type changes as a result of changing
+the bscale and bzero values.  Added private zeroInit/scaleInit functions
+for use in HDUCreator.  Also added new public function, 
+HDU::suppressScaling. (01/08)
+   ImageExt.h
+   PHDU.cxx, .h
+   HDU.cxx, .h
+   HDUCreator.cxx
+- Changed access of HDU's bitpix set function from public to private.
+This requires that HDUCreator be a friend class of HDU. (01/08)
+   HDU.h
+- Removed the redundant non-const version of FITS::filePointer and made
+the const version public instead of private.  It also no longer returns
+by reference.  (01/08)
+   FITS.h, .cxx
+- Reorganized ImageExt<T> constructor/assignment visibility and added 
+virtual declaration to destructor.  Also added docs.
+   ImageExt.h
+- Added #include statements for <cstring> and <iterator> to allow
+compilation on g++ 4.3 (patch submitted by Aurelien Jarno) (01/08)
+   ExtHDU.cxx
+   FITS.cxx
+   ColumnData.h
+   FITSUtil.cxx
+   HDU.cxx
+- Added the function getRowsize to the Table class, a wrapper for
+fits_get_rowsize. (Patrik Jonsson)
+   Table.cxx, .h
+   ExtHDU.cxx, .h
+- Made the const version of the Column parent accessor function public,
+and removed the non-const version.
+   Column.h
+- Reorganized and improved keyword modification functions in HDU and
+Keyword classes.  This includes new HDU addKey, copyAllKeys, and
+keywordCategories functions, and the removal of HDU::setKeyWord.  
+Also fully implemented the Keyword value set function, with template
+specialization similar to the value get function, and added doc
+descriptions for both of these. (01/08)
+   HDU.cxx, .h
+   Keyword.cxx, .h
+   KeywordT.h
+   KeyData.cxx, .h
+- Bug fix to 2 of the 3 constructors which call the create() function.
+If create() returns false, they need to throw a CantCreate exception.
+They were appending the new primary hdu as an extension to the 
+pre-existing file. (01/08)
+   FITS.cxx, .h
+- To eliminate unnecessary dependences upon CFITSIO internals, removed
+the FITSUtil::copyFitsPtr function and everything using it: FITS copy
+ctor and clone functions, FITSBase copy ctor and clone functions.  (Note
+that copyFitsPtr was never properly impelemented in its attempt to
+perform a deep copy of a fitsfile pointer.) (12/07)
+   FITS.cxx, .h
+   FITSBase.cxx, .h
+   FITSUtil.cxx, .h
+- Added 4 new functions to HDU class to provide an interface to
+CFITSIO's checksum capabilities. (12/07)
+   HDU.cxx, .h
+- Error messages are now stored in the FitsException base class, which
+allows them to be retrieved and copied with the public function 
+message(). (12/07)
+   FitsError.cxx, .h
+   Column.cxx,
+   ExtHDU.cxx,
+   FITS.cxx
+   FITSUtil.cxx
+   HDU.cxx
+   Keyword.cxx
+   Table.cxx
+- For Column write functions (both scalar and vector), all cases where
+the nulval pointer = 0 were treated as (*nulval) = 0 in the lower-level
+calls to fits_write_colnull.  This effectively meant there was no way
+for the user to turn off null value checking.  (12/07)
+   ColumnT.h
+   ColumnData.h
+   ColumnVectorData.h
+- Calling FITS constructor in Write mode on a read-only file was
+causing a segmentation fault. (12/07)
+   FITS.cxx
+
 Changes for CCfits 1.8 release 10/07
 - Redid the writeData functions (and their private helper functions)
 in ColumnVectorData.  This allows the writing of variable length

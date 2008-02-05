@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 // Table
 #include "Table.h"
@@ -39,6 +39,7 @@ using std::cout;
 using std::cerr;
 
 #include <memory>
+#include <iterator>
 
 
 namespace CCfits {
@@ -46,9 +47,10 @@ namespace CCfits {
   // Class CCfits::FITS::NoSuchHDU 
 
   FITS::NoSuchHDU::NoSuchHDU (const String& diag, bool silent)
-  : FitsException("FITS Error: Cannot read HDU in FITS file:",silent)
+  : FitsException("FITS Error: Cannot read HDU in FITS file: ",silent)
   {
   //! Exception to be thrown by failed seek operations
+     addToMessage(diag);
   if ( FITS::verboseMode() || !silent) std::cerr << diag << "\n";
   }
 
@@ -56,8 +58,9 @@ namespace CCfits {
   // Class CCfits::FITS::OperationNotSupported 
 
   FITS::OperationNotSupported::OperationNotSupported (const String& msg, bool silent)
-  : FitsException("FITS Error: Operation not supported:",silent)
+  : FitsException("FITS Error: Operation not supported: ",silent)
   {
+    addToMessage(msg);
     if ( FITS::verboseMode() || !silent)  std::cerr << msg << "\n";
   }
 
@@ -67,6 +70,7 @@ namespace CCfits {
   FITS::CantOpen::CantOpen (const String& diag, bool silent)
    : FitsException("FITS Error: Cannot open file ",silent)
   {
+    addToMessage(diag);
     if ( FITS::verboseMode() || !silent)  std::cerr << diag << "\n";
   }
 
@@ -76,17 +80,13 @@ namespace CCfits {
   FITS::CantCreate::CantCreate (const String& diag, bool silent)
    : FitsException(string("FITS Error: Cannot create file "),silent)
   {
+     addToMessage(diag);
   if ( FITS::verboseMode() || !silent) std::cerr << diag << '\n';
   }
 
 
   // Class CCfits::FITS 
   bool FITS::s_verboseMode = false;
-
-  FITS::FITS(const FITS &right)
-    : m_FITSImpl(right.m_FITSImpl->clone())
-  {
-  }
 
   FITS::FITS (const String &name, RWmode mode, bool readDataFlag, const std::vector<String>& primaryKeys)
   : m_FITSImpl(0)
@@ -178,6 +178,12 @@ namespace CCfits {
             // and write a new primary which is a clone of the source PHDU.
 
             pHDU(static_cast<PHDU*>(source.pHDU().clone(m_FITSImpl)));       
+    }
+    else
+    {
+       // Assume file already exists and user is not attempting to
+       // overwrite with the '!' symbol.
+       throw CantCreate(fileName);
     }    
     int status(0);
 
@@ -220,7 +226,12 @@ namespace CCfits {
         std::vector<long>    va_naxes(naxis);
         std::copy(&naxes[0],&naxes[naxis],va_naxes.begin());
 
-        create();
+        if (!create())
+        {
+           // Assume file already exists and user did not specify overwrite
+           // with the '!' symbol.
+           throw CantCreate(name);
+        }
 
         // create an HDU factory.
         HDUCreator makePrimary(m_FITSImpl);
@@ -489,6 +500,164 @@ namespace CCfits {
     }
   }
 
+  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<String> &keys)
+  {
+         HDUCreator create(m_FITSImpl);
+
+        try
+        {
+                int status = 0;
+                int totalHDUs = 1;
+                if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) 
+                        throw FitsError(status);
+                else
+                {
+                        if (hduIndex < 0 || hduIndex > totalHDUs) 
+                        {
+#ifdef SSTREAM_DEFECT
+			        std::ostrstream diags;
+#else
+                                std::ostringstream diags;
+#endif
+                                diags << "Invalid HDU number " << hduIndex <<
+                                  " requested from FITS file " << m_FITSImpl->name();
+                                throw NoSuchHDU(diags.str());
+                        }
+                        if (hduIndex == 0) 
+                        {
+                                std::cerr << 
+                                   "Primary header is always read, doesn't need to be requested" << endl;   
+                                return;
+                        }
+                }   
+                addExtension(static_cast<ExtHDU*>(create.getHdu(hduIndex, readDataFlag, keys)));
+        }
+        catch ( ... )
+        {
+                // catch this one and rethrow.
+#ifdef SSTREAM_DEFECT
+	        std::ostrstream msg;
+#else
+                std::ostringstream msg;
+#endif
+                msg << "Error: Could not read extension: " << hduIndex;
+                throw NoSuchHDU(msg.str());
+        }
+  }
+
+  void FITS::read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, int version)
+  {
+  int totalHDUs = 1;
+  int status = 0;
+  if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) throw FitsError(status);
+  HDUCreator createTest(m_FITSImpl);
+
+  int hduIndex;
+  // there's one less extension than total HDUs!
+  bool gotIt = false;
+  for  (hduIndex = 1; hduIndex < totalHDUs; hduIndex++ )
+  {
+     try
+     {
+        std::auto_ptr<ExtHDU> 
+	  testHDU(static_cast<ExtHDU*>(createTest.getHdu(hduIndex,false,searchKeys)));
+	// if the keyword was not present, getKeywordValue will
+	// throw a NoSuchKeyword.
+	std::vector<String> testKeys(searchKeys);
+	std::vector<String> testResults(searchKeys.size(),"");
+	testHDU->readKeys(testKeys,testResults); 
+        using namespace FITSUtil;
+
+	// first: we need to have matched as many keys as were input.
+
+	if (testKeys.size() == searchKeys.size()) 
+	{
+	   // now go through and check the values that were read
+	   // against the input value list.
+	   size_t k = 0;
+	   gotIt = true;   
+           std::vector<String>::const_iterator vi(searchValues.begin());   
+          std::vector<String>::const_iterator  viEnd(searchValues.end());   
+
+           while (vi != viEnd && gotIt)
+	   {
+
+	      if (vi->length())
+	      {
+                   // we can at least ignore whitespace
+                   size_t first (testResults[k].find_first_not_of(" \t"));
+                   size_t last  (testResults[k].find_last_not_of(" \t"));
+		   gotIt = (lowerCase(testResults[k].substr(first,last+first+1)) == lowerCase(*vi));
+	      }
+              ++k,++vi;
+	   }
+
+	   if (gotIt)
+	   {
+	      if (version == 1) break;
+	      else
+	      {
+		 int extver = 1;
+#ifdef TEMPLATE_AMBIG_DEFECT
+		 testHDU->readKeyMS("EXTVER",extver);
+#else
+		 testHDU->readKey("EXTVER",extver);                                        
+#endif
+		 if (extver == version) break;
+		 else gotIt = false;
+	      }
+	   }
+	}
+     }
+
+     catch (HDU::NoSuchKeyword)
+     {
+        // catches the case where the version is requested but there
+        // is no version key present.
+        continue;
+     }
+
+     catch (FitsError)
+     {                
+        continue;       
+     }
+
+     catch (...)
+     {
+        throw;
+     }
+
+     createTest.reset();        
+  }
+
+  if (gotIt)
+  {
+     String extname("");
+     int extver = 1;
+     ExtHDU::readHduName(m_FITSImpl->fptr(),hduIndex,extname,extver);
+     read(extname,readDataFlag,hduKeys,extver);
+     currentExtensionName(extname);
+  }
+
+  else
+  {
+#ifdef SSTREAM_DEFECT
+     std::ostrstream err;
+#else
+     std::ostringstream err;
+#endif
+      err << "Error: Unable to find extension containing keywords ";
+      std::copy(searchKeys.begin(),searchKeys.end(),
+		std::ostream_iterator<String>(err," "));
+      err << "\nwith required values and version number ";	
+#ifdef SSTREAM_DEFECT
+      err << std::ends;
+#endif
+
+      throw NoSuchHDU(err.str());
+  }     
+  }
+
   void FITS::open (RWmode mode)
   {
   int status=0;
@@ -506,44 +675,50 @@ namespace CCfits {
   bool FITS::create ()
   {
 
-          int status(0);
+     int status(0);
 
-          // if the filename indicates overwrite (starts with a '!' - see 
-          // fits_create_file documentation)
-          // or the filename does not correspond to an existing file, create file.
-          // otherwise throw an overwrite exception.
+     // if the filename indicates overwrite (starts with a '!' - see 
+     // fits_create_file documentation)
+     // or the filename does not correspond to an existing file, create file.
+     // otherwise throw an overwrite exception.
 
-          // if the file is writeable and the name doesn't begin with '!'
-          // we want read/write access so should use fits_open_file,
-          // otherwise create it. We let cfitsio worry about what
-          // happens if open-with-write-mode or create fails.
-          // but we must know whether the file exists.
-          string fName = m_FITSImpl->name();
-          if (m_FITSImpl->name()[0] == '!') 
-          {
-          	  m_FITSImpl->name() = fName.substr(1);
-          }
+     // if the file is writeable and the name doesn't begin with '!'
+     // we want read/write access so should use fits_open_file,
+     // otherwise create it. We let cfitsio worry about what
+     // happens if open-with-write-mode or create fails.
+     // but we must know whether the file exists.
+     string fName = m_FITSImpl->name();
+     if (m_FITSImpl->name()[0] == '!') 
+     {
+        m_FITSImpl->name() = fName.substr(1);
+     }
 
-          // create a new file.
-	  // the '!' is processed by ffinit
-          fits_create_file(&m_FITSImpl->fptr(),fName.c_str(),&status);
-          if ( status )
-          {
-                  try
-                  {
-                          if (status == FILE_NOT_CREATED ) 
-                          {
-                                  string warn(" File already exists: ");
-                                  warn += fName;
-                                  warn += " attempting to open existing file";
-                                  if (verboseMode()) std::cerr << warn << '\n';
-                                  open(Write);
-                          }
-                  }
-                  catch (FitsException&) {} 
-                  return false;
-          }
-          return true; 
+     // create a new file.
+     // the '!' is processed by ffinit
+     fits_create_file(&m_FITSImpl->fptr(),fName.c_str(),&status);
+     if ( status )
+     {
+        // The open function must succeed, else we're left with
+        // a NULL m_FITSImpl->fptr() with which we can't continue.
+        try
+        {
+           if (status == FILE_NOT_CREATED ) 
+           {
+              string warn(" File already exists: ");
+              warn += fName;
+              warn += " attempting to open existing file";
+              if (verboseMode()) std::cerr << warn << '\n';
+              open(Write);
+           }
+           else
+           {
+              throw CantCreate(fName);
+           }
+        }
+        catch (FitsException&) { throw; } 
+        return false;
+     }
+     return true; 
   }
 
   int FITS::close () throw ()
@@ -554,11 +729,6 @@ namespace CCfits {
   status = fits_close_file(m_FITSImpl->fptr(), &status);
   if (!status)  m_FITSImpl->fptr() = 0;
   return status;
-  }
-
-  FITS * FITS::clone () const
-  {
-  return new FITS(*this);
   }
 
   const ExtHDU& FITS::extension (int i) const
@@ -606,7 +776,7 @@ namespace CCfits {
   return s;
   }
 
-  fitsfile*& FITS::fitsPointer () const
+  fitsfile* FITS::fitsPointer () const
   {
 
     return m_FITSImpl->fptr();
@@ -708,51 +878,6 @@ namespace CCfits {
   void FITS::pHDU (PHDU* value)
   {
     m_FITSImpl->pHDU() = value;
-  }
-
-  void FITS::read (int hduIndex, bool readDataFlag, const std::vector<String> &keys)
-  {
-         HDUCreator create(m_FITSImpl);
-
-        try
-        {
-                int status = 0;
-                int totalHDUs = 1;
-                if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) 
-                        throw FitsError(status);
-                else
-                {
-                        if (hduIndex < 0 || hduIndex > totalHDUs) 
-                        {
-#ifdef SSTREAM_DEFECT
-			        std::ostrstream diags;
-#else
-                                std::ostringstream diags;
-#endif
-                                diags << "Invalid HDU number " << hduIndex <<
-                                  " requested from FITS file " << m_FITSImpl->name();
-                                throw NoSuchHDU(diags.str());
-                        }
-                        if (hduIndex == 0) 
-                        {
-                                std::cerr << 
-                                   "Primary header is always read, doesn't need to be requested" << endl;   
-                                return;
-                        }
-                }   
-                addExtension(static_cast<ExtHDU*>(create.getHdu(hduIndex, readDataFlag, keys)));
-        }
-        catch ( ... )
-        {
-                // catch this one and rethrow.
-#ifdef SSTREAM_DEFECT
-	        std::ostrstream msg;
-#else
-                std::ostringstream msg;
-#endif
-                msg << "Error: Could not read extension: " << hduIndex;
-                throw NoSuchHDU(msg.str());
-        }
   }
 
   void FITS::readExtensions (bool readDataFlag)
@@ -885,119 +1010,6 @@ namespace CCfits {
    return (*added).second;
   }
 
-  void FITS::read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, int version)
-  {
-  int totalHDUs = 1;
-  int status = 0;
-  if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) throw FitsError(status);
-  HDUCreator createTest(m_FITSImpl);
-
-  int hduIndex;
-  // there's one less extension than total HDUs!
-  bool gotIt = false;
-  for  (hduIndex = 1; hduIndex < totalHDUs; hduIndex++ )
-  {
-     try
-     {
-        std::auto_ptr<ExtHDU> 
-	  testHDU(static_cast<ExtHDU*>(createTest.getHdu(hduIndex,false,searchKeys)));
-	// if the keyword was not present, getKeywordValue will
-	// throw a NoSuchKeyword.
-	std::vector<String> testKeys(searchKeys);
-	std::vector<String> testResults(searchKeys.size(),"");
-	testHDU->readKeys(testKeys,testResults); 
-        using namespace FITSUtil;
-
-	// first: we need to have matched as many keys as were input.
-
-	if (testKeys.size() == searchKeys.size()) 
-	{
-	   // now go through and check the values that were read
-	   // against the input value list.
-	   size_t k = 0;
-	   gotIt = true;   
-           std::vector<String>::const_iterator vi(searchValues.begin());   
-          std::vector<String>::const_iterator  viEnd(searchValues.end());   
-
-           while (vi != viEnd && gotIt)
-	   {
-
-	      if (vi->length())
-	      {
-                   // we can at least ignore whitespace
-                   size_t first (testResults[k].find_first_not_of(" \t"));
-                   size_t last  (testResults[k].find_last_not_of(" \t"));
-		   gotIt = (lowerCase(testResults[k].substr(first,last+first+1)) == lowerCase(*vi));
-	      }
-              ++k,++vi;
-	   }
-
-	   if (gotIt)
-	   {
-	      if (version == 1) break;
-	      else
-	      {
-		 int extver = 1;
-#ifdef TEMPLATE_AMBIG_DEFECT
-		 testHDU->readKeyMS("EXTVER",extver);
-#else
-		 testHDU->readKey("EXTVER",extver);                                        
-#endif
-		 if (extver == version) break;
-		 else gotIt = false;
-	      }
-	   }
-	}
-     }
-
-     catch (HDU::NoSuchKeyword)
-     {
-        // catches the case where the version is requested but there
-        // is no version key present.
-        continue;
-     }
-
-     catch (FitsError)
-     {                
-        continue;       
-     }
-
-     catch (...)
-     {
-        throw;
-     }
-
-     createTest.reset();        
-  }
-
-  if (gotIt)
-  {
-     String extname("");
-     int extver = 1;
-     ExtHDU::readHduName(m_FITSImpl->fptr(),hduIndex,extname,extver);
-     read(extname,readDataFlag,hduKeys,extver);
-     currentExtensionName(extname);
-  }
-
-  else
-  {
-#ifdef SSTREAM_DEFECT
-     std::ostrstream err;
-#else
-     std::ostringstream err;
-#endif
-      err << "Error: Unable to find extension containing keywords ";
-      std::copy(searchKeys.begin(),searchKeys.end(),
-		std::ostream_iterator<String>(err," "));
-      err << "\nwith required values and version number ";	
-#ifdef SSTREAM_DEFECT
-      err << std::ends;
-#endif
-
-      throw NoSuchHDU(err.str());
-  }     
-  }
-
   void FITS::swap (FITS& right)
   {
     FITSUtil::swap(m_FITSImpl,right.m_FITSImpl);
@@ -1024,12 +1036,6 @@ namespace CCfits {
   {
 
     return m_FITSImpl->name();
-  }
-
-  fitsfile*& FITS::fitsPointer ()
-  {
-
-    return m_FITSImpl->fptr();
   }
 
   void FITS::copy (const HDU& source)

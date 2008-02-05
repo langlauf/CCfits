@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
@@ -22,6 +22,8 @@ using std::ostrstream;
 #else
 #include <sstream>
 #endif
+
+#include <cstring>
 
 // Column
 #include "Column.h"
@@ -45,6 +47,7 @@ namespace CCfits {
   ExtHDU::WrongExtensionType::WrongExtensionType (const String& msg, bool silent)
   : FitsException("Fits Error: wrong extension type: ",silent)
   {
+     addToMessage(msg);
   std::cerr << msg << '\n'; 
   }
 
@@ -302,6 +305,14 @@ namespace CCfits {
 
     }
     return m_version;
+  }
+
+  long ExtHDU::getRowsize () const
+  {
+     // This should be overridden for Table classes, otherwise throw.
+     throw WrongExtensionType("getRowsize can only be called for Table files");
+
+     return 0;
   }
 
   // Additional Declarations

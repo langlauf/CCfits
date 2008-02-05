@@ -3,7 +3,7 @@
 //3
 //4
 
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
@@ -11,7 +11,7 @@
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef COLUMNT_H
 #define COLUMNT_H
@@ -787,93 +787,139 @@ namespace CCfits
                             }
                             else if  ( type() == Tint )
 		            {
-                                int nullVal(0);
+                                int nullVal = 0;
+                                int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<int>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 if (nullValue) nullVal = static_cast<int>(*nullValue); 
                                 ColumnData<int>& col  
                                         = dynamic_cast<ColumnData<int>&>(*this);
                                 std::vector<int> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tshort )
 		            {
                                 short nullVal(0);
-                                if (nullValue) nullVal = static_cast<short>(*nullValue); 
+                                short* pNullVal = 0;
+                                if (nullValue) 
+                                {
+                                   nullVal = static_cast<short>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<short>& col 
                                         = dynamic_cast<ColumnData<short>&>(*this);
                                 std::vector<short> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlong )
 		            {
                                 long nullVal(0);
-                                if (nullValue) nullVal = static_cast<long>(*nullValue); 
+                                long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<long>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<long>& col 
                                         = dynamic_cast<ColumnData<long>&>(*this);
                                 std::vector<long> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlonglong )
 		            {
                                 LONGLONG nullVal(0);
-                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                LONGLONG* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<LONGLONG>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<LONGLONG>& col 
                                         = dynamic_cast<ColumnData<LONGLONG>&>(*this);
                                 std::vector<LONGLONG> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlogical )
 		            {
                                 bool nullVal(0);
-                                if (nullValue) nullVal = static_cast<bool>(*nullValue); 
+                                bool* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<bool>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<bool>& col 
                                         = dynamic_cast<ColumnData<bool>&>(*this);
                                 std::vector<bool> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tbyte )
 		            {
                                 unsigned char nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned char>(*nullValue); 
+                                unsigned char* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned char>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<unsigned char>& col 
                                         = dynamic_cast<ColumnData<unsigned char>&>(*this);
                                 std::vector<unsigned char> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }                            
                             else if  ( type() == Tushort )
 		            {
                                 unsigned short nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned short>(*nullValue); 
+                                unsigned short* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned short>(*nullValue);
+                                   pNullVal = &nullVal;
+                                } 
                                 ColumnData<unsigned short>& col 
                                         = dynamic_cast<ColumnData<unsigned short>&>(*this);
                                 std::vector<unsigned short> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tuint )
 		            {
                                 unsigned int nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned int>(*nullValue); 
+                                unsigned int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned int>(*nullValue);
+                                   pNullVal = &nullVal;
+                                } 
                                 ColumnData<unsigned int>& col 
                                         = dynamic_cast<ColumnData<unsigned int>&>(*this);
                                 std::vector<unsigned int> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tulong )
 		            {
                                 unsigned long nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned long>(*nullValue); 
+                                unsigned long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned long>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnData<unsigned long>& col 
                                         = dynamic_cast<ColumnData<unsigned long>&>(*this);
                                 std::vector<unsigned long> __tmp;
                                 FITSUtil::fill(__tmp,indata,1,indata.size());
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             } 
                             else
                             {
@@ -1117,92 +1163,137 @@ namespace CCfits
                             else if  ( type() == Tint )
 		            {
                                 int nullVal(0);
-                                if (nullValue) nullVal = static_cast<int>(*nullValue); 
+                                int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<int>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<int>& col  
                                         = dynamic_cast<ColumnVectorData<int>&>(*this);
                                 std::valarray<int> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tshort )
 		            {
                                 short nullVal(0);
-                                if (nullValue) nullVal = static_cast<short>(*nullValue); 
+                                short* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<short>(*nullValue);
+                                   pNullVal = &nullVal;
+                                } 
                                 ColumnVectorData<short>& col 
                                         = dynamic_cast<ColumnVectorData<short>&>(*this);
                                 std::valarray<short> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlong )
 		            {
                                 long nullVal(0);
-                                if (nullValue) nullVal = static_cast<long>(*nullValue); 
+                                long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<long>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<long>& col 
                                         = dynamic_cast<ColumnVectorData<long>&>(*this);
                                 std::valarray<long> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlonglong )
 		            {
                                 LONGLONG nullVal(0);
-                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue); 
+                                LONGLONG* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<LONGLONG>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<LONGLONG>& col 
                                         = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
                                 std::valarray<LONGLONG> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlogical )
 		            {
                                 bool nullVal(0);
-                                if (nullValue) nullVal = static_cast<bool>(*nullValue); 
+                                bool* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<bool>(*nullValue); 
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<bool>& col 
                                         = dynamic_cast<ColumnVectorData<bool>&>(*this);
                                 std::valarray<bool> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tbyte )
 		            {
                                 unsigned char nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned char>(*nullValue);
+                                unsigned char* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned char>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<unsigned char>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned char>&>(*this);
                                 std::valarray<unsigned char> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }                            
                             else if  ( type() == Tushort )
 		            {
                                 unsigned short nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned short>(*nullValue);
+                                unsigned short* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned short>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<unsigned short>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned short>&>(*this);
                                 std::valarray<unsigned short> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tuint )
 		            {
                                 unsigned int nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned int>(*nullValue);
+                                unsigned int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned int>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<unsigned int>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned int>&>(*this);
                                 std::valarray<unsigned int> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             }
                             else if  ( type() == Tulong )
 		            {
                                 unsigned long nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned long>(*nullValue);
+                                unsigned long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned long>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 ColumnVectorData<unsigned long>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned long>&>(*this);
                                 std::valarray<unsigned long> __tmp;
                                 FITSUtil::fill(__tmp,indata);
-                                col.writeData(__tmp,nRows,firstRow,&nullVal);
+                                col.writeData(__tmp,nRows,firstRow,pNullVal);
                             } 
                             else
                             {
@@ -1297,12 +1388,17 @@ namespace CCfits
                                         = dynamic_cast<ColumnVectorData<int>&>(*this);
                                 vector<valarray<int> > __tmp(n);
                                 int nullVal(0);
-                                if (nullValue) nullVal = static_cast<int>(*nullValue);
+                                int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<int>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tshort )
 		            {
@@ -1310,12 +1406,17 @@ namespace CCfits
                                         = dynamic_cast<ColumnVectorData<short>&>(*this);
                                 vector<valarray<short> > __tmp(n);
                                 short nullVal(0);
-                                if (nullValue) nullVal = static_cast<short>(*nullValue);
+                                short* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<short>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlong )
 		            {
@@ -1323,12 +1424,17 @@ namespace CCfits
                                         = dynamic_cast<ColumnVectorData<long>&>(*this);
                                 vector<valarray<long> > __tmp(n);
                                 long nullVal(0);
-                                if (nullValue) nullVal = static_cast<long>(*nullValue);
+                                long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<long>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlonglong )
 		            {
@@ -1336,32 +1442,47 @@ namespace CCfits
                                         = dynamic_cast<ColumnVectorData<LONGLONG>&>(*this);
                                 vector<valarray<LONGLONG> > __tmp(n);
                                 LONGLONG nullVal(0);
-                                if (nullValue) nullVal = static_cast<LONGLONG>(*nullValue);
+                                LONGLONG* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<LONGLONG>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tlogical )
 		            {
                                 ColumnVectorData<bool>& col 
                                         = dynamic_cast<ColumnVectorData<bool>&>(*this);
                                 bool nullVal(0);
-                                if (nullValue) nullVal = static_cast<bool>(*nullValue);
+                                bool* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<bool>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 vector<valarray<bool> > __tmp(n);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tbyte )
 		            {
                                 ColumnVectorData<unsigned char>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned char>&>(*this);
                                 unsigned char nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned char>(*nullValue);
+                                unsigned char* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned char>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 vector<valarray<unsigned char> > __tmp(n);
                                 for (size_t i = 0; i < n; ++i)
                                 {
@@ -1374,39 +1495,54 @@ namespace CCfits
                                 ColumnVectorData<unsigned short>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned short>&>(*this);
                                 unsigned short nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned short>(*nullValue);
+                                unsigned short* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned short>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 vector<valarray<unsigned short> > __tmp(n);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tuint )
 		            {
                                 ColumnVectorData<unsigned int>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned int>&>(*this);
                                 unsigned int nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned int>(*nullValue);
+                                unsigned int* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned int>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 vector<valarray<unsigned int> > __tmp(n);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             }
                             else if  ( type() == Tulong )
 		            {
                                 ColumnVectorData<unsigned long>& col 
                                         = dynamic_cast<ColumnVectorData<unsigned long>&>(*this);
                                 unsigned long nullVal(0);
-                                if (nullValue) nullVal = static_cast<unsigned long>(*nullValue);
+                                unsigned long* pNullVal = 0;
+                                if (nullValue)
+                                {
+                                   nullVal = static_cast<unsigned long>(*nullValue);
+                                   pNullVal = &nullVal;
+                                }
                                 vector<valarray<unsigned long> > __tmp(n);
                                 for (size_t i = 0; i < n; ++i)
                                 {
                                         FITSUtil::fill(__tmp[i],indata[i]);
                                 }                                
-                                col.writeData(__tmp,firstRow,&nullVal);
+                                col.writeData(__tmp,firstRow,pNullVal);
                             } 
                             else
                             {

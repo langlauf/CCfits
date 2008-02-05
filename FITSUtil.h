@@ -1,28 +1,28 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef FITSUTIL_H
 #define FITSUTIL_H 1
 #include "CCfits.h"
 
-// string
-#include <string>
 // complex
 #include <complex>
+// functional
+#include <functional>
 // vector
 #include <vector>
 // valarray
 #include <valarray>
-// functional
-#include <functional>
+// string
+#include <string>
 // FitsError
 #include "FitsError.h"
 #include <typeinfo>
@@ -461,9 +461,6 @@ object.
 
   template <typename S, typename T>
   string errorMessage(const S& out, const T& in);
-
-  // copy a fitsfile pointer.
-  fitsfile* copyFitsPtr(fitsfile * inPtr);
 
 
 

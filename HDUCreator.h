@@ -1,25 +1,25 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef HDUCREATOR_H
 #define HDUCREATOR_H 1
 
-// string
-#include <string>
 // typeinfo
 #include <typeinfo>
 // vector
 #include <vector>
 // valarray
 #include <valarray>
+// string
+#include <string>
 // CCfitsHeader
 #include "CCfits.h"
 // FitsError
@@ -69,7 +69,7 @@ namespace CCfits {
         HDU* MakeTable (const String &name, HduType xtype, int rows, const std::vector<String>& colName, const std::vector<String>& colFmt, const std::vector<String>& colUnit, int version);
         HDU * Make (int index, bool readDataFlag, const std::vector<String> &keys);
         ExtHDU * MakeImage (const String &name, int bpix, long naxis, const std::vector<long>& naxes, int version);
-        void getScaling (long& type, double& zero, double& scale, long& unscaledType) const;
+        void getScaling (long& type, double& zero, double& scale) const;
         void parent (FITSBase* value);
 
       // Data Members for Class Attributes

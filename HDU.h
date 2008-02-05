@@ -1,21 +1,21 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef HDU_H
 #define HDU_H 1
 #include <map>
 
+#include <list>
 // vector
 #include <vector>
-#include <list>
 // CCfitsHeader
 #include "CCfits.h"
 // Keyword
@@ -32,6 +32,10 @@ namespace CCfits {
   class FITSBase;
 
 } // namespace CCfits
+namespace CCfits {
+   class HDUCreator; // Needed for friend declaration
+}
+
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #endif
@@ -173,13 +177,40 @@ by Herb Sutter (2000) and references therein].
                 columns or image information, [which are considered to be
                 part of the column or image objects]. Also, history and 
                 comment keys are read and returned by getHistory() and getComment().
+                The exact list of keyword classes this will read is returned by 
+                the function keywordCategories().  
 
                 Note that readAllKeys can only construct keys of type
-                string, float, complex<float>, integer, and bool because
+                string, double, complex<float>, integer, and bool because
                 the FITS header records do not encode exact type information.
 
 
 
+        */
+
+        /*! \fn void HDU::copyAllKeys (const HDU* inHdu);
+              \brief copy all keys from another header
+
+              Parameters:
+              \param inHdu (const HDU*) An existing HDU whose keys will be copied.
+
+              This will copy all keys that exist in the keyWord map
+              of <i>inHDU</i>, and which belong to one of the keyword classes
+              returned by the keywordCategories() function.  This is the same
+              group of keyword classes used by readAllKeys().  
+
+        */
+
+        /*! \fn  static std::vector<int> HDU::keywordCategories ();
+              \brief return the enumerated keyword categories used by readAllKeys() and copyAllKeys()
+
+              This returns a vector of integers indicating which categories of keywords
+              apply for the readAllKeys and copyAllKeys functions.  The list of categories
+              currently hardcoded is:  TYP_CMPRS_KEY (20), TYP_CKSUM_KEY (100),
+              TYP_WCS_KEY (110), TYP_REFSYS_KEY (120), and TYP_USER_KEY (150).
+
+              For the list of ALL keyword categories, see the CFITSIO documentation at:
+              http://heasarc.gsfc.nasa.gov/docs/software/fitsio/c/c_user/node50.html
         */
 
          /*! \fn void HDU::writeComment(const String& comment = "Generic Comment");                      
@@ -226,8 +257,10 @@ by Herb Sutter (2000) and references therein].
         \brief read a  keyword of specified type from the header of a disk  FITS file
 and return its value. 
 
-        T is one of the types String, float, int, std::complex<float>, and bool.
-
+        T is one of the types String, double, float, int, std::complex<float>, and bool.
+        If a Keyword object with the name <i>keyName</i> already exists in this HDU due to a previous
+        read call, then this will re-read from the file and create a new Keyword object to replace
+        the existing one.
 
         */
 
@@ -236,7 +269,7 @@ and return its value.
         \brief read a set of specified keywords of the same data type
 		from the header of a disk  FITS file and return their values
 
-        T is one of the types String, float, int, std::complex<float>, and bool.
+        T is one of the types String, double, float, int, std::complex<float>, and bool.
 
 
         */
@@ -291,12 +324,6 @@ and return its value.
 
         */
 
-        /*! \fn       void HDU::setKeyWord (const string& keyname, Keyword& value);
-
-        \brief set Keyword keyname to specified value
-
-        */
-
         /*! \fn       HDU::HDU (FITSBase* p = 0);
 
         \brief default constructor, called by HDU subclasses that read from FITS files.
@@ -324,7 +351,7 @@ and return its value.
 
         */
 
-        /*! \fn       std::map<String, Keyword*> HDU::keyWord ();
+        /*! \fn       std::map<String, Keyword*>& HDU::keyWord ();
 
         \brief return the associative  array containing the HDU keywords so far read.
 
@@ -354,13 +381,6 @@ and return its value.
 
         */
 
-        /*! \fn       void HDU::bitpix (long value);
-
-        \brief set the data type keyword
-
-        */
-
-
         /*! \fn       const FITSBase *& HDU::parent () const;
 
         \brief return reference to the pointer representing the FITSBase object containing the HDU
@@ -383,60 +403,143 @@ and return its value.
 
         */
 
-        /*! \fn       double HDU::zero () const;
 
-                \brief return the BZERO keyword value
-
-        */
-
-
-        /*! \fn       double HDU::scale () const;
+        /*! \fn   virtual double HDU::scale () const;
 
                 \brief return the BSCALE keyword value
 
         */
 
+        /*! \fn   virtual void HDU::scale (double value);
+              \brief set the BSCALE keyword value for images (see warning for images of int type)
+
+              For primary HDUs and image extensions, this will add (or update)
+              the BSCALE keyword in the header.  The new setting will affect future 
+              image array read/writes as described in section 4.7 Data Scaling of the CFITSIO manual.
+              For table extensions this function does nothing. 
+
+              WARNING: If the image contains <b>integer-type data</b> (as indicated by the bitpix() return value),
+              the new scale and zero value combination must not be such that the scaled data would require a
+              floating-point type (this uses the CFITSIO function fits_get_img_equivtype to make the
+              determination).  If this situation occurs, the function will throw a FitsException.
+
+        */   
+
+        /*! \fn   virtual double HDU::zero () const;
+
+                \brief return the BZERO keyword value
+
+        */
+
+        /*! \fn   virtual double HDU::zero (double value);
+             \brief set the BZERO keyword value for images (see warning for images of int type)
+
+              For primary HDUs and image extensions, this will add (or update)
+              the BZERO keyword in the header.  The new setting will affect future 
+              image array read/writes as described in section 4.7 Data Scaling of the CFITSIO manual.
+              For table extensions this function does nothing.  
+
+              WARNING: If the image contains <b>integer-type data</b> (as indicated by the bitpix() return value),
+              the new scale and zero value combination must not be such that the scaled data would require a
+              floating-point type (this uses the CFITSIO function fits_get_img_equivtype to make the
+              determination).  If this situation occurs, the function will throw a FitsException.              
+
+        */
+
+         /*! \fn void HDU::suppressScaling (bool toggle = true);
+             \brief turn off image scaling regardless of the BSCALE and BZERO keyword values
+
+             For <i>toggle</i> = true, this turns off image scaling for future read/writes
+             by resetting the scale and zero to 1.0 and 0.0 respectively.  It does NOT
+             modify the BSCALE and BZERO keywords.  If <i>toggle</i> = false, the
+             scale and zero values will be restored to the keyword values.
+
+         */
+
+
         /*! \fn       template <typename T> Keyword& HDU::addKey(const String& name, T value,  const String& comment) ;
 
                 \brief create a new keyword in the HDU with specified value and comment fields
 
-                the function returns a reference to keyword object just created. 
+                The function returns a reference to keyword object just created.  If a keyword
+                with this name already exists, it will be overwritten.  Note that this is mostly intended
+                for adding user-defined keywords.  It should not be used to add keywords for which there
+                are already specific HDU functions, such as scaling or checksum. Nor should it be used for
+                image or column structural keywords, such as BITPIX, NAXIS, TFORMn, etc.  As a general rule,
+                it is best to use this for keywords belonging to the same categories listed in the
+                keywordCategories() function.
 
                 Parameters:
                 \param name (String) The keyword name
-                \param value (T = String, float, std::complex<float>, int, or bool
+                \param value (Recommended T = String, double, std::complex<float>, int, or bool
                 \param comment (String) the keyword value
 
-                Note the limitations on T, which arise for historical reasons (i.e.
-                since keywords do not contain explicit type information, routines
-                in CCfits must assign a type). The limitation may be removed in a
-                future release
-
-                It is possible however to create a keyword of any of the allowed
-                data types in fitsio (see the cfitsio manual section 4.3). The
-                required calls are, e.g. for a floating point double valued keyword:
-
-                NewKeyword<double> keyCreate( hdu, double val1 );
-                Keyword* key1  = Keyword keyCreate.MakeKeyword(keyName1, const String& comment);
-                keyCreate.keyData(val2);
-                Keyword* key2  = Keyword keyCreate.MakeKeyword(keyName2, const String& comment);
-
-                key1->write();
-                key2->write();
-
-                ... which is essentially what addKey does for its allowed types.
-
-
+                It is possible to create a keyword with a value of any of the allowed
+                data types in fitsio (see the cfitsio manual section 4.3).  However one should
+                be aware that if this keyword value is read in from the file at a later time, it will 
+                be stored in a templated Keyword subclass (KeyData<T>) where T will be one of
+                the recommended types listed above.  Also see Keyword::value (T& val) for
+                more details.                               
 
         */
 
+        /*!  \fn Keyword* HDU::addKey(const Keyword* inKeyword);
+            \brief create a copy of an existing Keyword and add to HDU
 
+            This is particularly useful for copying Keywords from one HDU
+            to another.  For example the inKeyword pointer might come from
+            a different HDU's std::map<string,Keyword*>.  If a keyword with this
+            name already exists, it will be overwritten. The return value
+            is a pointer to the newly created Keyword inserted into this HDU.
+            Also see copyAllKeys().
+        */
 
         /*! \fn std::ostream& operator << (std::ostream& s, const CCfits::HDU& right);
 
                 \brief insertion operator.
 
         */  
+
+        /*! \fn   void HDU::writeChecksum ();
+                \brief compute and write the DATASUM and CHECKSUM keyword values
+
+                Wrapper for the CFITSIO function fits_write_chksum: This performs the datasum
+                and checksum calculations for this HDU, as described in the CFITSIO manual.  
+                If either the DATASUM or CHECKSUM keywords already exist, their values will be updated.
+        */
+
+        /*! \fn   void HDU::updateChecksum ();
+                \brief update the CHECKSUM keyword value, assuming DATASUM exists and is correct
+
+                Wrapper for the CFITSIO function fits_update_chksum: This recomputes and writes
+                the CHECKSUM value with the assumption that the DATASUM value is correct.  If the 
+                DATASUM keyword doesn't yet exist or is not up-to-date, use the HDU::writeChecksum 
+                function instead.  This will throw a FitsError exception if called when there is 
+                no DATASUM keyword in the header.
+        */
+
+        /*! \fn   std::pair<int,int> HDU::verifyChecksum () const;
+                \brief verify the HDU by computing the checksums and comparing them with the 
+                   CHECKSUM/DATASUM keywords
+
+                Wrapper for the CFITSIO function fits_verify_chksum: The data unit is verified
+                correctly if the computed checksum equals the DATASUM keyword value, and the
+                HDU is verified if the entire checksum equals zero (see the CFITSIO manual for
+                further details).  
+
+                This returns a std::pair<int,int> where the pair's  first data member = DATAOK 
+                and second = HDUOK.  DATAOK and HDUOK values will be = 1 if verified correctly,
+                0 if the keyword is missing, and -1 if the computed checksum is not correct.
+        */
+
+        /*! \fn   std::pair<unsigned long,unsigned long> HDU::getChecksum () const;
+                \brief compute and return the checksum values for the HDU without creating or
+                   modifying the CHECKSUM/DATASUM keywords.
+
+                Wrapper for the CFITSIO function fits_get_chksum: This returns a 
+                std::pair<unsigned long, unsigned long> where the pair's first data member 
+                holds the datasum value and second holds the hdusum value.  
+        */
 
 
 
@@ -499,60 +602,68 @@ and return its value.
 
         virtual HDU * clone (FITSBase* p) const = 0;
         fitsfile* fitsPointer () const;
+        FITSBase* parent () const;
         //	By all means necessary, set the fitsfile pointer so that
         //	this HDU is the current HDU.
         //
         //	This would appear to be a good candidate for the public
         //	interface.
         virtual void makeThisCurrent () const;
-        std::map<String, Keyword*> keyWord ();
-        Keyword& keyWord (const String& keyName);
-        const String& getHistory ();
         const String& getComments ();
-        friend std::ostream& operator << (std::ostream& s, const CCfits::HDU& right);
-        //	Write a history string. A default value for the string is given
-        //	"Generic History String" so users can put a placeholder call
-        //	to this function in their code before knowing quite what should go in it.
-        void writeHistory (const String& history = "Generic History String");
+        const string& comment () const;
         //	Write a history string. A default value for the string is given
         //	"GenericComment" so users can put a placeholder call
         //	to this function in their code before knowing quite what should go in it.
         void writeComment (const String& comment = "Generic Comment");
+        const String& getHistory ();
+        const string& history () const;
+        //	Write a history string. A default value for the string is given
+        //	"Generic History String" so users can put a placeholder call
+        //	to this function in their code before knowing quite what should go in it.
+        void writeHistory (const String& history = "Generic History String");
         //	Write a date card.
         void writeDate ();
-        FITSBase* parent () const;
-        void readAllKeys ();
+        friend std::ostream& operator << (std::ostream& s, const CCfits::HDU& right);
         long axes () const;
         long axis (size_t index) const;
         void index (int value);
-        void deleteKey (const String& doomed);
-        long bitpix () const;
-        void bitpix (long value);
         int index () const;
-        const string& history () const;
-        const string& comment () const;
-        virtual double zero () const;
-        virtual void zero (double value);
-        //	Floating point scale factor for image data that takes
-        //	the value of the BSCALE parameter.
+        long bitpix () const;
         virtual double scale () const;
         virtual void scale (double value);
+        virtual double zero () const;
+        virtual void zero (double value);
+        void suppressScaling (bool toggle = true);
+        void writeChecksum ();
+        void updateChecksum ();
+        std::pair<int,int> verifyChecksum () const;
+        std::pair<unsigned long,unsigned long> getChecksum () const;
+        void deleteKey (const String& doomed);
+        void readAllKeys ();
+        void copyAllKeys (const HDU* inHdu);
+        std::map<String, Keyword*>& keyWord ();
+        Keyword& keyWord (const String& keyName);
+        static std::vector<int> keywordCategories ();
         const std::map<string,Keyword*>& keyWord () const;
         const Keyword& keyWord (const string& keyname) const;
-        void setKeyWord (const string& keyname, Keyword& value);
 
     public:
       // Additional Public Declarations
-      template <typename T>
-      Keyword& addKey(const String& name, T val,  const String& comment);
-
-      Keyword& addKey(const String& name, const char* charString, const String& comment);
-
       template <typename T>
       void readKey(const String& keyName, T& val);
 
       template <typename T>
       void readKeys(std::vector<String>& keyNames, std::vector<T>& vals);
+
+      template <typename T>
+      Keyword& addKey(const String& name, T val,  const String& comment);
+
+      // This non-template function could be entered with Rose, but
+      // it's instead placed with the other addKey function to
+      // simplify the Doxygen generated doc file output.
+      Keyword* addKey(const Keyword* inKeyword);
+
+      Keyword& addKey(const String& name, const char* charString, const String& comment);
 
 #ifdef TEMPLATE_AMBIG_DEFECT
       inline void readKeyMS(const String& keyName, int & val);
@@ -569,6 +680,8 @@ and return its value.
         Keyword& readKeyword (const String &keyname);
         void readKeywords (std::list<String>& keynames);
         virtual std::ostream & put (std::ostream &s) const = 0;
+        void bitpix (long value);
+        bool checkImgDataTypeChange (double zero, double scale) const;
         long& naxis ();
         void naxis (const long& value);
         //	Flags whether there were any null values found in the
@@ -597,6 +710,8 @@ and return its value.
         //	save keyword found by read all keys into the array of keywords that have been read.
         //	Similar to addKeyword except there's no write and no returned value. For use by readAllKeys()
         void saveReadKeyword (Keyword* newKey);
+        void zeroInit (double value);
+        void scaleInit (double value);
 
       // Additional Private Declarations
 
@@ -609,6 +724,8 @@ and return its value.
         string m_history;
         string m_comment;
         double m_zero;
+        //	Floating point scale factor for image data that takes
+        //	the value of the BSCALE parameter.
         double m_scale;
 
       // Data Members for Associations
@@ -617,7 +734,10 @@ and return its value.
         std::vector< long > m_naxes;
 
       // Additional Implementation Declarations
-      friend fitsfile* Keyword::fitsPointer() const;
+        static const size_t s_nCategories;
+        static const int s_iKeywordCategories[];
+
+      friend class HDUCreator;        
       friend Keyword* KeywordCreator::getKeyword(const String& keyname, HDU* p);
       friend Keyword* KeywordCreator::getKeyword(const String& keyname, ValueType keyType, HDU* p);
   };
@@ -700,17 +820,14 @@ and return its value.
 
   // Class CCfits::HDU 
 
-  inline std::map<String, Keyword*> HDU::keyWord ()
+  inline const string& HDU::comment () const
   {
-
-    return m_keyWord;
+    return m_comment;
   }
 
-  inline Keyword& HDU::keyWord (const String& keyName)
+  inline const string& HDU::history () const
   {
-  std::map<String,Keyword*>::iterator key = m_keyWord.find(keyName);
-  if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyName);
-  return *((*key).second);
+    return m_history;
   }
 
   inline std::ostream& operator << (std::ostream& s, const CCfits::HDU& right)
@@ -736,19 +853,9 @@ and return its value.
     m_index = value;
   }
 
-  inline void HDU::saveReadKeyword (Keyword* newKey)
+  inline int HDU::index () const
   {
-    m_keyWord.insert(std::map<String,Keyword*>::value_type(newKey->name(),newKey->clone()));
-  }
-
-  inline long& HDU::naxis ()
-  {
-    return m_naxis;
-  }
-
-  inline void HDU::naxis (const long& value)
-  {
-    m_naxis = value;
+    return m_index;
   }
 
   inline long HDU::bitpix () const
@@ -761,29 +868,14 @@ and return its value.
     m_bitpix = value;
   }
 
-  inline int HDU::index () const
+  inline double HDU::scale () const
   {
-    return m_index;
+    return m_scale;
   }
 
-  inline bool& HDU::anynul ()
+  inline void HDU::scale (double value)
   {
-    return m_anynul;
-  }
-
-  inline void HDU::anynul (const bool& value)
-  {
-    m_anynul = value;
-  }
-
-  inline const string& HDU::history () const
-  {
-    return m_history;
-  }
-
-  inline const string& HDU::comment () const
-  {
-    return m_comment;
+    m_scale = value;
   }
 
   inline double HDU::zero () const
@@ -796,14 +888,42 @@ and return its value.
     m_zero = value;
   }
 
-  inline double HDU::scale () const
+  inline void HDU::saveReadKeyword (Keyword* newKey)
   {
-    return m_scale;
+    m_keyWord.insert(std::map<String,Keyword*>::value_type(newKey->name(),newKey->clone()));
   }
 
-  inline void HDU::scale (double value)
+  inline std::map<String, Keyword*>& HDU::keyWord ()
   {
-    m_scale = value;
+
+    return m_keyWord;
+  }
+
+  inline Keyword& HDU::keyWord (const String& keyName)
+  {
+  std::map<String,Keyword*>::iterator key = m_keyWord.find(keyName);
+  if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyName);
+  return *((*key).second);
+  }
+
+  inline long& HDU::naxis ()
+  {
+    return m_naxis;
+  }
+
+  inline void HDU::naxis (const long& value)
+  {
+    m_naxis = value;
+  }
+
+  inline bool& HDU::anynul ()
+  {
+    return m_anynul;
+  }
+
+  inline void HDU::anynul (const bool& value)
+  {
+    m_anynul = value;
   }
 
   inline const std::map<string,Keyword*>& HDU::keyWord () const
@@ -816,11 +936,6 @@ and return its value.
   std::map<String,Keyword*>::const_iterator key = m_keyWord.find(keyname);
   if (key == m_keyWord.end()) throw HDU::NoSuchKeyword(keyname);
   return *((*key).second);
-  }
-
-  inline void HDU::setKeyWord (const string& keyname, Keyword& value)
-  {
-  m_keyWord[keyname] = &value;
   }
 
   inline FITSBase*& HDU::parent ()

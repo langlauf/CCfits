@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef KEYWORD_H
 #define KEYWORD_H 1
@@ -30,7 +30,11 @@ namespace CCfits {
 
 /*! \class Keyword
 
-        \brief Abstract base class implementing the common behavior of Keyword objects.
+        \brief Abstract base class defining the interface for Keyword objects.
+
+        Keyword object creation is normally performed inside FITS constructors or
+        FITS::read, HDU::readKey, and HDU::addKey functions.  Output is performed
+        in HDU::addKey functions and Keyword::setValue.
 
         Keywords consists of a name, a value and a comment field. Concrete templated
         subclasses, KeyData<T>,  have a data member that holds the value of keyword.
@@ -97,7 +101,11 @@ namespace CCfits {
 
 /*!       \fn virtual void Keyword::write ();
 
-        \brief write operation
+        \brief left in for historical reasons, this seldom needs to be called by users
+
+        This writes the Keyword to the file, and is called internally during HDU::addKey
+        operations or the Keyword::setValue function.  It shouldn't normally need to be
+        called explicitly. 
 */
 
 
@@ -139,8 +147,53 @@ namespace CCfits {
 
 /*! \fn  const String& Keyword::name() const
 
-        return the name of a keyword
+      \brief  return the name of a keyword
 
+
+*/
+
+/*!  \fn template <typename T> T& Keyword::value(T& val) const
+       \brief get the keyword value
+
+       Parameters:
+       \param val (T) Will be filled with the keyword value, and is also the function return value.
+
+       <b>Allowed T types:</b> CCfits stores keyword values of type U in a templated subclass of
+       Keyword, <b>KeyData<U></b>.  Normally U is set when reading the Keyword in from the file, 
+       and is limited to types int, double, string, bool, and complex<float>.
+       (The exception is when the user has created and added a new Keyword using an
+       HDU::addKey function, in which case they might have specified other types for U.)  
+       To avoid compilation errors, the user should generally try to provide a <i>val</i>
+       of type T = type U, though there is some flexibility here as the following conversions
+       are handled:
+
+       <TABLE BORDER=0 align=left>
+         <tr><td><b>T</b> (to val)</td><td><b>U</b> (from Keyword obj)</td></tr>
+         <tr><td>float</td><td>double (will lose precision), float, int, integer string</td></tr>
+         <tr><td>double</td><td>double, float, int, integer string</td></tr>
+         <tr><td>int</td><td>int, integer string</td></tr>
+       </TABLE>
+       More conversions may be added in the future as the need arises.
+
+*/
+
+/*!  \fn template <typename T> void Keyword::setValue(const T& newValue)
+       \brief modify the value of an existing Keyword and write it to the file
+
+       Parameters:
+       \param newValue (T) New value for the Keyword
+
+       <b>Allowed T types:</b> This must copy <i>newValue</i> to a data member of type U in the
+       Keyword subclass <b>KeyData<U></b> (see description for Keyword::value (T& val) for more
+       details).  To avoid compilation errors, it is generally best to provide a <i>newValue</i>
+       of type T = type U, though the following type conversions will also be handled:
+
+       <TABLE BORDER=0 align=left>
+          <tr><td><b>T</b> (from newValue)</td><td><b>U</b> (to Keyword obj)</td></tr>
+          <tr><td>float</td><td>double, float</td></tr>
+          <tr><td>double</td><td>double, float (will lose precision)</td></tr>
+          <tr><td>int</td><td>double, float, int, integer string</td></tr>
+       </TABLE> 
 
 */
 
@@ -162,8 +215,6 @@ namespace CCfits {
         private:
         private: //## implementation
       };
-        Keyword(const Keyword &right);
-        Keyword (const String &keyname, ValueType keytype, HDU* p, const String &comment = "");
         virtual ~Keyword();
         Keyword & operator=(const Keyword &right);
         bool operator==(const Keyword &right) const;
@@ -172,8 +223,13 @@ namespace CCfits {
 
         virtual std::ostream & put (std::ostream &s) const = 0;
         virtual Keyword * clone () const = 0;
-        virtual void write () = 0;
+        virtual void write ();
         fitsfile* fitsPointer () const;
+        //	CAUTION: This is declared public only to allow HDU addKey functions the ability to set their
+        //	class as the Keyword's parent, and to avoid making entire HDU a friend class.  (Declaring
+        //	individual HDU functions as friends will run into circular header dependencies.)  Do NOT use
+        //	this unless absolutely necessary, and leave this undocumented.
+        void setParent (HDU* parent);
         const String& comment () const;
         const String& name () const;
 
@@ -185,6 +241,9 @@ namespace CCfits {
       template <typename T>
       void setValue(const T& newValue);
     protected:
+        Keyword(const Keyword &right);
+        Keyword (const String &keyname, ValueType keytype, HDU* p, const String &comment = "");
+
         virtual void copy (const Keyword& right);
         virtual bool compare (const Keyword &right) const;
         ValueType keytype () const;
@@ -213,6 +272,10 @@ namespace CCfits {
   template <> float& Keyword::value(float& val) const;
   template <> double& Keyword::value(double& val) const;
   template <> int& Keyword::value(int& val) const;
+
+  template <> void Keyword::setValue(const float& newValue);
+  template <> void Keyword::setValue(const double& newValue);
+  template <> void Keyword::setValue(const int& newValue);
 #endif 
 #endif 
 
@@ -224,6 +287,11 @@ inline std::ostream& operator << (std::ostream &s, const Keyword &right)
   // Class CCfits::Keyword::WrongKeywordValueType 
 
   // Class CCfits::Keyword 
+
+  inline void Keyword::setParent (HDU* parent)
+  {
+     m_parent = parent;
+  }
 
   inline ValueType Keyword::keytype () const
   {

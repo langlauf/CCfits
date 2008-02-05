@@ -3,7 +3,7 @@
 //3
 //4
 
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
@@ -11,7 +11,7 @@
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef KEYWORDT_H
 #define KEYWORDT_H
@@ -54,6 +54,7 @@ namespace CCfits
            {
                    KeyData<T>& thisKey = dynamic_cast<KeyData<T>&>(*this);
 		   thisKey.keyval(newValue);
+                   thisKey.write();
            }
            catch (std::bad_cast)
            {
@@ -146,6 +147,88 @@ namespace CCfits
          }
          return val;    
    }
+
+
+   template <>
+   inline void Keyword::setValue(const float& newValue)
+   {
+      if (m_keytype == Tfloat)
+      {
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(static_cast<double>(newValue));
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+   }
+
+   template <>
+   inline void Keyword::setValue(const double& newValue)
+   {
+      if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tfloat)
+      {
+         // This will lose precision but allow it anyway.
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(static_cast<float>(newValue));
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+
+   }
+
+   template <>
+   inline void Keyword::setValue(const int& newValue)
+   {
+      if (m_keytype == Tint)
+      {
+         KeyData<int>& thisKey = static_cast<KeyData<int>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tfloat)
+      {
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(static_cast<float>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(static_cast<double>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tstring)
+      {
+         KeyData<String>& thisKey = static_cast<KeyData<String>&>(*this);
+         std::ostringstream oss;
+         oss << newValue;
+         thisKey.keyval(oss.str());
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+
+   }
+
 #endif
 } // namespace CCfits
 

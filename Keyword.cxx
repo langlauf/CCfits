@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 #include <iosfwd>
 
 // FitsError
@@ -29,7 +29,8 @@ namespace CCfits {
   Keyword::WrongKeywordValueType::WrongKeywordValueType (const String& diag, bool silent)
   : FitsException("Error: attempt to read keyword into variable of incorrect type",silent) 
   {
-  if ( FITS::verboseMode() || !silent) std::cerr << "\nKeyname:" << diag << "\n";
+     addToMessage(string("\nKeyname: ") + diag);
+  if ( FITS::verboseMode() || !silent) std::cerr << "\nKeyname: " << diag << "\n";
   }
 
 
@@ -37,7 +38,7 @@ namespace CCfits {
 
   Keyword::Keyword(const Keyword &right)
 	: m_keytype(right.m_keytype),
-        m_parent(right.m_parent),
+        m_parent(0), // Can only assign parent when added to an HDU.
 	m_comment(right.m_comment),
         m_name(right.m_name)
   {
@@ -59,7 +60,7 @@ namespace CCfits {
 
   Keyword & Keyword::operator=(const Keyword &right)
   {
-   if (this == &right) copy(right);
+   if (this != &right) copy(right);
    return *this;
   }
 
@@ -80,7 +81,8 @@ namespace CCfits {
   m_name = right.m_name;
   m_comment = right.m_comment;
   m_keytype  = right.m_keytype;
-  m_parent  = right.m_parent;
+  // Can only assign parent when added to an HDU.  Do not change
+  // m_parent during an assign.
   }
 
   bool Keyword::compare (const Keyword &right) const
@@ -88,14 +90,29 @@ namespace CCfits {
   if (m_name != right.m_name) return false;
   if (m_keytype != right.m_keytype) return false;
   if (m_comment != right.m_comment) return false;
-  if (m_parent  != right.m_parent) return false;
+  // parent not relevant to compare.
+  //if (m_parent  != right.m_parent) return false;
   return true;
+  }
+
+  void Keyword::write ()
+  {
+     // Just perform parent pointer checking in here.  KeyData<T>
+     // subclass will actually handle the writing.
+     if (!m_parent)
+     {
+        bool silent=true;
+        throw FitsException("***CCfits Warning: Keyword must be added to an HDU before it can be written.",silent);
+     }
+     m_parent->makeThisCurrent();
   }
 
   fitsfile* Keyword::fitsPointer () const
   {
-
-    return m_parent->fitsPointer();
+    fitsfile* fPtr = 0;
+    if (m_parent)
+       fPtr = m_parent->fitsPointer();
+    return fPtr;
   }
 
   // Additional Declarations
@@ -185,6 +202,89 @@ namespace CCfits
          }
          return val;    
    }
+
+
+
+   template <>
+   void Keyword::setValue(const float& newValue)
+   {
+      if (m_keytype == Tfloat)
+      {
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(static_cast<double>(newValue));
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+   }
+
+   template <>
+   void Keyword::setValue(const double& newValue)
+   {
+      if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tfloat)
+      {
+         // This will lose precision but allow it anyway.
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(static_cast<float>(newValue));
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+
+   }
+
+   template <>
+   void Keyword::setValue(const int& newValue)
+   {
+      if (m_keytype == Tint)
+      {
+         KeyData<int>& thisKey = static_cast<KeyData<int>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tfloat)
+      {
+         KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
+         thisKey.keyval(static_cast<float>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tdouble)
+      {
+         KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
+         thisKey.keyval(static_cast<double>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tstring)
+      {
+         KeyData<String>& thisKey = static_cast<KeyData<String>&>(*this);
+         std::ostringstream oss;
+         oss << newValue;
+         thisKey.keyval(oss.str());
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+
+   }
+
 #endif
 #endif
 }

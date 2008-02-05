@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 // FITS
 #include "FITS.h"
@@ -118,21 +118,47 @@ namespace CCfits {
 
   void PHDU::zero (double value)
   {
-    HDU::zero(value);
-    if ( naxis())
+    makeThisCurrent();
+    if (checkImgDataTypeChange(value, scale()))
     {
-        int status(0);
-        if (fits_set_bscale(fitsPointer(),scale(),value,&status)) throw FitsError(status);
+       if ( naxis())
+       {
+           int status(0);
+           if (fits_update_key(fitsPointer(), Tdouble, BZERO, &value, 0, &status))
+              throw FitsError(status);
+           fits_flush_file(fitsPointer(), &status);
+           HDU::zero(value);
+       }
+    }
+    else
+    {
+       bool silent=false;
+       string msg("CCfits Error: Cannot set BZERO to a value which will change image data\n");
+           msg += "              from integer type to floating point type.";
+       throw FitsException(msg,silent);
     }
   }
 
   void PHDU::scale (double value)
   {
-    HDU::scale(value);
-    if (naxis())
+    makeThisCurrent();
+    if (checkImgDataTypeChange(zero(), value))
     {
-        int status(0);
-        if (fits_set_bscale(fitsPointer(),value,zero(),&status)) throw FitsError(status);
+       if (naxis())
+       {
+           int status(0);
+           if (fits_update_key(fitsPointer(), Tdouble, BSCALE, &value, 0, &status))
+              throw FitsError(status);
+           fits_flush_file(fitsPointer(), &status);
+           HDU::scale(value);
+       }
+    }
+    else
+    {
+       bool silent=false;
+       string msg("CCfits Error: Cannot set BSCALE to a value which will change image data\n");
+           msg += "              from integer type to floating point type.";
+       throw FitsException(msg,silent);
     }
   }
 

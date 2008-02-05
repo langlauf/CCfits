@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef FITSERROR_H
 #define FITSERROR_H 1
@@ -45,6 +45,14 @@ namespace CCfits {
         \param silent A boolean controlling the printing of messages
   */      
 
+  /*! \fn const string& FitsException::message () const
+
+       \brief returns the error message
+
+       This returns the diagnostic error message associated with the
+       exception object, and which is accessible regardless of the verboseMode
+       and silent flag settings.  
+  */     
 
     /*! \class FitsError
 
@@ -90,9 +98,16 @@ namespace CCfits {
     public:
         FitsException (const string& msg, bool& silent);
 
+        const string& message () const;
+
     protected:
+        void addToMessage (const string& msgQual);
+
     private:
     private: //## implementation
+      // Data Members for Class Attributes
+        string m_message;
+
   };
 
 
@@ -122,6 +137,11 @@ namespace CCfits {
   };
 
   // Class CCfits::FitsException 
+
+  inline const string& FitsException::message () const
+  {
+     return m_message;
+  }
 
   // Class CCfits::FitsError 
 

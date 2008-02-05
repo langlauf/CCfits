@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 dated Oct 2007
+//	This is version 2.0 dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author:  Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author:  Ben Dorman
 
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
@@ -36,6 +36,7 @@ using std::ostringstream;
 #include "ColumnVectorData.h"
 #include <limits.h>
 #include <float.h>
+#include <sstream>
 
 
 namespace CCfits {
@@ -45,6 +46,7 @@ namespace CCfits {
   Column::RangeError::RangeError (const String& msg, bool silent)
   : FitsException("FitsError: Range error in operation ",silent)
   {
+     addToMessage(msg);
   if (!silent || FITS::verboseMode() ) std::cerr << msg << '\n';
   }
 
@@ -54,6 +56,7 @@ namespace CCfits {
   Column::InvalidDataType::InvalidDataType (const String& str, bool silent)
   : FitsException("FitsError: Incorrect data type: ",silent)
   {
+     addToMessage(str);
   if (!silent || FITS::verboseMode() ) std::cerr << str << '\n';
   }
 
@@ -63,6 +66,7 @@ namespace CCfits {
   Column::InvalidRowParameter::InvalidRowParameter (const String& diag, bool silent)
   : FitsException("FitsError: row offset or length incompatible with column declaration ",silent)
   {
+     addToMessage(diag);
   if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';
   }
 
@@ -72,6 +76,7 @@ namespace CCfits {
   Column::WrongColumnType::WrongColumnType (const String& diag, bool silent)
   : FitsException("FitsError: Attempt to return scalar data from vector column, or vice versa - Column: ",silent)
   {
+     addToMessage(diag);
   if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';
   }
 
@@ -82,6 +87,7 @@ namespace CCfits {
   : FitsException
         ("FitsError: Variable length column being written needs integer array of row lengths: Column ",silent)
   {
+     addToMessage(diag);
   if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';
   }
 
@@ -91,6 +97,7 @@ namespace CCfits {
   Column::InvalidRowNumber::InvalidRowNumber (const String& diag, bool silent)
   : FitsException("FitsError: Invalid Row Number - Column: ",silent)
   {
+    addToMessage(diag);
     if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';
   }
 
@@ -100,6 +107,7 @@ namespace CCfits {
   Column::InsufficientElements::InsufficientElements (const String& msg, bool silent)
      : FitsException("FitsError: not enough elements supplied for write operation ",silent)
   {
+    addToMessage(msg);
     if (!silent || FITS::verboseMode() ) std::cerr << msg << '\n';    
   }
 
@@ -109,6 +117,7 @@ namespace CCfits {
   Column::NoNullValue::NoNullValue (const String& diag, bool silent)
     : FitsException("Fits Error: No null value specified for column: ",silent)
   {
+     addToMessage(diag);
      if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';    
   }
 
@@ -116,9 +125,12 @@ namespace CCfits {
   // Class CCfits::Column::InvalidNumberOfRows 
 
   Column::InvalidNumberOfRows::InvalidNumberOfRows (size_t number, bool silent)
-    : FitsException( "Fits Error: number of rows to write must be positive ",silent)
+    : FitsException( "Fits Error: number of rows to write must be positive: ",silent)
   {
-     if (!silent || FITS::verboseMode() ) std::cerr << " specified: " << number  << '\n';    
+     std::ostringstream oss;
+     oss << " specified: " << number;
+     addToMessage(oss.str());
+     if (!silent || FITS::verboseMode() ) std::cerr << oss.str()  << '\n';    
   }
 
 

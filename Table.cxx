@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 // Column
 #include "Column.h"
@@ -19,6 +19,7 @@
 #include "FITS.h"
 
 #include <algorithm>
+#include <sstream>
 
 
 namespace CCfits {
@@ -28,12 +29,16 @@ namespace CCfits {
   Table::NoSuchColumn::NoSuchColumn (const String& name, bool silent)
   : FitsException("Fits Error: cannot find column named: ",silent)
   {
+    addToMessage(name);
     if (!silent || FITS::verboseMode() ) std::cerr << name << '\n';
   }
 
   Table::NoSuchColumn::NoSuchColumn (int index, bool silent)
   : FitsException("Fits Error: no column numbered: ",silent)
   {
+    std::ostringstream oss;
+    oss << index;
+    addToMessage(oss.str());
     if (!silent || FITS::verboseMode() )  std::cerr << index << '\n';
   }
 
@@ -43,6 +48,7 @@ namespace CCfits {
   Table::InvalidColumnSpecification::InvalidColumnSpecification (const String& msg, bool silent)
     : FitsException("Fits Error: illegal column specification ",silent)
   {
+    addToMessage(msg);
     if (!silent || FITS::verboseMode() )  std::cerr << msg << '\n';
   }
 
@@ -391,6 +397,15 @@ namespace CCfits {
                 (*ci).second->index(colnum);       
                 ++ci;
         }       
+  }
+
+  long Table::getRowsize () const
+  {
+     int status = 0;
+     long rowSize = 0;
+     if (fits_get_rowsize(fitsPointer(), &rowSize, &status))
+        throw FitsError(status);
+     return rowSize;
   }
 
   // Additional Declarations

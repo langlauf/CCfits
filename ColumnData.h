@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef COLUMNDATA_H
 #define COLUMNDATA_H 1
@@ -23,6 +23,7 @@
 
 #include <complex>
 #include <memory>
+#include <iterator>
 #include "FITSUtil.h"
 using std::complex;
 #include "FITS.h"
@@ -326,9 +327,16 @@ namespace CCfits {
 
           try
           {
-
+             if (nullValue)
+             {
                 if (fits_write_colnull(fitsPointer(), type(), index(), firstRow, 1, nRows,
 			          indata, nullValue, &status) != 0) throw FitsError(status);
+             }
+             else
+             {
+                if (fits_write_col(fitsPointer(), type(), index(), firstRow, 1, nRows,
+			          indata, &status) != 0) throw FitsError(status);
+             }
 
                 // tell the Table that the number of rows has changed
                 parent()->updateRows();

@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
@@ -24,6 +24,7 @@
 #endif
 
 #include <memory>
+#include <cstring>
 
 // FITS
 #include "FITS.h"
@@ -37,12 +38,17 @@
 
 
 namespace CCfits {
+    // TYP_* are defined in fitsio.h
+    const size_t HDU::s_nCategories = 5;
+    const int HDU::s_iKeywordCategories[5] =
+          {TYP_USER_KEY,TYP_WCS_KEY,TYP_CMPRS_KEY,TYP_CKSUM_KEY,TYP_REFSYS_KEY};
 
   // Class CCfits::HDU::InvalidImageDataType 
 
   HDU::InvalidImageDataType::InvalidImageDataType (const string& diag, bool silent)
-  : FitsException("Fits Error: Invalid Data Type for Image",silent)
+  : FitsException("Fits Error: Invalid Data Type for Image ",silent)
   {
+     addToMessage(diag);
   if (!silent) std::cerr << diag << '\n';
   }
 
@@ -54,6 +60,7 @@ namespace CCfits {
      ("Fits Error: Extension Type: ",
      silent)
   {
+        addToMessage(diag);
         if (!silent) std::cerr << diag << '\n';
   }
 
@@ -63,6 +70,7 @@ namespace CCfits {
   HDU::NoSuchKeyword::NoSuchKeyword (const string& diag, bool silent)
   : FitsException("Fits Error: Keyword not found: ",silent)
   {
+     addToMessage(diag);
   if (!silent || FITS::verboseMode()) std::cerr << diag << '\n';
   }
 
@@ -72,6 +80,7 @@ namespace CCfits {
   HDU::NoNullValue::NoNullValue (const string& diag, bool silent)
     : FitsException("Fits Error: No Null Pixel Value specified for Image ",silent)
   {
+    addToMessage(diag);
     if (!silent || FITS::verboseMode() ) std::cerr << diag << '\n';    
   }
 
@@ -306,6 +315,12 @@ namespace CCfits {
     return m_parent->fptr();
   }
 
+  FITSBase* HDU::parent () const
+  {
+
+    return m_parent;
+  }
+
   void HDU::makeThisCurrent () const
   {
   int status = 0;
@@ -377,6 +392,28 @@ namespace CCfits {
   return content; 
   }
 
+  const String& HDU::getComments ()
+  {
+  try
+  {
+          m_comment = getNamedLines("COMMENT");
+  }
+  catch (HDU::NoSuchKeyword) {}
+  catch (FitsError) {}
+  catch (...) { throw; }
+  return m_comment;
+  }
+
+  void HDU::writeComment (const String& comment)
+  {
+    int status(0);
+    makeThisCurrent();
+    if (fits_write_comment(fitsPointer(),const_cast<char*>(comment.c_str()),&status))
+                throw FitsError(status);
+
+    m_comment = comment;             
+  }
+
   const String& HDU::getHistory ()
   {
 
@@ -390,18 +427,6 @@ namespace CCfits {
   return m_history;
   }
 
-  const String& HDU::getComments ()
-  {
-  try
-  {
-          m_comment = getNamedLines("COMMENT");
-  }
-  catch (HDU::NoSuchKeyword) {}
-  catch (FitsError) {}
-  catch (...) { throw; }
-  return m_comment;
-  }
-
   void HDU::writeHistory (const String& history)
   {
     int status(0);
@@ -409,16 +434,6 @@ namespace CCfits {
     if (fits_write_history(fitsPointer(),const_cast<char*>(history.c_str()),&status))
                 throw FitsError(status);
     m_history = history;             
-  }
-
-  void HDU::writeComment (const String& comment)
-  {
-    int status(0);
-    makeThisCurrent();
-    if (fits_write_comment(fitsPointer(),const_cast<char*>(comment.c_str()),&status))
-                throw FitsError(status);
-
-    m_comment = comment;             
   }
 
   void HDU::writeDate ()
@@ -444,10 +459,74 @@ namespace CCfits {
 
   }
 
-  FITSBase* HDU::parent () const
+  void HDU::suppressScaling (bool toggle)
   {
+     makeThisCurrent();
+     int status=0;
+     if (toggle)
+     {
+        // Ignore scale keyword values and replace with defaults.
+        fits_set_bscale(m_parent->fptr(), 1.0, 0.0, &status);
+     }
+     else
+     {
+       // Restore the use of the scale keyword values by re-reading 
+       // the header keywords.
+        fits_set_hdustruc(m_parent->fptr(), &status);
+     }
+  }
 
-    return m_parent;
+  void HDU::writeChecksum ()
+  {
+     fitsfile *fPtr = m_parent->fptr();
+     makeThisCurrent();
+     int status=0;
+     if (fits_write_chksum(fPtr, &status))
+        throw FitsError(status);
+  }
+
+  void HDU::updateChecksum ()
+  {
+     fitsfile *fPtr = m_parent->fptr();
+     makeThisCurrent();
+     int status=0;
+     if (fits_update_chksum(fPtr, &status))
+        throw FitsError(status);
+  }
+
+  std::pair<int,int> HDU::verifyChecksum () const
+  {
+     std::pair<int,int> sumsOK(0,0);
+     // Note that within this const function m_parent is a const
+     // pointer but not a pointer-to-const, which is how we can
+     // get away with this.  
+     fitsfile *fPtr = m_parent->fptr();
+     makeThisCurrent();
+     int status=0;
+     if (fits_verify_chksum(fPtr, &sumsOK.first, &sumsOK.second, &status))
+        throw FitsError(status);
+     return sumsOK;
+  }
+
+  std::pair<unsigned long,unsigned long> HDU::getChecksum () const
+  {
+     std::pair<unsigned long,unsigned long> sums(0,0);
+     fitsfile *fPtr = m_parent->fptr();
+     makeThisCurrent();
+     int status=0;
+     if (fits_get_chksum(fPtr, &sums.first, &sums.second, &status))
+        throw FitsError(status);
+     return sums;
+  }
+
+  void HDU::deleteKey (const String& doomed)
+  {
+    Keyword& k = keyWord(doomed); //throws no such keyword if there isn't.
+    int status(0);
+    if (fits_delete_key(fitsPointer(),const_cast<char*>(k.name().c_str()),&status)) throw FitsError(status);
+    std::map<String,Keyword*>::iterator ki(m_keyWord.find(doomed));
+    delete (*ki).second;
+    m_keyWord.erase(ki);
   }
 
   void HDU::readAllKeys ()
@@ -472,14 +551,14 @@ namespace CCfits {
           if (key.get() != 0)
           {
               int keyClass = fits_get_keyclass(const_cast<char*>(key->name().c_str()));
-              if ( (keyClass == TYP_USER_KEY  ) ||
-                      (keyClass == TYP_WCS_KEY   ) ||
-                      (keyClass == TYP_CMPRS_KEY ) ||
-                      (keyClass == TYP_CKSUM_KEY ) ||
-                      (keyClass == TYP_REFSYS_KEY) )
+              for (size_t i=0; i<s_nCategories; ++i)
               {
-                      saveReadKeyword(key.get());
-              }  
+                 if (keyClass == s_iKeywordCategories[i])
+                 {
+                    saveReadKeyword(key.get());
+                    break;
+                 }
+              }
           }       
        }
        catch (FitsError& )
@@ -491,19 +570,153 @@ namespace CCfits {
     getComments();
   }
 
-  void HDU::deleteKey (const String& doomed)
+  void HDU::copyAllKeys (const HDU* inHdu)
   {
-    Keyword& k = keyWord(doomed); //throws no such keyword if there isn't.
-    int status(0);
-    if (fits_delete_key(fitsPointer(),const_cast<char*>(k.name().c_str()),&status)) throw FitsError(status);
-    std::map<String,Keyword*>::iterator ki(m_keyWord.find(doomed));
-    delete (*ki).second;
-    m_keyWord.erase(ki);
+     if (this != inHdu)
+     {
+        makeThisCurrent();
+        std::map<string,Keyword*>::const_iterator itInKeys =
+                        inHdu->keyWord().begin();
+        std::map<string,Keyword*>::const_iterator itInKeysEnd =
+                        inHdu->keyWord().end();
+        while (itInKeys != itInKeysEnd)
+        {
+           // User may have read structure-related keys that normally shouldn't
+           // go into keyWord map.  Therefore check each key before copying it.
+           int keyClass = fits_get_keyclass(const_cast<char*>(itInKeys->first.c_str()));
+           for (size_t i=0; i<s_nCategories; ++i)
+           {
+              if (keyClass == s_iKeywordCategories[i])
+              {
+                 addKey(itInKeys->second);
+                 break;
+              }
+           }                      
+           ++itInKeys;            
+        }                
+     }
+  }
+
+  std::vector<int> HDU::keywordCategories ()
+  {
+     // This is not the most efficient way to grant public access to
+     // the category int[], but it seems better than storing
+     // a static vector<int> in addition to the int[].
+     std::vector<int> tmpCategories(&s_iKeywordCategories[0],
+                &s_iKeywordCategories[s_nCategories]);
+     // DO NOT return by reference.
+     return tmpCategories;
+  }
+
+  void HDU::zeroInit (double value)
+  {
+     // This is a private counterpart to the public bzero set functions.
+     // It does not check whether this setting would cause a change
+     // in the data type of the image, since presumably it is only
+     // called immediately after this object is first created in
+     // HDUCreator.  It also does not write a keyword since it is
+     // called either for case of pre-existing HDU (which already
+     // has its keyword) or new unsigned-type HDU, in which case
+     // CFITSIO fits_create_img automatically sets the keyword.
+     m_zero = value;
+  }
+
+  void HDU::scaleInit (double value)
+  {
+     // See notes in zeroInit function.
+     m_scale = value;
+  }
+
+  bool HDU::checkImgDataTypeChange (double zero, double scale) const
+  {
+     // This ASSUMES this is an image hdu and is also the current hdu.
+     // Return false if the new zero/scale will cause a change from
+     // a non-float/double to a float/double type.  
+     bool isOK = true;
+     if (m_bitpix != FLOAT_IMG && m_bitpix != DOUBLE_IMG)
+     {
+        // Save original state of zero/scale keywords
+        bool isZeroKey = true;
+        bool isScaleKey = true;
+        double savZero = 0.0;
+        double savScale = 1.0;
+        int status = 0;
+        fitsfile* fp = m_parent->fptr();
+        if (fits_read_key_dbl(fp, BZERO, &savZero, 0, &status))
+        {
+           isZeroKey = false;
+           savZero = 0.0;
+           status = 0;
+        }
+        if (fits_read_key_dbl(fp, BSCALE, &savScale, 0, &status))
+        {
+           isScaleKey = false;
+           savScale = 1.0;
+           status = 0;
+        }
+
+        if (fits_update_key(fp, Tdouble, BZERO, &zero, 0, &status))
+        {
+           throw FitsError(status, false);
+        }
+        if (fits_update_key(fp, Tdouble, BSCALE, &scale, 0, &status))
+        {
+           int iErr = status;
+           status = 0;
+           if (isZeroKey)
+              fits_update_key(fp, Tdouble, BZERO, &savZero, 0, &status);
+           else
+              fits_delete_key(fp, BZERO, &status);
+           throw FitsError(iErr, false);
+        }
+
+        int newBitpix=0;
+        fits_get_img_equivtype(fp, &newBitpix, &status);
+        if (status || newBitpix == FLOAT_IMG || newBitpix == DOUBLE_IMG)
+        {
+           isOK = false;
+        }
+        int iErr = status;
+        status = 0;
+
+        // Now reset things back the way they were, whether or not there
+        // was a status error above.
+        if (isZeroKey)
+           fits_update_key(fp, Tdouble, BZERO, &savZero, 0, &status);
+        else
+           fits_delete_key(fp, BZERO, &status);
+        if (isScaleKey)
+           fits_update_key(fp, Tdouble, BSCALE, &savScale, 0, &status);
+        else
+           fits_delete_key(fp, BSCALE, &status);
+
+        if (iErr)
+           throw FitsError(iErr, false);
+     }
+     return isOK;
   }
 
   // Additional Declarations
     Keyword& HDU::addKey(const string& name, const char* charString, const String& comment)
     {
         return addKey(name,String(charString),comment);      
+    }
+
+    Keyword* HDU::addKey(const Keyword* inKeyword)
+    {
+       Keyword* newKeyword = inKeyword->clone();
+       newKeyword->setParent(this);
+       makeThisCurrent();
+       const String& keyname = newKeyword->name();
+       std::map<String,Keyword*>::value_type refToEntry(keyname,newKeyword);
+       std::map<String,Keyword*>::iterator itOld = m_keyWord.find(keyname);
+       if (itOld != m_keyWord.end())
+       {
+          delete itOld->second;
+          m_keyWord.erase(itOld);
+       }
+       m_keyWord.insert(refToEntry);
+       newKeyword->write();
+       return newKeyword;
     }
 } // namespace CCfits

@@ -1,4 +1,4 @@
-$Id: README.INSTALL,v 3.3 2006/11/01 20:02:03 irby Exp $
+$Id: README.INSTALL,v 3.4 2007/11/23 15:56:25 irby Exp $
 
 To build and install CCfits  from source code on a UNIX-like (e.g. UNIX,
 Linux, or Cygwin) platform, take the following steps.  For building on
@@ -55,7 +55,7 @@ Instructions for Building CCfits on UNIX-like platforms:
    needs to find "libcfitsio.so", so you will need to create a symbolic
    link in $HEADAS/lib/ linking libcfitsio.so -> libcfitsio_X.XX.so in
    order for CCfits to configure properly.  You can then configure
-   CCfits using "--with-cfitsio=$HEADAS/lib".
+   CCfits using "--with-cfitsio=$HEADAS".
 
 
    You have the option of carrying out the build in a separate directory

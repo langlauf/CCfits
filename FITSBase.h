@@ -1,23 +1,23 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef FITSBASE_H
 #define FITSBASE_H 1
 
-// string
-#include <string>
 // map
 #include <map>
 // fitsio
 #include "fitsio.h"
+// string
+#include <string>
 // CCfitsHeader
 #include "CCfits.h"
 
@@ -37,13 +37,11 @@ namespace CCfits {
   {
 
     public:
-        FITSBase(const FITSBase &right);
         FITSBase (const String& fileName, RWmode rwmode);
         ~FITSBase();
 
         void destroyPrimary ();
         void destroyExtensions ();
-        FITSBase* clone ();
         int currentCompressionTileDim () const;
         void currentCompressionTileDim (int value);
         RWmode mode ();
@@ -59,6 +57,7 @@ namespace CCfits {
       // Additional Protected Declarations
 
     private:
+        FITSBase(const FITSBase &right);
         FITSBase & operator=(const FITSBase &right);
 
       // Additional Private Declarations

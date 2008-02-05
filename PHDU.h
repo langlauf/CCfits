@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef PHDU_H
 #define PHDU_H 1
@@ -79,7 +79,7 @@ namespace CCfits {
 /*! \fn PHDU::~PHDU ()
     \brief destructor
 */
-/* !\fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>())  = 0;
+/*! \fn  virtual void PHDU::readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>())  = 0;
         \brief read primary HDU data
 
         Called by FITS ctor, not intended for general use.
@@ -93,7 +93,7 @@ namespace CCfits {
 
 */
 
-/* !\fn  virtual PHDU::clone(FITSbase* p) const = 0;
+/*! \fn  virtual PHDU::clone(FITSbase* p) const = 0;
 
         \brief virtual copy constructor for Primary HDUs. 
 
@@ -252,14 +252,6 @@ namespace CCfits {
         required for cloning primary HDUs when copying FITS files.
 
 
-*/
-
-/*! \fn double PHDU::zero () const
-    \brief return the BZERO keyword value
-*/
-
-/*! \fn void PHDU::zero (double value)
-    \brief Set the BZERO keyword value
 */
 
 

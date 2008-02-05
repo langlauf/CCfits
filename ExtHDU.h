@@ -1,21 +1,21 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef EXTHDU_H
 #define EXTHDU_H 1
 
-// HDU
-#include "HDU.h"
 // CCfitsHeader
 #include "CCfits.h"
+// HDU
+#include "HDU.h"
 // FitsError
 #include "FitsError.h"
 
@@ -387,6 +387,14 @@ namespace CCfits {
 
 */
 
+/*! \fn   virtual long ExtHDU::getRowsize () const;
+       \brief return the optimal number of rows to read or write at a time
+
+       A wrapper for the CFITSIO function fits_get_rowsize, 
+       useful for obtaining maximum I/O efficiency. This will throw
+       if it is not called for a Table extension.
+*/
+
 
 
   class ExtHDU : public HDU  //## Inherits: <unnamed>%38048213E7A8
@@ -430,6 +438,7 @@ namespace CCfits {
         virtual long rows () const;
         virtual void addColumn (ValueType type, const String& columnName, long repeatWidth, const String& colUnit = String(""), long decimals = -1, size_t columnNumber = 0);
         virtual void deleteColumn (const String& columnName);
+        virtual long getRowsize () const;
         int version () const;
         void version (int value);
         static const String& missHDU ();

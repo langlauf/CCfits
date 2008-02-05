@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 // KeyData
 #include "KeyData.h"
@@ -21,6 +21,7 @@ namespace CCfits
         template<>
         void KeyData<bool>::write() 
         {
+           Keyword::write();
            int status = 0;
            int value(0);
            if (m_keyval) value = 1; 
@@ -35,6 +36,7 @@ namespace CCfits
         template<>
         void KeyData<String>::write() 
         {
+           Keyword::write();
            int status = 0;
            if (fits_update_key(fitsPointer(), Tstring, 
 			           const_cast<char *>(name().c_str()),
@@ -47,6 +49,7 @@ namespace CCfits
         template<>
         void KeyData<std::complex<float> >::write() 
         {
+             Keyword::write();
              int status = 0;
              FITSUtil::auto_array_ptr<float> keyVal( new float[2]);
              keyVal[0] = m_keyval.real(); 
@@ -62,6 +65,7 @@ namespace CCfits
         template<>
         void KeyData<std::complex<double> >::write() 
         {
+             Keyword::write();
              int status = 0;
              FITSUtil::auto_array_ptr<double> keyVal(new double[2]);
              keyVal[0] = m_keyval.real(); 

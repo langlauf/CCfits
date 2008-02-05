@@ -1,23 +1,23 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef FITS_H
 #define FITS_H 1
 
 // exception
 #include <exception>
-// string
-#include <string>
 // map
 #include <map>
+// string
+#include <string>
 // ExtHDU
 #include "ExtHDU.h"
 // HDUCreator
@@ -258,7 +258,6 @@ namespace CCfits {
       the same "[compress ...]" syntax specified in the cfitsio manual.  Note however that
       the compressed image will be placed in the first extension and NOT in the primary HDU. 
 
-      Valid values of bitpix are given in the fitsio.h header.
       If the filename corresponds to an existing file and does not start with the '!'
       character the construction will fail with a CantCreate exception.
 
@@ -267,8 +266,11 @@ namespace CCfits {
 
      The arguments are:
      \param name The file to be written to disk
-     \param bitpix the datatype of the primary image (see cfitsio documentation
-            for allowed values.
+     \param bitpix the datatype of the primary image. <i>bitpix</i> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG,
+     FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG.  Note that if you send in a <i>bitpix</i> of 
+     USHORT_IMG or ULONG_IMG, CCfits will set HDU::bitpix() to its signed equivalent (SHORT_IMG
+     or LONG_IMG), and then set BZERO to 2^15 or 2^31.
+
      \param naxis the data dimension of the primary image
      \param naxes the array of axis lengths for the primary image. Ignored if naxis =0,
             i.e. the primary header is empty.
@@ -295,12 +297,14 @@ namespace CCfits {
 
     /*! \fn FITS::FITS (const String& fileName, const FITS& source)
       \brief create a new FITS object and corresponding file with copy of the primary header of the source
+      If the filename corresponds to an existing file and does not start with the '!'
+      character the construction will fail with a CantCreate exception.
 
 
       \param fileName New file to be created.
       \param source A previously created FITS object to be copied.
 
-     see above for other parameter definitions.
+     see above for other parameter definitions.  
   */
 
   /*! \fn static void FITS::clearErrors()
@@ -420,10 +424,6 @@ namespace CCfits {
       \brief close the file. 
   */ 
 
-  /*! \fn FITS * FITS::clone() const
-      \brief clone function: to allow implementation later of reference counting.
-  */ 
-
   /*! \fn const FITS::ExtHDU&  FITS::extension(int i) const
       \brief return FITS extension by index number. 
       N.B. The input index number is currently defined as enumerating
@@ -495,7 +495,13 @@ do this either).
      \brief Add an image extension to an existing FITS object. (File with w or rw access).
 
      Does not make primary images, which are built in the constructor for the FITS file.
-     The image data is not added here: it can be added by a second call.
+     The image data is not added here: it can be added by a call to one of the ExtHDU::write 
+     functions.  
+
+     <i>bpix</i> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG,
+     FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG.  Note that if you send in a <i>bpix</i> of 
+     USHORT_IMG or ULONG_IMG, CCfits will set HDU::bitpix() to its signed equivalent (SHORT_IMG
+     or LONG_IMG), and then set BZERO to 2^15 or 2^31.
 
      \todo Add a function for replacing the primary image
    */
@@ -629,6 +635,11 @@ do this either).
    /*! \fn  int FITS::getNoiseBits () const
        \brief Get the cfitsio noisebits parameter used when compressing floating-point images.
    */
+
+   /*! \fn fitsfile* FITS::fitsPointer() const
+       \brief return the CFITSIO fitsfile pointer for this FITS object
+
+   */
   //	! The FITS object class. Contains a primary HDU and Extensions indexed by name.
 
 
@@ -726,18 +737,25 @@ do this either).
         void read (const std::vector<String> &hduNames, bool readDataFlag = false);
         //	Read selected data from multiple ExtHDUs
         void read (const std::vector<String> &hduNames, const std::vector<std::vector<String> > &keys, bool readDataFlag = false, const std::vector<int>& hduVersions = std::vector<int>());
-        FITS * clone () const;
+        //	Read keys and data from a single ExtHDU in the file.
+        void read (int hduIndex, 	// Construct and Read HDU specified by number. One can add further HDUs by number using
+        	// the HDUCreator factory.
+        bool readDataFlag = false, const std::vector<String> &keys = std::vector<String>());
+        //	Open a file and read a HDU that contains  specified
+        //	search keywords with [optional] specified values
+        //	(sometimes one just wants to know that the keyword is present).
+        //
+        //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
+        //	the HDU of interest.
+        void read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), int version = 1);
         const ExtHDU& extension (int i) const;
+        fitsfile* fitsPointer () const;
         ExtHDU& extension (int i);
         const ExtHDU& extension (const String& hduName, int version = 1) const;
         const PHDU& pHDU () const;
         PHDU& pHDU ();
         ExtHDU& extension (const String& hduName, int version = 1);
         friend std::ostream& operator << (std::ostream& s, const FITS& right);
-        //	Read keys and data from a single ExtHDU in the file.
-        void read (int hduIndex, 	// Construct and Read HDU specified by number. One can add further HDUs by number using
-        	// the HDUCreator factory.
-        bool readDataFlag = false, const std::vector<String> &keys = std::vector<String>());
         //	! add a new Table extension to a FITS object
         Table* addTable (const String& hduName, int rows, 	// ! Number of rows in new table. Mandatory
         const std::vector<String>& columnName = std::vector<String>(), 	// ! Optional set of column names for new table
@@ -751,13 +769,6 @@ do this either).
         void destroy () throw ();
         void flush ();
         const String& currentExtensionName () const;
-        //	Open a file and read a HDU that contains  specified
-        //	search keywords with [optional] specified values
-        //	(sometimes one just wants to know that the keyword is present).
-        //
-        //	Optional parameters allows the reading of specified primary HDU keys and specified keywords in
-        //	the HDU of interest.
-        void read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag = false, const std::vector<String>& hduKeys = std::vector<String>(), int version = 1);
         const ExtMap& extension () const;
         void resetPosition ();
         void currentExtensionName (const String& extName);
@@ -802,13 +813,11 @@ do this either).
         //	Called in destructors so must not throw.
         int close () throw ();
         std::ostream & put (std::ostream &s) const;
-        fitsfile*& fitsPointer () const;
         ExtHDU& extbyVersion (const String& hduName, int version) const;
         void pHDU (PHDU* value);
         void readExtensions (bool readDataFlag = false);
         ExtHDU* addExtension (ExtHDU* ext);
         void swap (FITS& right);
-        fitsfile*& fitsPointer ();
         ExtMap& extension ();
         String nameOfUnmapped (int hduNum) const;
         void cloneHeader (const ExtHDU& source);
@@ -823,7 +832,6 @@ do this either).
         FITSBase* m_FITSImpl;
 
       // Additional Implementation Declarations
-      friend fitsfile* HDU::fitsPointer() const;
       friend void HDU::makeThisCurrent() const;
   };
 

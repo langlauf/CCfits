@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 #ifdef _MSC_VER
 #include "MSconfig.h" // for truncation warning
 #include <cassert>
@@ -26,22 +26,24 @@ namespace CCfits {
   FitsError::FitsError (int errornum, bool silent)
   : FitsException("FITS Error: ", silent)
   {
-  if (FITS::verboseMode() || !silent) printMsg(errornum);
+     printMsg(errornum);
+     if (FITS::verboseMode() || !silent) 
+        std::cerr << message() << "\n";
   }
 
 
   void FitsError::printMsg (int error)
   {
-  char message[FLEN_ERRMSG];
+     char cMessage[FLEN_ERRMSG];
 
-
-  fits_get_errstatus(error, message);
-  std::cerr << message << "\n";
+     fits_get_errstatus(error, cMessage);
+     addToMessage(string(cMessage));
   }
 
   // Class CCfits::FitsException 
 
   FitsException::FitsException (const string& msg, bool& silent)
+    : m_message(msg)
   {
   if (FITS::verboseMode() || !silent) 
   {
@@ -53,6 +55,11 @@ namespace CCfits {
   }
   }
 
+
+  void FitsException::addToMessage (const string& msgQual)
+  {
+     m_message += msgQual;
+  }
 
   // Class CCfits::FitsFatal 
 

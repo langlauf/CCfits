@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 #ifdef _MSC_VER
 #include "MSconfig.h" //for truncation warning
 #endif
@@ -76,44 +76,43 @@ namespace CCfits {
     m_hdu = m_parent->pHDU();
     if (!m_hdu) 
     {
-            switch (bpix)
-            {
-                case BYTE_IMG:
-                        m_hdu = new PrimaryHDU<unsigned char>(m_parent,bpix,naxis,naxes);
-                        break; 
-                case SHORT_IMG:
-                        m_hdu = new PrimaryHDU<short>(m_parent,bpix,naxis,naxes);
-                        break; 
-                case LONG_IMG:
-                        m_hdu = new PrimaryHDU<long>(m_parent,bpix,naxis,naxes);
-                        break; 
-                case FLOAT_IMG:
-                        m_hdu = new PrimaryHDU<float>(m_parent,bpix,naxis,naxes);
-                        break; 
-                case DOUBLE_IMG:
-                        m_hdu = new PrimaryHDU<double>(m_parent,bpix,naxis,naxes);
-                        break; 
-                case USHORT_IMG:
-                        m_hdu =  new PrimaryHDU<unsigned short>(m_parent,bpix,naxis,naxes);
-                        m_hdu->bitpix(SHORT_IMG);
-                        m_hdu->zero(USBASE);
-                        break; 
-                case ULONG_IMG:
-                        m_hdu =  new PrimaryHDU<unsigned long>(m_parent,bpix,naxis,naxes);
-                        m_hdu->bitpix(LONG_IMG);
-                        m_hdu->zero(ULBASE);
-                        break; 
-                default:
-                       throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
-            } 
+       switch (bpix)
+       {
+         case BYTE_IMG:
+              m_hdu = new PrimaryHDU<unsigned char>(m_parent,bpix,naxis,naxes);
+              break; 
+         case SHORT_IMG:
+              m_hdu = new PrimaryHDU<short>(m_parent,bpix,naxis,naxes);
+              break; 
+         case LONG_IMG:
+              m_hdu = new PrimaryHDU<long>(m_parent,bpix,naxis,naxes);
+              break; 
+         case FLOAT_IMG:
+              m_hdu = new PrimaryHDU<float>(m_parent,bpix,naxis,naxes);
+              break; 
+         case DOUBLE_IMG:
+              m_hdu = new PrimaryHDU<double>(m_parent,bpix,naxis,naxes);
+              break; 
+         case USHORT_IMG:
+              m_hdu =  new PrimaryHDU<unsigned short>(m_parent,bpix,naxis,naxes);
+              m_hdu->bitpix(SHORT_IMG);
+              m_hdu->zeroInit(USBASE);
+              break; 
+         case ULONG_IMG:
+              m_hdu =  new PrimaryHDU<unsigned long>(m_parent,bpix,naxis,naxes);
+              m_hdu->bitpix(LONG_IMG);
+              m_hdu->zeroInit(ULBASE);
+              break; 
+         default:
+             throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
+       } 
     }  
     return static_cast<PHDU*>(m_hdu);
   }
 
   HDU * HDUCreator::Make (const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version)
   {
-    long bpix = 0;
-    long unscaled = 0;
+    long imgType = 0;
     int status = 0;
     bool isExtFound = true;
     int extNum = -1;
@@ -176,183 +175,194 @@ namespace CCfits {
             int tmpBpix=0;
             if (fits_get_img_type(m_parent->fptr(), &tmpBpix, &status))
                throw FitsError(status);
-            bpix = static_cast<long>(tmpBpix);
+            imgType = static_cast<long>(tmpBpix);
             double unsignedZero(0);
             double scale(1);
-            getScaling(bpix,unsignedZero,scale,unscaled);
+            // getScaling may change imgType from signed int to unsigned,
+            // which does not have its own bitpix value, or to a float
+            // type, which does have a unique bitpix value.  To put this 
+            // another way, we must take care to not set m_hdu->bitpix()
+            // to an unsigned value.
+            getScaling(imgType,unsignedZero,scale);
             // ImageHDU types are templated
-            switch (bpix)
+            switch (imgType)
             {
-                    case Ibyte:
-                            if (primary) 
-                            {
-                                    if (!m_hdu) m_hdu = 
-                                        new PrimaryHDU<unsigned char>(m_parent,readDataFlag,keys);
-                            }
-                            else
-                            {
-                                    m_hdu = new ImageExt<unsigned char>
-                                                (m_parent,hduName,readDataFlag,keys,version);   
-                            }
-                            break;   
-                    case Ishort:
-                            if (primary) 
-                            {
-                                if (!m_hdu) 
-                                {           
-                                        if (unsignedZero == USBASE && scale == 1 )
-                                        { 
-                                                m_hdu =  new PrimaryHDU<unsigned short>
-                                                                (m_parent,readDataFlag,keys);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new PrimaryHDU<short>
-                                                                (m_parent,readDataFlag,keys);     
-                                        }
-                                }
-                            }
-                            else
-                            {
-                                        if (unsignedZero == USBASE && scale == 1 )
-                                        { 
-                                                m_hdu =  new ImageExt<unsigned short>
-                                                               (m_parent,hduName,readDataFlag,keys,version);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new ImageExt<short>
-                                                               (m_parent,hduName,readDataFlag,keys,version);     
-                                        }
-                            }
-			    break;
-                    case Ilong:
-                            if (primary) 
-                            {
-                                if (!m_hdu) 
-                                {           
-                                        if (unsignedZero == ULBASE && scale == 1)
-                                        { 
-                                                m_hdu =  new PrimaryHDU<unsigned long>
-                                                                (m_parent,readDataFlag,keys);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new PrimaryHDU<long>
-                                                                (m_parent,readDataFlag,keys);     
-                                        }
-                                }
-                            }
-                            else
-                            {
-                                        if (unsignedZero == ULBASE && scale == 1)
-                                        { 
-                                                m_hdu =  new ImageExt<unsigned long>
-                                                               (m_parent,hduName,readDataFlag,keys,version);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new ImageExt<long>
-                                                               (m_parent,hduName,readDataFlag,keys,version);     
-                                        }
-                            }
-                            break;
-                    case Ifloat:
-                            if (primary) 
-                            {
-                                    if (!m_hdu) m_hdu = 
-                                          new PrimaryHDU<float>(m_parent,readDataFlag,keys);
-                           }
-                            else
-                            {
-                                    m_hdu = new ImageExt<float>
-                                                (m_parent,hduName,readDataFlag,keys,version);   
-                            }
-                            break;
-                    case Idouble:
-                            if (primary) 
-                            {
-                                    if (!m_hdu) m_hdu = 
-                                          new PrimaryHDU<double>(m_parent,readDataFlag,keys);
-                            }
-                            else
-                            {
-                                    m_hdu = new ImageExt<double>
-                                            (m_parent,hduName,readDataFlag,keys,version);   
-                            }
-                            break;
+               case Ibyte:
+                  if (primary) 
+                  {
+                     if (!m_hdu) m_hdu = 
+                         new PrimaryHDU<unsigned char>(m_parent,readDataFlag,keys);
+                  }
+                  else
+                  {
+                     m_hdu = new ImageExt<unsigned char>
+                                 (m_parent,hduName,readDataFlag,keys,version);   
+                  }
+                  break;   
+               case Ishort:
+                  if (primary) 
+                  {
+                     if (!m_hdu) 
+                     {           
+                        m_hdu =  new PrimaryHDU<short>
+                                        (m_parent,readDataFlag,keys);     
+                     }
+                  }
+                  else
+                  {
+                     m_hdu =  new ImageExt<short>
+                                    (m_parent,hduName,readDataFlag,keys,version);     
+                  }
+		  break;
+               case Iushort:
+                  if (primary)
+                  {
+                     if (!m_hdu)
+                     {
+                        m_hdu = new PrimaryHDU<unsigned short>
+                                           (m_parent,readDataFlag,keys);
+                     }
+                  }
+                  else
+                  {
+                     m_hdu =  new ImageExt<unsigned short>
+                                    (m_parent,hduName,readDataFlag,keys,version);
+                  }
+                  imgType = Ishort;
+                  break;
+               case Ilong:
+                  if (primary) 
+                  {
+                     if (!m_hdu) 
+                     {           
+                        m_hdu =  new PrimaryHDU<long>
+                                        (m_parent,readDataFlag,keys);     
+                     }
+                  }
+                  else
+                  {
+                     m_hdu =  new ImageExt<long>
+                                    (m_parent,hduName,readDataFlag,keys,version);     
+                  }
+                  break;
+               case Iulong:
+                  if (primary)
+                  {
+                     if (!m_hdu)
+                     {
+                        m_hdu = new PrimaryHDU<unsigned long>
+                                     (m_parent,readDataFlag,keys);
+                     }
+                  }
+                  else
+                  {
+                     m_hdu =  new ImageExt<unsigned long>
+                                    (m_parent,hduName,readDataFlag,keys,version);
+                  }
+                  imgType = Ilong;
+                  break;
+               case Ifloat:
+                  if (primary) 
+                  {
+                     if (!m_hdu) m_hdu = 
+                           new PrimaryHDU<float>(m_parent,readDataFlag,keys);
+                  }
+                  else
+                  {
+                     m_hdu = new ImageExt<float>
+                                 (m_parent,hduName,readDataFlag,keys,version);   
+                  }
+                  break;
+               case Idouble:
+                  if (primary) 
+                  {
+                     if (!m_hdu) m_hdu = 
+                           new PrimaryHDU<double>(m_parent,readDataFlag,keys);
+                  }
+                  else
+                  {
+                     m_hdu = new ImageExt<double>
+                             (m_parent,hduName,readDataFlag,keys,version);   
+                  }
+                  break;
 // dummy code to avoid SEGV in Solaris. This is supposed to trick the 
 // compiler into instantiating PrimaryHDU<int, unsigned int>, ImageExt<int, unsigned int>
 // so that it doesn't throw a SEGV if the user tries to read integer data into an
 // integer array. But Tint is not actually an acceptable value for bitpix.
-                    case Tint:
-                            if (primary) 
-                            {
-                                if (!m_hdu) 
-                                {           
-                                        if (unsignedZero == ULBASE && scale == 1)
-                                        { 
-                                                m_hdu =  new PrimaryHDU<unsigned int>
-                                                                (m_parent,readDataFlag,keys);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new PrimaryHDU<int>
-                                                                (m_parent,readDataFlag,keys);     
-                                        }
-                                }
-                            }
-                            else
-                            {
-                                        if (unsignedZero == ULBASE && scale == 1)
-                                        { 
-                                                m_hdu =  new ImageExt<unsigned int>
-                                                               (m_parent,hduName,readDataFlag,keys,version);
-                                        }
-                                        else
-                                        {
-                                                m_hdu =  new ImageExt<int>
-                                                               (m_parent,hduName,readDataFlag,keys,version);     
-                                        }
-                            }
-                    default:
-                            throw HDU::InvalidImageDataType(" invalid data type for FITS Image I/O");
-            }    
-            m_hdu->zero(unsignedZero);
-            m_hdu->scale(scale);
+               case Tint:
+                  if (primary) 
+                  {
+                     if (!m_hdu) 
+                     {           
+                        if (unsignedZero == ULBASE && scale == 1)
+                        { 
+                           m_hdu =  new PrimaryHDU<unsigned int>
+                                           (m_parent,readDataFlag,keys);
+                        }
+                        else
+                        {
+                           m_hdu =  new PrimaryHDU<int>
+                                           (m_parent,readDataFlag,keys);     
+                        }
+                     }
+                  }
+                  else
+                  {
+                     if (unsignedZero == ULBASE && scale == 1)
+                     { 
+                        m_hdu =  new ImageExt<unsigned int>
+                                   (m_parent,hduName,readDataFlag,keys,version);
+                     }
+                     else
+                     {
+                        m_hdu =  new ImageExt<int>
+                                   (m_parent,hduName,readDataFlag,keys,version);     
+                     }
+                  }
+               default:
+                  throw HDU::InvalidImageDataType(" invalid data type for FITS Image I/O");
+            }  
+            m_hdu->bitpix(imgType);
+            if (unsignedZero != 0.0)
+            {
+               m_hdu->zeroInit(unsignedZero);
+            }
+            if (scale != 1.0)
+            {
+               m_hdu->scaleInit(scale);
+            }
         }
 	    break;
     case AsciiTbl:
-	    m_hdu = new AsciiTable(m_parent, hduName, readDataFlag, keys, version);
-            bpix = 8;
-	    break;
+	m_hdu = new AsciiTable(m_parent, hduName, readDataFlag, keys, version);
+        m_hdu->bitpix(8);
+	break;
 
     case BinaryTbl:
-	    m_hdu = new BinTable(m_parent, hduName, readDataFlag, keys, version);
-            bpix = 8;
-	    break;
+	m_hdu = new BinTable(m_parent, hduName, readDataFlag, keys, version);
+        m_hdu->bitpix(8);
+	break;
 
     default:
-                throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
+        throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
     }
-    m_hdu->bitpix(bpix);
     return m_hdu;
   }
 
   HDU* HDUCreator::MakeTable (const String &name, HduType xtype, int rows, const std::vector<String>& colName, const std::vector<String>& colFmt, const std::vector<String>& colUnit, int version)
   {
-  switch (xtype)
-  {
-        case AsciiTbl:
-                m_hdu = new AsciiTable(m_parent,name,rows,colName,colFmt,colUnit,version); 
-                break;
-        case BinaryTbl:
-                m_hdu = new BinTable(m_parent,name,rows,colName,colFmt,colUnit,version);                 
-                break;
-        default:
-                throw HDU::InvalidExtensionType("unexpected");
-  }
-  return m_hdu;
+    switch (xtype)
+    {
+       case AsciiTbl:
+          m_hdu = new AsciiTable(m_parent,name,rows,colName,colFmt,colUnit,version); 
+          break;
+       case BinaryTbl:
+          m_hdu = new BinTable(m_parent,name,rows,colName,colFmt,colUnit,version);                 
+          break;
+       default:
+          throw HDU::InvalidExtensionType("unexpected");
+    }
+    return m_hdu;
   }
 
   HDU * HDUCreator::Make (int index, bool readDataFlag, const std::vector<String> &keys)
@@ -374,70 +384,64 @@ namespace CCfits {
   ExtHDU* newImage = 0;
   switch (bpix)
   {
-      case BYTE_IMG:
-                newImage =  new ImageExt<unsigned char>(m_parent,name,bpix,naxis,naxes,version);   
-                break; 
-      case SHORT_IMG:
-                newImage =  new ImageExt<short>(m_parent,name,bpix,naxis,naxes,version);   
-                break; 
-      case LONG_IMG:
-                newImage =  new ImageExt<long>(m_parent,name,bpix,naxis,naxes,version);   
-                break; 
-      case FLOAT_IMG:
-                newImage =  new ImageExt<float>(m_parent,name,bpix,naxis,naxes,version);   
-                break; 
-      case DOUBLE_IMG:
-                newImage =  new ImageExt<double>(m_parent,name,bpix,naxis,naxes,version);   
-                break; 
-      case USHORT_IMG:
-                newImage =  
-                        new ImageExt<unsigned short>(m_parent,name,bpix,naxis,naxes,version);
-                newImage->bitpix(SHORT_IMG);
-                newImage->zero(USBASE);
-                break; 
-      case ULONG_IMG:
-                newImage =  
-                        new ImageExt<unsigned long>(m_parent,name,bpix,naxis,naxes,version);  
-                newImage->bitpix(LONG_IMG);
-                newImage->zero(ULBASE); 
-                break; 
-      default:
-              throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
+     case BYTE_IMG:
+          newImage =  new ImageExt<unsigned char>(m_parent,name,bpix,naxis,naxes,version);   
+          break; 
+     case SHORT_IMG:
+          newImage =  new ImageExt<short>(m_parent,name,bpix,naxis,naxes,version);   
+          break; 
+     case LONG_IMG:
+          newImage =  new ImageExt<long>(m_parent,name,bpix,naxis,naxes,version);   
+          break; 
+     case FLOAT_IMG:
+          newImage =  new ImageExt<float>(m_parent,name,bpix,naxis,naxes,version);   
+          break; 
+     case DOUBLE_IMG:
+          newImage =  new ImageExt<double>(m_parent,name,bpix,naxis,naxes,version);   
+          break; 
+     case USHORT_IMG:
+          newImage =  
+                  new ImageExt<unsigned short>(m_parent,name,bpix,naxis,naxes,version);
+          newImage->bitpix(SHORT_IMG);
+          newImage->zeroInit(USBASE);
+          break; 
+     case ULONG_IMG:
+          newImage =  
+                  new ImageExt<unsigned long>(m_parent,name,bpix,naxis,naxes,version);  
+          newImage->bitpix(LONG_IMG);
+          newImage->zeroInit(ULBASE); 
+          break; 
+     default:
+        throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
   } 
   return newImage;
   }
 
-  void HDUCreator::getScaling (long& type, double& zero, double& scale, long& unscaledType) const
+  void HDUCreator::getScaling (long& type, double& zero, double& scale) const
   {
     float tmpScale(1.);
-    float zval (0);
+    float zval (.0);
     int status (0);
-    if ( !fits_read_key_flt(m_parent->fptr(),BZERO,&zval,0,&status))
-        zero = zval;
+    fits_read_key_flt(m_parent->fptr(),BZERO,&zval,0,&status);
+    if (status)
+        zval = .0;
     status = 0;
-    bool scalePresent = !fits_read_key_flt(m_parent->fptr(),BSCALE,&tmpScale,0,&status);
-    // if there is no BSCALE key present or BSCALE == 1 ... 
-    if (!scalePresent || scalePresent &&  tmpScale == 1)
+    fits_read_key_flt(m_parent->fptr(),BSCALE,&tmpScale,0,&status);
+    if (status)
+       tmpScale = 1.0;
+    zero = zval;
+    scale = tmpScale;
+    // if there is no effective scaling ... 
+    if (zero == 0.0 && scale == 1.0)
     {
-         if (scalePresent) scale = tmpScale;
+       return;
     }
     else 
     {
-       // Scale present and tmpScale != 1, signed or unsigned question is
-       // irrelevant since data will be read into a floating-point type. 
-            scale = tmpScale;
-            switch (type)
-            {
-                case BYTE_IMG:
-                case SHORT_IMG:
-                        type = FLOAT_IMG;
-                        break;
-                case LONG_IMG:
-                        type = DOUBLE_IMG;
-                        break;   
-                default:
-                        break; // do nothing.    
-            }
+       int newType = 0;
+       fits_get_img_equivtype(m_parent->fptr(),&newType,&status);
+       if (!status)
+          type = newType;          
     }                
   }
 

@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef COLUMN_H
 #define COLUMN_H 1
@@ -778,10 +778,12 @@ namespace CCfits {
 
       \brief retrieve comment for Column
 
-
-
 */
 
+/*!   \fn Table* Column::parent() const;
+     \brief return a pointer to the Table which owns this Column
+
+*/
 
 
 
@@ -910,6 +912,7 @@ namespace CCfits {
         void setDisplay ();
         virtual void setDimen ();
         friend std::ostream& operator << (std::ostream& s, const Column& right);
+        Table* parent () const;
         //	Inequality operators for imposing sort order on columns.
         friend bool operator < (const Column& left, const Column& right);
         //	Inequality operators for imposing sort order on columns.
@@ -1148,7 +1151,6 @@ namespace CCfits {
         //	right HDU
         void makeHDUCurrent ();
         virtual std::ostream& put (std::ostream& s) const;
-        Table* parent () const;
         void varLength (bool value);
         static const String& TBCOL ();
         static const String& TTYPE ();
@@ -1158,7 +1160,6 @@ namespace CCfits {
         static const String& TLMAX ();
         static const String& TDMAX ();
         static const String& TDMIN ();
-        Table* parent ();
         static const std::vector<String>& columnKeys ();
         const String& comment () const;
 
@@ -1430,11 +1431,6 @@ namespace CCfits {
   inline const String& Column::TDMIN ()
   {
     return s_TDMIN;
-  }
-
-  inline Table* Column::parent ()
-  {
-    return m_parent;
   }
 
   inline const std::vector<String>& Column::columnKeys ()

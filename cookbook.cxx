@@ -1,11 +1,11 @@
-// cookbook CCfits demonstration program, for release version 1.8 Oct 2007
+// cookbook CCfits demonstration program, for release version 2.0 Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 
 // The CCfits headers are expected to be installed in a subdirectory of

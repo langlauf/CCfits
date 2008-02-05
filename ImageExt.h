@@ -1,13 +1,13 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 1.8 release dated Oct 2007
+//	This is version 2.0 release dated Jan 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
 //	http://heasarc.gsfc.nasa.gov
 //	e-mail: ccfits@legacy.gsfc.nasa.gov
 //
-//	Original author: Ben Dorman, L3-Communications EER Systems Inc.
+//	Original author: Ben Dorman
 
 #ifndef IMAGEEXT_H
 #define IMAGEEXT_H 1
@@ -27,6 +27,32 @@
 
 namespace CCfits {
 
+  /*! \class ImageExt<T>
+
+       ImageExt<T> is a subclass of ExtHDU that contains image data
+       of type T.   
+  */
+
+  /*! \fn virtual ImageExt<T>::~ImageExt();
+       \brief destructor
+  */
+
+  /*! \fn  virtual void ImageExt<T>::readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>());
+          \brief read Image extension HDU data
+
+          Called by FITS ctor, not intended for general use.
+          parameters control how much gets read on initialization. 
+
+          \param readFlag read the image data if true
+          \param key      a vector of strings of keyword names to be read from the HDU                        
+
+
+  */
+
+  /*! \fn const std::valarray<T>& ImageExt<T>::image() const;
+       \brief return the image data
+  */
+
 
 
   template <typename T>
@@ -34,13 +60,11 @@ namespace CCfits {
   {
 
     public:
-        ImageExt(const ImageExt< T > &right);
-        ~ImageExt();
+        virtual ~ImageExt();
 
         virtual ImageExt<T> * clone (FITSBase* p) const;
         virtual void readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>());
         const std::valarray<T>& image () const;
-        void setImage (const std::valarray<T>& inData);
         virtual void zero (double value);
         virtual void scale (double value);
         virtual double zero () const;
@@ -55,6 +79,9 @@ namespace CCfits {
       // Additional Protected Declarations
         virtual void checkExtensionType() const;
     private:
+        ImageExt(const ImageExt< T > &right);
+        ImageExt< T > & operator=(const ImageExt< T > &right);
+
         virtual void initRead ();
         virtual std::ostream & put (std::ostream &s) const;
         //	Read data reads the image if readFlag is true and
@@ -227,11 +254,6 @@ namespace CCfits {
   }
 
   template <typename T>
-  void ImageExt<T>::setImage (const std::valarray<T>& inData)
-  {
-  }
-
-  template <typename T>
   const std::valarray<T>& ImageExt<T>::readImage (long first, long nElements, T* nullValue)
   {
     checkExtensionType();
@@ -262,23 +284,49 @@ namespace CCfits {
   template <typename T>
   void ImageExt<T>::zero (double value)
   {
-    HDU::zero(value);
-    if (naxis())
+    makeThisCurrent();
+    if (checkImgDataTypeChange(value, scale()))
     {
-        int status(0);
-        if (fits_set_bscale(fitsPointer(),scale(),value,&status)) throw FitsError(status);
+       if (naxis())
+       {
+           int status(0);
+           if (fits_update_key(fitsPointer(), Tdouble, BZERO, &value, 0, &status))
+              throw FitsError(status);
+           fits_flush_file(fitsPointer(), &status);
+           HDU::zero(value);
+       }
+    }
+    else
+    {
+       bool silent=false;
+       string msg("CCfits Error: Cannot set BZERO to a value which will change image data\n");
+           msg += "              from integer type to floating point type.";
+       throw FitsException(msg,silent);
     }
   }
 
   template <typename T>
   void ImageExt<T>::scale (double value)
   {
-    HDU::scale(value);
-    if (naxis())
+    makeThisCurrent();
+    if (checkImgDataTypeChange(zero(), value))
     {
-        int status(0);
-        if (fits_set_bscale(fitsPointer(),value,zero(),&status)) throw FitsError(status);
-    } 
+       if (naxis())
+       {
+           int status(0);
+           if (fits_update_key(fitsPointer(), Tdouble, BSCALE, &value, 0, &status))
+              throw FitsError(status);
+           fits_flush_file(fitsPointer(), &status);
+           HDU::scale(value);
+       } 
+    }
+    else
+    {
+       bool silent=false;
+       string msg("CCfits Error: Cannot set BSCALE to a value which will change image data\n");
+           msg += "              from integer type to floating point type.";
+       throw FitsException(msg,silent);
+    }
   }
 
   template <typename T>
