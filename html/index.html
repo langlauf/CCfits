@@ -17,7 +17,7 @@
 </div>
 <h1>CCfits Documentation</h1>
 <p>
-<h3 align="center">2.0 </h3><center>CCfits-2.0 requires <a href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">cfitsio</a> version 3.02 or later</center>  
+<h3 align="center">2.1 </h3><center>CCfits-2.1 requires <a href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html">cfitsio</a> version 3.08 or later</center>  
 <b><a href="http://heasarc.gsfc.nasa.gov/docs/software/fitsio/ccfits/index.html">Return To CCfits Home Page</a></b><br><br>
 <h2><a class="anchor" name="intro">
 Introduction</a></h2>
@@ -57,6 +57,10 @@ This document lays out the specification for the CCfits library.<p>
     
 </UL>
    <h2><a class="anchor" name="rel">
+Release Notes For Version 2.1 Nov 2008</a></h2>
+<ul>
+<li>Modified several FITS constructors and FITS::open function to allow proper handling of CFITSIO <b>extended filename syntax</b>.</li><li>Extended filename syntax example added to cookbook.</li><li>Fix made to FITS::read function for case of missing EXTVER keyword when searching for HDU with extver &gt; 1.</li><li>Removed inclusion of the internal-only CFITSIO fitsio2.h file from Column.cxx. LONGLONG limits definitions are now found in fitsio.h.</li></ul>
+<h2><a class="anchor" name="rel2">
 Release Notes For Version 2.0 Feb 2008</a></h2>
 Enhancements to CCfits:<ul>
 <li><b>Checksum Capability:</b> 4 checksum related functions have been added to the HDU class, which now allows users to set and verify checksums directly from inside CCfits.</li><li><b>Capturing Error Messages:</b> The FitsException base class now stores its output error message, and it can be retrieved from any of the exception subclass objects with a call to the new FitsException::message() function.</li><li><b>Improved Keyword Handling:</b> New functions copyAllKeys, keywordCategories, and a second addKey function have been added to the HDU class. The Keyword class now offers a public setValue function to modify an existing keyword. Also the class member documentation for keyword related functions has been upgraded and expanded.</li><li><b>Image Scaling:</b> In the HDU class (for instances of its PHDU and image ExtHDU subclasses), scale and zero set functions can now write BSCALE and BZERO keywords to the file. A new suppressScaling function has been added to temporarily turn off scaling. The ImageExt&lt;T&gt; class has also been added to the documentation.</li><li><b>Miscellaneous New Functions:</b>Table::getRowsize() (submitted by Patrik Jonsson), Fits::fitsPointer(), Column::parent().</li></ul>
@@ -70,7 +74,7 @@ Backwards Compatibility Issues:<ul>
 For a more complete listing, see the CHANGES file distributed with the software. For earlier versions, see <a class="el" href="releases.html">Previous Release Notes</a>.<h2><a class="anchor" name="ack">
 Authors and Acknowledgements</a></h2>
 CCfits was written as part of a re-engineering effort for the X-Ray data analysis program, XSPEC. It was designed using Rational Rose and originally implemented on a Solaris platform by Ben Dorman to whom blame should be attached. Sandhia Bansal worked on part of the implementation and, and Paul Kunz (<a href="mailto:&#112;&#102;&#107;&#101;&#098;&#064;&#115;&#108;&#097;&#099;&#046;&#115;&#116;&#097;&#110;&#102;&#111;&#114;&#100;&#046;&#101;&#100;&#117;">&#112;&#102;&#107;&#101;&#098;&#064;&#115;&#108;&#097;&#099;&#046;&#115;&#116;&#097;&#110;&#102;&#111;&#114;&#100;&#046;&#101;&#100;&#117;</a>) wrote the configuration scheme and dispensed helpful advice: both are also thanked profusely for the port to Windows2000/VC++.net. Thanks to R. Mathar (MPIA) and Patrik Jonsson (Lick Obs.) for contributing many helpful suggestions and bug reports, and ports to HP-UX and AIX respectively.<p>
-CCfits is currently maintained by Craig Gordon and Bryan Irby (<a href="mailto:&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;">&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;</a>). Suggestions and bug reports are welcome, as are offers to fill out parts of the implementation that are missing. We are also interested in knowing which parts of cfitsio that are not currently supported should be the highest priority for future extensions. <hr size="1"><address style="text-align: right;"><small>Generated on Tue Feb 5 11:26:55 2008 for CCfits by&nbsp;
+CCfits is currently maintained by Craig Gordon and Bryan Irby (<a href="mailto:&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;">&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;</a>). Suggestions and bug reports are welcome, as are offers to fill out parts of the implementation that are missing. We are also interested in knowing which parts of cfitsio that are not currently supported should be the highest priority for future extensions. <hr size="1"><address style="text-align: right;"><small>Generated on Thu Nov 6 10:44:38 2008 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.4 </small></address>
 </body>

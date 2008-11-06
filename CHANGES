@@ -1,3 +1,15 @@
+Changes for CCfits 2.1
+- Modified several FITS constructors and FITS::open function to allow
+handling of extended filename syntax. (09/08)
+   FITS.cxx, .h
+- FITS::resetPosition fix: it now erases the currentExtensionName 
+string. (09/08)
+- Bug fix to FITS::read for case of missing EXTVER keyword when
+searching for HDU with extver > 1. (08/08)
+- Column.cxx now includes "fitsio.h" rather than "fitsio2.h" to get
+definitions of LONGLONG_MIN and MAX.  This now makes CCfits dependent
+on cfitsio versions 3.08 or later. (07/08)
+
 Changes for CCfits 2.0 release 02/08
 - The scale and zero set functions (public in HDU) will now write
 or update the keywords rather than call fits_set_bscale.  They also

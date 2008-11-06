@@ -54,6 +54,7 @@ Driver Program</a></h2>
 <span class="keywordtype">int</span> readHeader(); 
 <span class="keywordtype">int</span> readImage();
 <span class="keywordtype">int</span> readTable();
+<span class="keywordtype">int</span> readExtendedSyntax();
 
 <span class="keywordtype">int</span> main()
 {
@@ -72,6 +73,7 @@ Driver Program</a></h2>
         <span class="keywordflow">if</span> (!readHeader()) std::cerr &lt;&lt; <span class="stringliteral">" readHeader() \n"</span>;
         <span class="keywordflow">if</span> (!readImage()) std::cerr &lt;&lt; <span class="stringliteral">" readImage() \n"</span>;
         <span class="keywordflow">if</span> (!readTable()) std::cerr &lt;&lt; <span class="stringliteral">" readTable() \n"</span>;
+        <span class="keywordflow">if</span> (!readExtendedSyntax()) std::cerr &lt;&lt; <span class="stringliteral">" readExtendedSyntax() \n"</span>;
         <span class="keywordflow">if</span> (!selectRows()) std::cerr &lt;&lt; <span class="stringliteral">" selectRows() \n"</span>;
 
      }
@@ -103,7 +105,8 @@ copyHDU() <a class="el" href="copy.html">Copying an Extension between Files</a><
 selectRows() <a class="el" href="filter.html">Selecting Table Data</a><p>
 readHeader() <a class="el" href="readhead.html">Reading Header information from a HDU</a><p>
 readImage() <a class="el" href="readimage.html">Reading an Image</a><p>
-readTable() <a class="el" href="readtable.html">Reading a Table Extension</a> <hr size="1"><address style="text-align: right;"><small>Generated on Tue Feb 5 11:26:56 2008 for CCfits by&nbsp;
+readTable() <a class="el" href="readtable.html">Reading a Table Extension</a><p>
+readExtendedSyntax() <a class="el" href="readextendedsyntax.html">Reading with Extended File Name Syntax</a> <hr size="1"><address style="text-align: right;"><small>Generated on Thu Nov 6 10:44:39 2008 for CCfits by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.4 </small></address>
 </body>

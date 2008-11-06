@@ -1,4 +1,4 @@
-// cookbook CCfits demonstration program, for release version 2.0 Jan 2008
+// cookbook CCfits demonstration program, for release version 2.1 Nov 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -48,6 +48,7 @@ int selectRows();
 int readHeader(); 
 int readImage();
 int readTable();
+int readExtendedSyntax();
 
 int main()
 {
@@ -66,6 +67,7 @@ int main()
         if (!readHeader()) std::cerr << " readHeader() \n";
         if (!readImage()) std::cerr << " readImage() \n";
         if (!readTable()) std::cerr << " readTable() \n";
+        if (!readExtendedSyntax()) std::cerr << " readExtendedSyntax() \n";
         if (!selectRows()) std::cerr << " selectRows() \n";
 
      }
@@ -722,6 +724,26 @@ int copyHDU()
         std::cout << pInfile->extension(hdus[1]) << std::endl;
          
         return 0;       
+ }
+
+ int readExtendedSyntax()
+ {
+    // Current extension will be set to PLANETS_ASCII after construction:
+    std::auto_ptr<FITS> pInfile(new FITS("btestfil.fit[PLANETS_ASCII][Density > 5.2]"));
+    std::cout << "\nCurrent extension: " 
+        << pInfile->currentExtensionName() << std::endl;
+        
+    Column& col = pInfile->currentExtension().column("Density");
+    std::vector<double> densities;
+    
+    // nRows should only include rows with density column vals > 5.2.
+    const int nRows = col.rows();
+    col.read(densities, 1, nRows);
+    for (int i=0; i<nRows; ++i)
+       std::cout << densities[i] << "  ";
+    std::cout << std::endl;
+    
+    return 0;
  }
 
  int selectRows()

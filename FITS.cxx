@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.0 release dated Jan 2008
+//	This is version 2.1 release dated Nov 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -91,43 +91,58 @@ namespace CCfits {
   FITS::FITS (const String &name, RWmode mode, bool readDataFlag, const std::vector<String>& primaryKeys)
   : m_FITSImpl(0)
   {
-          std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
-          m_FITSImpl = apBase.get();
+     std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+     m_FITSImpl = apBase.get();
 
-          if (mode == Read) 
-          {
-                open(mode);
-                //        get the primary header.
+     if (mode == Read) 
+     {
+        // If name includes extended file syntax, the initial hdu position
+        // upon opening is not necessarily the primary header.
+        int hduIdx = open(mode);
 
-                read(readDataFlag,primaryKeys);
-                readExtensions(readDataFlag);
-          }
-          else
-          {
+        // Read the primary header.  This also moves the current hdu
+        // to the primary.
+        read(readDataFlag,primaryKeys);
 
-                // create a primary header in the receiving structure. The user
-                // didn't specify a primary in the constructor call so wants a dummy
-                // primary with no data. If however the user is appending to an
-                // existing file we don't want to do anything to the existing primary.
-                // PHDU has a private constructor and must be instantiated here only.
-                // this ensures that every FITS object has exactly one PHDU.
-                if (create() )
-                {
-                        // create returns true if the file is either new
-                        // or overwritten, in which case we need to create 
-                        // and write a new primary with BITPIX=8 and NAXIS=0.
-                        HDUCreator makePrimary(m_FITSImpl);
+        readExtensions(readDataFlag);
 
-                        pHDU(makePrimary.createImage(8,0,std::vector<long>()));       
-                }
-                else
-                {
-                        // the difference is that this doesn't write anything to the file,
-                        // it just reads the primary header information.  
-                        read();
-                }
-          }
-          apBase.release();
+        // If extended syntax asked for a particular extension,
+        // restore it as the current hdu position.
+        if (hduIdx)
+        {
+           // This also calls makeThisCurrent.
+           extension(hduIdx);
+        }
+     }
+     else
+     {
+
+        // create a primary header in the receiving structure. The user
+        // didn't specify a primary in the constructor call so wants a dummy
+        // primary with no data. If however the user is appending to an
+        // existing file we don't want to do anything to the existing primary.
+        // PHDU has a private constructor and must be instantiated here only.
+        // this ensures that every FITS object has exactly one PHDU.
+        if (create() )
+        {
+           // create returns true if the file is either new
+           // or overwritten, in which case we need to create 
+           // and write a new primary with BITPIX=8 and NAXIS=0.
+           // Also if in here, no extended syntax was used.
+           HDUCreator makePrimary(m_FITSImpl);
+
+           pHDU(makePrimary.createImage(8,0,std::vector<long>()));       
+        }
+        else
+        {
+           // The difference is that this doesn't write anything to the file,
+           // it just reads the primary header information.  If extended
+           // syntax was used though, this might not be initially positioned
+           // at the primary header (but it will be after the following call).
+           read();
+        }
+     }
+     apBase.release();
   }
 
   FITS::FITS (const String &name, RWmode mode, const string &hduName, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
@@ -136,7 +151,7 @@ namespace CCfits {
           std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
           m_FITSImpl = apBase.get();
 
-          open(mode);
+          int extSyntHdu = open(mode);
 
           // create and read the Primary: assume here that a single HDU other than
           // the primary is requested, so don't read primary data. We can however
@@ -144,11 +159,15 @@ namespace CCfits {
 
           read(false,primaryKey);
 
-          // create a primary header in the receiving structure.
-          // PHDU has a private constructor and must be instantiated here only.
-          // this ensures that every FITS object has exactly one PHDU
-
           read(hduName, readDataFlag, hduKeys,version);
+          if (extSyntHdu && 
+                currentExtension().index() != extSyntHdu)
+          {
+             string msg("Hdu requested with extended syntax ");
+             msg += "differs from that requested by name argument.";
+             throw OperationNotSupported(msg);
+          }
+
           apBase.release();
   }
 
@@ -158,10 +177,31 @@ namespace CCfits {
         std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
         m_FITSImpl = apBase.get();
 
-        open(mode);
+        int extSyntHdu = open(mode);
 
         read(readDataFlag,primaryKey);
         read(hduNames,readDataFlag);
+
+        if (extSyntHdu)
+        {
+           // If hdu specified in extension is not included in
+           // hduNames, throw.
+           bool savVerbose = s_verboseMode;
+           s_verboseMode = false;
+           try
+           {
+              extension(extSyntHdu);
+           }
+           catch (...)
+           {
+              s_verboseMode = savVerbose;
+              string msg("Hdu requested with extended syntax was not included ");
+              msg += "in FITS constructor hduNames array.";
+              throw OperationNotSupported(msg);
+           }
+           s_verboseMode = savVerbose;
+        }
+
         apBase.release();
   }
 
@@ -196,25 +236,37 @@ namespace CCfits {
   FITS::FITS (const String &name, RWmode mode, const std::vector<String>& hduNames, const std::vector<std::vector<String> >& hduKeys, bool readDataFlag, const std::vector<String>& primaryKeys, const std::vector<int>& hduVersions)
   : m_FITSImpl(0)
   {
-          std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
-          m_FITSImpl = apBase.get();
+     std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+     m_FITSImpl = apBase.get();
 
-          open(mode);
+     int extSyntHdu = open(mode);
 
+     // read the primary header and read the data if readDataFlag is set.
+     read(readDataFlag,primaryKeys);
 
-          // read the primary header and read the data if readDataFlag is set.
-          // create returns a PHDU if the index is 0.
+     read(hduNames, hduKeys, readDataFlag, hduVersions);
 
-          read(readDataFlag,primaryKeys);
+     if (extSyntHdu)
+     {
+        // If hdu specified in extension is not included in
+        // hduNames, throw.
+        bool savVerbose = s_verboseMode;
+        s_verboseMode = false;
+        try
+        {
+           extension(extSyntHdu);
+        }
+        catch (...)
+        {
+           s_verboseMode = savVerbose;
+           string msg("Hdu requested with extended syntax was not included ");
+           msg += "in FITS constructor hduNames array.";
+           throw OperationNotSupported(msg);
+        }
+        s_verboseMode = savVerbose;
+     }
 
-
-
-          // create a primary header in the receiving structure.
-          // PHDU has a private constructor and must be instantiated here only.
-          // this ensures that every FITS object has exactly one PHDU
-
-          read(hduNames, hduKeys, readDataFlag, hduVersions);
-          apBase.release();
+     apBase.release();
   }
 
   FITS::FITS (const String& name, int bitpix, int naxis, long *naxes)
@@ -262,7 +314,12 @@ namespace CCfits {
         std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
         m_FITSImpl = apBase.get();
 
-        open(mode);
+        int extSyntHdu = open(mode);
+        if (extSyntHdu && extSyntHdu != hduIndex)
+        {
+           string msg("FITS constructor hduIndex conflicts with HDU requested by extended syntax.");
+           throw OperationNotSupported(msg);
+        }
         // read the primary header. Allowing the user to read the primary data
         // and optional keys costs nothing here, although the likely use of this
         // constructor is to read a specified HDU from a file other than the Primary.
@@ -275,23 +332,23 @@ namespace CCfits {
   FITS::FITS (const String &name, RWmode mode, const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, const std::vector<String>& primaryKey, int version)
   : m_FITSImpl(0)
   {
-        std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
-        m_FITSImpl = apBase.get();
+     std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
+     m_FITSImpl = apBase.get();
 
-        open(mode);
+     int extSyntHdu = open(mode);
 
-        // read the primary header and read the data if readDataFlag is set.
-        // create returns a PHDU if the index is 0.
+     // read the primary header and read the data if readDataFlag is set.
+     // create returns a PHDU if the index is 0.
 
-        read(false,primaryKey);
+     read(false,primaryKey);
 
+     // create a primary header in the receiving structure.
+     // PHDU has a private constructor and must be instantiated here only.
+     // this ensures that every FITS object has exactly one PHDU
 
-        // create a primary header in the receiving structure.
-        // PHDU has a private constructor and must be instantiated here only.
-        // this ensures that every FITS object has exactly one PHDU
+     read(searchKeys, searchValues, readDataFlag, hduKeys, version);
 
-        read(searchKeys, searchValues, readDataFlag, hduKeys, version);
-        apBase.release();
+     apBase.release();
   }
 
 
@@ -362,70 +419,70 @@ namespace CCfits {
 
   void FITS::read (bool readDataFlag, const std::vector<String>& keys)
   {
-
+     // Move to and create primary header object.
    HDUCreator create(m_FITSImpl);
 
-
+   int status=0, hduType=0;
+   if (fits_movabs_hdu(m_FITSImpl->fptr(), 1, &hduType, &status))
+      throw FitsError(status);
    pHDU(static_cast<PHDU*>(create.getHdu(0,readDataFlag,keys)));
   }
 
   void FITS::read (const String &hduName, bool readDataFlag, const std::vector<String> &keys, int version)
   {
-        // grab the requested extension if present. If not, create an ExtHDU object and add it, if it
-        // exists in the file. The first clause copes with the results from the ctor that reads the 
-        // entire file for HDUs, the second when adding a new HDU from a file which selected HDUs were
-        // read on construction.
-        ExtMap& ext = m_FITSImpl->extension();        
-        ExtMap::size_type n = ext.count(hduName);
+    // grab the requested extension if present. If not, create an ExtHDU object and add it, if it
+    // exists in the file. The first clause copes with the results from the ctor that reads the 
+    // entire file for HDUs, the second when adding a new HDU from a file which selected HDUs were
+    // read on construction.
+    ExtMap& ext = m_FITSImpl->extension();        
+    ExtMap::size_type n = ext.count(hduName);
 
 
-        if ( n > 0 )
-        {
-                std::pair<ExtMap::iterator,ExtMap::iterator> r 
-                                        = m_FITSImpl->extension().equal_range(hduName);
-                 ExtHDU* requested(0);
-                 if (version == 1)
-                 {
-                         requested = (r.first)->second;
-                 } 
-                 else 
-                 {
-                       for (ExtMap::iterator i = r.first; i != r.second; ++i)
-                       {
-                                if ( i->second->version() == version )
-                                {
-                                        requested = i->second;
-                                        break;
-                                }       
-                       }                      
-                       if (!requested)
-                       {
-                               std::ostringstream msg;
-                               msg  << hduName << " with version " << version;
-                               throw NoSuchHDU(msg.str());
-                       } 
-                 }
-                 requested->readData(readDataFlag,keys);
+    if ( n > 0 )
+    {
+       std::pair<ExtMap::iterator,ExtMap::iterator> r 
+                               = m_FITSImpl->extension().equal_range(hduName);
+       ExtHDU* requested(0);
+       if (version == 1)
+       {
+          requested = (r.first)->second;
+       } 
+       else 
+       {
+          for (ExtMap::iterator i = r.first; i != r.second; ++i)
+          {
+              if ( i->second->version() == version )
+              {
+                 requested = i->second;
+                 break;
+              }       
+          }                      
+          if (!requested)
+          {
+             std::ostringstream msg;
+             msg  << hduName << " with version " << version;
+             throw NoSuchHDU(msg.str());
+          } 
+       }
+       requested->makeThisCurrent();
+       requested->readData(readDataFlag,keys);
+    }
+    else
+    {
+       HDUCreator create(m_FITSImpl);
 
-        }
-        else
-        {
-                HDUCreator create(m_FITSImpl);
-
-                try
-                {
-                        // primary is always false here.   
-                        ExtHDU* newHDU = static_cast<ExtHDU*>(create.getHdu(hduName, readDataFlag, keys, false, version));
-                        // add a specified HDU in the file to the list of extensions.
-                        addExtension(newHDU);
-                }
-                catch ( ... )
-                {
-                        throw NoSuchHDU(hduName);
-                }
-
-        }
-
+       try
+       {
+          // primary is always false here.   
+          ExtHDU* newHDU = static_cast<ExtHDU*>(create.getHdu(hduName, readDataFlag, keys, false, version));
+          // add a specified HDU in the file to the list of extensions.
+          addExtension(newHDU);
+       }
+       catch ( ... )
+       {
+          throw NoSuchHDU(hduName);
+       }
+    }
   }
 
   void FITS::read (const std::vector<String> &hduNames, bool readDataFlag)
@@ -560,11 +617,11 @@ namespace CCfits {
      try
      {
         std::auto_ptr<ExtHDU> 
-	  testHDU(static_cast<ExtHDU*>(createTest.getHdu(hduIndex,false,searchKeys)));
-	// if the keyword was not present, getKeywordValue will
-	// throw a NoSuchKeyword.
+	   testHDU(static_cast<ExtHDU*>(createTest.getHdu(hduIndex,false,searchKeys)));
 	std::vector<String> testKeys(searchKeys);
 	std::vector<String> testResults(searchKeys.size(),"");
+        // Missing key exceptions are caught and handled at a lower level.
+        // The result will be a smaller sized testKeys vector.
 	testHDU->readKeys(testKeys,testResults); 
         using namespace FITSUtil;
 
@@ -614,11 +671,13 @@ namespace CCfits {
      {
         // catches the case where the version is requested but there
         // is no version key present.
+        createTest.reset();
         continue;
      }
 
      catch (FitsError)
      {                
+        createTest.reset();
         continue;       
      }
 
@@ -658,7 +717,7 @@ namespace CCfits {
   }     
   }
 
-  void FITS::open (RWmode mode)
+  int FITS::open (RWmode mode)
   {
   int status=0;
   // unused:  bool silentMode = true;
@@ -670,6 +729,13 @@ namespace CCfits {
           if (status == FILE_NOT_OPENED) throw CantOpen(m_FITSImpl->name()); 
           else throw FitsError(status);
   }
+
+  int currentHDU=0;
+  fits_get_hdu_num(m_FITSImpl->fptr(), &currentHDU);
+  // convert to 0-based
+  currentHDU -= 1;
+
+  return currentHDU;
   }
 
   bool FITS::create ()
@@ -693,8 +759,10 @@ namespace CCfits {
         m_FITSImpl->name() = fName.substr(1);
      }
 
-     // create a new file.
-     // the '!' is processed by ffinit
+     // Create a new file, the '!' is processed by ffinit.
+     // If '[]' extended syntax is used this returns an error of
+     // one kind or another (which includes FILE_NOT_CREATED if
+     // the file already exists).
      fits_create_file(&m_FITSImpl->fptr(),fName.c_str(),&status);
      if ( status )
      {
@@ -1025,6 +1093,7 @@ namespace CCfits {
   {
     int status(0);
     if (fits_movabs_hdu(fitsPointer(),1,0,&status)) throw FitsError(status);
+    m_FITSImpl->currentExtensionName() = string("");
   }
 
   void FITS::currentExtensionName (const String& extName)

@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.0 release dated Jan 2008
+//	This is version 2.1 release dated Nov 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -13,9 +13,9 @@
 #define HDU_H 1
 #include <map>
 
-#include <list>
 // vector
 #include <vector>
+#include <list>
 // CCfitsHeader
 #include "CCfits.h"
 // Keyword

@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.0 dated Jan 2008
+//	This is version 2.1 dated Nov 2008
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -31,7 +31,7 @@ using std::ostringstream;
 #include "Column.h"
 
 #include "FITS.h"
-#include "fitsio2.h"
+#include "fitsio.h"
 #include "ColumnData.h"
 #include "ColumnVectorData.h"
 #include <limits.h>
