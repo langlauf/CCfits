@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -14,10 +14,10 @@
 
 // functional
 #include <functional>
-// vector
-#include <vector>
 // valarray
 #include <valarray>
+// vector
+#include <vector>
 // numeric
 #include <numeric>
 #ifdef _MSC_VER
@@ -172,7 +172,7 @@ namespace CCfits {
                 int any (0);
                 FITSUtil::MatchType<T> imageType;
                 unsigned long init(1);
-                unsigned long nelements(std::accumulate(&naxes[0],&naxes[N],init,
+                unsigned long nelements(std::accumulate(naxes.begin(),naxes.end(),init,
                                 std::multiplies<long>()));
 
                 // truncate to valid array size if too much data asked for.
@@ -195,7 +195,7 @@ namespace CCfits {
                         m_image.resize(elementsToRead,null());
                 }
 
-                std::copy(&array[0],&array[elementsToRead],&m_image[first-1]);
+                std::copy(array,array+elementsToRead,&m_image[first-1]);
 
                 nulls = (any != 0);
                 m_isRead = (first == 1 && nelements == static_cast<unsigned long>(nElements)); 
@@ -258,9 +258,8 @@ namespace CCfits {
 
 
      int status(0);
-     const size_t N(naxes.size());
      size_t init(1);   
-     size_t totalSize= static_cast<size_t>(std::accumulate(&naxes[0],&naxes[N],init,std::multiplies<long>() ));
+     size_t totalSize= static_cast<size_t>(std::accumulate(naxes.begin(),naxes.end(),init,std::multiplies<long>() ));
      FITSUtil::FitsNullValue<T> null;
      if (m_image.size() != totalSize) m_image.resize(totalSize,null());
      FITSUtil::CAarray<T> convert;

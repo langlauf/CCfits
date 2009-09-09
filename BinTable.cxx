@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -56,7 +56,7 @@ namespace CCfits {
      string unitString("");
      if (i < columnUnit.size())
         unitString = columnUnit[i];
-     column(columnName[i],create.createColumn(i+1, ValueType(colType),
+     setColumn(columnName[i],create.createColumn(i+1, ValueType(colType),
                                 columnName[i], columnFmt[i], 
                                 unitString,repeat,width));
 
@@ -434,13 +434,13 @@ namespace CCfits {
         ColumnCreator create(this);
         if (type != Tstring)
         {
-                 column(columnName,create.createColumn(colNum,type,columnName,tfString,
+                 setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
                       colUnit,repeatWidth,1));
                  column(columnName).setLimits(type);
         }
         else
         {
-                column(columnName,create.createColumn(colNum,type,columnName,tfString,
+                setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
                       colUnit,1,repeatWidth));                
         }
 

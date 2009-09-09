@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -262,13 +262,29 @@ namespace CCfits {
   catch (...)  { throw; }
   }
 
-  Column& Table::column (const String& colName) const
+  Column& Table::column (const String& colName, bool caseSensitive) const
   {
-  std::map<String,Column*>::const_iterator key = m_column.find(colName);
+  bool isFound = false;
+  std::map<String,Column*>::const_iterator key = m_column.begin();
+  if (caseSensitive)
+  {
+     key = m_column.find(colName);
+     isFound = (key != m_column.end());
+  }
+  else
+  {
+     const string lcColName = FITSUtil::lowerCase(colName);
+     while (!isFound && key != m_column.end())
+     {
+        isFound = (lcColName == FITSUtil::lowerCase(key->first));
+        if (!isFound)
+           ++key;
+     }
+  }
 
-  if ( key == m_column.end() ) throw NoSuchColumn(colName);
+  if ( !isFound ) throw NoSuchColumn(colName);
 
-  return *((*key).second);
+  return *(key->second);
   }
 
   Column& Table::column (int colIndex) const
@@ -294,7 +310,7 @@ namespace CCfits {
     naxes(1,numrows);
   }
 
-  void Table::column (const String& colname, Column* value)
+  void Table::setColumn (const String& colname, Column* value)
   {
     // don't do map's default behavior which is to add a new column
     // if the input name and data don't exist.

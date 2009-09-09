@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -98,7 +98,7 @@ namespace CCfits
           }
 
 
-          if (m_data.size() == 0) setData(std::vector<String>(rows(),String(nulval)));
+          if (m_data.size() != rows()) setData(std::vector<String>(rows(),String(nulval)));
 
           // the 'first -1 ' converts to zero based indexing.
 
@@ -114,6 +114,7 @@ namespace CCfits
 
           delete [] array; 
           delete nulval; 
+          if (nelements == rows()) isRead(true); 
 
         }
 #endif
@@ -157,16 +158,17 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                   nulval,array, &anynul,&status) ) throw FitsError(status);
 
 
-          if (m_data.size() == 0) m_data.resize(rows());
+          if (m_data.size() != rows()) m_data.resize(rows());
 
           // the 'j -1 ' converts to zero based indexing.
 
-          for (int j = firstRow; j < nelements; ++j)
+          for (int j = 0; j < nelements; ++j)
           {
 
-                m_data[j - 1] = std::complex<float>(array[2*j],array[2*j+1]);
+                m_data[j - 1 +firstRow] = std::complex<float>(array[2*j],array[2*j+1]);
           }
 
+          if (nelements == rows()) isRead(true); 
         }
 
         template <>
@@ -189,15 +191,16 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 
 
 
-          if (m_data.size() == 0) setData(std::vector<complex<double> >(rows(),nulval));
+          if (m_data.size() != rows()) setData(std::vector<complex<double> >(rows(),nulval));
 
           // the 'j -1 ' converts to zero based indexing.
 
-          for (int j = firstRow; j < nelements; j++)
+          for (int j = 0; j < nelements; j++)
           {
 
-                m_data[j - 1] = std::complex<double>(array[2*j],array[2*j+1]);
+                m_data[j - 1 + firstRow] = std::complex<double>(array[2*j],array[2*j+1]);
           }
+          if (nelements == rows()) isRead(true); 
 
         }
 #endif
@@ -214,7 +217,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                 FITSUtil::auto_array_ptr<float> pData(new float[nRows*2]);
                 float* Data = pData.get();
                 std::vector<complex<float> > __tmp(m_data);
-                for (int j = firstRow; j < nRows; ++j)
+                for (int j = 0; j < nRows; ++j)
                 {
                         Data[ 2*j] = inData[j].real();
                         Data[ 2*j + 1] = inData[j].imag();
@@ -258,7 +261,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                 FITSUtil::auto_array_ptr<double> pData(new double[nRows*2]);
                 double* Data = pData.get();
                 std::vector<complex<double> > __tmp(m_data);
-                for (int j = firstRow; j < nRows; ++j)
+                for (int j = 0; j < nRows; ++j)
                 {
                         pData[ 2*j] = inData[j].real();
                         pData[ 2*j + 1] = inData[j].imag();

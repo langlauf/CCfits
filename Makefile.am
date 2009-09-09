@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 #
-# $Id: Makefile.am,v 3.8 2006/11/01 19:47:06 irby Exp $
+# $Id: Makefile.am,v 3.9 2009/08/17 17:44:52 gordon Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
@@ -32,6 +32,9 @@ cookbook_SOURCES = cookbook.cxx
 
 cookbook_LDADD = libCCfits.la
 cookbook_LDFLAGS = -R $(R_LIB_PATH) -R $(CXX_LIB_PATH)
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = CCfits.pc
 
 ## The following is needed for compiling cookbook.cxx
 INCLUDES = -I$(top_srcdir)/..

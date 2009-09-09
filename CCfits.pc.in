@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: CCfits
+Description: Object Oriented C++ Interface to CFITSIO Library
+Requires: cfitsio
+Version: 2.2
+Libs: -L${libdir} -lCCfits @LIBS@
+Cflags: -I${includedir}
+

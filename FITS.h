@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -12,12 +12,12 @@
 #ifndef FITS_H
 #define FITS_H 1
 
-// map
-#include <map>
-// string
-#include <string>
 // exception
 #include <exception>
+// string
+#include <string>
+// map
+#include <map>
 // ExtHDU
 #include "ExtHDU.h"
 // HDUCreator
@@ -835,7 +835,7 @@ do this either).
         void readExtensions (bool readDataFlag = false);
         ExtHDU* addExtension (ExtHDU* ext);
         void swap (FITS& right);
-        ExtMap& extension ();
+        ExtMap& extensionMap ();
         String nameOfUnmapped (int hduNum) const;
         void cloneHeader (const ExtHDU& source);
 

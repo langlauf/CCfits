@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -14,10 +14,10 @@
 
 // fitsio
 #include "fitsio.h"
-// map
-#include <map>
 // string
 #include <string>
+// map
+#include <map>
 // CCfitsHeader
 #include "CCfits.h"
 

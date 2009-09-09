@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -363,13 +363,13 @@ namespace CCfits {
     const string& doomedName = doomed.name();
     if ( extension().count(doomedName) == 1 )
     {
-        ExtMapIt x = extension().lower_bound(doomedName);
+        ExtMapIt x = extensionMap().lower_bound(doomedName);
         delete (*x).second;       
-        extension().erase(x);
+        extensionMap().erase(x);
     }
     else
     {
-            std::pair<ExtMapIt,ExtMapIt> named = extension().equal_range(doomedName);
+            std::pair<ExtMapIt,ExtMapIt> named = extensionMap().equal_range(doomedName);
 
             ExtMapIt x = named.first;
 
@@ -379,7 +379,7 @@ namespace CCfits {
                     if ( (*x).second->version() == doomed.version())
                     {
                         delete (*x).second;
-                        extension().erase(x);       
+                        extensionMap().erase(x);       
                         break;
                     }       
                     ++x;
@@ -972,7 +972,7 @@ namespace CCfits {
   {
    ExtHDU* current(0);
    size_t N(extension().count(hduName));
-   std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+   std::pair<ExtMapIt,ExtMapIt> matches(extensionMap().equal_range(hduName));
    if ( N > 0 )
    {
         ExtMapIt s(matches.first);
@@ -1004,7 +1004,7 @@ namespace CCfits {
   {
    ExtHDU* current(0);
    size_t N(extension().count(hduName));
-   std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+   std::pair<ExtMapIt,ExtMapIt> matches(extensionMap().equal_range(hduName));
    if ( N > 0 )
    {
       ExtMapIt s(matches.first);
@@ -1126,7 +1126,7 @@ namespace CCfits {
     std::auto_ptr<ExtHDU> extCopy(static_cast<ExtHDU*>(hduCopy));
     const String& hduName = extCopy->name(); 
     size_t N = extension().count(hduName);
-    std::pair<ExtMapIt,ExtMapIt> matches(extension().equal_range(hduName));
+    std::pair<ExtMapIt,ExtMapIt> matches(extensionMap().equal_range(hduName));
     if ( N > 0 )
     {
        ExtMapIt s(matches.first);
@@ -1297,7 +1297,7 @@ namespace CCfits {
 
   }
 
-  ExtMap& FITS::extension ()
+  ExtMap& FITS::extensionMap ()
   {
 
     return m_FITSImpl->extension();
@@ -1396,7 +1396,7 @@ namespace CCfits {
         {
                 for (int j = 1; j <= nKeys; ++j)
                 {
-                        if (fits_write_record(fitsPointer(),cards[j-1].c_str(),&status)) 
+                        if (fits_write_record(fitsPointer(),const_cast<char*>(cards[j-1].c_str()),&status)) 
                                                                         throw FitsError(status);       
                 }
         }  

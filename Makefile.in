@@ -16,6 +16,7 @@
 
 
 
+
 SOURCES = $(libCCfits_la_SOURCES) $(cookbook_SOURCES)
 
 srcdir = @srcdir@
@@ -43,11 +44,11 @@ host_triplet = @host@
 target_triplet = @target@
 bin_PROGRAMS = cookbook$(EXEEXT)
 DIST_COMMON = $(am__configure_deps) $(libCCfits_la_HEADERS) \
-	$(srcdir)/Doxyfile.in $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/configure config/config.guess config/config.sub \
-	config/depcomp config/install-sh config/ltmain.sh \
-	config/missing
+	$(srcdir)/CCfits.pc.in $(srcdir)/Doxyfile.in \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/config.h.in $(top_srcdir)/configure \
+	config/config.guess config/config.sub config/depcomp \
+	config/install-sh config/ltmain.sh config/missing
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/m4/ac_check_package.m4 \
@@ -63,7 +64,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = Doxyfile
+CONFIG_CLEAN_FILES = Doxyfile CCfits.pc
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -71,7 +72,7 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
-	"$(DESTDIR)$(libCCfits_ladir)"
+	"$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(libCCfits_ladir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
@@ -106,6 +107,8 @@ RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	install-recursive installcheck-recursive installdirs-recursive \
 	pdf-recursive ps-recursive uninstall-info-recursive \
 	uninstall-recursive
+pkgconfigDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(pkgconfig_DATA)
 libCCfits_laHEADERS_INSTALL = $(INSTALL_HEADER)
 HEADERS = $(libCCfits_la_HEADERS)
 ETAGS = etags
@@ -232,7 +235,7 @@ target_os = @target_os@
 target_vendor = @target_vendor@
 
 #
-# $Id: Makefile.am,v 3.8 2006/11/01 19:47:06 irby Exp $
+# $Id: Makefile.am,v 3.9 2009/08/17 17:44:52 gordon Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
@@ -247,6 +250,8 @@ EXTRA_DIST = config CHANGES README.INSTALL License.txt file1.pha $(MSVC_FILES)
 cookbook_SOURCES = cookbook.cxx
 cookbook_LDADD = libCCfits.la
 cookbook_LDFLAGS = -R $(R_LIB_PATH) -R $(CXX_LIB_PATH)
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = CCfits.pc
 INCLUDES = -I$(top_srcdir)/..
 lib_LTLIBRARIES = libCCfits.la
 libCCfits_la_SOURCES = \
@@ -363,6 +368,8 @@ $(srcdir)/config.h.in:  $(am__configure_deps)
 distclean-hdr:
 	-rm -f config.h stamp-h1
 Doxyfile: $(top_builddir)/config.status $(srcdir)/Doxyfile.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+CCfits.pc: $(top_builddir)/config.status $(srcdir)/CCfits.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -481,6 +488,23 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
+install-pkgconfigDATA: $(pkgconfig_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(pkgconfigdir)" || $(mkdir_p) "$(DESTDIR)$(pkgconfigdir)"
+	@list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(pkgconfigDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(pkgconfigdir)/$$f'"; \
+	  $(pkgconfigDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(pkgconfigdir)/$$f"; \
+	done
+
+uninstall-pkgconfigDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgconfig_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(pkgconfigdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(pkgconfigdir)/$$f"; \
+	done
 install-libCCfits_laHEADERS: $(libCCfits_la_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(libCCfits_ladir)" || $(mkdir_p) "$(DESTDIR)$(libCCfits_ladir)"
@@ -763,12 +787,13 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS) config.h
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA) $(HEADERS) \
+		config.h
 install-binPROGRAMS: install-libLTLIBRARIES
 
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libCCfits_ladir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkgconfigdir)" "$(DESTDIR)$(libCCfits_ladir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-recursive
@@ -817,7 +842,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-libCCfits_laHEADERS
+install-data-am: install-libCCfits_laHEADERS install-pkgconfigDATA
 
 install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
 
@@ -848,7 +873,8 @@ ps: ps-recursive
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-libCCfits_laHEADERS uninstall-libLTLIBRARIES
+	uninstall-libCCfits_laHEADERS uninstall-libLTLIBRARIES \
+	uninstall-pkgconfigDATA
 
 uninstall-info: uninstall-info-recursive
 
@@ -863,14 +889,15 @@ uninstall-info: uninstall-info-recursive
 	html-am info info-am install install-am install-binPROGRAMS \
 	install-data install-data-am install-exec install-exec-am \
 	install-info install-info-am install-libCCfits_laHEADERS \
-	install-libLTLIBRARIES install-man install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool mostlyclean-recursive pdf pdf-am ps ps-am \
-	tags tags-recursive uninstall uninstall-am \
+	install-libLTLIBRARIES install-man install-pkgconfigDATA \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	pdf pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
 	uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-libCCfits_laHEADERS uninstall-libLTLIBRARIES
+	uninstall-libCCfits_laHEADERS uninstall-libLTLIBRARIES \
+	uninstall-pkgconfigDATA
 
 
 run_cookbook:

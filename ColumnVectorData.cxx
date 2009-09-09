@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -69,7 +69,7 @@ namespace CCfits
                     if (lastRow)
                     {
                             int elementsInLastRow = nelements - countRead;
-                            std::copy(&readData[countRead],&readData[nelements],&current[0]);
+                            std::copy(&readData[countRead],&readData[0]+nelements,&current[0]);
                             countRead += elementsInLastRow;
                     }             
                     // what to do with complete rows. if firstElem == 1 the 
@@ -87,7 +87,7 @@ namespace CCfits
                             { 
                                     if (i == firstRow)
                                     {
-                                            std::copy(&readData[0],&readData[elementsInFirstRow],
+                                            std::copy(&readData[0],&readData[0]+elementsInFirstRow,
                                                                             &current[firstElem]);
                                             countRead += elementsInFirstRow;
                                             ++i;
@@ -171,7 +171,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                     if (lastRow)
                     {
                             int elementsInLastRow = nelements - countRead;
-                            std::copy(&readData[countRead],&readData[nelements],&current[0]);
+                            std::copy(&readData[countRead],&readData[0]+nelements,&current[0]);
                             countRead += elementsInLastRow;
                     }             
                     // what to do with complete rows. if firstElem == 1 the 
@@ -189,7 +189,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
                             { 
                                     if (i == firstRow)
                                     {
-                                            std::copy(&readData[0],&readData[elementsInFirstRow],
+                                            std::copy(&readData[0],&readData[0]+elementsInFirstRow,
                                                                             &current[firstElem]);
                                             countRead += elementsInFirstRow;
                                             ++i;
@@ -297,7 +297,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
         template <>
         void  
         ColumnVectorData<std::complex<float> >::doWrite 
-                        (std::complex<float>* data, long row, long rowSize, long firstElem )
+                        (std::complex<float>* data, long row, long rowSize, long firstElem, std::complex<float>* nullValue )
         {
                 int status(0);
                 FITSUtil::auto_array_ptr<float> carray( new float[2*rowSize]); 
@@ -314,7 +314,7 @@ void ColumnVectorData<complex<double> >::setDataLimits (complex<double>* limits)
         template <>
         void  
         ColumnVectorData<std::complex<double> >::doWrite
-                        (std::complex<double>* data, long row, long rowSize, long firstElem )
+                        (std::complex<double>* data, long row, long rowSize, long firstElem, std::complex<double>* nullValue )
         {
                 int status(0);
                 FITSUtil::auto_array_ptr<double> carray( new double[2*rowSize]); 

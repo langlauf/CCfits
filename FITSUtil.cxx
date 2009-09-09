@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -18,6 +18,7 @@
 #include "FITS.h"
 #include <algorithm>
 #include <cstring>
+#include <cctype>
 using std::string;
 
 
@@ -68,9 +69,8 @@ namespace CCfits {
 
   string lowerCase(const string& inputString)
   {
-        size_t n(inputString.length());
-        string outputString("");
-        outputString.resize(n, ' ');
+        const size_t n(inputString.length());
+        string outputString(n,' ');
         for (size_t l = 0 ; l < n; ++l)
         {
                  outputString[l] = tolower(inputString[l]);          
@@ -80,10 +80,8 @@ namespace CCfits {
 
   string upperCase(const string& inputString)
   {
-        size_t n(inputString.length());
-        string outputString("");
-
-        outputString.resize(n,' ');
+        const size_t n(inputString.length());
+        string outputString(n,' ');        
         for (size_t l = 0 ; l < n; ++l)
         {
                  outputString[l] = toupper(inputString[l]);          

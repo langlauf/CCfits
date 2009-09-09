@@ -1,3 +1,60 @@
+Changes for CCfits 2.2
+- Bug fix for reading and writing complex data types to a scalar column.
+Also modified cookbook's readTable function to test this.
+   ColumnData.cxx, .h  (09/09)
+   cookbook.cxx
+- Added public resetRead() function to Column. (09/09)
+   Column.h
+- Renamed the private FITS::extension() function to extensionMap().
+This is to prevent overload confusion with the public const extension()
+function.  This mix-up was causing users to have to explicitly declare
+const FITS pointers to make sure the public function was the one called.
+(08/09)
+   FITS.cxx, .h
+- Removed the storage of m_nullValue in ColumnData and
+ColumnVectorData classes.  ColumnVectorData's private doWrite function
+now receives nullValue as an argument rather than relying on the data
+member.  This fixes an obscure ColumnVectorData::writeData bug, where
+for valarrays of varying sizes being sent to fixed-width columns, 
+a default null value was being sent to cfitsio even when user did not
+request it.  
+   More importantly, the removal of m_nullValue allows the 
+Column::addNullValue to work when null value argument requires
+casting to match Column type.  Also added new function 
+Column::getNullValue.  (08/09)
+   Column.h
+   ColumnT.h
+   ColumnData.h
+   ColumnVectorData.cxx, .h
+- Added public get functions column() and numCols() to ExtHDU, which
+were previously only available in the Table subclass. (08/09)
+   ExtHDU.cxx, .h
+   Table.h
+- Added optional flag to the ExtHDU and Table Column get-by-name
+functions, which allows for a case-insensitive search.  This required
+renaming the protected column(string,Column*) function to setColumn.
+(08/09)
+   AsciiTable.cxx
+   BinTable.cxx
+   ExtHDU.cxx, .h
+   FITSUtil.cxx
+   Table.cxx, .h   
+- Converted all vector and valarray iterator syntax of form &v[v.size()]
+to either &v[0]+v.size() or v.end().  It was causing runtime exceptions
+on MS Visual C++ v9.0 when element bounds checking was enabled (the
+default). (08/09)
+   ColumnVectorData.cxx, .h
+   ExtHDUT.h
+   Image.h
+   PHDUT.h
+   PrimaryHDU.h
+   cookbook.cxx
+- Added pkg-config file for the stand-alone distribution.  This also
+required slight changes to configure.in and Makefile.am. (08/09)
+   CCfits.pc.in
+- Removed unused valarray "current" from ColumnVectorData::writeData
+  (03/09)
+  
 Changes for CCfits 2.1
 - Modified several FITS constructors and FITS::open function to allow
 handling of extended filename syntax. (09/08)

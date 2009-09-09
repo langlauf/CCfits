@@ -1,4 +1,4 @@
-// cookbook CCfits demonstration program, for release version 2.1 Nov 2008
+// cookbook CCfits demonstration program, for release version 2.2 Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -686,7 +686,7 @@ int copyHDU()
         for (long j = 0; j < ax2; j+=10)
         {
                 std::ostream_iterator<short> c(std::cout,"\t");
-                std::copy(&contents[j*ax1],&contents[(j+1)*ax1-1],c);
+                std::copy(&contents[0]+j*ax1,&contents[0]+(j+1)*ax1,c);
                 std::cout << '\n';       
         }
            
@@ -717,7 +717,10 @@ int copyHDU()
         table.column("dcomplex-roots").readArrays( cc, 1,3 );
         
         std::valarray < std::complex<float> > ff;
-        table.column("fcomplex-roots").read( ff, 4 );
+        table.column("fcomplex-roots").read( ff, 7 );
+        
+        std::vector<std::complex<float> > sf;
+        table.column("scalar-complex").read(sf, 10, 15);
         
         std::cout << pInfile->extension(hdus[0]) << std::endl;
         

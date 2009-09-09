@@ -1,6 +1,6 @@
 //   Read the documentation to learn more about C++ code generator
 //   versioning.
-//	This is version 2.1 release dated Nov 2008
+//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -239,7 +239,7 @@ namespace CCfits {
   parent()->currentExtensionName() = tname;       
   }
 
-  Column& ExtHDU::column (const String& colName) const
+  Column& ExtHDU::column (const String& colName, bool caseSensitive) const
   {
   // if not overridden, throw an exception.
   // there might be a similar default implementation for function
@@ -247,7 +247,7 @@ namespace CCfits {
   throw WrongExtensionType(name());
   }
 
-  void ExtHDU::column (const String& colname, Column* value)
+  void ExtHDU::setColumn (const String& colname, Column* value)
   {
   throw WrongExtensionType(name());
   }
@@ -313,6 +313,20 @@ namespace CCfits {
      throw WrongExtensionType("getRowsize can only be called for Table files");
 
      return 0;
+  }
+
+  int ExtHDU::numCols () const
+  {
+    // overridden in Table.
+    throw WrongExtensionType(name());
+
+    return 0;
+  }
+
+  const std::map<string, Column*>& ExtHDU::column () const
+  {
+    // overridden in Table.
+    throw WrongExtensionType(name());
   }
 
   // Additional Declarations
