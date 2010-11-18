@@ -1,6 +1,3 @@
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -24,7 +21,7 @@ using std::string;
 
 namespace CCfits {
   const unsigned long USBASE = 1 << 15;
-  const unsigned long ULBASE = 1 << 31;
+  const unsigned long ULBASE = (unsigned long)1 << 31;
 
   namespace FITSUtil {
   InvalidConversion::InvalidConversion (const string& diag, bool silent)

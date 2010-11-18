@@ -1,6 +1,3 @@
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -329,6 +326,12 @@ namespace CCfits {
     throw WrongExtensionType(name());
   }
 
+  bool ExtHDU::isCompressed() const
+  {
+     int status=0;
+     checkExtensionType();
+     return static_cast<bool>(fits_is_compressed_image(fitsPointer(), &status));
+  }
   // Additional Declarations
 
 } // namespace CCfits

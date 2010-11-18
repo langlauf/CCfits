@@ -1,6 +1,3 @@
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -117,10 +114,7 @@ namespace CCfits {
      else
      {
 
-        // create a primary header in the receiving structure. The user
-        // didn't specify a primary in the constructor call so wants a dummy
-        // primary with no data. If however the user is appending to an
-        // existing file we don't want to do anything to the existing primary.
+        // create a primary header in the receiving structure. 
         // PHDU has a private constructor and must be instantiated here only.
         // this ensures that every FITS object has exactly one PHDU.
         if (create() )
@@ -135,11 +129,13 @@ namespace CCfits {
         }
         else
         {
-           // The difference is that this doesn't write anything to the file,
-           // it just reads the primary header information.  If extended
-           // syntax was used though, this might not be initially positioned
-           // at the primary header (but it will be after the following call).
-           read();
+           // The create call above will have opened the file in rw mode.  
+           read(readDataFlag,primaryKeys);
+           readExtensions(readDataFlag);
+           // For backwards compatibility, reposition the current HDU to
+           // be the primary.  (In earlier versions, only the primary was
+           // ever read when opening a pre-existing file in Write mode.)
+           resetPosition();
         }
      }
      apBase.release();
@@ -396,8 +392,22 @@ namespace CCfits {
   {
     int status(0);
     ExtHDU& d = extension(doomed,version); // throws NoSuchHDU if it's not there.
+    const int removeIdx = d.index();
+    std::vector<ExtHDU*> trailingExts;
+    ExtMapConstIt itExtMap = m_FITSImpl->extension().begin();
+    ExtMapConstIt itExtMapEnd = m_FITSImpl->extension().end();
+    while (itExtMap != itExtMapEnd)
+    {
+       if (itExtMap->second->index() > removeIdx)
+          trailingExts.push_back(itExtMap->second);
+       ++itExtMap;
+    }
+
     if (fits_delete_hdu(fitsPointer(),0,&status)) throw FitsError(status);
     unmapExtension(d);
+    // Reindex the extensions that follow the deleted.
+    for (size_t i=0; i<trailingExts.size(); ++i)
+       trailingExts[i]->index(trailingExts[i]->index()-1);
   }
 
   int FITS::nextVersionNumber (const String& inputName) const
@@ -434,40 +444,9 @@ namespace CCfits {
     // exists in the file. The first clause copes with the results from the ctor that reads the 
     // entire file for HDUs, the second when adding a new HDU from a file which selected HDUs were
     // read on construction.
-    ExtMap& ext = m_FITSImpl->extension();        
-    ExtMap::size_type n = ext.count(hduName);
+    ExtHDU* requested = checkAlreadyRead(0, hduName, version);
 
-
-    if ( n > 0 )
-    {
-       std::pair<ExtMap::iterator,ExtMap::iterator> r 
-                               = m_FITSImpl->extension().equal_range(hduName);
-       ExtHDU* requested(0);
-       if (version == 1)
-       {
-          requested = (r.first)->second;
-       } 
-       else 
-       {
-          for (ExtMap::iterator i = r.first; i != r.second; ++i)
-          {
-              if ( i->second->version() == version )
-              {
-                 requested = i->second;
-                 break;
-              }       
-          }                      
-          if (!requested)
-          {
-             std::ostringstream msg;
-             msg  << hduName << " with version " << version;
-             throw NoSuchHDU(msg.str());
-          } 
-       }
-       requested->makeThisCurrent();
-       requested->readData(readDataFlag,keys);
-    }
-    else
+    if (!requested)
     {
        HDUCreator create(m_FITSImpl);
 
@@ -480,126 +459,91 @@ namespace CCfits {
        }
        catch ( ... )
        {
-          throw NoSuchHDU(hduName);
+          std::ostringstream msg;
+          msg << hduName << " with version " << version;
+          throw NoSuchHDU(msg.str());
        }
+    }
+    else
+    {
+       requested->makeThisCurrent();
+       requested->readData(readDataFlag,keys);
     }
   }
 
   void FITS::read (const std::vector<String> &hduNames, bool readDataFlag)
   {
-   int  nhdu=hduNames.size();
-   HDUCreator create(m_FITSImpl);
-
-   for (int i = 0; i < nhdu ; i++)
-   {
-        try
-        {
-                // getHdu can throw.
-                 // add a specified HDU in the file to the list of extensions.
-                addExtension(static_cast<ExtHDU*>(create.getHdu(hduNames[i], readDataFlag)));
-                create.reset();
-        }
-        catch ( NoSuchHDU )
-        {
-            // catch this one (likely, no such HDU present, but any reason why 
-            // reading a specific HDU in the list supplied ) and continue.
-                continue;       
-        }
-        catch ( ... )
-        {
-                throw;
-        }
+    const size_t nHdu = hduNames.size();
+    const std::vector<String> dummy;
+    for (size_t i=0; i<nHdu; ++i)
+    {
+       try
+       {
+          read(hduNames[i], readDataFlag, dummy, 1);
+       }
+       catch (NoSuchHDU&)
+       {
+          // If one Hdu is missing, keep trying the rest.
+          continue;
+       }
     }
-
   }
 
   void FITS::read (const std::vector<String> &hduNames, const std::vector<std::vector<String> > &keys, bool readDataFlag, const std::vector<int>& hduVersions)
   {
+    const size_t nHdu = hduNames.size();
+    const size_t nKeys = keys.size();
+    const size_t nVersions = hduVersions.size();
+    const std::vector<String> dummy;
 
-   int  nhdu=hduNames.size();
-
-   // a bit of duplication here, but I didn't want to slow down the less general case.
-   HDUCreator create(m_FITSImpl);
-
-   for (int i = 0; i < nhdu ; i++)
-   {
-        try
-        {
-                // getHdu can throw.
-                // add a specified HDU in the file to the list of extensions.
-                if ( hduVersions.size() != hduNames.size())
-                {
-
-
-                        addExtension(static_cast<ExtHDU*>
-                            (create.getHdu(hduNames[i], readDataFlag,keys[i],false)));
-                }
-                else
-                {
-                        addExtension(static_cast<ExtHDU*>
-                            (create.getHdu(hduNames[i], readDataFlag,keys[i],false,hduVersions[i])));
-
-                }
-
-                create.reset();
-        }
-        catch ( NoSuchHDU )
-        {
-            // catch this one (likely, no such HDU present, but any reason why 
-            // reading a specific HDU in the list supplied ) and continue.
-                // catch this one and continue.
-                continue;       
-        }
-        catch ( ... )
-        {
-                throw;       
-        }
+    for (size_t i=0; i<nHdu; ++i)
+    {
+       const std::vector<String>& hduKeys = (i < nKeys) ? keys[i] : dummy;
+       int version = (i < nVersions) ? hduVersions[i] : 1;
+       try
+       {
+          read(hduNames[i], readDataFlag, hduKeys, version);
+       }
+       catch (NoSuchHDU&)
+       {
+          continue;
+       }
     }
   }
 
   void FITS::read (int hduIndex, bool readDataFlag, const std::vector<String> &keys)
   {
-         HDUCreator create(m_FITSImpl);
+    if (hduIndex == 0)
+    {
+       std::cerr << "Primary header is always read, doesn't need to be requested."
+          << std::endl;
+       return;
+    }
 
-        try
-        {
-                int status = 0;
-                int totalHDUs = 1;
-                if (fits_get_num_hdus(m_FITSImpl->fptr(),&totalHDUs,&status) != 0) 
-                        throw FitsError(status);
-                else
-                {
-                        if (hduIndex < 0 || hduIndex > totalHDUs) 
-                        {
-#ifdef SSTREAM_DEFECT
-			        std::ostrstream diags;
-#else
-                                std::ostringstream diags;
-#endif
-                                diags << "Invalid HDU number " << hduIndex <<
-                                  " requested from FITS file " << m_FITSImpl->name();
-                                throw NoSuchHDU(diags.str());
-                        }
-                        if (hduIndex == 0) 
-                        {
-                                std::cerr << 
-                                   "Primary header is always read, doesn't need to be requested" << endl;   
-                                return;
-                        }
-                }   
-                addExtension(static_cast<ExtHDU*>(create.getHdu(hduIndex, readDataFlag, keys)));
-        }
-        catch ( ... )
-        {
-                // catch this one and rethrow.
-#ifdef SSTREAM_DEFECT
-	        std::ostrstream msg;
-#else
-                std::ostringstream msg;
-#endif
-                msg << "Error: Could not read extension: " << hduIndex;
-                throw NoSuchHDU(msg.str());
-        }
+    ExtHDU* requested = checkAlreadyRead(hduIndex);
+
+    if (!requested)
+    {
+       HDUCreator create(m_FITSImpl);
+
+       try
+       {
+          ExtHDU* newHDU = static_cast<ExtHDU*>(create.getHdu(hduIndex,readDataFlag,keys));
+          // add a specified HDU in the file to the list of extensions.
+          addExtension(newHDU);
+       }
+       catch ( ... )
+       {
+          std::ostringstream msg;
+          msg << "Error: Could not read extension: " << hduIndex;
+          throw NoSuchHDU(msg.str());
+       }
+    }
+    else
+    {
+       requested->makeThisCurrent();
+       requested->readData(readDataFlag,keys);
+    }
   }
 
   void FITS::read (const std::vector<String>& searchKeys, const std::vector<String> &searchValues, bool readDataFlag, const std::vector<String>& hduKeys, int version)
@@ -1426,8 +1370,22 @@ namespace CCfits {
   {
     int status(0);
     ExtHDU& d = extension(doomed); // throws NoSuchHDU if it's not there.
+    const int removeIdx = d.index();
+    std::vector<ExtHDU*> trailingExts;
+    ExtMapConstIt itExtMap = m_FITSImpl->extension().begin();
+    ExtMapConstIt itExtMapEnd = m_FITSImpl->extension().end();
+    while (itExtMap != itExtMapEnd)
+    {
+       if (itExtMap->second->index() > removeIdx)
+          trailingExts.push_back(itExtMap->second);
+       ++itExtMap;
+    }
+
     if (fits_delete_hdu(fitsPointer(),0,&status)) throw FitsError(status);
     unmapExtension(d);
+    // Reindex the extensions that follow the deleted.
+    for (size_t i=0; i<trailingExts.size(); ++i)
+       trailingExts[i]->index(trailingExts[i]->index()-1);
   }
 
   void FITS::setCompressionType (int compType)
@@ -1499,6 +1457,50 @@ namespace CCfits {
         throw FitsError(status);
      }
      return noiseBits;
+  }
+
+  ExtHDU* FITS::checkAlreadyRead(const int hduIdx, const String& hduName,
+                        const int version) const throw()
+  {
+     // See header for description.
+     ExtHDU* found=0;
+     const ExtMap& extMap = m_FITSImpl->extension();
+     if (hduIdx)
+     {
+        ExtMapConstIt itMap = extMap.begin();
+        const ExtMapConstIt itMapEnd = extMap.end();
+        while (!found && itMap != itMapEnd)
+        {
+           if (itMap->second->index() == hduIdx)
+              found = itMap->second;
+           ++itMap;
+        }
+     }
+     else
+     {
+        const std::pair<ExtMapConstIt,ExtMapConstIt> rangePair = 
+                        extMap.equal_range(hduName);
+        // Note itRange is not a reference but a copy.  We may want
+        // to keep rangePair.first for later use.
+        ExtMapConstIt itRange = rangePair.first;
+        const ExtMapConstIt& itRangeEnd = rangePair.second;
+        while (!found && itRange != itRangeEnd)
+        {
+           if (itRange->second->version() == version)
+              found = itRange->second;
+           ++itRange;
+        }
+        // This really shouldn't be needed in a well-structured FITS file, but
+        // IF extension w/hduName exists, caller is requesting version 1, yet
+        // no version 1 is found, THEN treat it as "return first found extension 
+        // w/name".  This is mostly for backwards compatibility since I noticed 
+        // earlier read(hduName) function code was doing this.
+        if (!found && version == 1 && rangePair.first != itRangeEnd)
+        {
+           found = rangePair.first->second;
+        }
+     }
+     return found;
   }
 
   // Additional Declarations

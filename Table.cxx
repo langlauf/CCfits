@@ -1,6 +1,3 @@
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//	This is version 2.2 release dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -255,7 +252,10 @@ namespace CCfits {
         for (std::map<String,Column*>::const_iterator col = right.m_column.begin(); 
                 col != right.m_column.end(); col++)
         {
-                newColumnContainer[(*col).first] = (*col).second->clone();
+           Column* colCopy = (*col).second->clone();
+           // This function must be a friend of Column in order to do this...
+           colCopy->m_parent = this;
+           newColumnContainer[(*col).first] = colCopy;
         }
         m_column = newColumnContainer;
   }

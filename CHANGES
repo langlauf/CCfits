@@ -1,3 +1,53 @@
+Changes for CCfits 2.3
+- Bug fix for the setting of the column's lower data limit for the
+specific case of unsigned longs.  It had been leaving this unitialized.
+(11/10)
+   Column.cxx
+- When images are read from disk via CFITSIO, now copying directly to
+m_image valarray rather than a temporary C-style array.  This cuts the
+required memory usage in half for this operation, important for very
+large images.  (11/10)
+   Image.h
+- New function: ExtHDU::isCompressed(), returns true if image is stored
+with compression.  (11/10)
+   ExtHDU.cxx, .h
+- For the basic version of the FITS constructor, when called in Write
+mode on a pre-existing file, it now automatically reads all of the
+headers rather than just the primary.  It also now passes along the
+user's readDataFlag and optional primary keys settings.  (11/10)
+   FITS.cxx
+- In all FITS::read functions, now performs check to prevent multiple 
+entries of the same HDU in the extensions multimap.  (11/10)
+   FITS.cxx, .h
+   FITSBase.h
+- In the 2 deleteExtension functions, all extensions following the
+deleted one are now appropriately reindexed.  (11/10)
+   FITS.cxx
+- Fix to the PHDU::write functions which take a nullValue argument.
+Neither could be instantiated due to an invalid static_cast of pointers.
+(11/10)
+   PHDUT.h
+- Changed Keyword's keytype() get function from protected to public.
+Did same for PHDU's simple() and extend() functions.  (11/10)
+   Keyword.h
+   PHDU.h
+- Bug fix in Image<T>'s assignment operator.  It was trying to swap
+with a const object.  Since this isn't instantiated anywhere, compilers
+were letting it go. (11/10)
+   Image.h
+- Bug fix in Table::copyData.  New Columns' parent pointers must
+be reset to the new Table.  Otherwise Columns created through the
+FITS::copy public function will not be modifiable. (02/10)
+   Table.cxx
+   Column.h
+- Bug fix for definition of ULBASE in FITSUtil.  In the operation
+1 << 31, the "1" must be explicitly cast to an unsigned long.  Otherwise
+the compiler may treat it as a signed int, for which a left-shift of 31
+bits is undefined.  This was found to cause problems when reading images
+of type signed or unsigned long AND the receiving valarray type required
+casting, AND the platform was 64-bit Linux. (10/09)
+   FITSUtil.cxx
+   
 Changes for CCfits 2.2
 - Bug fix for reading and writing complex data types to a scalar column.
 Also modified cookbook's readTable function to test this.

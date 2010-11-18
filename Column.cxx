@@ -1,6 +1,3 @@
-//   Read the documentation to learn more about C++ code generator
-//   versioning.
-//	This is version 2.2 dated Sep 2009
 //	Astrophysics Science Division,
 //	NASA/ Goddard Space Flight Center
 //	HEASARC
@@ -558,7 +555,7 @@ namespace CCfits {
                 if (status != 0) pul[1] = ULIMITULONG;
                 else pul[1] = pl[1];
                 fits_read_key_lng(fitsPointer(),dmin,pl+2,0,&status);
-                if (status != 0) pl[2] = LLIMITULONG;
+                if (status != 0) pul[2] = LLIMITULONG;
                 else pul[2] = pl[2];
                 fits_read_key_lng(fitsPointer(),dmax,pl+3,0,&status);
                 if (status != 0) pul[3] = ULIMITULONG;
