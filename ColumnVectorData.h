@@ -845,36 +845,36 @@ namespace CCfits {
     // the following is an ugly workaround for a bug in g++ v3.0 that
     // does not erase vector elements cleanly in this case.
 
-    size_t N(m_data.size());
-    int newSize(N - number);      
+    long N = static_cast<long>(m_data.size());
+    size_t newSize = static_cast<size_t>(N - number);      
     std::vector<std::valarray<T> > __tmp(newSize);
 
-    int lastDeleted( number + first - 1 );
-    int firstDeleted(first);
-    int count(0);
-	{
-		for ( size_t j = 1; j <= N; ++j)
-		{
-			if (  (j - firstDeleted)*(lastDeleted - j) >= 0 )	
-			{                ++count; 
-			} 
-			else
-			{
-                                __tmp[j - 1 - count].resize(m_data[j - 1].size());
-                                __tmp[j - 1 - count] = m_data[j - 1];
-			}
-		}                           
+    long lastDeleted( number + first - 1 );
+    long firstDeleted(first);
+    long count(0);
+    {
+       for (long j = 1; j <= N; ++j)
+       {
+	  if (  (j - firstDeleted)*(lastDeleted - j) >= 0 )	
+	  {                ++count; 
+	  } 
+	  else
+	  {
+             __tmp[j - 1 - count].resize(m_data[j - 1].size());
+             __tmp[j - 1 - count] = m_data[j - 1];
+	  }
+       }                           
     }
 
     m_data.clear();
     m_data.resize(newSize);
-	{
-		for (int j = 0; j < newSize; ++j)
-		{
-			m_data[j].resize(__tmp[j].size());
-    		        m_data[j] = __tmp[j];
-		}
-	}
+    {
+       for (size_t j = 0; j < newSize; ++j)
+       {
+	  m_data[j].resize(__tmp[j].size());
+    	  m_data[j] = __tmp[j];
+       }
+    }
   }
 
   template <typename T>

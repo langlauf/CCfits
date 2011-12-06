@@ -391,6 +391,8 @@ namespace CCfits {
         tformStr << std::ends;
 #endif
 
+        makeThisCurrent(); 
+          
         int status(0);
         int colNum(0);
         if ( columnNumber == 0)

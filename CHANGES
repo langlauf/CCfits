@@ -1,3 +1,35 @@
+Changes for CCfits 2.4
+- Fix to allow writing to compressed images of BITPIX=32 on 64-bit 
+Linux platforms.  This is done by storing the internal image array as
+type int rather than type long.  Compatibility issue: this changes the
+return type of the ImageExt<T>::image() function.  (12/11)
+   HDUCreator.cxx
+   PHDUT.h
+   ExtHDUT.h
+- Fixes made to the null-value versions of the write functions for
+primary and extension images.  (12/11)
+   PHDUT.h
+   ExtHDUT.h
+- Added the ability of variable-width columns to perform the usual
+numerical data type casting when the write function input arrays do not
+contain exactly the same type of values as the Column object.  This
+change also includes much internal code refactoring among the various
+vector column write functions.  (11/11)
+   ColumnT.h
+- To remove Intel compiler warnings, replaced switch/case with
+specialized templates in FitsNullValue functor.  Also cleaned up integer
+type casting in deleteRows function, which fixes a bug in the Column
+object's internal storage of data.  (11/11)
+   FITSUtil.h
+   ColumnVectorData.h
+- Fix for case of using basic FITS constructor on files containing
+multiple extensions with the same name AND version number.  (11/11)
+   ExtHDU.cxx
+   HDUCreator.cxx, .h
+- BinTable's addColumn should call makeThisCurrent().  Otherwise user
+has to do it.  (11/11)
+   BinTable.cxx
+   
 Changes for CCfits 2.3
 - Bug fix for the setting of the column's lower data limit for the
 specific case of unsigned longs.  It had been leaving this unitialized.

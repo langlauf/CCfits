@@ -68,6 +68,9 @@ namespace CCfits {
         ExtHDU * MakeImage (const String &name, int bpix, long naxis, const std::vector<long>& naxes, int version);
         void getScaling (long& type, double& zero, double& scale) const;
         void parent (FITSBase* value);
+        
+        // Utility function to implement both of the Make() function interfaces.
+        HDU* commonMake(const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version);
 
       // Data Members for Class Attributes
         HDU *m_hdu;

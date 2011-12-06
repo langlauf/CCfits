@@ -82,7 +82,7 @@ namespace CCfits {
               m_hdu = new PrimaryHDU<short>(m_parent,bpix,naxis,naxes);
               break; 
          case LONG_IMG:
-              m_hdu = new PrimaryHDU<long>(m_parent,bpix,naxis,naxes);
+              m_hdu = new PrimaryHDU<INT32BIT>(m_parent,bpix,naxis,naxes);
               break; 
          case FLOAT_IMG:
               m_hdu = new PrimaryHDU<float>(m_parent,bpix,naxis,naxes);
@@ -96,7 +96,7 @@ namespace CCfits {
               m_hdu->zeroInit(USBASE);
               break; 
          case ULONG_IMG:
-              m_hdu =  new PrimaryHDU<unsigned long>(m_parent,bpix,naxis,naxes);
+              m_hdu =  new PrimaryHDU<unsigned INT32BIT>(m_parent,bpix,naxis,naxes);
               m_hdu->bitpix(LONG_IMG);
               m_hdu->zeroInit(ULBASE);
               break; 
@@ -109,7 +109,6 @@ namespace CCfits {
 
   HDU * HDUCreator::Make (const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version)
   {
-    long imgType = 0;
     int status = 0;
     bool isExtFound = true;
     int extNum = -1;
@@ -158,6 +157,14 @@ namespace CCfits {
 #endif
 	throw FITS::NoSuchHDU(msg.str());
     }
+    return commonMake(hduName, readDataFlag, keys, primary, version);
+  } // end Make
+  
+  
+  HDU* HDUCreator::commonMake(const String& hduName, bool readDataFlag, const std::vector<String> &keys, bool primary, int version)
+  {
+    int status = 0;
+    long imgType = 0;
     int htype = -1;
     if ( fits_get_hdu_type(m_parent->fptr(),&htype,&status) )
 							throw FitsError(status);
@@ -232,13 +239,13 @@ namespace CCfits {
                   {
                      if (!m_hdu) 
                      {           
-                        m_hdu =  new PrimaryHDU<long>
+                        m_hdu =  new PrimaryHDU<INT32BIT>
                                         (m_parent,readDataFlag,keys);     
                      }
                   }
                   else
                   {
-                     m_hdu =  new ImageExt<long>
+                     m_hdu =  new ImageExt<INT32BIT>
                                     (m_parent,hduName,readDataFlag,keys,version);     
                   }
                   break;
@@ -247,13 +254,13 @@ namespace CCfits {
                   {
                      if (!m_hdu)
                      {
-                        m_hdu = new PrimaryHDU<unsigned long>
+                        m_hdu = new PrimaryHDU<unsigned INT32BIT>
                                      (m_parent,readDataFlag,keys);
                      }
                   }
                   else
                   {
-                     m_hdu =  new ImageExt<unsigned long>
+                     m_hdu =  new ImageExt<unsigned INT32BIT>
                                     (m_parent,hduName,readDataFlag,keys,version);
                   }
                   imgType = Ilong;
@@ -343,8 +350,9 @@ namespace CCfits {
     default:
         throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
     }
-    return m_hdu;
-  }
+     return m_hdu;
+  } // end commonMake
+  
 
   HDU* HDUCreator::MakeTable (const String &name, HduType xtype, int rows, const std::vector<String>& colName, const std::vector<String>& colFmt, const std::vector<String>& colUnit, int version)
   {
@@ -364,11 +372,12 @@ namespace CCfits {
 
   HDU * HDUCreator::Make (int index, bool readDataFlag, const std::vector<String> &keys)
   {
-  bool primary = (index == 0);
-  String hduName("");
-  int version = 0;
-  if (!primary) ExtHDU::readHduName(m_parent->fptr(),index,hduName,version );
-  return Make(hduName,readDataFlag,keys,primary,version);
+    bool primary = (index == 0);
+    String hduName;
+    int version = 0;
+    if (!primary) 
+       ExtHDU::readHduName(m_parent->fptr(),index,hduName,version );
+    return commonMake(hduName,readDataFlag,keys,primary,version);
   }
 
   ExtHDU * HDUCreator::createImage (const String &name, int bitpix, long naxis, const std::vector<long>& naxes, int version)
@@ -388,7 +397,7 @@ namespace CCfits {
           newImage =  new ImageExt<short>(m_parent,name,bpix,naxis,naxes,version);   
           break; 
      case LONG_IMG:
-          newImage =  new ImageExt<long>(m_parent,name,bpix,naxis,naxes,version);   
+          newImage =  new ImageExt<INT32BIT>(m_parent,name,bpix,naxis,naxes,version);   
           break; 
      case FLOAT_IMG:
           newImage =  new ImageExt<float>(m_parent,name,bpix,naxis,naxes,version);   
@@ -404,7 +413,7 @@ namespace CCfits {
           break; 
      case ULONG_IMG:
           newImage =  
-                  new ImageExt<unsigned long>(m_parent,name,bpix,naxis,naxes,version);  
+                  new ImageExt<unsigned INT32BIT>(m_parent,name,bpix,naxis,naxes,version);  
           newImage->bitpix(LONG_IMG);
           newImage->zeroInit(ULBASE); 
           break; 

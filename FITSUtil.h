@@ -688,19 +688,9 @@ object.
     template <typename T>
     inline T FitsNullValue<T>::operator () ()
     {
-           FITSUtil::MatchType<T> null;  
-           switch ( null() )
-           {
-                // the casts have no function apart from removing compiler warnings.
-                case Tfloat:
-                case Tcomplex:
-                        return static_cast<T>(FLOATNULLVALUE);
-                case Tdouble:
-                case Tdblcomplex:
-                        return static_cast<T>(DOUBLENULLVALUE);
-                default:
-                        return 0;
-            }
+       // This works for int types.  Float, complex, and string types 
+       //   are handled below with specialized templates.
+       return 0;
     }
 
     // Parameterized Class CCfits::FITSUtil::MatchImageType 
@@ -912,32 +902,55 @@ object.
 namespace CCfits
 {
 
+   namespace FITSUtil
+   {                
 
-        namespace FITSUtil
-        {                
+      template <typename T>
+      void swap(T& left, T& right)
+      {
+              T temp(left);
+              left = right;
+              right = temp;                
+      }
 
-                template <typename T>
-                void swap(T& left, T& right)
-                {
-                        T temp(left);
-                        left = right;
-                        right = temp;                
-                }
+      template <typename T>
+      void swap(std::vector<T>& left, std::vector<T>& right)
+      {
+              left.swap(right);        
+      }
 
-                template <typename T>
-                void swap(std::vector<T>& left, std::vector<T>& right)
-                {
-                        left.swap(right);        
-                }
+      template <>
+      inline string FitsNullValue<string>::operator () ()
+      {
+	 return string("");
+      }
+      
+      template <>
+      inline float FitsNullValue<float>::operator () ()
+      {
+         return FLOATNULLVALUE;
+      }
 
-                template <>
-                inline string FitsNullValue<string>::operator () ()
-                {
-	                return string("");
-                }
+      template <>
+      inline double FitsNullValue<double>::operator () ()
+      {
+         return DOUBLENULLVALUE;
+      }
+      
+      template <>
+      inline std::complex<float> FitsNullValue<std::complex<float> >::operator () ()
+      {
+         return std::complex<float>(FLOATNULLVALUE);
+      }
 
-        }
-}
+      template <>
+      inline std::complex<double> FitsNullValue<std::complex<double> >::operator () ()
+      {
+         return std::complex<double>(DOUBLENULLVALUE);
+      }
+      
+   } // end namespace FITSUtil
+} // end namespace CCfits
 
 
 

@@ -83,27 +83,9 @@ namespace CCfits {
         std::istringstream fakeName(hduName.substr(5));
 #endif
         fakeName  >> number;   
-        if (fits_movabs_hdu(fitsPointer(),number+1,&htype,&status) != 0) throw FitsError(status);
   }
   else
   {
-        // move to the appropriate HDU and throw if it doesn't exist.
-        if (fits_movnam_hdu(fitsPointer(),htype,const_cast<char*>(hduName.c_str()),
-                        version,&status)) 
-        {
-#ifdef SSTREAM_DEFECT
-	        ostrstream msg;
-#else
-		std::ostringstream msg;
-#endif
-		msg << "Can't access  HDU named " << hduName << " in file " 
-                          << fitsPointer()->Fptr->filename << '\n';
-#ifdef SSTREAM_DEFECT
-	        msg << std::ends;
-#endif
-
-		throw FITS::NoSuchHDU(msg.str());
-	}
         fits_get_hdu_num(fitsPointer(),&number);
         // Retrieve the HDU number. checkXtension tests against this.
         index(number-1);
