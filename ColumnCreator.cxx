@@ -62,6 +62,17 @@ namespace CCfits {
    switch(type)
    {
       case Tstring:
+                if (repeat/width > 1)
+                {
+                   // A vector column of strings.  Not currently supported in CCfits,
+                   //  but for backward compatibility do not throw -- user may be
+                   //  loading a table with no intention of reading or writing to the
+                   //  vector string column.
+                   std::cerr << "\n***CCfits Warning: Column " << number << " is detected to be a vector column of strings.\n"
+                     <<"      CCfits does not currently support reading and writing to vector string columns.\n"<<std::endl;
+                   
+                }
+      case VTstring:
 	        m_column = new ColumnData<String>(number, name, type, format, unit, 
                                                                              m_parent, 1, width);
 	        break;
@@ -323,7 +334,7 @@ namespace CCfits {
       sprintf(keyname, "%s%d", Column::TZERO().c_str(),index);
       fits_read_key(m_parent->fitsPointer(),Tdouble,keyname,&tzero,0,&status);
       // if there is no BSCALE key present or BSCALE == 1 ... 
-      if (!scalePresent || scalePresent &&  tscale == 1)
+      if (!scalePresent || (scalePresent &&  tscale == 1))
       {
            if ( !status )
            {

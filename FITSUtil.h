@@ -758,6 +758,7 @@ object.
     if ( typeid(T) == typeid(d1) ) return Idouble;
     if ( typeid(T) == typeid(us1) ) return Iushort;
     if ( typeid(T) == typeid(ul1) ) return Iulong;
+    if ( typeid(T) == typeid(ll1) ) return Ilonglong;
     MatchType<T> errType;
     string diag ("Image: ");
     diag += FITSType2String(errType());

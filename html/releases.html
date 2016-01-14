@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -51,14 +51,74 @@
 <div class="title">Previous Release Notes </div>  </div>
 </div>
 <div class="contents">
-<div class="textblock"><p>Changes for <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> 2.1 release Nov 2008</p>
+<div class="textblock"><p>Release Notes for Version 2.4 Dec 2011</p>
+<p>Fixes:</p>
+<ul>
+<li>Compressed images may now be written with BITPIX=32. This fix was made by internally storing the image array as int types rather than longs (see backwards compatibility issues).</li>
+<li>For variable-width columns, the write functions now allow all of the same type conversions as had been working with fixed-width columns.</li>
+<li>The null-value versions of the primary and extension image write functions are now working.</li>
+<li>The basic FITS constructor can now handle files containing multiple extensions which have the same name AND version number. (Note that this is still not a recommended file structure.)</li>
+<li>BinTable's addColumn function now automatically first makes itself the current extension so that the user doesn't have to call ExtHDU::makeThisCurrent().</li>
+<li>Bug fix to Table's deleteRows function. This error had been preventing the output stream operator from working on vector columns after rows had been deleted.</li>
+</ul>
+<p>Backwards Compatibility Issue:</p>
+<ul>
+<li>For images of BITPIX=32, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> now stores the values in a valarray of ints rather than longs. This affects the public interface in one place: the return type of the ImageExt&lt;T&gt;::image() function.</li>
+</ul>
+<p>Release Notes For Version 2.3 Nov 2010</p>
+<p>Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
+<ul>
+<li>3 previously protected functions are now made public: Keyword::keytype(), PHDU::simple(), and PHDU::extend().</li>
+<li>New function: ExtHDU::isCompressed().</li>
+<li>Uses less memory during the image loading operations for primary and extension HDUs.</li>
+<li>When the basic version of the FITS constructor is called in Write mode on a pre-existing file, it will now automatically read ALL of the headers rather than just the primary. This makes it conform more closely to the Read mode behavior, and it makes things easier when trying to append new HDUs to files containing an unknown number of existing HDUs. (See Backwards Compatibility)</li>
+</ul>
+<p>Bug Fixes:</p>
+<ul>
+<li>In the 2 FITS class deleteExtension functions, the index numbers of all HDU objects which follow the deleted are now decremented by one. (See Backwards Compatibility)</li>
+<li>Fix to the PHDU write functions which take a nullValue argument. Neither could be instantiated due to an invalid static_cast of pointers.</li>
+<li>Fix needed for the FITS::copy function to allow the Columns in the newly created HDU to be modifiable.</li>
+<li>The basic version of the FITS constructor, when in Write mode, was ignoring the user's readDataFlag and optional primary keys input.</li>
+<li>An error in the (seldom instantiated) Image class assignment operator was preventing compilation with the nvcc compiler.</li>
+<li>On 64-bit Linux only, a bad cast error is triggered when trying to read an image of type signed or unsigned long, into a valarray with the opposite signed/unsigned qualifier.</li>
+<li>All of the FITS::read functions now perform a check to prevent multiple entries of the same HDU from appearing in the FITS::extension() multimap.</li>
+<li>For case of Columns of type unsigned longs, the object's lower data limit value was left unitialized.</li>
+</ul>
+<p>Backwards Compatibility Issues:</p>
+<ul>
+<li>If you're calling either FITS::deleteExtension function AND you have saved references to any of the ExtHDU objects which follow the deleted object, note that those ExtHDUs will now have an index number 1 less than before. Their indices will now correctly match what's actually in the FITS file.</li>
+<li>When using the basic version of the FITS constructor in Write mode on a pre-existing file, you no longer need to first call FITS::read to access any of the ExtHDUs. These are now read automatically, same as when this constructor is called in Read mode. However this change shouldn't require the removal of the FITS::read calls from your code. They will merely be redundant if left in.</li>
+</ul>
+<p>Release Notes For Version 2.2 Sep 2009</p>
+<p>Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
+<ul>
+<li>Added an auto-generated pkg-config file to the stand-alone distribution.</li>
+<li>Added an option for case-insensitive searching in the ExtHDU and Table Column get-by-name functions.</li>
+<li>The public functions column() and numCols() have been added to the ExtHDU interface. They were previously available only in the derived Table class.</li>
+<li>New resetRead and getNullValue functions for Column class.</li>
+<li>Improved the documentation for the nullValue versions of the Column read/write member functions.</li>
+</ul>
+<p>Bug Fixes:</p>
+<ul>
+<li>Converted non-standard calls to vector and valarray end iterators. These were causing runtime exceptions when built with Microsoft Visual C++ v9.0.</li>
+<li>The Column addNullValue function now works for cases where the null value argument is of a type that requires casting to match the type of data stored in the Column.</li>
+<li>Fix to the Column writeArrays function for the case where valarrays of varying length were sent to fixed-width columns. It was previously sending along a default null value even when the user did not request one.</li>
+<li>Fix for reading and writing complex data types to scalar columns. The first "firstRow" complex values were not being written or read.</li>
+<li>Renamed private FITS::extension() function to extensionMap(). This is to prevent user from having to explicitly declare a const FITS pointer in order to use the public const FITS::extension*() function.</li>
+</ul>
+<p>Backwards Compatibility Issue:</p>
+<ul>
+<li>To prevent overloading ambiguity resulting from the new flag added to ExtHDU/Table get-by-name Column functions for case-insensitive searches, the protected column(string,Column*) function has been renamed to setColumn. As this is a protected function, the change should not affect standard usage of <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>.</li>
+</ul>
+<p>Changes for <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> 2.1 release Nov 2008</p>
 <ul>
 <li>Modified several FITS constructors and FITS::open function to allow proper handling of CFITSIO <b>extended filename syntax</b>.</li>
 <li>Extended filename syntax example added to cookbook.</li>
 <li>Fix made to FITS::read function for case of missing EXTVER keyword when searching for HDU with extver &gt; 1.</li>
 <li>Removed inclusion of the internal-only CFITSIO fitsio2.h file from Column.cxx. LONGLONG limits definitions are now found in fitsio.h.</li>
 </ul>
-<p>Changes for <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> 2.0 release Feb 2008 Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
+<p>Changes for <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> 2.0 release Feb 2008</p>
+<p>Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
 <ul>
 <li><b>Checksum Capability:</b> 4 checksum related functions have been added to the HDU class, which now allows users to set and verify checksums directly from inside <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>.</li>
 <li><b>Capturing Error Messages:</b> The FitsException base class now stores its output error message, and it can be retrieved from any of the exception subclass objects with a call to the new FitsException::message() function.</li>
@@ -102,7 +162,7 @@
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:52 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:19 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

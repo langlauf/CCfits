@@ -159,9 +159,11 @@ namespace CCfits {
           if (extSyntHdu && 
                 currentExtension().index() != extSyntHdu)
           {
-             string msg("Hdu requested with extended syntax ");
-             msg += "differs from that requested by name argument.";
-             throw OperationNotSupported(msg);
+	    std::ostringstream msg;
+	    msg << "Hdu (" << hduName << ") requested with extended syntax ("
+		<< extSyntHdu << ") differs from that requested by name argument ("
+		<< currentExtension().index() << ").";
+	    throw OperationNotSupported(msg.str());
           }
 
           apBase.release();
@@ -331,7 +333,7 @@ namespace CCfits {
      std::auto_ptr<FITSBase> apBase(new FITSBase(name,mode));
      m_FITSImpl = apBase.get();
 
-     int extSyntHdu = open(mode);
+     open(mode);
 
      // read the primary header and read the data if readDataFlag is set.
      // create returns a PHDU if the index is 0.
@@ -919,27 +921,25 @@ namespace CCfits {
    std::pair<ExtMapIt,ExtMapIt> matches(extensionMap().equal_range(hduName));
    if ( N > 0 )
    {
-        ExtMapIt s(matches.first);
-        while  ( s != matches.second )
-        {
-                current = s->second;
-                if ( current->version() == version && dynamic_cast<Table*>(current) )
-                {
-                        std::cerr << " Table Extension " << hduName << " with version " 
-                                << version << " already exists "
-                                << " returning token for existing version \n";
-
-
-                }
-                ++s;       
-        } 
+      ExtMapIt s(matches.first);
+      while  ( s != matches.second )
+      {
+         if (s->second->version() == version && dynamic_cast<Table*>(s->second) )
+         {
+            current = s->second;
+            std::cerr << " Table Extension " << hduName << " with version " 
+                    << version << " already exists "
+                    << " returning token for existing version \n";
+         }
+         ++s;       
+      } 
    }      
    if ( !current )
    {
-           HDUCreator newTable(m_FITSImpl);
-           Table* newHDU = static_cast<Table*>(newTable.createTable(hduName, type, rows,
-                                                    columnName, columnFmt,  columnUnit, version));   
-           current = addExtension(newHDU);
+      HDUCreator newTable(m_FITSImpl);
+      Table* newHDU = static_cast<Table*>(newTable.createTable(hduName, type, rows,
+                                               columnName, columnFmt,  columnUnit, version));   
+      current = addExtension(newHDU);
    }
    return static_cast<Table*>(current);
   }
@@ -972,7 +972,7 @@ namespace CCfits {
         current =  addExtension(newHDU);
         if (getCompressionType())
         {
-           if (naxes.size() > m_FITSImpl->currentCompressionTileDim())
+           if (static_cast<long>(naxes.size()) > m_FITSImpl->currentCompressionTileDim())
            {
               m_FITSImpl->currentCompressionTileDim(naxes.size());
            }
@@ -1158,9 +1158,9 @@ namespace CCfits {
                     keyStore(table.keyWord().size() + table.column().size());
 
                std::map<String,Keyword*>::const_iterator keyIt(table.keyWord().begin());
-               std::map<String,Keyword*>::const_iterator keyItEnd(table.keyWord().end());
-               std::map<String,Column*>::const_iterator colIt(table.column().begin());
-               std::map<String,Column*>::const_iterator colItEnd(table.column().end());
+               std::map<String,Keyword*>::const_iterator keyItEnd(table.keyWord().end());               
+               ColMap::const_iterator colIt(table.column().begin());
+               ColMap::const_iterator colItEnd(table.column().end());
 
                size_t count(0);
                if (!table.keyWord().empty())

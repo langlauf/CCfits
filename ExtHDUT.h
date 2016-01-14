@@ -42,9 +42,9 @@ namespace CCfits
                 makeThisCurrent();                
                 if ( ImageExt<S>* extimage = dynamic_cast<ImageExt<S>*>(this))
                 {
-                        // proceed if cast is successful.                  
-                        const std::valarray<S>& __tmp 
-                                        = extimage->readImage(first,nElements,nulValue);
+                        // proceed if cast is successful.  
+                        const std::valarray<S>& __tmp =                 
+                           extimage->readImage(first,nElements,nulValue);
                         image.resize(__tmp.size());
                         image = __tmp;
                 }
@@ -56,8 +56,7 @@ namespace CCfits
                                                 = dynamic_cast<ImageExt<float>&>(*this);
                                 float nulVal(0);
                                 if (nulValue) nulVal = static_cast<float>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
                         }
                         else if (bitpix() == Idouble)
                         {
@@ -65,8 +64,7 @@ namespace CCfits
                                                 = dynamic_cast<ImageExt<double>&>(*this);
                                 double nulVal(0);
                                 if (nulValue) nulVal = static_cast<double>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
                         }
                         else if (bitpix() == Ibyte)
                         {
@@ -74,8 +72,7 @@ namespace CCfits
                                                 = dynamic_cast<ImageExt<unsigned char>&>(*this);
                                 unsigned char nulVal(0);
                                 if (nulValue) nulVal = static_cast<unsigned char>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
                         } 
                         else if (bitpix() == Ilong)
                         {
@@ -86,8 +83,7 @@ namespace CCfits
                                         unsigned INT32BIT nulVal(0);
                                         if (nulValue) nulVal 
                                                 = static_cast<unsigned INT32BIT>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
                                 }
                                 else
                                 {
@@ -95,10 +91,17 @@ namespace CCfits
                                                         = dynamic_cast<ImageExt<INT32BIT>&>(*this);
                                         INT32BIT nulVal(0);
                                         if (nulValue) nulVal = static_cast<INT32BIT>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
-                                }
+                                        FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
+                               }
                         }    
+                        else if (bitpix() == Ilonglong)
+                        {
+                                ImageExt<LONGLONG>& extimage 
+                                                = dynamic_cast<ImageExt<LONGLONG>&>(*this);
+                                LONGLONG nulVal(0);
+                                if (nulValue) nulVal = static_cast<LONGLONG>(*nulValue);                                 
+                                FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
+                        } 
                         else if (bitpix() == Ishort)
                         {
                                 if ( zero() == USBASE && scale() == 1)
@@ -108,8 +111,7 @@ namespace CCfits
                                         unsigned short nulVal(0);
                                         if (nulValue) nulVal 
                                                 = static_cast<unsigned short>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
                                 }
                                 else
                                 {
@@ -117,9 +119,8 @@ namespace CCfits
                                                         = dynamic_cast<ImageExt<short>&>(*this);
                                         short nulVal(0);
                                         if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                                extimage.readImage(first,nElements,&nulVal));
-                                }
+                                        FITSUtil::fill(image,extimage.readImage(first,nElements, &nulVal));
+                               }
                         }          
                         else 
                         {
@@ -174,10 +175,10 @@ namespace CCfits
                 makeThisCurrent();
                 if (ImageExt<S>* extimage = dynamic_cast<ImageExt<S>*>(this))
                 {
-                        const std::valarray<S>& __tmp 
-                                      = extimage->readImage(firstVertex,lastVertex,stride,nulValue);
-                        image.resize(__tmp.size());
-                        image = __tmp;
+                   const std::valarray<S>& __tmp = 
+                      extimage->readImage(firstVertex,lastVertex,stride,nulValue);
+                   image.resize(__tmp.size());
+                   image = __tmp;
                 }
                 else
                 {
@@ -187,16 +188,14 @@ namespace CCfits
                                 float nulVal(0);
                                 if (nulValue) nulVal = static_cast<float>(*nulValue);                                 
                                 ImageExt<float>& extimage = dynamic_cast<ImageExt<float>&>(*this);
-                                FITSUtil::fill(image,
-                                        extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                         }
                         else if (bitpix() == Idouble)
                         {
                                 ImageExt<double>& extimage = dynamic_cast<ImageExt<double>&>(*this);
                                 double nulVal(0);
                                 if (nulValue) nulVal = static_cast<double>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                         }
                         else if (bitpix() == Ibyte)
                         {
@@ -204,8 +203,7 @@ namespace CCfits
                                                 = dynamic_cast<ImageExt<unsigned char>&>(*this);
                                 unsigned char nulVal(0);
                                 if (nulValue) nulVal = static_cast<unsigned char>(*nulValue);                                 
-                                FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                         } 
                         else if (bitpix() == Ilong)
                         {
@@ -216,18 +214,24 @@ namespace CCfits
                                         unsigned INT32BIT nulVal(0);
                                         if (nulValue) 
                                                 nulVal = static_cast<unsigned INT32BIT>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                                 }
                                 else
                                 {
                                         ImageExt<INT32BIT>& extimage = dynamic_cast<ImageExt<INT32BIT>&>(*this);
                                         INT32BIT nulVal(0);
                                         if (nulValue) nulVal = static_cast<INT32BIT>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                                 }
                         }    
+                        else if (bitpix() == Ilonglong)
+                        {
+                                ImageExt<LONGLONG>& extimage 
+                                                = dynamic_cast<ImageExt<LONGLONG>&>(*this);
+                                LONGLONG nulVal(0);
+                                if (nulValue) nulVal = static_cast<LONGLONG>(*nulValue);                                 
+                                FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                        } 
                         else if (bitpix() == Ishort)
                         {
                                 if ( zero() == USBASE && scale() == 1)
@@ -237,8 +241,7 @@ namespace CCfits
                                         unsigned short nulVal(0);
                                         if (nulValue) nulVal 
                                                 = static_cast<unsigned short>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                                 }
                                 else
                                 {        
@@ -246,8 +249,7 @@ namespace CCfits
                                                         = dynamic_cast<ImageExt<short>&>(*this);
                                         short nulVal(0);
                                         if (nulValue) nulVal = static_cast<short>(*nulValue);                                 
-                                        FITSUtil::fill(image,
-                                         extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
+                                        FITSUtil::fill(image,extimage.readImage(firstVertex,lastVertex,stride,&nulVal));
                                 }
                         }          
                         else 
@@ -356,6 +358,22 @@ namespace CCfits
                                         imageExt.writeImage(first,nElements,__tmp,plNull);                          
                                 }                        
                         }    
+                        else if (bitpix() == Ilonglong)
+                        {
+                                ImageExt<LONGLONG>& imageExt 
+                                                = dynamic_cast<ImageExt<LONGLONG>&>(*this);
+                                std::valarray<LONGLONG> __tmp; 
+                                FITSUtil::fill(__tmp,data);                                        
+                                LONGLONG *pllNull=0;
+                                LONGLONG llNull=0;
+                                if (nulValue)
+                                {
+                                   llNull = static_cast<LONGLONG>(*nulValue);
+                                   pllNull = &llNull;
+                                }                                        
+                                imageExt.writeImage(first,nElements,__tmp, pllNull); 
+
+                        } 
                         else if (bitpix() == Ishort)
                         {
                                 if ( zero() == USBASE && scale() == 1)
@@ -415,7 +433,7 @@ namespace CCfits
                 size_t n(first.size());
                 long firstElement(0);
                 long dimSize(1);
-                for (long i = 0; i < first.size(); ++i)
+                for (long i = 0; i < n; ++i)
                 {
                         firstElement +=  ((first[i] - 1)*dimSize);
                         dimSize *=naxes(i);   
@@ -435,7 +453,7 @@ namespace CCfits
                 size_t n(first.size());
                 long firstElement(0);
                 long dimSize(1);
-                for (long i = 0; i < first.size(); ++i)
+                for (long i = 0; i < n; ++i)
                 {
 
                         firstElement +=  ((first[i] - 1)*dimSize);
@@ -509,6 +527,15 @@ namespace CCfits
                                         extimage.writeImage(firstVertex,lastVertex,__tmp);
                                 }                              
                         }    
+                        else if (bitpix() == Ilonglong)
+                        {
+                                ImageExt<LONGLONG>& extimage 
+                                        = dynamic_cast<ImageExt<LONGLONG>&>(*this);
+                                size_t n(data.size());
+                                std::valarray<LONGLONG> __tmp(n);
+                                for (size_t j= 0; j < n; ++j) __tmp[j] = data[j];
+                                extimage.writeImage(firstVertex,lastVertex,__tmp);                        
+                        } 
                         else if (bitpix() == Ishort)
                         {
                                 if ( zero() == USBASE && scale() == 1)

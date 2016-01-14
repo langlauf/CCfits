@@ -102,22 +102,72 @@ Instructions for Building CCfits on UNIX-like platforms:
 Instructions for Microsft Windows build:
 ===============================================================================
 
-Compiling CCfits with MS VC++ requires VC++ 7.0 or later.  This is the
-compiler that comes with Visual Studio.NET.  Earlier versions of the
-compiler has too many defects in the area of instanciating templates.
+These instructions follow similar steps to the building of the CFITSIO
+library on Windows, described at
 
-Take the following steps.
+http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/README.win
 
-1. Compile the C++ code.  Open the vs.net/CCfits/CCfits.sln file with
-Visual Studio.NET.  The includes paths have been set to find the
-cfitsio build directory at the same level as the CCfits directory.  If
-this is not the case, use Visual Studio.NET to edit the include paths
-and extra library paths to where you have cfitsio installed.
+and rely having the following already installed on your system:
 
-Next, just use the build icon or the build menu item.
+a) Microsoft Visual Studio
+b) The CMake build system available from http://www.cmake.org
+c) The CFITSIO library available from
+
+http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html
+
+1. After unzipping and untarring the CCfits source code tarball, the source
+   code will appear in a new \CCfits subdirectory.
+
+2. Open the Visual Studio Developer Command Prompt window and create a
+   directory named "CCfits.build" parallel to this CCfits source code directory.
+
+      mkdir CCfits.build
+      cd CCfits.build
    
-To build the test program, cookbook, use the
-vs.net/cookbook.cookbook.sln file
+   This will be the directory from which CMake generate its files and performs 
+   the build.
+
+3. Decide which CMake generator you will want to use.  The full list is
+   shown by doing
+
+      cmake.exe /?
+   
+   We've done successful builds using Visual Studio's 'nmake' utility, and so
+   recommend choosing "NMake Makefiles" as the generator option.  However if
+   you wish to perform the build inside a Visual Studio IDE, you should choose
+   the appropriate "Visual Studio <version>" generator.
+
+4.  Now run cmake.exe to generate the necessary Makefiles.  With this
+    command you must specify the path to your CFITSIO library and header
+    files by setting the '-DCMAKE_PREFIX_PATH' option.  This path should
+    be set to the root directory of your CFITSIO installation, from which
+    it will look in \lib and \include subdirectories for the library and
+    header files respectively.  Your full cmake command may then look like:
+    
+    CCfits.build>cmake.exe -G"NMake Makefiles" -DCMAKE_PREFIX_PATH=C:\path\to\your\CFITSIO ..\CCfits
+    
+    If you wish to eventually install CCfits at any place other than the
+    default location ("C:\Program Files"), you should pass an additional
+    flag to the cmake command above:
+    
+    -DCMAKE_INSTALL_PREFIX=C:\path\to\your\CCfits\installation
+    
+5.  Build and install CCfits:
+
+    CCfits.build> nmake
+
+    If all goes well you should now have a CCfits.lib library and
+    cookbook.exe executable in your CCfits.build directory.  To test
+    the build you can run cookbook.exe, which should generate 3 output
+    FITS files: atestfil, btestfil, and ctestfil.fit.
+    
+    Now install CCfits.lib and its header files into the default
+    installation location, or the directory you specified in step 4:
+    
+    CCfits.build> nmake install
+    
 
 Author: Paul_Kunz@slac.stanford.edu
 Revised 1 Nov 2006 by Bryan Irby
+Revised Jan 2016 by Craig Gordon
+

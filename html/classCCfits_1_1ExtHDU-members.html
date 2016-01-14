@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -75,9 +75,10 @@ This is the complete list of members for <a class="el" href="classCCfits_1_1ExtH
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#ada85c7b4b9b38f6e410db8794779ed60">clone</a>(FITSBase *p) const =0</td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a9d3f8b23a32aa7303b0824fa6cb2f21b">column</a>(const String &amp;colName, bool caseSensitive=true) const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a06d5f1ebd32e0228790c8b4e4b57e2e4">column</a>(int colIndex) const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#ab121d5ab64abcc0a5df4ca7955bec2e9">column</a>() const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#aefb1a35040142a53171b86d633d40228">column</a>() const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#aecb532b753cd3460568e49e64df19ee5">comment</a>() const </td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td><code> [inline]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a317fcf61da35fcf568f7bc3c2df83706">copyAllKeys</a>(const HDU *inHdu)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a3a4b1223e186f348ad5673eb18a16e67">copyColumn</a>(const Column &amp;inColumn, int colIndx, bool insertNewCol=true)</td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#aaee3fda1eb075ef4ee7a9178114bd00d">deleteColumn</a>(const String &amp;columnName)</td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#aece6e1d7e46ce3370578972a4aeb08ab">deleteKey</a>(const String &amp;doomed)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a58be2cbfe5c11246e8c2269e3ffe69ee">ExtHDU</a>(const ExtHDU &amp;right)</td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td></td></tr>
@@ -124,10 +125,12 @@ This is the complete list of members for <a class="el" href="classCCfits_1_1ExtH
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a921ed3185671c8647e844d4a60e9296f">readHduName</a>(const fitsfile *fptr, int hduIndex, String &amp;hduName, int &amp;hduVersion)</td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [static]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a8c9d28570c1a7f8fc09cc10398bd6080">readKey</a>(const String &amp;keyName, T &amp;val)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a18f7273134f1a0428f8d565067785619">readKeys</a>(std::vector&lt; String &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a25e91c9b83f8cf3c9ba19ca473c3432f">readNextKey</a>(const std::vector&lt; String &gt; &amp;incList, const std::vector&lt; String &gt; &amp;excList, bool searchFromBeginning=false)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a9ea102f0439b4416bc3b3bf7924559f4">resetImageRead</a>()</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td><code> [inline, virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#ab94cb470d13b5a574728c49589963a36">rows</a>() const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#af1ffd58e00cd8f3a903976df8f91bc0a">scale</a>() const </td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td><code> [inline, virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a6c8e0dc188f74f681f6bfe17819b2eb9">scale</a>(double value)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td><code> [inline, virtual]</code></td></tr>
-  <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a6bd0d7eb236211267de480c595b5b631">suppressScaling</a>(bool toggle=true)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a6bd0d7eb236211267de480c595b5b631">suppressScaling</a>(bool toggle=true)</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td><code> [virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#a56ce9ed0864e07a7ef380b18e3be7a79">updateChecksum</a>()</td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1HDU.html#adc1a7ba06b6a113010334320e5268dc6">verifyChecksum</a>() const </td><td><a class="el" href="classCCfits_1_1HDU.html">CCfits::HDU</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="classCCfits_1_1ExtHDU.html#a5e2785377c404f05dc948db844c6eec7">version</a>() const </td><td><a class="el" href="classCCfits_1_1ExtHDU.html">CCfits::ExtHDU</a></td><td><code> [inline]</code></td></tr>
@@ -151,7 +154,7 @@ This is the complete list of members for <a class="el" href="classCCfits_1_1ExtH
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:55 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:21 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

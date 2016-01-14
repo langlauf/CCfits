@@ -22,10 +22,31 @@ namespace CCfits
         {
           int    status=0;
           char** columnData=FITSUtil::CharArray(indata);
-
-          if ( fits_write_colnull(fitsPointer(), TSTRING, index(), firstRow, 1, indata.size(),
-			          columnData, 0, &status) != 0 )
-              throw FitsError(status);
+          bool isError=false;
+          if (varLength())
+          {
+             const long nRows = static_cast<long>(indata.size());
+             for (long iRow=0; !isError && iRow<nRows; ++iRow)
+             {
+                if (fits_write_colnull(fitsPointer(), TSTRING, index(),
+                     firstRow+iRow, 1, 1, &columnData[iRow], 0, &status))
+                   isError=true; 
+             }
+          }
+          else
+          {          
+             if (fits_write_colnull(fitsPointer(), TSTRING, index(), firstRow, 
+                    1, indata.size(), columnData, 0, &status) != 0)
+                isError=true;
+          }
+          
+          if (isError)
+          {
+             for (size_t i = 0; i < indata.size(); ++i)
+                delete [] columnData[i];
+             delete [] columnData;
+             throw FitsError(status);
+          }
           unsigned long elementsToWrite (indata.size() + firstRow - 1);
           std::vector<String> __tmp(m_data);
           if (m_data.size() < elementsToWrite) 
@@ -34,7 +55,6 @@ namespace CCfits
                   std::copy(__tmp.begin(),__tmp.end(),m_data.begin());
           }
           std::copy(indata.begin(),indata.end(),m_data.begin()+firstRow-1);
-
 
           for (size_t i = 0; i < indata.size(); ++i)
           {
@@ -52,63 +72,102 @@ namespace CCfits
                                         long nelements, 
                                         String* nullValue)
         {
-          int status = 0;
-
+           // nelements = nrows to read.
+           if (nelements < 1)
+              throw Column::InvalidNumberOfRows((int)nelements);
+           if (firstRow < 1 || (firstRow+nelements-1)>rows())
+              throw Column::InvalidRowNumber(name());
+           
+           int status = 0;
            int   anynul = 0;
-           char** array = new char*[nelements]; 
+           
+           char** array = new char*[nelements];
+           // Initialize pointers to NULL so we can safely delete
+           //  during error handling, even if they haven't been allocated.           
+           for (long i=0; i<nelements; ++i)
+              array[i]=static_cast<char*>(0);
+           bool isError = false;
 
-           int j(0);
-           for ( ; j < nelements; ++j)
-           {
-               array[j] = new char[width() + 1];
-           }
-
+           // Strings are unusual.  The variable length case is still
+           //  handled by a ColumnData class, not a ColumnVectorData.
            char* nulval = 0;
            if (nullValue) 
            {
-                   nulval = const_cast<char*>(nullValue->c_str());
+              nulval = const_cast<char*>(nullValue->c_str());
            }
            else
            {
-                nulval = new char;
-                *nulval = '\0';       
+              nulval = new char;
+              *nulval = '\0';       
+           }
+           makeHDUCurrent();
+           if (varLength())
+           {
+              long* strLengths = new long[nelements];
+              long* offsets = new long[nelements];
+              if (fits_read_descripts(fitsPointer(), index(), firstRow,
+                   nelements, strLengths, offsets, &status))
+              {
+                 isError = true;
+              }
+              else
+              {
+                 // For variable length cols, must read 1 and only 1 row
+                 //  at a time into array.
+                 for (long j=0; j<nelements; ++j)
+                 {
+                    array[j] = new char[strLengths[j] + 1];
+                 }
+                 
+                 const long lastRow = firstRow+nelements-1;
+                 for (long iRow=firstRow; !isError && iRow<=lastRow; ++iRow)
+                 {
+                    if (fits_read_col_str(fitsPointer(),index(), iRow, 1, 1,
+                      nulval, &array[iRow-firstRow], &anynul,&status) )
+                       isError=true;
+                 }
+              }
+              delete [] strLengths;
+              delete [] offsets;              
+           }
+           else
+           {
+              // Fixed length strings, length is stored in Column's m_width.
+              for (long j=0; j<nelements; ++j)
+              {
+                  array[j] = new char[width() + 1];
+              }
+              if (fits_read_col_str(fitsPointer(),index(), firstRow,1,nelements,
+                nulval,array, &anynul,&status))
+                isError=true;
+           }
+           
+           if (isError)
+           {
+              // It's OK to do this even if error occurred before
+              //  array rows were allocated.  In that case their pointers
+              //  were set to NULL.
+              for (long j = 0; j < nelements; ++j)
+              {
+                 delete [] array[j];
+              }     
+              delete [] array; 
+              delete nulval;
+              throw FitsError(status); 
            }
 
+          if (m_data.size() != static_cast<size_t>(rows()))
+              setData(std::vector<String>(rows(),String(nulval)));
 
-          try
+          for (long j=0; j<nelements; ++j)
           {
-                makeHDUCurrent();
-                if (fits_read_col_str(fitsPointer(),index(), firstRow,1,nelements,
-                  nulval,array, &anynul,&status) ) throw FitsError(status);
-          }
-          catch (FitsError)
-          {
-                // ugly. but better than leaking resources.       
-                for (int jj = 0; jj < nelements; ++jj)
-                {
-                        delete [] array[jj];
-                }     
-
-                delete [] array; 
-                delete nulval;
-                throw; 
+             m_data[j - 1 + firstRow] = String(array[j]);
           }
 
-
-          if (m_data.size() != rows()) setData(std::vector<String>(rows(),String(nulval)));
-
-          // the 'first -1 ' converts to zero based indexing.
-
-          for ( j = 0; j < nelements; j++)
+          for (long j=0; j<nelements; j++)
           {
-                m_data[j - 1 + firstRow] = String(array[j]);
-          }
-
-          for ( j = 0; j < nelements; j++)
-          {
-                delete [] array[j];
+             delete [] array[j];
           }     
-
           delete [] array; 
           delete nulval; 
           if (nelements == rows()) isRead(true); 
@@ -155,7 +214,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
                   nulval,array, &anynul,&status) ) throw FitsError(status);
 
 
-          if (m_data.size() != rows()) m_data.resize(rows());
+          if (m_data.size() != static_cast<size_t>(rows())) m_data.resize(rows());
 
           // the 'j -1 ' converts to zero based indexing.
 
@@ -188,7 +247,7 @@ void ColumnData<complex<double> >::setDataLimits (complex<double>* limits)
 
 
 
-          if (m_data.size() != rows()) setData(std::vector<complex<double> >(rows(),nulval));
+          if (m_data.size() != static_cast<size_t>(rows())) setData(std::vector<complex<double> >(rows(),nulval));
 
           // the 'j -1 ' converts to zero based indexing.
 

@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -567,209 +567,210 @@
 <a name="l00758"></a>00758     <span class="keywordflow">if</span> ( <span class="keyword">typeid</span>(T) == <span class="keyword">typeid</span>(d1) ) <span class="keywordflow">return</span> Idouble;
 <a name="l00759"></a>00759     <span class="keywordflow">if</span> ( <span class="keyword">typeid</span>(T) == <span class="keyword">typeid</span>(us1) ) <span class="keywordflow">return</span> Iushort;
 <a name="l00760"></a>00760     <span class="keywordflow">if</span> ( <span class="keyword">typeid</span>(T) == <span class="keyword">typeid</span>(ul1) ) <span class="keywordflow">return</span> Iulong;
-<a name="l00761"></a>00761     MatchType&lt;T&gt; errType;
-<a name="l00762"></a>00762     <span class="keywordtype">string</span> diag (<span class="stringliteral">&quot;Image: &quot;</span>);
-<a name="l00763"></a>00763     diag += FITSType2String(errType());
-<a name="l00764"></a>00764     <span class="keywordflow">throw</span> UnrecognizedType(diag);        
-<a name="l00765"></a>00765     }
-<a name="l00766"></a>00766 
-<a name="l00767"></a>00767     <span class="comment">// Parameterized Class CCfits::FITSUtil::MatchPtrNum </span>
-<a name="l00768"></a>00768 
-<a name="l00769"></a>00769     <span class="comment">// Parameterized Class CCfits::FITSUtil::auto_array_ptr </span>
-<a name="l00770"></a>00770 
-<a name="l00771"></a>00771     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00772"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe">00772</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe" title="constructor. allows creation of pointer to null, can be modified by reset()">auto_array_ptr&lt;X&gt;::auto_array_ptr</a> (X* p) <span class="keywordflow">throw</span> ()
-<a name="l00773"></a>00773           : m_p(p)
-<a name="l00774"></a>00774     {
-<a name="l00775"></a>00775     }
-<a name="l00776"></a>00776 
-<a name="l00777"></a>00777     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00778"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a3be729bfbf66a839903e92cfa0301b21">00778</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe" title="constructor. allows creation of pointer to null, can be modified by reset()">auto_array_ptr&lt;X&gt;::auto_array_ptr</a> (<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;X&gt;</a>&amp; right) <span class="keywordflow">throw</span> ()
-<a name="l00779"></a>00779           : m_p(right.release())
-<a name="l00780"></a>00780     {
-<a name="l00781"></a>00781     }
-<a name="l00782"></a>00782 
+<a name="l00761"></a>00761     <span class="keywordflow">if</span> ( <span class="keyword">typeid</span>(T) == <span class="keyword">typeid</span>(ll1) ) <span class="keywordflow">return</span> Ilonglong;
+<a name="l00762"></a>00762     MatchType&lt;T&gt; errType;
+<a name="l00763"></a>00763     <span class="keywordtype">string</span> diag (<span class="stringliteral">&quot;Image: &quot;</span>);
+<a name="l00764"></a>00764     diag += FITSType2String(errType());
+<a name="l00765"></a>00765     <span class="keywordflow">throw</span> UnrecognizedType(diag);        
+<a name="l00766"></a>00766     }
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768     <span class="comment">// Parameterized Class CCfits::FITSUtil::MatchPtrNum </span>
+<a name="l00769"></a>00769 
+<a name="l00770"></a>00770     <span class="comment">// Parameterized Class CCfits::FITSUtil::auto_array_ptr </span>
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00773"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe">00773</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe" title="constructor. allows creation of pointer to null, can be modified by reset()">auto_array_ptr&lt;X&gt;::auto_array_ptr</a> (X* p) <span class="keywordflow">throw</span> ()
+<a name="l00774"></a>00774           : m_p(p)
+<a name="l00775"></a>00775     {
+<a name="l00776"></a>00776     }
+<a name="l00777"></a>00777 
+<a name="l00778"></a>00778     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00779"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a3be729bfbf66a839903e92cfa0301b21">00779</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#aa7eff76215f0bd5ac0aec23c39b903fe" title="constructor. allows creation of pointer to null, can be modified by reset()">auto_array_ptr&lt;X&gt;::auto_array_ptr</a> (<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;X&gt;</a>&amp; right) <span class="keywordflow">throw</span> ()
+<a name="l00780"></a>00780           : m_p(right.release())
+<a name="l00781"></a>00781     {
+<a name="l00782"></a>00782     }
 <a name="l00783"></a>00783 
-<a name="l00784"></a>00784     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00785"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a53dbf2f60ac2851b86b70dad5619b862">00785</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a53dbf2f60ac2851b86b70dad5619b862" title="destructor.">auto_array_ptr&lt;X&gt;::~auto_array_ptr</a>()
-<a name="l00786"></a>00786     {
-<a name="l00787"></a>00787       <span class="keyword">delete</span> [] m_p;
-<a name="l00788"></a>00788     }
-<a name="l00789"></a>00789 
+<a name="l00784"></a>00784 
+<a name="l00785"></a>00785     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00786"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a53dbf2f60ac2851b86b70dad5619b862">00786</a>     <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a53dbf2f60ac2851b86b70dad5619b862" title="destructor.">auto_array_ptr&lt;X&gt;::~auto_array_ptr</a>()
+<a name="l00787"></a>00787     {
+<a name="l00788"></a>00788       <span class="keyword">delete</span> [] m_p;
+<a name="l00789"></a>00789     }
 <a name="l00790"></a>00790 
-<a name="l00791"></a>00791     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00792"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ae387ac0d5d498974cc05d5ff878ae">00792</a>     <span class="keywordtype">void</span> <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ae387ac0d5d498974cc05d5ff878ae" title="assignment operator: transfer of ownership semantics">auto_array_ptr&lt;X&gt;::operator = </a>(<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;X&gt;</a>&amp; right)
-<a name="l00793"></a>00793     {
-<a name="l00794"></a>00794       <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;right)
-<a name="l00795"></a>00795       {
-<a name="l00796"></a>00796                 <span class="keyword">remove</span>(m_p);
-<a name="l00797"></a>00797                 m_p = right.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">release</a>();       
-<a name="l00798"></a>00798       }
-<a name="l00799"></a>00799     }
-<a name="l00800"></a>00800 
-<a name="l00801"></a>00801     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00802"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a46abc946300c6b7deaa7e456ba9f1aed">00802</a>     X&amp; <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a46abc946300c6b7deaa7e456ba9f1aed" title="deference operator">auto_array_ptr&lt;X&gt;::operator * </a>() throw ()
-<a name="l00803"></a>00803     {
-<a name="l00804"></a>00804       <span class="keywordflow">return</span> *m_p;
-<a name="l00805"></a>00805     }
-<a name="l00806"></a>00806 
-<a name="l00807"></a>00807     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00808"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5">00808</a>     X&amp; <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5" title="return a reference to the ith element of the array">auto_array_ptr&lt;X&gt;::operator [] </a>(<span class="keywordtype">size_t</span> i) <span class="keywordflow">throw</span> ()
-<a name="l00809"></a>00809     {
-<a name="l00810"></a>00810       <span class="keywordflow">return</span> m_p[i];
-<a name="l00811"></a>00811     }
-<a name="l00812"></a>00812 
-<a name="l00813"></a>00813     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00814"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a71fed8548c3d114a231a3ea87f35e218">00814</a>     X <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5" title="return a reference to the ith element of the array">auto_array_ptr&lt;X&gt;::operator [] </a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span> <span class="keywordflow">throw</span> ()
-<a name="l00815"></a>00815     {
-<a name="l00816"></a>00816       <span class="keywordflow">return</span> m_p[i];
-<a name="l00817"></a>00817     }
-<a name="l00818"></a>00818 
-<a name="l00819"></a>00819     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00820"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f">00820</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f" title="return a token for the underlying content of *this">auto_array_ptr&lt;X&gt;::get</a> ()<span class="keyword"> const</span>
-<a name="l00821"></a>00821 <span class="keyword">    </span>{
-<a name="l00822"></a>00822       <span class="keywordflow">return</span> m_p;
-<a name="l00823"></a>00823     }
-<a name="l00824"></a>00824 
-<a name="l00825"></a>00825     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00826"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f">00826</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">auto_array_ptr&lt;X&gt;::release</a> () throw ()
-<a name="l00827"></a>00827     {
-<a name="l00828"></a>00828       <span class="keywordflow">return</span> reset(0);
-<a name="l00829"></a>00829     }
-<a name="l00830"></a>00830 
-<a name="l00831"></a>00831     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00832"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#af2e65ee8fafdd812f2782da2dfea285a">00832</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#af2e65ee8fafdd812f2782da2dfea285a" title="change the content of the auto_array_ptr to p">auto_array_ptr&lt;X&gt;::reset</a> (X* p) <span class="keywordflow">throw</span> ()
-<a name="l00833"></a>00833     {
-<a name="l00834"></a>00834       <span class="comment">// set the auto_ptr to manage p and return the old pointer it was managing.</span>
-<a name="l00835"></a>00835       X* __tmp = m_p; 
-<a name="l00836"></a>00836       m_p = p;
-<a name="l00837"></a>00837       <span class="keywordflow">return</span> __tmp;
-<a name="l00838"></a>00838     }
-<a name="l00839"></a>00839 
-<a name="l00840"></a>00840     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
-<a name="l00841"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ca62c9f81dbc710968b2afae2d18a7">00841</a>     <span class="keywordtype">void</span> <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ca62c9f81dbc710968b2afae2d18a7" title="utility function to delete the memory owned by x and set it to null.">auto_array_ptr&lt;X&gt;::remove</a> (X*&amp; x)
-<a name="l00842"></a>00842     {
-<a name="l00843"></a>00843       X* __tmp(x);
-<a name="l00844"></a>00844       x = 0;
-<a name="l00845"></a>00845       <span class="keyword">delete</span> [] __tmp;
-<a name="l00846"></a>00846     }
-<a name="l00847"></a>00847 
-<a name="l00848"></a>00848     <span class="comment">// Parameterized Class CCfits::FITSUtil::ComparePtrIndex </span>
-<a name="l00849"></a>00849 
-<a name="l00850"></a>00850     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<a name="l00851"></a>00851     <span class="keywordtype">bool</span> ComparePtrIndex&lt;T&gt;::operator () (<span class="keyword">const</span> T* left, <span class="keyword">const</span> T* right)
-<a name="l00852"></a>00852     {
-<a name="l00853"></a>00853       <span class="keywordflow">return</span> (left-&gt;index() &lt; right-&gt;index());
-<a name="l00854"></a>00854     }
-<a name="l00855"></a>00855 
-<a name="l00856"></a>00856     <span class="comment">// Parameterized Class CCfits::FITSUtil::CAarray </span>
-<a name="l00857"></a>00857 
-<a name="l00858"></a>00858     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<a name="l00859"></a><a class="code" href="structCCfits_1_1FITSUtil_1_1CAarray.html#a696f1168e9058a218e91ea0ead06693f">00859</a>     T* <a class="code" href="structCCfits_1_1FITSUtil_1_1CAarray.html#a696f1168e9058a218e91ea0ead06693f" title="operator returning C array for use with image data.">CAarray&lt;T&gt;::operator () </a>(<span class="keyword">const</span> std::valarray&lt;T&gt;&amp; inArray)
-<a name="l00860"></a>00860     {
-<a name="l00861"></a>00861       <span class="keywordtype">size_t</span> n(inArray.size());
-<a name="l00862"></a>00862       <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;T&gt;</a> pC(<span class="keyword">new</span> T[n]);
-<a name="l00863"></a>00863       T* c= pC.get();
-<a name="l00864"></a>00864       <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; n; ++j) c[j] = inArray[j];
-<a name="l00865"></a>00865       <span class="keywordflow">return</span> pC.release();      
-<a name="l00866"></a>00866     }
-<a name="l00867"></a>00867 
-<a name="l00868"></a>00868     <span class="comment">// Parameterized Class CCfits::FITSUtil::CVAarray </span>
-<a name="l00869"></a>00869 
-<a name="l00870"></a>00870     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<a name="l00871"></a><a class="code" href="structCCfits_1_1FITSUtil_1_1CVAarray.html#a817543d5a8700ca336a35e62a3223d12">00871</a>     T* <a class="code" href="structCCfits_1_1FITSUtil_1_1CVAarray.html#a817543d5a8700ca336a35e62a3223d12" title="operator returning C array for use with vector column data.">CVAarray&lt;T&gt;::operator () </a>(<span class="keyword">const</span> std::vector&lt; std::valarray&lt;T&gt; &gt;&amp; inArray)
-<a name="l00872"></a>00872     {
-<a name="l00873"></a>00873       <span class="keywordtype">size_t</span>  sz(0);
-<a name="l00874"></a>00874       <span class="keywordtype">size_t</span>  n(inArray.size());
-<a name="l00875"></a>00875 
-<a name="l00876"></a>00876       std::vector&lt;size_t&gt; nr(n);
-<a name="l00877"></a>00877 
-<a name="l00878"></a>00878       <span class="keywordtype">size_t</span> i = 0; <span class="comment">// for MS VC++ bug</span>
-<a name="l00879"></a>00879       <span class="keywordflow">for</span> ( i = 0; i &lt; n; ++i)
-<a name="l00880"></a>00880       {
-<a name="l00881"></a>00881          nr[i] = inArray[i].size();
-<a name="l00882"></a>00882          sz += nr[i];
-<a name="l00883"></a>00883 
-<a name="l00884"></a>00884       }
-<a name="l00885"></a>00885       <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;T&gt;</a> pC(<span class="keyword">new</span> T[sz]);
-<a name="l00886"></a>00886       T* c = pC.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f" title="return a token for the underlying content of *this">get</a>();
-<a name="l00887"></a>00887 
-<a name="l00888"></a>00888       <span class="keywordtype">size_t</span> k(0);
-<a name="l00889"></a>00889       <span class="keywordflow">for</span> ( i = 0; i &lt; n; ++i)
-<a name="l00890"></a>00890       {
-<a name="l00891"></a>00891          <span class="keywordtype">size_t</span>&amp; m = nr[i];
-<a name="l00892"></a>00892          <span class="keyword">const</span> std::valarray&lt;T&gt;&amp; current = inArray[i];
-<a name="l00893"></a>00893          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j=0; j &lt; m ; ++j) c[k++] = current[j];
-<a name="l00894"></a>00894       }
-<a name="l00895"></a>00895 
-<a name="l00896"></a>00896       <span class="keywordflow">return</span> pC.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">release</a>();      
-<a name="l00897"></a>00897     }
-<a name="l00898"></a>00898 
-<a name="l00899"></a>00899   } <span class="comment">// namespace FITSUtil</span>
-<a name="l00900"></a>00900 } <span class="comment">// namespace CCfits</span>
-<a name="l00901"></a>00901 
-<a name="l00902"></a>00902 <span class="keyword">namespace </span>CCfits
-<a name="l00903"></a>00903 {
-<a name="l00904"></a>00904 
-<a name="l00905"></a>00905    <span class="keyword">namespace </span>FITSUtil
-<a name="l00906"></a>00906    {                
-<a name="l00907"></a>00907 
-<a name="l00908"></a>00908       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<a name="l00909"></a>00909       <span class="keywordtype">void</span> swap(T&amp; left, T&amp; right)
-<a name="l00910"></a>00910       {
-<a name="l00911"></a>00911               T temp(left);
-<a name="l00912"></a>00912               left = right;
-<a name="l00913"></a>00913               right = temp;                
-<a name="l00914"></a>00914       }
-<a name="l00915"></a>00915 
-<a name="l00916"></a>00916       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
-<a name="l00917"></a>00917       <span class="keywordtype">void</span> swap(std::vector&lt;T&gt;&amp; left, std::vector&lt;T&gt;&amp; right)
-<a name="l00918"></a>00918       {
-<a name="l00919"></a>00919               left.swap(right);        
-<a name="l00920"></a>00920       }
-<a name="l00921"></a>00921 
-<a name="l00922"></a>00922       <span class="keyword">template</span> &lt;&gt;
-<a name="l00923"></a>00923       <span class="keyword">inline</span> <span class="keywordtype">string</span> FitsNullValue&lt;string&gt;::operator () ()
-<a name="l00924"></a>00924       {
-<a name="l00925"></a>00925          <span class="keywordflow">return</span> string(<span class="stringliteral">&quot;&quot;</span>);
-<a name="l00926"></a>00926       }
-<a name="l00927"></a>00927       
-<a name="l00928"></a>00928       <span class="keyword">template</span> &lt;&gt;
-<a name="l00929"></a>00929       <span class="keyword">inline</span> <span class="keywordtype">float</span> FitsNullValue&lt;float&gt;::operator () ()
-<a name="l00930"></a>00930       {
-<a name="l00931"></a>00931          <span class="keywordflow">return</span> FLOATNULLVALUE;
-<a name="l00932"></a>00932       }
-<a name="l00933"></a>00933 
-<a name="l00934"></a>00934       <span class="keyword">template</span> &lt;&gt;
-<a name="l00935"></a>00935       <span class="keyword">inline</span> <span class="keywordtype">double</span> FitsNullValue&lt;double&gt;::operator () ()
-<a name="l00936"></a>00936       {
-<a name="l00937"></a>00937          <span class="keywordflow">return</span> DOUBLENULLVALUE;
-<a name="l00938"></a>00938       }
-<a name="l00939"></a>00939       
-<a name="l00940"></a>00940       <span class="keyword">template</span> &lt;&gt;
-<a name="l00941"></a>00941       <span class="keyword">inline</span> std::complex&lt;float&gt; FitsNullValue&lt;std::complex&lt;float&gt; &gt;::operator () ()
-<a name="l00942"></a>00942       {
-<a name="l00943"></a>00943          <span class="keywordflow">return</span> std::complex&lt;float&gt;(FLOATNULLVALUE);
-<a name="l00944"></a>00944       }
-<a name="l00945"></a>00945 
-<a name="l00946"></a>00946       <span class="keyword">template</span> &lt;&gt;
-<a name="l00947"></a>00947       <span class="keyword">inline</span> std::complex&lt;double&gt; FitsNullValue&lt;std::complex&lt;double&gt; &gt;::operator () ()
-<a name="l00948"></a>00948       {
-<a name="l00949"></a>00949          <span class="keywordflow">return</span> std::complex&lt;double&gt;(DOUBLENULLVALUE);
-<a name="l00950"></a>00950       }
-<a name="l00951"></a>00951       
-<a name="l00952"></a>00952    } <span class="comment">// end namespace FITSUtil</span>
-<a name="l00953"></a>00953 } <span class="comment">// end namespace CCfits</span>
-<a name="l00954"></a>00954 
+<a name="l00791"></a>00791 
+<a name="l00792"></a>00792     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00793"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ae387ac0d5d498974cc05d5ff878ae">00793</a>     <span class="keywordtype">void</span> <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ae387ac0d5d498974cc05d5ff878ae" title="assignment operator: transfer of ownership semantics">auto_array_ptr&lt;X&gt;::operator = </a>(<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;X&gt;</a>&amp; right)
+<a name="l00794"></a>00794     {
+<a name="l00795"></a>00795       <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;right)
+<a name="l00796"></a>00796       {
+<a name="l00797"></a>00797                 <span class="keyword">remove</span>(m_p);
+<a name="l00798"></a>00798                 m_p = right.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">release</a>();       
+<a name="l00799"></a>00799       }
+<a name="l00800"></a>00800     }
+<a name="l00801"></a>00801 
+<a name="l00802"></a>00802     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00803"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a46abc946300c6b7deaa7e456ba9f1aed">00803</a>     X&amp; <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a46abc946300c6b7deaa7e456ba9f1aed" title="deference operator">auto_array_ptr&lt;X&gt;::operator * </a>() throw ()
+<a name="l00804"></a>00804     {
+<a name="l00805"></a>00805       <span class="keywordflow">return</span> *m_p;
+<a name="l00806"></a>00806     }
+<a name="l00807"></a>00807 
+<a name="l00808"></a>00808     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00809"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5">00809</a>     X&amp; <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5" title="return a reference to the ith element of the array">auto_array_ptr&lt;X&gt;::operator [] </a>(<span class="keywordtype">size_t</span> i) <span class="keywordflow">throw</span> ()
+<a name="l00810"></a>00810     {
+<a name="l00811"></a>00811       <span class="keywordflow">return</span> m_p[i];
+<a name="l00812"></a>00812     }
+<a name="l00813"></a>00813 
+<a name="l00814"></a>00814     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00815"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a71fed8548c3d114a231a3ea87f35e218">00815</a>     X <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a114a298f4d870f74ed1039c6ee41b2b5" title="return a reference to the ith element of the array">auto_array_ptr&lt;X&gt;::operator [] </a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span> <span class="keywordflow">throw</span> ()
+<a name="l00816"></a>00816     {
+<a name="l00817"></a>00817       <span class="keywordflow">return</span> m_p[i];
+<a name="l00818"></a>00818     }
+<a name="l00819"></a>00819 
+<a name="l00820"></a>00820     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00821"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f">00821</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f" title="return a token for the underlying content of *this">auto_array_ptr&lt;X&gt;::get</a> ()<span class="keyword"> const</span>
+<a name="l00822"></a>00822 <span class="keyword">    </span>{
+<a name="l00823"></a>00823       <span class="keywordflow">return</span> m_p;
+<a name="l00824"></a>00824     }
+<a name="l00825"></a>00825 
+<a name="l00826"></a>00826     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00827"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f">00827</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">auto_array_ptr&lt;X&gt;::release</a> () throw ()
+<a name="l00828"></a>00828     {
+<a name="l00829"></a>00829       <span class="keywordflow">return</span> reset(0);
+<a name="l00830"></a>00830     }
+<a name="l00831"></a>00831 
+<a name="l00832"></a>00832     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00833"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#af2e65ee8fafdd812f2782da2dfea285a">00833</a>     X* <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#af2e65ee8fafdd812f2782da2dfea285a" title="change the content of the auto_array_ptr to p">auto_array_ptr&lt;X&gt;::reset</a> (X* p) <span class="keywordflow">throw</span> ()
+<a name="l00834"></a>00834     {
+<a name="l00835"></a>00835       <span class="comment">// set the auto_ptr to manage p and return the old pointer it was managing.</span>
+<a name="l00836"></a>00836       X* __tmp = m_p; 
+<a name="l00837"></a>00837       m_p = p;
+<a name="l00838"></a>00838       <span class="keywordflow">return</span> __tmp;
+<a name="l00839"></a>00839     }
+<a name="l00840"></a>00840 
+<a name="l00841"></a>00841     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;
+<a name="l00842"></a><a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ca62c9f81dbc710968b2afae2d18a7">00842</a>     <span class="keywordtype">void</span> <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a13ca62c9f81dbc710968b2afae2d18a7" title="utility function to delete the memory owned by x and set it to null.">auto_array_ptr&lt;X&gt;::remove</a> (X*&amp; x)
+<a name="l00843"></a>00843     {
+<a name="l00844"></a>00844       X* __tmp(x);
+<a name="l00845"></a>00845       x = 0;
+<a name="l00846"></a>00846       <span class="keyword">delete</span> [] __tmp;
+<a name="l00847"></a>00847     }
+<a name="l00848"></a>00848 
+<a name="l00849"></a>00849     <span class="comment">// Parameterized Class CCfits::FITSUtil::ComparePtrIndex </span>
+<a name="l00850"></a>00850 
+<a name="l00851"></a>00851     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00852"></a>00852     <span class="keywordtype">bool</span> ComparePtrIndex&lt;T&gt;::operator () (<span class="keyword">const</span> T* left, <span class="keyword">const</span> T* right)
+<a name="l00853"></a>00853     {
+<a name="l00854"></a>00854       <span class="keywordflow">return</span> (left-&gt;index() &lt; right-&gt;index());
+<a name="l00855"></a>00855     }
+<a name="l00856"></a>00856 
+<a name="l00857"></a>00857     <span class="comment">// Parameterized Class CCfits::FITSUtil::CAarray </span>
+<a name="l00858"></a>00858 
+<a name="l00859"></a>00859     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00860"></a><a class="code" href="structCCfits_1_1FITSUtil_1_1CAarray.html#a696f1168e9058a218e91ea0ead06693f">00860</a>     T* <a class="code" href="structCCfits_1_1FITSUtil_1_1CAarray.html#a696f1168e9058a218e91ea0ead06693f" title="operator returning C array for use with image data.">CAarray&lt;T&gt;::operator () </a>(<span class="keyword">const</span> std::valarray&lt;T&gt;&amp; inArray)
+<a name="l00861"></a>00861     {
+<a name="l00862"></a>00862       <span class="keywordtype">size_t</span> n(inArray.size());
+<a name="l00863"></a>00863       <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;T&gt;</a> pC(<span class="keyword">new</span> T[n]);
+<a name="l00864"></a>00864       T* c= pC.get();
+<a name="l00865"></a>00865       <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0; j &lt; n; ++j) c[j] = inArray[j];
+<a name="l00866"></a>00866       <span class="keywordflow">return</span> pC.release();      
+<a name="l00867"></a>00867     }
+<a name="l00868"></a>00868 
+<a name="l00869"></a>00869     <span class="comment">// Parameterized Class CCfits::FITSUtil::CVAarray </span>
+<a name="l00870"></a>00870 
+<a name="l00871"></a>00871     <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00872"></a><a class="code" href="structCCfits_1_1FITSUtil_1_1CVAarray.html#a817543d5a8700ca336a35e62a3223d12">00872</a>     T* <a class="code" href="structCCfits_1_1FITSUtil_1_1CVAarray.html#a817543d5a8700ca336a35e62a3223d12" title="operator returning C array for use with vector column data.">CVAarray&lt;T&gt;::operator () </a>(<span class="keyword">const</span> std::vector&lt; std::valarray&lt;T&gt; &gt;&amp; inArray)
+<a name="l00873"></a>00873     {
+<a name="l00874"></a>00874       <span class="keywordtype">size_t</span>  sz(0);
+<a name="l00875"></a>00875       <span class="keywordtype">size_t</span>  n(inArray.size());
+<a name="l00876"></a>00876 
+<a name="l00877"></a>00877       std::vector&lt;size_t&gt; nr(n);
+<a name="l00878"></a>00878 
+<a name="l00879"></a>00879       <span class="keywordtype">size_t</span> i = 0; <span class="comment">// for MS VC++ bug</span>
+<a name="l00880"></a>00880       <span class="keywordflow">for</span> ( i = 0; i &lt; n; ++i)
+<a name="l00881"></a>00881       {
+<a name="l00882"></a>00882          nr[i] = inArray[i].size();
+<a name="l00883"></a>00883          sz += nr[i];
+<a name="l00884"></a>00884 
+<a name="l00885"></a>00885       }
+<a name="l00886"></a>00886       <a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html" title="A class that mimics the std:: library auto_ptr class, but works with arrays.">auto_array_ptr&lt;T&gt;</a> pC(<span class="keyword">new</span> T[sz]);
+<a name="l00887"></a>00887       T* c = pC.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a6cf9e51e5dd7a9d9d512900465c5ea1f" title="return a token for the underlying content of *this">get</a>();
+<a name="l00888"></a>00888 
+<a name="l00889"></a>00889       <span class="keywordtype">size_t</span> k(0);
+<a name="l00890"></a>00890       <span class="keywordflow">for</span> ( i = 0; i &lt; n; ++i)
+<a name="l00891"></a>00891       {
+<a name="l00892"></a>00892          <span class="keywordtype">size_t</span>&amp; m = nr[i];
+<a name="l00893"></a>00893          <span class="keyword">const</span> std::valarray&lt;T&gt;&amp; current = inArray[i];
+<a name="l00894"></a>00894          <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j=0; j &lt; m ; ++j) c[k++] = current[j];
+<a name="l00895"></a>00895       }
+<a name="l00896"></a>00896 
+<a name="l00897"></a>00897       <span class="keywordflow">return</span> pC.<a class="code" href="classCCfits_1_1FITSUtil_1_1auto__array__ptr.html#a994e12743b5b7d75b4168ac095a60c1f" title="return underlying content of *this, transferring memory ownership">release</a>();      
+<a name="l00898"></a>00898     }
+<a name="l00899"></a>00899 
+<a name="l00900"></a>00900   } <span class="comment">// namespace FITSUtil</span>
+<a name="l00901"></a>00901 } <span class="comment">// namespace CCfits</span>
+<a name="l00902"></a>00902 
+<a name="l00903"></a>00903 <span class="keyword">namespace </span>CCfits
+<a name="l00904"></a>00904 {
+<a name="l00905"></a>00905 
+<a name="l00906"></a>00906    <span class="keyword">namespace </span>FITSUtil
+<a name="l00907"></a>00907    {                
+<a name="l00908"></a>00908 
+<a name="l00909"></a>00909       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00910"></a>00910       <span class="keywordtype">void</span> swap(T&amp; left, T&amp; right)
+<a name="l00911"></a>00911       {
+<a name="l00912"></a>00912               T temp(left);
+<a name="l00913"></a>00913               left = right;
+<a name="l00914"></a>00914               right = temp;                
+<a name="l00915"></a>00915       }
+<a name="l00916"></a>00916 
+<a name="l00917"></a>00917       <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;
+<a name="l00918"></a>00918       <span class="keywordtype">void</span> swap(std::vector&lt;T&gt;&amp; left, std::vector&lt;T&gt;&amp; right)
+<a name="l00919"></a>00919       {
+<a name="l00920"></a>00920               left.swap(right);        
+<a name="l00921"></a>00921       }
+<a name="l00922"></a>00922 
+<a name="l00923"></a>00923       <span class="keyword">template</span> &lt;&gt;
+<a name="l00924"></a>00924       <span class="keyword">inline</span> <span class="keywordtype">string</span> FitsNullValue&lt;string&gt;::operator () ()
+<a name="l00925"></a>00925       {
+<a name="l00926"></a>00926          <span class="keywordflow">return</span> string(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00927"></a>00927       }
+<a name="l00928"></a>00928       
+<a name="l00929"></a>00929       <span class="keyword">template</span> &lt;&gt;
+<a name="l00930"></a>00930       <span class="keyword">inline</span> <span class="keywordtype">float</span> FitsNullValue&lt;float&gt;::operator () ()
+<a name="l00931"></a>00931       {
+<a name="l00932"></a>00932          <span class="keywordflow">return</span> FLOATNULLVALUE;
+<a name="l00933"></a>00933       }
+<a name="l00934"></a>00934 
+<a name="l00935"></a>00935       <span class="keyword">template</span> &lt;&gt;
+<a name="l00936"></a>00936       <span class="keyword">inline</span> <span class="keywordtype">double</span> FitsNullValue&lt;double&gt;::operator () ()
+<a name="l00937"></a>00937       {
+<a name="l00938"></a>00938          <span class="keywordflow">return</span> DOUBLENULLVALUE;
+<a name="l00939"></a>00939       }
+<a name="l00940"></a>00940       
+<a name="l00941"></a>00941       <span class="keyword">template</span> &lt;&gt;
+<a name="l00942"></a>00942       <span class="keyword">inline</span> std::complex&lt;float&gt; FitsNullValue&lt;std::complex&lt;float&gt; &gt;::operator () ()
+<a name="l00943"></a>00943       {
+<a name="l00944"></a>00944          <span class="keywordflow">return</span> std::complex&lt;float&gt;(FLOATNULLVALUE);
+<a name="l00945"></a>00945       }
+<a name="l00946"></a>00946 
+<a name="l00947"></a>00947       <span class="keyword">template</span> &lt;&gt;
+<a name="l00948"></a>00948       <span class="keyword">inline</span> std::complex&lt;double&gt; FitsNullValue&lt;std::complex&lt;double&gt; &gt;::operator () ()
+<a name="l00949"></a>00949       {
+<a name="l00950"></a>00950          <span class="keywordflow">return</span> std::complex&lt;double&gt;(DOUBLENULLVALUE);
+<a name="l00951"></a>00951       }
+<a name="l00952"></a>00952       
+<a name="l00953"></a>00953    } <span class="comment">// end namespace FITSUtil</span>
+<a name="l00954"></a>00954 } <span class="comment">// end namespace CCfits</span>
 <a name="l00955"></a>00955 
 <a name="l00956"></a>00956 
-<a name="l00957"></a>00957 <span class="preprocessor">#endif</span>
+<a name="l00957"></a>00957 
+<a name="l00958"></a>00958 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:52 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:19 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

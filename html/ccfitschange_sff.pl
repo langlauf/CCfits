@@ -1,4 +1,4 @@
-#!/usr1/local/bin/perl5
+#!/usr/bin/perl
 # Bob Crosier  3/8/95
 # Bob Crosier  3/22/95 (modified from webclean.pl)
 # Bob Crosier  6/02/95 required the RunningDisplay subroutine

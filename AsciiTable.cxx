@@ -53,14 +53,15 @@ namespace CCfits {
         for (int i=0; i< numCols(); i++)
         {
 
-                status = fits_ascii_tform(const_cast<char *>(columnFmt[i].c_str()), 
-			       &colType, &width, &decimals, &status);
+           status = fits_ascii_tform(const_cast<char *>(columnFmt[i].c_str()), 
+		          &colType, &width, &decimals, &status);
 
-                if (status != 0)  throw FitsError(status);
-                setColumn(columnName[i],create.createColumn(i+1,ValueType(colType),
-                        columnName[i], columnFmt[i], columnUnit[i],1,width));
+           if (status != 0)  throw FitsError(status);
+           Column *newCol = create.createColumn(i+1,ValueType(colType),
+                   columnName[i], columnFmt[i], columnUnit[i],1,width);
+           setColumn(columnName[i],newCol);
 
-                column(columnName[i]).setLimits(ValueType(colType));
+           newCol->setLimits(ValueType(colType));
 
         }
   }
@@ -148,7 +149,7 @@ namespace CCfits {
 
    size_t keysRead = 0;
    size_t nkey=keys.size();
-   std::map<String,Column*>::iterator endColumn = column().end();
+   ColMap::iterator endColumn = column().end();
   // if a set of strings were supplied, interpret these as
    // keywords and columns to be read.
    // get a container for keys which correspond to columns.
@@ -187,7 +188,7 @@ namespace CCfits {
    // rowSize is probably quite big because there's just one element per row.
    for (rowsRead=0; rowsRead< rows() ; rowsRead+=rowSize)
    {     
-        std::map<String,Column*>::iterator col;
+        ColMap::iterator col;
         if (colKeys.size() > 0)
         {
                 for (size_t i=0; i < colKeys.size() ; i++)
@@ -216,7 +217,7 @@ namespace CCfits {
    if (colKeys.size() ==  0)
    {
         // mark all columns read
-        for (std::map<String,Column*>::iterator col = column().begin(); 
+        for (ColMap::iterator col = column().begin(); 
                         col != column().end(); ++col) 
         {
                 (*col).second->isRead(true);
@@ -228,7 +229,7 @@ namespace CCfits {
         {
                 // if a set of keys was entered, read the data in the ones
                 // that correspond to columns, as checked earlier
-                std::map<String,Column*>::iterator col = column().find(colKeys[i]); 
+                ColMap::iterator col = column().find(colKeys[i]); 
                 (*col).second->isRead(true);
         }
 
@@ -352,12 +353,11 @@ namespace CCfits {
     }
 
     ColumnCreator create(this);
-    setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
-                      colUnit,1,repeatWidth));
-    if (type != Tstring) column(columnName).setLimits(type);
-
-
-    if (columnNumber != 0) reindex();
+    Column *newCol=create.createColumn(colNum,type,columnName,tfString,
+                      colUnit,1,repeatWidth);
+    if (type != Tstring) newCol->setLimits(type);
+    if (columnNumber != 0) reindex(columnNumber, true);
+    setColumn(columnName,newCol);
   }
 
   // Additional Declarations

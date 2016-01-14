@@ -121,7 +121,7 @@ namespace CCfits {
 
   // Class CCfits::Column::InvalidNumberOfRows 
 
-  Column::InvalidNumberOfRows::InvalidNumberOfRows (size_t number, bool silent)
+  Column::InvalidNumberOfRows::InvalidNumberOfRows (int number, bool silent)
     : FitsException( "Fits Error: number of rows to write must be positive: ",silent)
   {
      std::ostringstream oss;
@@ -314,20 +314,25 @@ namespace CCfits {
 
     return m_parent;
   }
+  
+  void Column::setParent(Table* parent)
+  {
+     m_parent = parent;
+  }
 
   void Column::setLimits (ValueType type)
   {
     int status(0);
-    static long*  pl  = new long[4];
-    static LONGLONG* pll = new LONGLONG[4];
-    static unsigned long*  pul  = new unsigned long[4];
-    static int*  pi  = new int[4];
-    static unsigned int*  pui  = new unsigned int[4];
-    static short*  ps  = new short[4];
-    static unsigned short*  pus  = new unsigned short[4];
-    static unsigned char* puc = new unsigned char[4];
-    static float* pf = new float[4];
-    static double* pd = new double[4];
+    static long pl[4];
+    static LONGLONG pll[4];
+    static unsigned long pul[4];
+    static int  pi[4];
+    static unsigned int pui[4];
+    static short ps[4];
+    static unsigned short pus[4];
+    static unsigned char puc[4];
+    static float pf[4];
+    static double pd[4];
     static std::complex<float> cf[4];
     static std::complex<double> cd[4];
 #ifdef SSTREAM_DEFECT
@@ -675,6 +680,7 @@ namespace CCfits {
                }	
                 break;
         case Tstring:
+        case VTstring:
         default:
                 break;
     }                
@@ -1045,6 +1051,96 @@ namespace CCfits {
                   // there shouldn't be any InvalidType problems. However, there
                   // is still the vector/scalar possibility and the implicit
                   // conversion request to deal with.
+
+                  if (!isRead()) col->readRow(row);
+                  FITSUtil::fill(vals,col->data(row));
+          }
+          else
+          {
+                if ( type() == Tdblcomplex ) 
+                { 
+                        // in this case user tried to read vector row from scalar column.
+                        // one could be charitable and return a valarray of size 1,
+                        // but... I'm going to throw an exception suggesting the user
+                        // might not have meant that.
+
+                        throw Column::WrongColumnType(name());
+                }
+                else
+                {
+                       try
+                       {
+                            ColumnVectorData<std::complex<float> >& col 
+                                 = dynamic_cast<ColumnVectorData<std::complex<float> >&>(*this);
+                            if (!isRead()) col.readRow(row);                                  
+                            FITSUtil::fill(vals,col.data(row));
+
+                       }
+                       catch (std::bad_cast)
+                       {
+                              String 
+                        msg(" implicit conversion from complex to real data not allowed: Column ");
+                              msg += name();
+                              throw InvalidDataType(msg);
+
+                       }    
+                }
+        }
+    }
+
+    void 
+    Column::read(std::vector<std::complex<float> >& vals, long row)
+    {
+          if ( ColumnVectorData<std::complex<float> >* col 
+                          = dynamic_cast<ColumnVectorData<std::complex<float> >*>(this))
+          {
+                  // fails if user requested outputType different from input type.
+
+                  if (!isRead()) col->readRow(row);
+                  FITSUtil::fill(vals,col->data(row));
+          }
+          else
+          {
+                if ( type() == Tcomplex ) 
+                { 
+                        // in this case user tried to read vector row from scalar column.
+                        // one could be charitable and return a valarray of size 1,
+                        // but... I'm going to throw an exception suggesting the user
+                        // might not have meant that.
+
+                        throw Column::WrongColumnType(name());
+                }
+                else
+                {
+                       try
+                       {
+                            ColumnVectorData<std::complex<double> >& col 
+                                 = dynamic_cast<ColumnVectorData<std::complex<double> >&>(*this);
+                            if (!isRead()) col.readRow(row);                                  
+                            FITSUtil::fill(vals,col.data(row));
+
+                       }
+                       catch (std::bad_cast)
+                       {
+                              String 
+                        msg(" implicit conversion from complex to real data not allowed: Column ");
+                              msg += name();
+                              throw InvalidDataType(msg);
+
+                       }    
+                }
+
+          }
+
+    }
+
+    void 
+    Column::read(std::vector<std::complex<double> >& vals, long row)
+    {
+          if ( ColumnVectorData<std::complex<double> >* col 
+                          = dynamic_cast<ColumnVectorData<std::complex<double> >*>(this))
+          {
+                  // fails if user requested outputType different from input type.
 
                   if (!isRead()) col->readRow(row);
                   FITSUtil::fill(vals,col->data(row));

@@ -20,6 +20,7 @@
 #endif
 
 #include <float.h>
+#include <algorithm>
 
 // HDU
 #include "HDU.h"
@@ -99,6 +100,9 @@ namespace CCfits {
               m_hdu =  new PrimaryHDU<unsigned INT32BIT>(m_parent,bpix,naxis,naxes);
               m_hdu->bitpix(LONG_IMG);
               m_hdu->zeroInit(ULBASE);
+              break;
+	 case LONGLONG_IMG:
+	      m_hdu = new PrimaryHDU<LONGLONG>(m_parent,bpix,naxis,naxes);
               break; 
          default:
              throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
@@ -265,6 +269,19 @@ namespace CCfits {
                   }
                   imgType = Ilong;
                   break;
+	       case Ilonglong:
+                  if (primary)
+		  {
+		     if (!m_hdu)
+		     {
+			m_hdu = new PrimaryHDU<LONGLONG>(m_parent,readDataFlag,keys);
+		     }
+		  }
+		  else
+		  {
+		     m_hdu = new ImageExt<LONGLONG>(m_parent,hduName,readDataFlag,keys,version);
+		  }
+                  break;
                case Ifloat:
                   if (primary) 
                   {
@@ -417,6 +434,9 @@ namespace CCfits {
           newImage->bitpix(LONG_IMG);
           newImage->zeroInit(ULBASE); 
           break; 
+     case LONGLONG_IMG:
+          newImage =  new ImageExt<LONGLONG>(m_parent,name,bpix,naxis,naxes,version);   
+	  break;
      default:
         throw HDU::InvalidImageDataType("FitsError: invalid data type for FITS I/O");
   } 

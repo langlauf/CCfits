@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 #
-# $Id: Makefile.am,v 3.9 2009/08/17 17:44:52 gordon Exp $
+# $Id: Makefile.am,v 3.11 2016/01/14 23:02:38 gordon Exp $
 #
 # Author: Paul_Kunz@slac.stanford.edu
 #
@@ -23,7 +23,7 @@ CXX_LIB_PATH = @CXX_LIB_PATH@
 
 MSVC_FILES = MSconfig.h
 
-EXTRA_DIST = config CHANGES README.INSTALL License.txt file1.pha $(MSVC_FILES)
+EXTRA_DIST = config CHANGES README.INSTALL License.txt file1.pha CMakeLists.txt FindCFITSIO.cmake $(MSVC_FILES)
 
 
 bin_PROGRAMS = cookbook
@@ -94,7 +94,6 @@ libCCfits_la_HEADERS =				\
         Keyword.h				\
         KeywordT.h				\
 	KeywordCreator.h			\
-	NewColumn.h				\
 	NewKeyword.h				\
 	PHDU.h					\
         PHDUT.h                                 \

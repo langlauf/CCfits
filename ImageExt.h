@@ -46,9 +46,6 @@ namespace CCfits {
 
   */
 
-  /*! \fn const std::valarray<T>& ImageExt<T>::image() const;
-       \brief return the image data
-  */
 
 
 
@@ -61,11 +58,12 @@ namespace CCfits {
 
         virtual ImageExt<T> * clone (FITSBase* p) const;
         virtual void readData (bool readFlag = false, const std::vector<String>& keys = std::vector<String>());
-        const std::valarray<T>& image () const;
         virtual void zero (double value);
         virtual void scale (double value);
         virtual double zero () const;
         virtual double scale () const;
+        virtual void suppressScaling(bool toggle = true);
+        virtual void resetImageRead ();
 
       // Additional Public Declarations
 
@@ -81,22 +79,10 @@ namespace CCfits {
 
         virtual void initRead ();
         virtual std::ostream & put (std::ostream &s) const;
-        //	Read data reads the image if readFlag is true and
-        //	optional keywords if supplied. Thus, with no arguments,
-        //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (long first, long nElements, T* nullValue);
-        //	Read data reads the image if readFlag is true and
-        //	optional keywords if supplied. Thus, with no arguments,
-        //	readData() does nothing.
-        virtual const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride, T* nullValue);
-        //	Read data reads the image if readFlag is true and
-        //	optional keywords if supplied. Thus, with no arguments,
-        //	readData() does nothing.
-        virtual void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0);
-        //	Read data reads the image if readFlag is true and
-        //	optional keywords if supplied. Thus, with no arguments,
-        //	readData() does nothing.
-        virtual void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData);
+        const std::valarray<T>& readImage (long first, long nElements, T* nullValue);
+        const std::valarray<T>& readImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::vector<long>& stride,T* nullValue);
+        void writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue = 0);
+        void writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData);
         const Image<T>& data () const;
 
       // Additional Private Declarations
@@ -119,7 +105,7 @@ namespace CCfits {
           << " BITPIX "<< bitpix() << '\n';
 
   s <<  " Axis Lengths: \n";
-  for (size_t j =1; j < static_cast<size_t>( axes() ) ; j++)
+  for (size_t j =1; j <= static_cast<size_t>( axes() ) ; j++)
   {
         s << " Axis: " << j << "  " << axis(j-1) << '\n';  
   }
@@ -243,15 +229,9 @@ namespace CCfits {
     }
   }
 
-  template <typename T>
-  const std::valarray<T>& ImageExt<T>::image () const
-  {
-
-    return m_data.image();
-  }
 
   template <typename T>
-  const std::valarray<T>& ImageExt<T>::readImage (long first, long nElements, T* nullValue)
+  const std::valarray<T>& ImageExt<T>::readImage (long first, long nElements,T* nullValue)
   {
     checkExtensionType();
     return m_data.readImage(fitsPointer(),first,nElements,nullValue,naxes(),anynul());
@@ -268,14 +248,20 @@ namespace CCfits {
   void ImageExt<T>::writeImage (long first, long nElements, const std::valarray<T>& inData, T* nullValue)
   {
     checkExtensionType();
-    m_data.writeImage(fitsPointer(),first,nElements,inData,naxes(),nullValue);
+    long newNaxisN=0;
+    m_data.writeImage(fitsPointer(),first,nElements,inData,naxes(),newNaxisN,nullValue);
+    if (newNaxisN)
+       naxes(naxes().size()-1,newNaxisN);
   }
 
   template <typename T>
   void ImageExt<T>::writeImage (const std::vector<long>& firstVertex, const std::vector<long>& lastVertex, const std::valarray<T>& inData)
   {
     checkExtensionType();
-    m_data.writeImage(fitsPointer(),firstVertex,lastVertex,inData,naxes());
+    long newNaxisN=0;
+    m_data.writeImage(fitsPointer(),firstVertex,lastVertex,inData,naxes(),newNaxisN);
+    if (newNaxisN)
+       naxes(naxes().size()-1,newNaxisN);
   }
 
   template <typename T>
@@ -300,6 +286,7 @@ namespace CCfits {
            msg += "              from integer type to floating point type.";
        throw FitsException(msg,silent);
     }
+    m_data.scalingHasChanged();
   }
 
   template <typename T>
@@ -324,6 +311,7 @@ namespace CCfits {
            msg += "              from integer type to floating point type.";
        throw FitsException(msg,silent);
     }
+    m_data.scalingHasChanged();
   }
 
   template <typename T>
@@ -340,6 +328,19 @@ namespace CCfits {
     return HDU::scale();
   }
 
+  template <typename T>
+  void ImageExt<T>::suppressScaling (bool toggle)
+  {
+     HDU::suppressScaling(toggle);
+     m_data.scalingHasChanged();
+  }
+  
+  template <typename T>
+  void ImageExt<T>::resetImageRead()
+  {
+     m_data.resetRead();
+  }
+   
   // Additional Declarations
     template <typename T>
     inline void ImageExt<T>::checkExtensionType() const

@@ -17,7 +17,7 @@
 #else
 #include <sstream>
 #endif
-
+#include <utility>
 
 namespace CCfits {
 
@@ -51,13 +51,13 @@ namespace CCfits {
 				&colType, &repeat, &width, &status);
 
      string unitString("");
-     if (i < columnUnit.size())
+     if (i < static_cast<int>(columnUnit.size()))
         unitString = columnUnit[i];
-     setColumn(columnName[i],create.createColumn(i+1, ValueType(colType),
+     Column *newCol = create.createColumn(i+1, ValueType(colType),
                                 columnName[i], columnFmt[i], 
-                                unitString,repeat,width));
-
-     column(columnName[i]).setLimits(ValueType(colType));
+                                unitString,repeat,width);
+     setColumn(columnName[i], newCol);
+     newCol->setLimits(ValueType(colType));
 
   }
   }
@@ -140,7 +140,7 @@ namespace CCfits {
    // if a set of strings were supplied, interpret these as
    // keywords and columns to be read.
 
-   std::map<String,Column*>::iterator endColumn = column().end();
+   ColMap::iterator endColumn = column().end();
    size_t keysRead = 0;
    size_t nkey=keys.size();
 
@@ -181,7 +181,7 @@ namespace CCfits {
 
    for (rowsRead=0; rowsRead< rows() ; rowsRead+=rowSize)
    {     
-        std::map<String,Column*>::iterator col;
+        ColMap::iterator col;
         if (colKeys.size() > 0)
         {
                 for (size_t i=0; i < colKeys.size() ; i++)
@@ -228,7 +228,7 @@ namespace CCfits {
    if (colKeys.size() ==  0)
    {
         // mark all columns read
-        for (std::map<String,Column*>::iterator col = column().begin(); 
+        for (ColMap::iterator col = column().begin(); 
                 col != column().end(); ++col) 
         {
                 if (!(*col).second->varLength()) (*col).second->isRead(true);
@@ -240,7 +240,7 @@ namespace CCfits {
         {
                 // if a set of keys was entered, read the data in the ones
                 // that correspond to columns, as checked earlier.
-                std::map<String,Column*>::iterator col = column().find(colKeys[i]);
+                ColMap::iterator col = column().find(colKeys[i]);
 
                 if (!(*col).second->varLength()) (*col).second->isRead(true);
         }
@@ -261,23 +261,35 @@ namespace CCfits {
 
 
     int i = 0;
-    FITSUtil::auto_array_ptr<long> pBinSizes(new long[rows()]);
-    long*  binSizes = pBinSizes.get();
-    FITSUtil::auto_array_ptr<long> pOffsets(new long[rows()]);
-    long*  offsets  = pOffsets.get();
     while ( i < sz && status == 0 )  
     {
        // Get bin size for the current column 
        Column& thisColumn = column(varColumns[i]);
        int colnum = thisColumn.index();
-       status = fits_read_descripts(fitsPointer(), colnum, 1, rows() , binSizes,
-				    offsets, &status);
-       if (status != 0) break;
-
-       for (rowsRead=0; rowsRead < rows() ; rowsRead++)
+       if (thisColumn.type() == VTstring)
        {
-	  if (binSizes[rowsRead] > 0)
-	     thisColumn.readData(rowsRead+1, binSizes[rowsRead], 1);
+          // Variable-length string columns must be treated differently.
+          //  They are still represented as scalar columns rather than
+          //  vector columns.  Their variation refers to the string lengths,
+          //  not the number of elements in a row.
+          thisColumn.readData(1, rows(), 1);
+       }
+       else
+       {
+          FITSUtil::auto_array_ptr<long> pBinSizes(new long[rows()]);
+          long*  binSizes = pBinSizes.get();
+          FITSUtil::auto_array_ptr<long> pOffsets(new long[rows()]);
+          long*  offsets  = pOffsets.get();
+          status = fits_read_descripts(fitsPointer(), colnum, 1, rows() , binSizes,
+				       offsets, &status);
+          if (status != 0) break;
+          
+          // Read vector column rows one at a time.
+          for (rowsRead=0; rowsRead < rows() ; rowsRead++)
+          {
+	     if (binSizes[rowsRead] > 0)
+	        thisColumn.readData(rowsRead+1, binSizes[rowsRead], 1);
+          }
        }
        column(varColumns[i]).isRead(true);
        i++;
@@ -299,14 +311,13 @@ namespace CCfits {
         // we do NOT support the extension allowed by cfitsio whereby multiple
         // strings can be saved in a binary table column cell.
 
-        String diag("");   
+        String diag;   
 
-        if ( repeatWidth != 1 && type != Tstring) 
+        if ( repeatWidth != 1 && type != Tstring && type != VTstring) 
         { 
                 tformStr << repeatWidth;       
         }
 
-        // this is safe since there's no VTstring type.
         if (type < 0) tformStr << 'P';
 
         switch (type)
@@ -314,6 +325,10 @@ namespace CCfits {
                 case Tstring:
                         tformStr << repeatWidth << 'A';
                         break;
+                case VTstring:
+                   // For variable string cols, cannot precede 'PA' with a number > 1.
+                   tformStr << 'A';
+                   break;
                 case Tbyte:
                 case VTbyte:
                         tformStr << 'B';
@@ -431,20 +446,37 @@ namespace CCfits {
 
 
         ColumnCreator create(this);
-        if (type != Tstring)
+        if (columnNumber != 0) reindex(columnNumber, true);
+        if (type == Tstring)
         {
-                 setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
-                      colUnit,repeatWidth,1));
-                 column(columnName).setLimits(type);
+           // For fixed-width scalar string cols, TFORM is "wA" where 'w' is the
+           // string length.  Store this value in Column::m_width and just set
+           // m_repeat to 1. [For vector columns the format would be
+           // "rAw" where r corresponds to m_repeat, but these are not currently
+           // supported in CCfits.]
+           setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
+                 colUnit,1,repeatWidth));                
+        }
+        else if (type == VTstring)
+        {
+           // For variable string column, Column::m_width could only refer to the
+           //  width of the largest string in the col (the value 'w' in "PA(w)")
+           //  This can't be known at column creation time (CFITSIO determines the
+           //  'w' each time the file is closed), so just set the m_width to 1.
+           setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
+                 colUnit,1,1));                
         }
         else
         {
-                setColumn(columnName,create.createColumn(colNum,type,columnName,tfString,
-                      colUnit,1,repeatWidth));                
+           Column *newCol = create.createColumn(colNum,type,columnName,tfString,
+                colUnit,repeatWidth,1);
+           setColumn(columnName,newCol);
+           newCol->setLimits(type);
         }
+        
 
-         if (columnNumber != 0) reindex();
   }
+  
 
   // Additional Declarations
 

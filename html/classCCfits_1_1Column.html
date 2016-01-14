@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -138,15 +138,17 @@ const String &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#af730bdf4681626ec457ba9d8286e3d50">read</a> (std::valarray&lt; S &gt; &amp;vals, long rows)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a single row of a vector column into a std::valarray  <a href="#af730bdf4681626ec457ba9d8286e3d50"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
+<tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#ab74b3e27709d86d9af00f8313f9baf72">read</a> (std::vector&lt; S &gt; &amp;vals, long rows)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a single row of a vector column into a std::vector  <a href="#ab74b3e27709d86d9af00f8313f9baf72"></a><br/></td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#a7fd3388e536a354a54ee110f41e0c1f5">read</a> (std::vector&lt; S &gt; &amp;vals, long first, long last, S *nullValue)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve data from a scalar column into a std::vector&gt;, applying nullValue when relevant.  <a href="#a7fd3388e536a354a54ee110f41e0c1f5"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#ad9ce91e8e87c9a3b88b94ddfc9d42fd8">read</a> (std::valarray&lt; S &gt; &amp;vals, long first, long last, S *nullValue)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve data from a scalar column into a std::valarray, applying nullValue when relevant.  <a href="#ad9ce91e8e87c9a3b88b94ddfc9d42fd8"></a><br/></td></tr>
-<tr><td class="memTemplParams" colspan="2"><a class="anchor" id="a6fe330555d7926430bd4fb72af3df248"></a><!-- doxytag: member="CCfits::Column::read" ref="a6fe330555d7926430bd4fb72af3df248" args="(std::valarray&lt; S &gt; &amp;vals, long rows, S *nullValue)" -->
-template&lt;typename S &gt; </td></tr>
+<tr><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#a6fe330555d7926430bd4fb72af3df248">read</a> (std::valarray&lt; S &gt; &amp;vals, long rows, S *nullValue)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a single row of a vector column into a std::valarray, setting undefined values <br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a single row of a vector column into a std::valarray, setting undefined values  <a href="#a6fe330555d7926430bd4fb72af3df248"></a><br/></td></tr>
 <tr><td class="memTemplParams" colspan="2">template&lt;typename S &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Column.html#a5b6d04384ee5608b7bf6f86e651b5a02">readArrays</a> (std::vector&lt; std::valarray&lt; S &gt; &gt; &amp;vals, long first, long last)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a set of rows of a vector column into a vector of valarrays  <a href="#a5b6d04384ee5608b7bf6f86e651b5a02"></a><br/></td></tr>
@@ -581,7 +583,7 @@ template&lt;typename S &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>rows</em>&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -596,7 +598,45 @@ template&lt;typename S &gt; </div>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">vals</td><td>The output valarray object </td></tr>
-    <tr><td class="paramname">rows</td><td>The row number to be retrieved (starting at 1). </td></tr>
+    <tr><td class="paramname">row</td><td>The row number to be retrieved (starting at 1). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ab74b3e27709d86d9af00f8313f9baf72"></a><!-- doxytag: member="CCfits::Column::read" ref="ab74b3e27709d86d9af00f8313f9baf72" args="(std::vector&lt; S &gt; &amp;vals, long rows)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CCfits::Column::read </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; S &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>return a single row of a vector column into a std::vector </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vals</td><td>The output vector object </td></tr>
+    <tr><td class="paramname">row</td><td>The row number to be retrieved (starting at 1). </td></tr>
   </table>
   </dd>
 </dl>
@@ -704,6 +744,44 @@ template&lt;typename S &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a6fe330555d7926430bd4fb72af3df248"></a><!-- doxytag: member="CCfits::Column::read" ref="a6fe330555d7926430bd4fb72af3df248" args="(std::valarray&lt; S &gt; &amp;vals, long rows, S *nullValue)" -->
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void CCfits::Column::read </td>
+          <td>(</td>
+          <td class="paramtype">std::valarray&lt; S &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vals</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>rows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">S *&#160;</td>
+          <td class="paramname"><em>nullValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>return a single row of a vector column into a std::valarray, setting undefined values </p>
+<p>return a single row of a vector column into a std::vector, setting undefined values </p>
 
 </div>
 </div>
@@ -1686,7 +1764,7 @@ template&lt;typename S &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:53 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:19 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

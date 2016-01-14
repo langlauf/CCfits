@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -102,12 +102,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to a <a class="el" href="classCCfits_1_1Table.html">Table</a> column specified by name.  <a href="#ae578460dd522485e48ccd8f4536e5531"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a67eb478179846fc940e202476b4c08a3">column</a> (int colIndex) const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to the column identified by colIndex  <a href="#a67eb478179846fc940e202476b4c08a3"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual const std::map&lt; string, <br class="typebreak"/>
-<a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a573b295bfdd242a99d97d0d3a1dd4982">column</a> () const </td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to the array containing the columns.  <a href="#a573b295bfdd242a99d97d0d3a1dd4982"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual std::map&lt; string, <br class="typebreak"/>
-<a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#ac41ac8e02386d095a969142b486d3890">column</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to the array containing the columns.  <a href="#ac41ac8e02386d095a969142b486d3890"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="namespaceCCfits.html#a39c1e0ff73bba9e9541c577de8b64a14">ColMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#ac1a737e80de80bd37d5fb2e66301b2c7">column</a> () const </td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to the multimap containing the columns.  <a href="#ac1a737e80de80bd37d5fb2e66301b2c7"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceCCfits.html#a39c1e0ff73bba9e9541c577de8b64a14">ColMap</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a1222d8568faaf20879b6d1a49130b15f">column</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return a reference to the multimap containing the columns.  <a href="#a1222d8568faaf20879b6d1a49130b15f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a05ee7a368f7e220021cd16acc7a317cb">copyColumn</a> (const <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp;inColumn, int colIndx, bool insertNewCol=true)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">copy a column (from different or same <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> and file) into an existing table <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a>.  <a href="#a05ee7a368f7e220021cd16acc7a317cb"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a19bde9d4a37a2ee07016ef627e5fecde">deleteColumn</a> (const String &amp;columnName)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">delete a column in a <a class="el" href="classCCfits_1_1Table.html">Table</a> extension by name.  <a href="#a19bde9d4a37a2ee07016ef627e5fecde"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#aa89bbe572a86b8bc4ca4249ba0b21dbb">deleteRows</a> (long first, long number=1)</td></tr>
@@ -142,9 +142,6 @@ Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a9b5c4231233847904f841d023978a5"></a><!-- doxytag: member="CCfits::Table::numCols" ref="a7a9b5c4231233847904f841d023978a5" args="(int value)" -->
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#a7a9b5c4231233847904f841d023978a5">numCols</a> (int value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the number of Columns in the <a class="el" href="classCCfits_1_1Table.html">Table</a> <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adcf7114a5828d38b35e1732618716c35"></a><!-- doxytag: member="CCfits::Table::setColumn" ref="adcf7114a5828d38b35e1732618716c35" args="(const String &amp;colname, Column *value)" -->
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1Table.html#adcf7114a5828d38b35e1732618716c35">setColumn</a> (const String &amp;colname, <a class="el" href="classCCfits_1_1Column.html">Column</a> *value)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the column with name colname to the input value. <br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classCCfits_1_1Table.html">Table</a> is the abstract common interface to Binary and Ascii <a class="el" href="classCCfits_1_1Table.html">Table</a> HDUs.</p>
@@ -332,12 +329,12 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 </div>
 </div>
-<a class="anchor" id="a573b295bfdd242a99d97d0d3a1dd4982"></a><!-- doxytag: member="CCfits::Table::column" ref="a573b295bfdd242a99d97d0d3a1dd4982" args="() const " -->
+<a class="anchor" id="ac1a737e80de80bd37d5fb2e66301b2c7"></a><!-- doxytag: member="CCfits::Table::column" ref="ac1a737e80de80bd37d5fb2e66301b2c7" args="() const " -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp; CCfits::Table::column </td>
+          <td class="memname">const <a class="el" href="namespaceCCfits.html#a39c1e0ff73bba9e9541c577de8b64a14">ColMap</a> &amp; CCfits::Table::column </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const<code> [inline, virtual]</code></td>
@@ -346,19 +343,19 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div>
 <div class="memdoc">
 
-<p>return a reference to the array containing the columns. </p>
+<p>return a reference to the multimap containing the columns. </p>
 <p>This public version might be used to query the size of the column container in a routine that manipulates column table data. </p>
 
-<p>Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#ab121d5ab64abcc0a5df4ca7955bec2e9">CCfits::ExtHDU</a>.</p>
+<p>Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#aefb1a35040142a53171b86d633d40228">CCfits::ExtHDU</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac41ac8e02386d095a969142b486d3890"></a><!-- doxytag: member="CCfits::Table::column" ref="ac41ac8e02386d095a969142b486d3890" args="()" -->
+<a class="anchor" id="a1222d8568faaf20879b6d1a49130b15f"></a><!-- doxytag: member="CCfits::Table::column" ref="a1222d8568faaf20879b6d1a49130b15f" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt; string, <a class="el" href="classCCfits_1_1Column.html">Column</a> * &gt; &amp; CCfits::Table::column </td>
+          <td class="memname"><a class="el" href="namespaceCCfits.html#a39c1e0ff73bba9e9541c577de8b64a14">ColMap</a> &amp; CCfits::Table::column </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td><code> [inline, virtual]</code></td>
@@ -367,8 +364,54 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div>
 <div class="memdoc">
 
-<p>return a reference to the array containing the columns. </p>
+<p>return a reference to the multimap containing the columns. </p>
 <p>To be used in the implementation of subclasses. </p>
+
+</div>
+</div>
+<a class="anchor" id="a05ee7a368f7e220021cd16acc7a317cb"></a><!-- doxytag: member="CCfits::Table::copyColumn" ref="a05ee7a368f7e220021cd16acc7a317cb" args="(const Column &amp;inColumn, int colIndx, bool insertNewCol=true)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CCfits::Table::copyColumn </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classCCfits_1_1Column.html">Column</a> &amp;&#160;</td>
+          <td class="paramname"><em>inColumn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>colIndx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>insertNewCol</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td><code> [virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>copy a column (from different or same <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> and file) into an existing table <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a>. </p>
+<p>This is meant to provide the same functionality as CFITSIO's fits_copy_col, and therefore does not work with columns with variable length fields. Copying a column from an <a class="el" href="classCCfits_1_1AsciiTable.html" title="Class Representing Ascii Table Extensions.">AsciiTable</a> to a <a class="el" href="classCCfits_1_1BinTable.html" title="Class Representing Binary Table Extensions. Contains columns with scalar or vector row entries...">BinTable</a> is prohibited. colIndx range should be from 1 to nCurrentCols+1 if inserting, or 1 to nCurrentCols if replacing.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inColumn</td><td>The <a class="el" href="classCCfits_1_1Column.html" title="Abstract base class for Column objects.">Column</a> object which is to be copied </td></tr>
+    <tr><td class="paramname">colIndx</td><td>The position for which the copied <a class="el" href="classCCfits_1_1Column.html" title="Abstract base class for Column objects.">Column</a> will be placed (first colIndx = 1). </td></tr>
+    <tr><td class="paramname">insertNewCol</td><td>If 'true', new <a class="el" href="classCCfits_1_1Column.html" title="Abstract base class for Column objects.">Column</a> will be inserted in or appended to table. If 'false', <a class="el" href="classCCfits_1_1Column.html" title="Abstract base class for Column objects.">Column</a> will replace current <a class="el" href="classCCfits_1_1Column.html" title="Abstract base class for Column objects.">Column</a> at position = colIndx. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classCCfits_1_1ExtHDU.html#a3a4b1223e186f348ad5673eb18a16e67">CCfits::ExtHDU</a>.</p>
 
 </div>
 </div>
@@ -598,7 +641,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:59 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:24 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

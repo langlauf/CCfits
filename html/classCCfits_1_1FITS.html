@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -534,7 +534,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The file to be written to disk </td></tr>
-    <tr><td class="paramname">bitpix</td><td>the datatype of the primary image. <em>bitpix</em> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG, FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG. Note that if you send in a <em>bitpix</em> of USHORT_IMG or ULONG_IMG, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> will set <a class="el" href="classCCfits_1_1HDU.html#a81a2d5b001c0ae7d0a298942940189d8" title="return the data type keyword.">HDU::bitpix()</a> to its signed equivalent (SHORT_IMG or LONG_IMG), and then set BZERO to 2^15 or 2^31.</td></tr>
+    <tr><td class="paramname">bitpix</td><td>the datatype of the primary image. <em>bitpix</em> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG, FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG, LONGLONG_IMG. Note that if you send in a <em>bitpix</em> of USHORT_IMG or ULONG_IMG, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> will set <a class="el" href="classCCfits_1_1HDU.html#a81a2d5b001c0ae7d0a298942940189d8" title="return the data type keyword.">HDU::bitpix()</a> to its signed equivalent (SHORT_IMG or LONG_IMG), and then set BZERO to 2^15 or 2^31.</td></tr>
     <tr><td class="paramname">naxis</td><td>the data dimension of the primary image </td></tr>
     <tr><td class="paramname">naxes</td><td>the array of axis lengths for the primary image. Ignored if naxis =0, i.e. the primary header is empty. extensions can be added arbitrarily to the file after this constructor is called. The constructors should write header information to disk: </td></tr>
   </table>
@@ -676,7 +676,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
     <tr><td class="paramname">readDataFlag</td><td>boolean: if true, read data if <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> is found </td></tr>
     <tr><td class="paramname">hduKeys</td><td>Allows optional reading of keys in the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> that is searched for if it is successfully found </td></tr>
     <tr><td class="paramname">primaryKey</td><td>Allows optional reading of primary header keys on construction </td></tr>
-    <tr><td class="paramname">version</td><td>Optional version number. If specified, checks the EXTVERS keyword.</td></tr>
+    <tr><td class="paramname">version</td><td>Optional version number. If specified, checks the EXTVER keyword.</td></tr>
   </table>
   </dd>
 </dl>
@@ -729,7 +729,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 <p>Add an image extension to an existing <a class="el" href="classCCfits_1_1FITS.html" title="Memory object representation of a disk FITS file.">FITS</a> object. (File with w or rw access). </p>
 <p>Does not make primary images, which are built in the constructor for the <a class="el" href="classCCfits_1_1FITS.html" title="Memory object representation of a disk FITS file.">FITS</a> file. The image data is not added here: it can be added by a call to one of the <a class="el" href="classCCfits_1_1ExtHDU.html#ab4219c7154e57612ee5969e6f9d1cf89" title="Write a set of pixels to an image extension with the first pixel specified by an n-tuple, processing undefined data.">ExtHDU::write</a> functions.</p>
-<p><em>bpix</em> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG, FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG. Note that if you send in a <em>bpix</em> of USHORT_IMG or ULONG_IMG, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> will set <a class="el" href="classCCfits_1_1HDU.html#a81a2d5b001c0ae7d0a298942940189d8" title="return the data type keyword.">HDU::bitpix()</a> to its signed equivalent (SHORT_IMG or LONG_IMG), and then set BZERO to 2^15 or 2^31.</p>
+<p><em>bpix</em> may be one of the following CFITSIO constants: BYTE_IMG, SHORT_IMG, LONG_IMG, FLOAT_IMG, DOUBLE_IMG, USHORT_IMG, ULONG_IMG, LONGLONG_IMG. Note that if you send in a <em>bpix</em> of USHORT_IMG or ULONG_IMG, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> will set <a class="el" href="classCCfits_1_1HDU.html#a81a2d5b001c0ae7d0a298942940189d8" title="return the data type keyword.">HDU::bitpix()</a> to its signed equivalent (SHORT_IMG or LONG_IMG), and then set BZERO to 2^15 or 2^31.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Add a function for replacing the primary image </dd></dl>
 
 </div>
@@ -1235,7 +1235,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
     <tr><td class="paramname">searchValues</td><td>A string vector of values those keywords are required to have for success. Note that the keys must be of type string. If any value does not need to be checked the corresponding searchValue element can be empty. </td></tr>
     <tr><td class="paramname">readDataFlag</td><td>boolean: if true, read data if <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> is found </td></tr>
     <tr><td class="paramname">hduKeys</td><td>Allows optional reading of keys in the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> that is searched for if it is successfully found </td></tr>
-    <tr><td class="paramname">version</td><td>Optional version number. If specified, checks the EXTVERS keyword. </td></tr>
+    <tr><td class="paramname">version</td><td>Optional version number. If specified, checks the EXTVER keyword. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1340,7 +1340,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:55 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:21 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

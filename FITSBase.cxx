@@ -27,7 +27,7 @@ namespace CCfits {
   FITSBase::FITSBase (const String& fileName, RWmode rwmode)
     : m_currentCompressionTileDim(0),
       m_mode(rwmode), m_currentExtensionName(""), m_name(fileName),
-      m_pHDU(0), m_fptr(0), m_extension()
+      m_pHDU(0), m_extension(), m_fptr(0)
   {
   }
 

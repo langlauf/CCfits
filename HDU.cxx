@@ -22,6 +22,7 @@
 
 #include <memory>
 #include <cstring>
+#include <iterator>
 
 // FITS
 #include "FITS.h"
@@ -360,6 +361,8 @@ namespace CCfits {
   int keylen = 0;
 
   fits_get_hdrpos(fitsPointer(),&numKeys,&where,&fitsStatus);
+  // Reset 'where' to top prior to starting search.
+  where = 0;
   if (fitsStatus != 0 ) throw FitsError(fitsStatus,false);
 
   // search through the header to get the first "name" keyword.
@@ -715,5 +718,118 @@ namespace CCfits {
        m_keyWord.insert(refToEntry);
        newKeyword->write();
        return newKeyword;
+    }
+    
+    Keyword& HDU::readNextKey(const std::vector<String>& incList,
+                             const std::vector<String>& excList,
+                             bool searchFromBeginning)
+    {
+       const size_t nInc = incList.size();
+       const size_t nExc = excList.size();
+       bool silent=false;
+       if (!nInc)
+          throw FitsException("***CCfits Error: No keyword names specified for search.",silent);
+       // Length check is perhaps not necessary since we're doing
+       // dynamic allocation and cfitsio has its own internal checks.
+       bool badLength=false;      
+       for (size_t i=0; i<nInc && !badLength; ++i)
+       {
+          if (incList[i].length() >= FLEN_KEYWORD)
+             badLength=true; 
+       }
+       for (size_t i=0; i<nExc && !badLength; ++i)
+       {
+          if (excList[i].length() >= FLEN_KEYWORD)
+             badLength=true; 
+       }
+       if (badLength)
+       {
+          throw FitsException("***CCfits Error: Keyword names exceeds allowed legnth in readNextKey",silent);
+       }
+       
+       char **inc = new char*[nInc];
+       for (size_t i=0; i<nInc; ++i)
+       {
+          const size_t len = incList[i].length();
+          inc[i] = new char[len+1];
+          incList[i].copy(inc[i],len,0);
+          inc[i][len] = 0;
+       }
+       char **exc=0;
+       if (nExc)
+       {
+          exc = new char*[nExc];
+          for (size_t i=0; i<nExc; ++i)
+          {
+             const size_t len = excList[i].length();
+             exc[i] = new char[len+1];
+             excList[i].copy(exc[i],len,0);
+             exc[i][len] = 0;
+          }
+       }
+       
+       // If this is not the current header, make it so and
+       //  place keyword pointer to the beginning regardless of
+      //   'searchFromBeginning' flag setting.
+       int status=0;
+       char card[FLEN_CARD];
+       int num=0;
+       try
+       {
+          fits_get_hdu_num(fitsPointer(),&num);
+          if (num != m_index+1)
+          {
+             makeThisCurrent();
+             // This merely resets the cfitsio pointer to the beginning 
+             //    of the HDU.  It doesn't retrieve card.
+             fits_read_record(fitsPointer(),0,card,&status);
+          } 
+
+          if (searchFromBeginning)
+          {
+             fits_read_record(fitsPointer(),0,card,&status);
+          }
+          fits_find_nextkey(fitsPointer(),inc,(int)nInc,exc,(int)nExc,card,&status);
+       }
+       catch (...)
+       {
+          for (size_t i=0; i<nInc; ++i)
+             delete [] inc[i];
+          delete [] inc;
+          if (nExc)
+          {
+             for (size_t i=0; i<nExc; ++i)
+                delete [] exc[i];
+             delete [] exc;
+          }       
+          throw;
+       }
+       for (size_t i=0; i<nInc; ++i)
+          delete [] inc[i];
+       delete [] inc;
+       if (nExc)
+       {
+          for (size_t i=0; i<nExc; ++i)
+             delete [] exc[i];
+          delete [] exc;
+       }       
+       if (status)
+       {
+          throw FitsError(status);
+       }
+       
+       // This can throw       
+       Keyword* newKey = KeywordCreator::getKeywordFromCard(card, this);
+       
+       const string& keyname = newKey->name();
+       std::map<String,Keyword*>::value_type refToEntry(keyname,newKey);
+       std::map<String,Keyword*>::iterator itOld = m_keyWord.find(keyname);
+       if (itOld != m_keyWord.end())
+       {
+          delete itOld->second;
+          m_keyWord.erase(itOld);
+       }
+       m_keyWord.insert(refToEntry);
+       return *(refToEntry.second);
     }
 } // namespace CCfits

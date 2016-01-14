@@ -48,30 +48,11 @@ namespace CCfits {
   {
    int     status=0;
    FITSUtil::auto_array_ptr<char> pCard(new char[FLEN_CARD]);
-   FITSUtil::auto_array_ptr<char> pV(new char[FLEN_VALUE]);
-   FITSUtil::auto_array_ptr<char> pCom(new char[FLEN_COMMENT]);
    char* card = pCard.get();
-   char* v = pV.get();
-   char* com = pCom.get();
 
    if (fits_read_card(p->fitsPointer(), const_cast<char*>(keyName.c_str()), card,&status) ) 
            throw FitsError(status);
-
-   if (fits_parse_value(card, v, com, &status))  
-           throw FitsError(status);
-
-   String valString(v);
-   if (KeywordCreator::isContinued(valString))
-   {
-      bool restoreQuote = valString[0] == '\'';
-      KeywordCreator::getLongValueString(p, keyName, valString);
-      if (restoreQuote)
-      {
-         valString = '\'' + valString + '\'';
-      }
-   }
-
-   return parseRecord(keyName,valString,String(com),p);
+   return getKeywordFromCard(card, p, keyName);
   }
 
   Keyword* KeywordCreator::createKeyword (const String& keyName, const String& comment)
@@ -243,16 +224,34 @@ namespace CCfits {
      {
          value = valueString;       
      }
+     
+     if (fits_get_keytype(const_cast<char*>(valueString.c_str()), &keyType, &status))   
+     {
+             throw FitsError(status);
+     }
+     // If input float or complex<float> is using 'D' syntax for exponent,
+     //  must convert to 'E'.  FITS allows 'D', but C++ stringtream
+     //  output conversion won't properly handle it.
+     if (keyType == 'F' || keyType == 'X')
+     {
+        string::size_type locD=value.find('D');           
+        if (locD !=string::npos)
+        {
+           value[locD] = 'E';
+           if (keyType == 'X')
+           {
+              locD=value.find('D');
+              if (locD != string::npos)
+                 value[locD] = 'E';
+           }
+        }
+     }
+     
 #ifdef SSTREAM_DEFECT
      std::istrstream vstream( value.c_str() );
 #else   
      std::istringstream vstream(value);
 #endif
-
-     if (fits_get_keytype(const_cast<char*>(valueString.c_str()), &keyType, &status))   
-     {
-             throw FitsError(status);
-     }
 
      switch(keyType)
      {
@@ -277,6 +276,7 @@ namespace CCfits {
 	   return  new KeyData<String>(name, Tstring, 
                         value.substr(0,value.find_last_not_of(" ")+1),hdu, comment);                 
      }
+     return 0;
   }
 
   bool KeywordCreator::isContinued (const String& value)
@@ -306,11 +306,46 @@ namespace CCfits {
     if (fits_read_key_longstr(p->fitsPointer(), const_cast<char*>(keyName.c_str()), 
                 &lv, 0, &status))
     {
-       delete lv;
+       free(lv);
        throw FitsError(status);
     }
     value = String(lv);
-    delete lv;
+    free(lv);
+  }
+  
+  Keyword* KeywordCreator::getKeywordFromCard(char* card, HDU* p, const String& keyName)
+  {
+     FITSUtil::auto_array_ptr<char> pV(new char[FLEN_VALUE]);
+     FITSUtil::auto_array_ptr<char> pCom(new char[FLEN_COMMENT]);
+     char* v = pV.get();
+     char* com = pCom.get();
+     int status=0;
+      
+     String keywordName(keyName); 
+     if (!keywordName.length())
+     {
+        int nameLength=0;
+        FITSUtil::auto_array_ptr<char> pName(new char[FLEN_KEYWORD]);
+        char *name = pName.get();
+        if (fits_get_keyname(card, name, &nameLength, &status))
+            throw FitsError(status);
+        keywordName = String(name);         
+     }
+     if (fits_parse_value(card, v, com, &status))  
+             throw FitsError(status);
+
+     String valString(v);
+     if (KeywordCreator::isContinued(valString))
+     {
+        bool restoreQuote = valString[0] == '\'';
+        KeywordCreator::getLongValueString(p, keywordName, valString);
+        if (restoreQuote)
+        {
+           valString = '\'' + valString + '\'';
+        }
+     }
+
+     return parseRecord(keywordName,valString,String(com),p);
   }
 
   // Additional Declarations

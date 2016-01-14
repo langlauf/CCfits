@@ -1,3 +1,114 @@
+- For reading Keywords, added conversion of numerical types to strings.
+(12/15)
+   Keyword.cxx, .h
+   KeywordT.h
+- Added support for variable-width string columns (12/15)
+   CCfits.h
+   Column.cxx, .h
+   ColumnCreator.cxx
+   ColumnData.cxx, .h
+   BinTable.cxx
+- Added new ExtHDU::copyColumn function, implemented in the Table 
+class. (11/15)
+   AsciiTable.cxx
+   BinTable.cxx
+   Column.cxx, .h
+   ExtHDU.cxx, .h
+   Table.cxx, .h
+   (This also required a conforming change to editcol.c in CFITSIO.)
+- Changed the Column container member of the Table class from a map
+to a multimap (now typedefed to 'ColMap').  This is to allow proper 
+handling of case where multiple columns within table share the same
+name.  NOTE: This resulted in a change to the public interface:
+ExtHDU and Table column() accessor functions now return a multimap. (10/15)
+   AsciiTable.cxx
+   BinTable.cxx
+   CCfits.h
+   ExtHDU.cxx, .h
+   FITS.cxx
+   Table.cxx, .h
+- Removed the ImageExt::image() accessor function from the public
+interface.  This was intended for internal use only. (10/15)
+   ImageExt.h
+- Now allows image write calls to expand the outer-most (NAXISN)
+dimension of the image.  This was a feature of CFITSIO that wasn't
+previously supported in CCfits. (10/15)
+   (same files as in following entry below)
+- Implemented full-read internal caching for images.  Previously
+image read calls resulted in disk reads even when current values
+were available in memory.  (10/15)
+   PrimaryHDU.h
+   Image.h
+   PHDUT.h
+   ImageExt.h
+   ExtHDUT.h 
+   HDU.h
+- Fix to ColumnData::writeData.  It should not resize the internal
+m_data vector to a smaller size when a write operation passes in a just
+a partial portion of the column.  (gcc had been covering up this bug
+since the resize call wasn't actually erasing any values). (9/15)
+   ColumnData.h
+- Added Column::read functions for retrieving a single row of a vector
+column into a std::vector.  Previously this was only allowed for
+valarrays.  (9/15)
+   Column.cxx, .h
+   ColumnT.h   
+- Added new function HDU::readNextKey. (9/15)
+   HDU.cxx, .h
+   KeywordCreator.cxx, .h
+- Removed #ifdef HAVE_CONFIG_H test for including config.h due to
+potential conflicts with users' customized autotools config.h files.
+(8/15)
+   ColumnVectorData.h
+   FITSUtilT.h
+   Table.h
+- Converted 'delete' calls to 'free()' in KeywordCreator's
+getLongValueString function.  This removes memory mismatch errors
+in valgrind output.  (3/15)
+   KeywordCreator.cxx
+- Bug fix to ImageExt::put (accessed through HDU's "operator<<").  It
+was not showing output for the highest numbered axis.  (Submitted by
+Georgios Bekiaris) (2/15)
+- Removed vestigal code file NewColumn.h.  (This was reported to have
+caused cookbook build errors on ubuntu 14.04.) (5/14)
+- Added proper handling of 'D' exponent notation when reading in keyword
+values of type float or complex.  This is allowed by the FITS standard,
+but the C++ stringstream conversion operator was not recognizing it.
+This caused value to be truncated at the 'D' for floats, and to be
+ignored altogether for complex.  The change was made entirely in the
+parseRecord() function. (4/14)
+   KeywordCreator.cxx
+- In Column::setLimits, removed the dynamic allocation of the static
+variable arrays.  These led to small memory leaks (submitted by David
+Riethmiller).  (3/14)
+   Column.cxx
+- Added an #include <iterator> statement to HDU.cxx.  Windows
+compilation was failing due to it not finding std::back_inserter.
+(Submitted by Daniel Kaneider) (11/13)
+   HDU.cxx
+- Added read/write capability for images of LONGLONG type. (10/13)
+   CCfits.h
+   ExtHDUT.h
+   FITSUtil.h
+   HDUCreator.cxx
+   PHDUT.h
+- Added a missing 'break' statement to 'case Tlonglong' in 
+FITSType2String function (submitted by DavidBinderman). (09/13)
+   FITSUtil.cxx
+- Replaced the use of the valarray '==' operator with an explicit
+loop in ColumnVectorData<T>::compare.  This was to get around a compiler
+glitch that appeared on Mac 10.9 w/ gcc 4.2.1.  (07/13)
+- Bug fix to HDU::getNamedLines function.  The starting point for the
+search needs to be reset to the top of the HDU prior to the search loop.
+(fix submitted by Gavin Blakeman) (01/13)
+   HDU.cxx
+- Fixed a couple problems with the FITS::addTable function.  It was not
+allowing a new table with a pre-existing hdu name even when the version
+number was different.  Also it was not writing the EXTVER keyword when
+the version number was > 1.  (03/12)
+   FITS.cxx
+   Table.cxx
+
 Changes for CCfits 2.4
 - Fix to allow writing to compressed images of BITPIX=32 on 64-bit 
 Linux platforms.  This is done by storing the internal image array as

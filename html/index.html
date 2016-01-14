@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -89,77 +89,47 @@ About this Manual</h2>
     
 </UL>
    <h2><a class="anchor" id="rel1"></a>
-Release Notes for Version 2.4 Dec 2011</h2>
-<p>Fixes:</p>
-<ul>
-<li>Compressed images may now be written with BITPIX=32. This fix was made by internally storing the image array as int types rather than longs (see backwards compatibility issues).</li>
-<li>For variable-width columns, the write functions now allow all of the same type conversions as had been working with fixed-width columns.</li>
-<li>The null-value versions of the primary and extension image write functions are now working.</li>
-<li>The basic FITS constructor can now handle files containing multiple extensions which have the same name AND version number. (Note that this is still not a recommended file structure.)</li>
-<li>BinTable's addColumn function now automatically first makes itself the current extension so that the user doesn't have to call ExtHDU::makeThisCurrent().</li>
-<li>Bug fix to Table's deleteRows function. This error had been preventing the output stream operator from working on vector columns after rows had been deleted.</li>
-</ul>
-<p>Backwards Compatibility Issue:</p>
-<ul>
-<li>For images of BITPIX=32, <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> now stores the values in a valarray of ints rather than longs. This affects the public interface in one place: the return type of the ImageExt&lt;T&gt;::image() function.</li>
-</ul>
-<h2><a class="anchor" id="rel2"></a>
-Release Notes For Version 2.3 Nov 2010</h2>
-<p>Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
-<ul>
-<li>3 previously protected functions are now made public: Keyword::keytype(), PHDU::simple(), and PHDU::extend().</li>
-<li>New function: ExtHDU::isCompressed().</li>
-<li>Uses less memory during the image loading operations for primary and extension HDUs.</li>
-<li>When the basic version of the FITS constructor is called in Write mode on a pre-existing file, it will now automatically read ALL of the headers rather than just the primary. This makes it conform more closely to the Read mode behavior, and it makes things easier when trying to append new HDUs to files containing an unknown number of existing HDUs. (See Backwards Compatibility)</li>
-</ul>
-<p>Bug Fixes:</p>
-<ul>
-<li>In the 2 FITS class deleteExtension functions, the index numbers of all HDU objects which follow the deleted are now decremented by one. (See Backwards Compatibility)</li>
-<li>Fix to the PHDU write functions which take a nullValue argument. Neither could be instantiated due to an invalid static_cast of pointers.</li>
-<li>Fix needed for the FITS::copy function to allow the Columns in the newly created HDU to be modifiable.</li>
-<li>The basic version of the FITS constructor, when in Write mode, was ignoring the user's readDataFlag and optional primary keys input.</li>
-<li>An error in the (seldom instantiated) Image class assignment operator was preventing compilation with the nvcc compiler.</li>
-<li>On 64-bit Linux only, a bad cast error is triggered when trying to read an image of type signed or unsigned long, into a valarray with the opposite signed/unsigned qualifier.</li>
-<li>All of the FITS::read functions now perform a check to prevent multiple entries of the same HDU from appearing in the FITS::extension() multimap.</li>
-<li>For case of Columns of type unsigned longs, the object's lower data limit value was left unitialized.</li>
-</ul>
+Release Notes for Version 2.5 Jan 2016</h2>
 <p>Backwards Compatibility Issues:</p>
 <ul>
-<li>If you're calling either FITS::deleteExtension function AND you have saved references to any of the ExtHDU objects which follow the deleted object, note that those ExtHDUs will now have an index number 1 less than before. Their indices will now correctly match what's actually in the FITS file.</li>
-<li>When using the basic version of the FITS constructor in Write mode on a pre-existing file, you no longer need to first call FITS::read to access any of the ExtHDUs. These are now read automatically, same as when this constructor is called in Read mode. However this change shouldn't require the removal of the FITS::read calls from your code. They will merely be redundant if left in.</li>
+<li>As part of an effort to allow tables to hold multiple columns with the same name (see "Enhancements" section), the Table class now stores Column objects in an internal multimap rather than a map. This affects the public interface in 2 places: the ExtHDU::column() and Table::column() accessor functions. These used to return a std::map reference, but now return a std::multimap (using new typedef 'ColMap' defined in <a class="el" href="CCfits_8h_source.html">CCfits.h</a>).</li>
+<li>Removed the ImageExt&lt;T&gt;::image() accessor function from the public interface. This was only ever intended for internal use.</li>
 </ul>
-<h2><a class="anchor" id="rel3"></a>
-Release Notes For Version 2.2 Sep 2009</h2>
-<p>Enhancements to <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>:</p>
+<p>Enhancements:</p>
 <ul>
-<li>Added an auto-generated pkg-config file to the stand-alone distribution.</li>
-<li>Added an option for case-insensitive searching in the ExtHDU and Table Column get-by-name functions.</li>
-<li>The public functions column() and numCols() have been added to the ExtHDU interface. They were previously available only in the derived Table class.</li>
-<li>New resetRead and getNullValue functions for Column class.</li>
-<li>Improved the documentation for the nullValue versions of the Column read/write member functions.</li>
+<li>Added scripts for building with the CMake system, primarily intended for builds on Windows platforms.</li>
+<li>New functions: ExtHDU::copyColumn, HDU::readNextKey, HDU::resetImageRead, and a new Column::read overload for returning a single row into a std::vector.</li>
+<li>Keyword reads can now convert numerical types into strings.</li>
+<li>Added support for variable-width string columns (with new ValueType enum = VTstring).</li>
+<li>Image write functions are now allowed to dynamically increase the size of the outer dimension as needed. The corresponding NAXIS keyword will be updated automatically.</li>
+<li>Tables can now handle having multiple columns with the same column name. (Also see "Backwards Compatibility" section.)</li>
+<li>Added support for read/write of LONGLONG types for images.</li>
+<li>Added handling of 'D' exponent notation when reading keyword values with floating-point types.</li>
 </ul>
 <p>Bug Fixes:</p>
 <ul>
-<li>Converted non-standard calls to vector and valarray end iterators. These were causing runtime exceptions when built with Microsoft Visual C++ v9.0.</li>
-<li>The Column addNullValue function now works for cases where the null value argument is of a type that requires casting to match the type of data stored in the Column.</li>
-<li>Fix to the Column writeArrays function for the case where valarrays of varying length were sent to fixed-width columns. It was previously sending along a default null value even when the user did not request one.</li>
-<li>Fix for reading and writing complex data types to scalar columns. The first "firstRow" complex values were not being written or read.</li>
-<li>Renamed private FITS::extension() function to extensionMap(). This is to prevent user from having to explicitly declare a const FITS pointer in order to use the public const FITS::extension*() function.</li>
-</ul>
-<p>Backwards Compatibility Issue:</p>
-<ul>
-<li>To prevent overloading ambiguity resulting from the new flag added to ExtHDU/Table get-by-name Column functions for case-insensitive searches, the protected column(string,Column*) function has been renamed to setColumn. As this is a protected function, the change should not affect standard usage of <a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a>.</li>
+<li>Improved memory caching when reading images, reducing the number of unnecessary disk reads.</li>
+<li>Removed header inclusion of <a class="el" href="config_8h_source.html">config.h</a> due to potential conflicts with users' customized autotools <a class="el" href="config_8h_source.html">config.h</a> files.</li>
+<li>HDU's '&lt;&lt;' output operator was not showing output for the highest numbered axis.</li>
+<li>Removed unused NewColumn.h code file.</li>
+<li>Fixed memory leak in internal Column::setLimits function.</li>
+<li>Added #include statements to various files, the absence of which was causing compilation failures on recent Windows Visual Studio builds.</li>
+<li>Added missing 'break' statement for Tlonglong case in internal FITSType2String function.</li>
+<li>Replaced a valarray operation in <a class="el" href="ColumnVectorData_8h_source.html">ColumnVectorData.h</a> file which caused a compiler glitch on certain Mac platforms. (This was previously released as a patch.)</li>
+<li>Fix made to HDU's getHistory and getComments internal search algorithm.</li>
+<li>Fix to FITS::addTable function for case where new table shares its name with a pre-existing HDU but has a different version number.</li>
+<li>Fix to memory management for certain Column write operations.</li>
 </ul>
 <p>For a more complete listing, see the CHANGES file distributed with the software. For earlier versions, see <a class="el" href="releases.html">Previous Release Notes</a>.</p>
 <h2><a class="anchor" id="ack"></a>
 Authors and Acknowledgements</h2>
-<p><a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> was written as part of a re-engineering effort for the X-Ray data analysis program, XSPEC. It was designed using Rational Rose and originally implemented on a Solaris platform by Ben Dorman to whom blame should be attached. Sandhia Bansal worked on part of the implementation and, and Paul Kunz (<a href="mailto:&#112;&#102;&#107;&#101;&#098;&#064;&#115;&#108;&#097;&#099;&#046;&#115;&#116;&#097;&#110;&#102;&#111;&#114;&#100;&#046;&#101;&#100;&#117;">&#112;&#102;&#107;&#101;&#098;&#064;&#115;&#108;&#097;&#099;&#046;&#115;&#116;&#097;&#110;&#102;&#111;&#114;&#100;&#046;&#101;&#100;&#117;</a>) wrote the configuration scheme and dispensed helpful advice: both are also thanked profusely for the port to Windows2000/VC++.net. Thanks to R. Mathar (MPIA) and Patrik Jonsson (Lick Obs.) for contributing many helpful suggestions and bug reports, and ports to HP-UX and AIX respectively.</p>
-<p><a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> is currently maintained by Craig Gordon and Bryan Irby (<a href="mailto:&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;">&#099;&#099;&#102;&#105;&#116;&#115;&#064;&#104;&#101;&#097;&#115;&#097;&#114;&#099;&#046;&#103;&#115;&#102;&#099;&#046;&#110;&#097;&#115;&#097;&#046;&#103;&#111;&#118;</a>). Suggestions and bug reports are welcome, as are offers to fill out parts of the implementation that are missing. We are also interested in knowing which parts of cfitsio that are not currently supported should be the highest priority for future extensions. </p>
+<p><a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> was written as part of a re-engineering effort for the X-Ray data analysis program, XSPEC. It was designed using Rational Rose and originally implemented on a Solaris platform by Ben Dorman to whom blame should be attached. Sandhia Bansal worked on part of the implementation and, and Paul Kunz (<a href="mailto:pfkeb@slac.stanford.edu">pfkeb@slac.stanford.edu</a>) wrote the configuration scheme and dispensed helpful advice: both are also thanked profusely for the port to Windows2000/VC++.net. Thanks to R. Mathar (MPIA) and Patrik Jonsson (Lick Obs.) for contributing many helpful suggestions and bug reports, and ports to HP-UX and AIX respectively.</p>
+<p><a class="el" href="namespaceCCfits.html" title="Namespace enclosing all CCfits classes and globals definitions.">CCfits</a> is currently maintained by Craig Gordon and Bryan Irby (<a href="mailto:ccfits@heasarc.gsfc.nasa.gov">ccfits@heasarc.gsfc.nasa.gov</a>). Suggestions and bug reports are welcome, as are offers to fill out parts of the implementation that are missing. We are also interested in knowing which parts of cfitsio that are not currently supported should be the highest priority for future extensions. </p>
 </div></div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:51 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:18 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

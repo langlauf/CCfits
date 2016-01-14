@@ -136,6 +136,7 @@ namespace CCfits {
                 break;
         case Tlonglong:
                 keyString = "long long";
+                break;
         case Tfloat:
                 keyString = "float";
                 break;

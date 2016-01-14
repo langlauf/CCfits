@@ -2,13 +2,13 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Author: Paul_Kunz@slac.stanford.edu
 
-AC_REVISION($Revision: 3.23 $)
+AC_REVISION($Revision: 3.24 $)
 
 AC_INIT(FITS.cxx)
 AM_CONFIG_HEADER(config.h)
 AC_CONFIG_AUX_DIR(config)
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE(CCfits, 2.4)
+AM_INIT_AUTOMAKE(CCfits, 2.5)
 
 AC_LANG_CPLUSPLUS
 

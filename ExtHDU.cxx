@@ -70,8 +70,6 @@ namespace CCfits {
         m_xtension(xtype),
         m_name(hduName)
   {
-  int status = 0;
-  int htype = xtype;
   int number = -1;
 
 
@@ -255,6 +253,11 @@ namespace CCfits {
     throw WrongExtensionType(name());
 
   }
+  
+  void ExtHDU::copyColumn(const Column& inColumn, int colIndx, bool insertNewCol)
+  {
+     throw WrongExtensionType(name());
+  }
 
   void ExtHDU::deleteColumn (const String& columnName)
   {
@@ -302,7 +305,7 @@ namespace CCfits {
     return 0;
   }
 
-  const std::map<string, Column*>& ExtHDU::column () const
+  const ColMap& ExtHDU::column () const
   {
     // overridden in Table.
     throw WrongExtensionType(name());

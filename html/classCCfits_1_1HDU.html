@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -180,12 +180,16 @@ FITSBase *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 <tr><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a18f7273134f1a0428f8d565067785619">readKeys</a> (std::vector&lt; String &gt; &amp;keyNames, std::vector&lt; T &gt; &amp;vals)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">read a set of specified keywords of the same data type from the header of a disk <a class="el" href="classCCfits_1_1FITS.html" title="Memory object representation of a disk FITS file.">FITS</a> file and return their values  <a href="#a18f7273134f1a0428f8d565067785619"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a25e91c9b83f8cf3c9ba19ca473c3432f">readNextKey</a> (const std::vector&lt; String &gt; &amp;incList, const std::vector&lt; String &gt; &amp;excList, bool searchFromBeginning=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the next key in the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> which matches a string in incList, and does not match string in excList.  <a href="#a25e91c9b83f8cf3c9ba19ca473c3432f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a9ea102f0439b4416bc3b3bf7924559f4">resetImageRead</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">force next image reading operation to read from file instead of object cache.  <a href="#a9ea102f0439b4416bc3b3bf7924559f4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1ffd58e00cd8f3a903976df8f91bc0a"></a><!-- doxytag: member="CCfits::HDU::scale" ref="af1ffd58e00cd8f3a903976df8f91bc0a" args="() const " -->
 virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#af1ffd58e00cd8f3a903976df8f91bc0a">scale</a> () const </td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">return the BSCALE keyword value <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a6c8e0dc188f74f681f6bfe17819b2eb9">scale</a> (double value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the BSCALE keyword value for images (see warning for images of int type)  <a href="#a6c8e0dc188f74f681f6bfe17819b2eb9"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a6bd0d7eb236211267de480c595b5b631">suppressScaling</a> (bool toggle=true)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a6bd0d7eb236211267de480c595b5b631">suppressScaling</a> (bool toggle=true)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">turn off image scaling regardless of the BSCALE and BZERO keyword values  <a href="#a6bd0d7eb236211267de480c595b5b631"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCCfits_1_1HDU.html#a56ce9ed0864e07a7ef380b18e3be7a79">updateChecksum</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">update the CHECKSUM keyword value, assuming DATASUM exists and is correct  <a href="#a56ce9ed0864e07a7ef380b18e3be7a79"></a><br/></td></tr>
@@ -566,6 +570,73 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a25e91c9b83f8cf3c9ba19ca473c3432f"></a><!-- doxytag: member="CCfits::HDU::readNextKey" ref="a25e91c9b83f8cf3c9ba19ca473c3432f" args="(const std::vector&lt; String &gt; &amp;incList, const std::vector&lt; String &gt; &amp;excList, bool searchFromBeginning=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classCCfits_1_1Keyword.html">Keyword</a> &amp; CCfits::HDU::readNextKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; String &gt; &amp;&#160;</td>
+          <td class="paramname"><em>incList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; String &gt; &amp;&#160;</td>
+          <td class="paramname"><em>excList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>searchFromBeginning</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Read the next key in the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> which matches a string in incList, and does not match string in excList. </p>
+<p>Parameters: </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">incList</td><td>Vector of strings specifying keyword names to search. </td></tr>
+    <tr><td class="paramname">excList</td><td>Vector of strings specifying names to exclude from search. This may be left empty. </td></tr>
+    <tr><td class="paramname">searchFromBeginning</td><td>If 'true', search will be conducted from the start of the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a>. Otherwise it starts from the current position.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>This is a wrapper around the CFITSIO fits_find_nextkey function. It reads in and returns the next keyword whose name matches matches one of the strings in incList, which may contain wild card characters (*,?, and #). It will exclude keywords whose name matches a string in excList. If no keyword is found, a FitError is thrown.</p>
+<p>By default the search is conducted from the current keyword position in the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a>. If searchFromBeginning is set to 'true', search will start from the beginning of the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a>. If <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> is not the currently open extension, this will make it so and start the keyword search from the beginning. </p>
+
+</div>
+</div>
+<a class="anchor" id="a9ea102f0439b4416bc3b3bf7924559f4"></a><!-- doxytag: member="CCfits::HDU::resetImageRead" ref="a9ea102f0439b4416bc3b3bf7924559f4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CCfits::HDU::resetImageRead </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td><code> [inline, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>force next image reading operation to read from file instead of object cache. </p>
+<p>[Note: It is not necessary to call this function for normal image reading operations.] For primary HDUs and image extensions, this forces the next read operation to retrieve data from the file regardless of whether the data has already been read and stored in the HDU's internal arrays. This does nothing if the <a class="el" href="classCCfits_1_1HDU.html" title="Base class for all HDU [Header-Data Unit] objects.">HDU</a> does not contain an image. </p>
+
+<p>Reimplemented in <a class="el" href="classCCfits_1_1ImageExt.html#ac7a7e4381356c67d7c8b1d1a977e2fee">CCfits::ImageExt&lt; T &gt;</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a6c8e0dc188f74f681f6bfe17819b2eb9"></a><!-- doxytag: member="CCfits::HDU::scale" ref="a6c8e0dc188f74f681f6bfe17819b2eb9" args="(double value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -598,7 +669,7 @@ template&lt;typename T &gt; </div>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>toggle</em> = <code>true</code></td><td>)</td>
-          <td></td>
+          <td><code> [virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -606,6 +677,8 @@ template&lt;typename T &gt; </div>
 
 <p>turn off image scaling regardless of the BSCALE and BZERO keyword values </p>
 <p>For <em>toggle</em> = true, this turns off image scaling for future read/writes by resetting the scale and zero to 1.0 and 0.0 respectively. It does NOT modify the BSCALE and BZERO keywords. If <em>toggle</em> = false, the scale and zero values will be restored to the keyword values. </p>
+
+<p>Reimplemented in <a class="el" href="classCCfits_1_1ImageExt.html#a833c24cecd9315e902f6e1fe0c6ca381">CCfits::ImageExt&lt; T &gt;</a>.</p>
 
 </div>
 </div>
@@ -738,7 +811,7 @@ template&lt;typename T &gt; </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:57 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:23 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

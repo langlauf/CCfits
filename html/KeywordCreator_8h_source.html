@@ -22,7 +22,7 @@
   
   <td style="padding-left: 0.5em;">
    <div id="projectname">CCfits
-   &#160;<span id="projectnumber">2.4</span>
+   &#160;<span id="projectnumber">2.5</span>
    </div>
    
   </td>
@@ -97,58 +97,63 @@
 <a name="l00040"></a>00040         <span class="comment">//      in with a specified type.</span>
 <a name="l00041"></a>00041         <span class="keyword">static</span> Keyword* getKeyword (<span class="keyword">const</span> String&amp; keyName, <a class="code" href="namespaceCCfits.html#a1291594525d4e6fd06698c98a7a7ec2f" title="CCfits value types and their CFITSIO equivalents (in caps)">ValueType</a> keyType, HDU* p);
 <a name="l00042"></a>00042         <span class="keyword">static</span> Keyword* getKeyword (<span class="keywordtype">int</span> keyNumber, HDU* p);
-<a name="l00043"></a>00043 
-<a name="l00044"></a>00044       <span class="comment">// Additional Public Declarations</span>
-<a name="l00045"></a>00045 
-<a name="l00046"></a>00046     <span class="keyword">protected</span>:
-<a name="l00047"></a>00047         HDU* forHDU ();
+<a name="l00043"></a>00043         <span class="comment">// If calling function already has the keyword name, it can send it in as the</span>
+<a name="l00044"></a>00044         <span class="comment">//   3rd argument and the function will make use of it.  Otherwise leave it</span>
+<a name="l00045"></a>00045         <span class="comment">//   empty and the function will just extract the keyword name from the card.</span>
+<a name="l00046"></a>00046         <span class="comment">//   This function does not take ownership of the memory allocated to card.</span>
+<a name="l00047"></a>00047         <span class="keyword">static</span> Keyword* getKeywordFromCard(<span class="keywordtype">char</span>* card, HDU* p, <span class="keyword">const</span> String&amp; keyName=<span class="keywordtype">string</span>(<span class="stringliteral">&quot;&quot;</span>));
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049       <span class="comment">// Additional Protected Declarations</span>
+<a name="l00049"></a>00049       <span class="comment">// Additional Public Declarations</span>
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051     <span class="keyword">private</span>:
-<a name="l00052"></a>00052         KeywordCreator(<span class="keyword">const</span> KeywordCreator &amp;right);
-<a name="l00053"></a>00053         KeywordCreator &amp; operator=(<span class="keyword">const</span> KeywordCreator &amp;right);
-<a name="l00054"></a>00054 
-<a name="l00055"></a>00055         <span class="keyword">static</span> Keyword* parseRecord (<span class="keyword">const</span> String&amp; name, <span class="keyword">const</span> String&amp; valueString, <span class="keyword">const</span> String&amp; comment, HDU* hdu);
-<a name="l00056"></a>00056         <span class="keyword">static</span> <span class="keywordtype">bool</span> isContinued (<span class="keyword">const</span> String&amp; value);
-<a name="l00057"></a>00057         <span class="keyword">static</span> <span class="keywordtype">void</span> getLongValueString (HDU* p, <span class="keyword">const</span> String&amp; keyName, String&amp; value);
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059       <span class="comment">// Additional Private Declarations</span>
-<a name="l00060"></a>00060 
-<a name="l00061"></a>00061     <span class="keyword">private</span>: <span class="comment">//## implementation</span>
-<a name="l00062"></a>00062       <span class="comment">// Data Members for Class Attributes</span>
-<a name="l00063"></a>00063         Keyword *m_keyword;
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065       <span class="comment">// Data Members for Associations</span>
-<a name="l00066"></a>00066         HDU* m_forHDU;
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068       <span class="comment">// Additional Implementation Declarations</span>
+<a name="l00051"></a>00051     <span class="keyword">protected</span>:
+<a name="l00052"></a>00052         HDU* forHDU ();
+<a name="l00053"></a>00053 
+<a name="l00054"></a>00054       <span class="comment">// Additional Protected Declarations</span>
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     <span class="keyword">private</span>:
+<a name="l00057"></a>00057         KeywordCreator(<span class="keyword">const</span> KeywordCreator &amp;right);
+<a name="l00058"></a>00058         KeywordCreator &amp; operator=(<span class="keyword">const</span> KeywordCreator &amp;right);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060         <span class="keyword">static</span> Keyword* parseRecord (<span class="keyword">const</span> String&amp; name, <span class="keyword">const</span> String&amp; valueString, <span class="keyword">const</span> String&amp; comment, HDU* hdu);
+<a name="l00061"></a>00061         <span class="keyword">static</span> <span class="keywordtype">bool</span> isContinued (<span class="keyword">const</span> String&amp; value);
+<a name="l00062"></a>00062         <span class="keyword">static</span> <span class="keywordtype">void</span> getLongValueString (HDU* p, <span class="keyword">const</span> String&amp; keyName, String&amp; value);
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064       <span class="comment">// Additional Private Declarations</span>
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     <span class="keyword">private</span>: <span class="comment">//## implementation</span>
+<a name="l00067"></a>00067       <span class="comment">// Data Members for Class Attributes</span>
+<a name="l00068"></a>00068         Keyword *m_keyword;
 <a name="l00069"></a>00069 
-<a name="l00070"></a>00070   };
-<a name="l00071"></a>00071 
-<a name="l00072"></a>00072   <span class="comment">// Class CCfits::KeywordCreator </span>
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074   <span class="keyword">inline</span> <span class="keywordtype">void</span> KeywordCreator::reset ()
-<a name="l00075"></a>00075   {
-<a name="l00076"></a>00076     m_keyword=0;
-<a name="l00077"></a>00077 
-<a name="l00078"></a>00078   }
-<a name="l00079"></a>00079 
-<a name="l00080"></a>00080   <span class="keyword">inline</span> HDU* KeywordCreator::forHDU ()
-<a name="l00081"></a>00081   {
-<a name="l00082"></a>00082     <span class="keywordflow">return</span> m_forHDU;
+<a name="l00070"></a>00070       <span class="comment">// Data Members for Associations</span>
+<a name="l00071"></a>00071         HDU* m_forHDU;
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073       <span class="comment">// Additional Implementation Declarations</span>
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075   };
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077   <span class="comment">// Class CCfits::KeywordCreator </span>
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079   <span class="keyword">inline</span> <span class="keywordtype">void</span> KeywordCreator::reset ()
+<a name="l00080"></a>00080   {
+<a name="l00081"></a>00081     m_keyword=0;
+<a name="l00082"></a>00082 
 <a name="l00083"></a>00083   }
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085 } <span class="comment">// namespace CCfits</span>
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 <span class="preprocessor">#endif</span>
+<a name="l00085"></a>00085   <span class="keyword">inline</span> HDU* KeywordCreator::forHDU ()
+<a name="l00086"></a>00086   {
+<a name="l00087"></a>00087     <span class="keywordflow">return</span> m_forHDU;
+<a name="l00088"></a>00088   }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 } <span class="comment">// namespace CCfits</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="preprocessor">#endif</span>
 </pre></div></div>
 </div>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 6 2011 16:12:52 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 14 2016 15:57:19 for CCfits by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.5.1
 </small></address>

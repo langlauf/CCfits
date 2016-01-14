@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <utility>
 
 
 namespace CCfits {
@@ -95,9 +96,15 @@ namespace CCfits {
    }
 
 
-   if (fits_create_tbl(fitsPointer(), tblType, rows , m_numCols, cname,
-			    cformat, cunit, const_cast<char*>(hduName.c_str()),
-			    &status))  
+   fits_create_tbl(fitsPointer(), tblType, rows , m_numCols, cname,
+	  cformat, cunit, const_cast<char*>(hduName.c_str()), &status);
+   if (!status && version > 1)
+   {
+      char extver[] = "EXTVER";
+      fits_write_key(fitsPointer(), Tint, extver, &version, 0, &status);
+   } 
+   
+   if (status)
    {
            delete [] cname;
            delete [] cformat;
@@ -153,9 +160,9 @@ namespace CCfits {
 
    for(i=0; i<m_numCols; i++)
    {
-        m_column[colName[i]] =  create.getColumn(i+1, colName[i], colFmt[i],colUnit[i]);
-        Column& col = column(colName[i]);
-        col.setLimits(col.type());
+      Column* newCol = create.getColumn(i+1, colName[i], colFmt[i],colUnit[i]);
+      m_column.insert(std::make_pair(colName[i], newCol));
+      newCol->setLimits(newCol->type()); 
    }
 
   }
@@ -186,8 +193,8 @@ namespace CCfits {
   }  
 
   std::vector<Column*> __tmp;
-  std::map<String,Column*>::const_iterator ciEnd(m_column.end());
-  std::map<String,Column*>::const_iterator ci(m_column.begin());
+  ColMap::const_iterator ciEnd(m_column.end());
+  ColMap::const_iterator ci(m_column.begin());
   while (ci != ciEnd) 
   {
         __tmp.push_back((*ci).second);
@@ -204,18 +211,6 @@ namespace CCfits {
   return s;
   }
 
-  void Table::column (int columnNum, Column *value)
-  {
-  std::map<String,Column*>::const_iterator columnByNum;
-
-  for (columnByNum=m_column.begin(); columnByNum!=m_column.end(); 
-       columnByNum++)
-     if ( ((*columnByNum).second)->index() == columnNum) 
-        break;
-
-  m_column[(*columnByNum).first] = value;
-  }
-
   void Table::init (bool readFlag, const std::vector<String>& keys)
   {
 
@@ -229,7 +224,7 @@ namespace CCfits {
   void Table::clearData ()
   {
   // obliterate current contents, then remove pointers from the map.
-  for (std::map<String,Column*>::const_iterator col = m_column.begin(); 
+  for (ColMap::const_iterator col = m_column.begin(); 
           col != m_column.end(); col++)
   {
         delete (*col).second;
@@ -245,17 +240,16 @@ namespace CCfits {
   // Column has 'deep copy' because all its data members that need
   // to be copied (i.e. not the pointer to the fits file) are allocated
   // on the stack by being Container types.
-  std::map<String,Column*> newColumnContainer;
+  ColMap newColumnContainer;
 
   try
   {
-        for (std::map<String,Column*>::const_iterator col = right.m_column.begin(); 
+        for (ColMap::const_iterator col = right.m_column.begin(); 
                 col != right.m_column.end(); col++)
         {
            Column* colCopy = (*col).second->clone();
-           // This function must be a friend of Column in order to do this...
-           colCopy->m_parent = this;
-           newColumnContainer[(*col).first] = colCopy;
+           colCopy->setParent(this);
+           newColumnContainer.insert(std::make_pair(col->first, colCopy));
         }
         m_column = newColumnContainer;
   }
@@ -264,8 +258,10 @@ namespace CCfits {
 
   Column& Table::column (const String& colName, bool caseSensitive) const
   {
+     // For backwards compatibility with older m_column implementation as 
+     //   a map (not a multimap), just return the first key that matches.
   bool isFound = false;
-  std::map<String,Column*>::const_iterator key = m_column.begin();
+  ColMap::const_iterator key = m_column.begin();
   if (caseSensitive)
   {
      key = m_column.find(colName);
@@ -289,7 +285,7 @@ namespace CCfits {
 
   Column& Table::column (int colIndex) const
   {
-  std::map<String,Column*>::const_iterator key;
+  ColMap::const_iterator key;
 
   for ( key = m_column.begin(); key != m_column.end(); key++)
   {
@@ -312,20 +308,30 @@ namespace CCfits {
 
   void Table::setColumn (const String& colname, Column* value)
   {
-    // don't do map's default behavior which is to add a new column
-    // if the input name and data don't exist.
-    m_column[colname] = value;
+    m_column.insert(std::make_pair(colname, value));
   }
 
   void Table::deleteColumn (const String& columnName)
   {
-        Column& doomed = column(columnName);
-        int status(0);
-        if ( fits_delete_col(fitsPointer(),doomed.index(),&status) ) throw  FitsError(status);
-        delete &doomed;
-        m_column.erase(columnName);
-        reindex();
-        updateRows();
+     std::pair<ColMap::iterator,ColMap::iterator> itRange = m_column.equal_range(columnName);
+     if (itRange.first == itRange.second)
+        throw NoSuchColumn(columnName);
+     ColMap::iterator itCol = itRange.first;
+     while (itCol != itRange.second)
+     {
+        // Don't assume if multiple cols share columnName that
+        //  equal_range returns them sorted by col idx.
+        // Note that both fits_delete_col and reindex() are O(N)
+        //  where N = total number of columns in table.
+        Column* doomed = itCol->second;
+        int status=0;
+        if (fits_delete_col(fitsPointer(), doomed->index(), &status))
+            throw FitsError(status);
+        m_column.erase(itCol++);
+        reindex(doomed->index(), false);
+        delete doomed;
+     }
+     updateRows();
   }
 
   void Table::insertRows (long first, long number)
@@ -335,8 +341,8 @@ namespace CCfits {
     if (fits_insert_rows(fitsPointer(),first,number,&status)) throw FitsError(status);
     // cfitsio's semantics are that rows are insert after row first,
     // while vector's insert semantic is to insert before the initial.
-    std::map<String,Column*>::iterator ci = m_column.begin();
-    std::map<String,Column*>::iterator ciEnd = m_column.end();
+    ColMap::iterator ci = m_column.begin();
+    ColMap::iterator ciEnd = m_column.end();
 
     while (ci != ciEnd)
     {
@@ -357,8 +363,8 @@ namespace CCfits {
     // cfitsio will reject invalid values of first, number. (e.g. first <= 0).
     if (fits_delete_rows(fitsPointer(),first,number,&status)) throw FitsError(status);
 
-    std::map<String,Column*>::iterator ci = m_column.begin();
-    std::map<String,Column*>::iterator ciEnd = m_column.end();
+    ColMap::iterator ci = m_column.begin();
+    ColMap::iterator ciEnd = m_column.end();
 
     while (ci != ciEnd)
     {
@@ -380,8 +386,8 @@ namespace CCfits {
                          throw FitsError(status);
 
 
-    std::map<String,Column*>::iterator ci = m_column.begin();
-    std::map<String,Column*>::iterator ciEnd = m_column.end();
+    ColMap::iterator ci = m_column.begin();
+    ColMap::iterator ciEnd = m_column.end();
 
     const size_t N(rowList.size());
 
@@ -397,22 +403,30 @@ namespace CCfits {
     updateRows();
   }
 
-  void Table::reindex ()
+  void Table::reindex (int startNum, bool isInsert)
   {
-        makeThisCurrent();
-        std::map<String,Column*>::iterator ci(m_column.begin());
-        std::map<String,Column*>::iterator ciEnd(m_column.end());
-        int status(0);
-
-        while (ci != ciEnd)
+     // If isInsert, assume this is called PRIOR to insertion into
+     //   column container.
+     // If !isInsert, assume this is called AFTER deletion.
+     makeThisCurrent();
+     ColMap::iterator itCol = m_column.begin();
+     ColMap::iterator itColEnd = m_column.end();
+     while (itCol != itColEnd)
+     {
+        Column* col = itCol->second;
+        int oldIdx = col->index();
+        if (isInsert)
         {
-                int colnum(0);
-                char* cname = const_cast<char*>((*ci).first.c_str());
-                if (fits_get_colnum(fitsPointer(),CASESEN,cname,&colnum,&status))
-                                        throw FitsError(status);
-                (*ci).second->index(colnum);       
-                ++ci;
-        }       
+           if (oldIdx >= startNum)
+              col->index(oldIdx+1);
+        }
+        else
+        {
+           if (oldIdx > startNum)
+              col->index(oldIdx-1);
+        }
+        ++itCol;
+     }       
   }
 
   long Table::getRowsize () const
@@ -424,6 +438,88 @@ namespace CCfits {
      return rowSize;
   }
 
+  void Table::copyColumn(const Column& inColumn, int colIndx, bool insertNewCol)
+  {
+     int status=0;
+     fitsfile *infptr = inColumn.parent()->fitsPointer();
+     const int inHduNum = inColumn.parent()->index();
+     makeThisCurrent();
+     
+     // fits_copy_col will prevent copying from Binary to AsciiTable,
+     //   so don't need to explicitly check for that here.
+     if (fitsPointer() == infptr && inColumn.parent() != this)
+     {
+        // Can't give the same fitsfile pointer for in/out in fits_copy_col.
+        fitsfile *tmpfptr=0;
+        FITSUtil::auto_array_ptr<char> pFileName(new char[FLEN_FILENAME]);
+        if (fits_file_name(infptr, pFileName.get(),&status))
+           throw FitsError(status);
+        if (fits_open_file(&tmpfptr,pFileName.get(), 1, &status))
+           throw FitsError(status);        
+        if (fits_movabs_hdu(tmpfptr, index()+1, 0, &status))
+        {
+           fits_close_file(tmpfptr,&status);
+           throw FitsError(status);
+        }  
+        if (fits_movabs_hdu(infptr, inHduNum+1, 0, &status))
+        {
+           fits_close_file(tmpfptr,&status);
+           throw FitsError(status);
+        }
+        
+        if (fits_copy_col(infptr, tmpfptr, inColumn.index(), colIndx, (int)insertNewCol, &status))
+        {
+           fits_close_file(tmpfptr,&status);
+           throw FitsError(status);
+        }  
+        fits_close_file(tmpfptr,&status); 
+     }
+     else
+     {                     
+        inColumn.parent()->makeThisCurrent();
+        if (fits_copy_col(infptr,fitsPointer(), inColumn.index(), colIndx, (int)insertNewCol,&status))
+           throw FitsError(status);
+     } 
+     
+     if (insertNewCol)
+     {
+        Column* colCopy = inColumn.clone();
+        colCopy->setParent(this);
+        colCopy->index(colIndx);
+        // Not going to assume we can reuse inColumn's m_data array.
+        //  For one thing, it might not even have the same number of rows
+        //  as this table.  It's safest just to force a read-from-disk
+        //  next time a read operation is called.
+        colCopy->resetRead();
+        reindex(colIndx, true);
+        column().insert(std::make_pair(colCopy->name(), colCopy));
+     }
+     else
+     {
+        // Can assume the write to existing column succeeded, else
+        //   bad status would have thrown above.
+        ColMap::iterator itCol = column().begin();
+        ColMap::iterator itColEnd = column().end();
+        bool isFound=false;
+        while (!isFound && itCol != itColEnd)
+        {
+           if (itCol->second->index() == colIndx)
+              isFound = true;
+           else
+              ++itCol;
+        }
+        if (itCol != itColEnd)
+        {
+           // For a non-inserted column copy, the various column keywords
+           //  (ie. TSCALn, TTYPEn,...) of the destination column ARE NOT
+           //  replaced with the incoming copy values.  Therefore DON'T
+           //  replace CCfits Column object with a clone of the input.
+           //  Simply reset isRead flag to false.  m_data array will be
+           //  properly refilled upon next read operation.
+           itCol->second->resetRead();
+        }
+     }    
+  }
   // Additional Declarations
 
 } // namespace CCfits

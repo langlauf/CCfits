@@ -611,10 +611,6 @@ int copyHDU()
     const string inFileName("atestfil.fit");  
     const string outFileName("btestfil.fit");  
 
-    int status(0);
-
-    status = 0;
-
     remove(outFileName.c_str());            /* Delete old file if it already exists */
 
     // open the existing FITS file (Read is the default anyway)
