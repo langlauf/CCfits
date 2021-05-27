@@ -7,6 +7,8 @@
 //
 //	Original author: Ben Dorman
 
+// DO NOT define this variable in any other program.
+#define CCFITSCOOKBOOK_BUILD  1
 
 // The CCfits headers are expected to be installed in a subdirectory of
 // the include path.
@@ -90,9 +92,9 @@ int writeImage()
     long naxis    =   2;      
     long naxes[2] = { 300, 200 };   
     
-    // declare auto-pointer to FITS at function scope. Ensures no resources
+    // declare unique-pointer to FITS at function scope. Ensures no resources
     // leaked if something fails in dynamic allocation.
-    std::auto_ptr<FITS> pFits(0);
+    std::unique_ptr<FITS> pFits(nullptr);
       
     try
     {                
@@ -211,9 +213,9 @@ int writeAscii ()
     // Create an ASCII Table extension containing 3 columns and 6 rows *
     //******************************************************************
 {
-    // declare auto-pointer to FITS at function scope. Ensures no resources
+    // declare unique-pointer to FITS at function scope. Ensures no resources
     // leaked if something fails in dynamic allocation.
-    std::auto_ptr<FITS> pFits(0);
+    std::unique_ptr<FITS> pFits(nullptr);
       
     try
     {                
@@ -294,7 +296,7 @@ int writeAscii ()
     }
     
     //  FITSUtil::auto_array_ptr<T> is provided to counter resource leaks that
-    //  may arise from C-arrays. It is a std::auto_ptr<T> analog that calls
+    //  may arise from C-arrays. It is a std::unique_ptr<T> analog that calls
     //  delete[] instead of delete.
     
     FITSUtil::auto_array_ptr<long>  pDiameter(new long[rows]);
@@ -366,7 +368,7 @@ int writeBinary ()
     // Create a BINARY table extension and write and manipulate vector rows 
     //*********************************************************************
 {
-    std::auto_ptr<FITS> pFits(0);
+    std::unique_ptr<FITS> pFits(nullptr);
       
     try
     {                
@@ -642,7 +644,7 @@ int copyHDU()
          // read a particular HDU within the file. This call reads just the header 
          // information from SPECTRUM
          
-         std::auto_ptr<FITS> pInfile(new FITS("file1.pha",Read,SPECTRUM));
+         std::unique_ptr<FITS> pInfile(new FITS("file1.pha",Read,SPECTRUM));
          
          // define a reference for clarity.
          
@@ -662,7 +664,7 @@ int copyHDU()
 
  int readImage()
  {
-        std::auto_ptr<FITS> pInfile(new FITS("atestfil.fit",Read,true));
+        std::unique_ptr<FITS> pInfile(new FITS("atestfil.fit",Read,true));
         
         PHDU& image = pInfile->pHDU(); 
         
@@ -700,7 +702,7 @@ int copyHDU()
         hdus[1] = "TABLE_BINARY";
         
         
-        std::auto_ptr<FITS> pInfile(new FITS("atestfil.fit",Read,hdus,false));
+        std::unique_ptr<FITS> pInfile(new FITS("atestfil.fit",Read,hdus,false));
         
         ExtHDU& table = pInfile->extension(hdus[1]);
         
@@ -728,7 +730,7 @@ int copyHDU()
  int readExtendedSyntax()
  {
     // Current extension will be set to PLANETS_ASCII after construction:
-    std::auto_ptr<FITS> pInfile(new FITS("btestfil.fit[PLANETS_ASCII][Density > 5.2]"));
+    std::unique_ptr<FITS> pInfile(new FITS("btestfil.fit[PLANETS_ASCII][Density > 5.2]"));
     std::cout << "\nCurrent extension: " 
         << pInfile->currentExtensionName() << std::endl;
         
@@ -753,9 +755,9 @@ int copyHDU()
          remove(newFile.c_str());
        
          // test 1: write to a new file
-         std::auto_ptr<FITS> pInfile(new FITS(inFile,Write,string("PLANETS_ASCII")));
+         std::unique_ptr<FITS> pInfile(new FITS(inFile,Write,string("PLANETS_ASCII")));
          FITS* infile = pInfile.get();
-         std::auto_ptr<FITS> pNewfile(new FITS(newFile,Write));
+         std::unique_ptr<FITS> pNewfile(new FITS(newFile,Write));
          ExtHDU& source = infile->extension("PLANETS_ASCII");
          const string expression("DENSITY > 3.0");
          
@@ -785,3 +787,5 @@ int copyHDU()
         
          return 0;       
  }
+
+#undef CCFITSCOOKBOOK_BUILD
