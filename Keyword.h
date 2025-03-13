@@ -272,6 +272,7 @@ namespace CCfits {
   };
 #ifndef SPEC_TEMPLATE_IMP_DEFECT
 #ifndef SPEC_TEMPLATE_DECL_DEFECT
+  template <> bool& Keyword::value(bool& val) const;
   template <> float& Keyword::value(float& val) const;
   template <> double& Keyword::value(double& val) const;
   template <> int& Keyword::value(int& val) const;
@@ -280,6 +281,7 @@ namespace CCfits {
   template <> void Keyword::setValue(const float& newValue);
   template <> void Keyword::setValue(const double& newValue);
   template <> void Keyword::setValue(const int& newValue);
+  template <> void Keyword::setValue(const String& val);
 #endif 
 #endif 
 

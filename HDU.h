@@ -608,6 +608,19 @@ namespace CCfits {
       casting the char * parameter to a string.
 
   */
+  
+  /*! \fn Keyword& HDU::addKeyNull(const String& name, const String& comment, bool isLongStr = false);
+  
+      \brief create a new keyword in the HDU with a null (ie. undefined) value.
+      
+      \param name (String) The keyword name
+      \param comment (String) The keyword comment
+      \param isLongStr (Bool, default=false) Is the keyword long (greater than 68 characters)
+      
+      This creates a keyword with a blank value field. It is possible to add a value at a later time
+      using the Keyword::setValue function.
+      
+  */
 
   /*! \fn std::ostream& operator << (std::ostream& s, const CCfits::HDU& right);
 
@@ -795,6 +808,8 @@ namespace CCfits {
       Keyword* addKey(const Keyword* inKeyword);
 
       Keyword& addKey(const String& name, const char* charString, const String& comment, bool isLongStr = false);
+      
+      Keyword& addKeyNull(const String& name, const String& comment, bool isLongStr = false);
 
 #ifdef TEMPLATE_AMBIG_DEFECT
       inline void readKeyMS(const String& keyName, int & val);

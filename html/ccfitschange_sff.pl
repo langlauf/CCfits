@@ -14,7 +14,7 @@
 #------------------------------------------------------------------------------
 
 # This require has a number of useful support subroutines.
-require "support_subs.pl";
+require "/local/data/aestasssd/gordon/heasoft/heacore/CCfits/html/support_subs.pl";
 
 $program = "shuttlechange";
 

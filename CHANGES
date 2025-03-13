@@ -1,3 +1,13 @@
+Changes for CCfits 2.7
+
+- New function HDU::addKeyNull() for creating keywords with null
+values (ie. CFITSIO's fits_write_key_null() functionality).  Existing
+keywords with null values can now also be modified.
+   HDU.cxx, .h
+   Keyword.cxx, .h
+   KeywordCreator.cxx, .h
+   KeyData.cxx, .h
+   
 Changes for CCfits 2.6
 
 - For compatibility with C++17, removed dependencies on

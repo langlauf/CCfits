@@ -892,4 +892,12 @@ namespace CCfits {
        m_keyWord.insert(refToEntry);
        return *(refToEntry.second);
     }
+    
+    Keyword& HDU::addKeyNull(const String& name, const String& comment, bool isLongStr) 
+    {
+       makeThisCurrent();
+       Keyword* newKey = new KeyNull(name, this, comment);
+       addKeyword(newKey);
+       return *newKey;
+    }   
 } // namespace CCfits

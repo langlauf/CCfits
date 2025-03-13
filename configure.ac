@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl
 dnl Author: Paul_Kunz@slac.stanford.edu
 
-AC_INIT([CCfits], [2.6], [], CCfits)
+AC_INIT([CCfits], [2.7], [], CCfits)
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([FITS.cxx])
 AC_CONFIG_HEADERS(config.h)

@@ -130,6 +130,19 @@ namespace CCfits
    }
 
    template<>
+   bool& Keyword::value(bool& val) const
+   {
+      if (m_keytype == Tlogical)
+      {
+         const KeyData<bool>& thisKey = static_cast<const KeyData<bool>&>(*this);
+         val = thisKey.keyval();
+      }
+      else
+         throw Keyword::WrongKeywordValueType(name());
+      return val;
+   }
+
+   template<>
    double& Keyword::value(double& val) const
    {
       switch (m_keytype)
@@ -168,6 +181,15 @@ namespace CCfits
                val = stringInt;
             }
             break;
+         case Tnull:
+            {
+               const KeyNull& thisKey = static_cast<const KeyNull&>(*this);
+               if (thisKey.state() == KeyNull::ValState::NumData)
+                 val = thisKey.numValue();
+               else
+                  throw Keyword::WrongKeywordValueType(name());
+            }
+            break;
          default:
             throw Keyword::WrongKeywordValueType(name());
             break;
@@ -194,6 +216,15 @@ namespace CCfits
          {
             const KeyData<int>& thisKey = static_cast<const KeyData<int>&>(*this);
             val = thisKey.keyval();
+         }
+         else if (m_keytype == Tnull)
+         {
+            const KeyNull& thisKey = static_cast<const KeyNull&>(*this);
+            if (thisKey.state() == KeyNull::ValState::NumData)
+              // This will truncate if numValue is float/double.
+              val = static_cast<int>(thisKey.numValue());
+            else
+               throw Keyword::WrongKeywordValueType(name());
          } 
          else
          {
@@ -231,12 +262,37 @@ namespace CCfits
               val = oss.str();              
            }
             break;
+         case Tlogical:
+           {
+              const KeyData<bool>& thisKey = static_cast<const KeyData<bool>&>(*this);
+              std::ostringstream oss; 
+              oss << std::boolalpha << thisKey.keyval() ;
+              val = oss.str();
+           }
+            break;
          case Tstring:
            {
               const KeyData<String>& thisKey = static_cast<const KeyData<String>&>(*this);
               val = thisKey.keyval();
            }
             break;
+         case Tnull:
+           {
+              const KeyNull& thisKey = static_cast<const KeyNull&>(*this);
+              if (thisKey.state() == KeyNull::ValState::StrData)
+              {
+                 val = thisKey.stringValue();
+              }
+              else if (thisKey.state() == KeyNull::ValState::NumData)
+              {
+                 std::ostringstream oss;
+                 oss << thisKey.numValue();
+                 val = oss.str();              
+              }
+              else
+                 throw Keyword::WrongKeywordValueType(name());
+           }
+           break;
          default:
             throw Keyword::WrongKeywordValueType(name());
       }
@@ -256,6 +312,12 @@ namespace CCfits
       {
          KeyData<double>& thisKey = static_cast<KeyData<double>&>(*this);
          thisKey.keyval(static_cast<double>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tnull)
+      {
+         KeyNull& thisKey = static_cast<KeyNull&>(*this);
+         thisKey.setNumValue(static_cast<double>(newValue),Tfloat);
          thisKey.write();
       }
       else
@@ -278,6 +340,12 @@ namespace CCfits
          // This will lose precision but allow it anyway.
          KeyData<float>& thisKey = static_cast<KeyData<float>&>(*this);
          thisKey.keyval(static_cast<float>(newValue));
+         thisKey.write();
+      }
+      else if (m_keytype == Tnull)
+      {
+         KeyNull& thisKey = static_cast<KeyNull&>(*this);
+         thisKey.setNumValue(newValue, Tdouble);
          thisKey.write();
       }
       else
@@ -316,6 +384,12 @@ namespace CCfits
          thisKey.keyval(oss.str());
          thisKey.write();
       }
+      else if (m_keytype == Tnull)
+      {
+         KeyNull& thisKey = static_cast<KeyNull&>(*this);
+         thisKey.setNumValue(newValue, Tint);
+         thisKey.write();
+      }
       else
       {
          throw Keyword::WrongKeywordValueType(name());
@@ -323,6 +397,28 @@ namespace CCfits
 
    }
 
+   template <>
+   void Keyword::setValue(const String& newValue)
+   {
+      if (m_keytype == Tstring)
+      {
+         KeyData<String>& thisKey = 
+             static_cast<KeyData<String>&>(*this);
+         thisKey.keyval(newValue);
+         thisKey.write();
+      }
+      else if (m_keytype == Tnull)
+      {
+         KeyNull& thisKey = static_cast<KeyNull&>(*this);
+         thisKey.setStringValue(newValue);
+         thisKey.write();
+      }
+      else
+      {
+         throw Keyword::WrongKeywordValueType(name());
+      }
+   }
+   
 #endif
 #endif
 }

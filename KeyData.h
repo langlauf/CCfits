@@ -65,6 +65,34 @@ namespace CCfits {
       // Additional Implementation Declarations
 
   };
+  
+  class KeyNull : public Keyword
+  {
+   public:
+        enum class ValState {Empty, NumData, StrData};
+        KeyNull (const KeyNull &right);
+        KeyNull (const String &keyname,
+                 HDU* p,
+                 const String &comment = "");
+        virtual ~KeyNull();
+        virtual KeyNull* clone () const;
+        virtual void write ();
+        double numValue() const;
+        string stringValue() const;
+        ValState state() const;
+        void setStringValue(const string& val);
+        void setNumValue(double val, ValueType writeAs);
+   protected:
+        virtual void copy (const Keyword& right);
+        virtual bool compare (const Keyword &right) const;
+        virtual std::ostream & put (std::ostream &s) const;
+   private:
+        double m_numValue;
+        string m_stringValue;
+        ValState m_state;
+        ValueType m_writeAs;
+  };
+  
 #if SPEC_TEMPLATE_IMP_DEFECT || SPEC_TEMPLATE_DECL_DEFECT
         template<>
         inline void KeyData<String>::write() 
@@ -336,6 +364,34 @@ template<> void KeyData<std::complex<double> >::keyval(const std::complex<double
 			   &m_keyval,  // fits_write_key takes a void* here 
 			   const_cast<char *>(comment().c_str()), 
 			   &status) ) throw FitsError(status);
+  }
+  
+  inline double KeyNull::numValue() const
+  {
+     return m_numValue;
+  }
+  
+  inline string KeyNull::stringValue() const
+  {
+     return m_stringValue;
+  }
+  
+  inline KeyNull::ValState KeyNull::state() const
+  {
+     return m_state;
+  }
+  
+  inline void KeyNull::setNumValue(double val, ValueType writeAs)
+  {
+     m_numValue = val;
+     m_state = ValState::NumData;
+     m_writeAs = writeAs;
+  }
+  
+  inline void KeyNull::setStringValue(const string& val)
+  {
+     m_stringValue = val;
+     m_state = ValState::StrData;
   }
 
   // Additional Declarations

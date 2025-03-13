@@ -230,6 +230,11 @@ namespace CCfits {
          value = valueString;       
      }
      
+     if (valueString.empty())
+     {
+        return new KeyNull(name,hdu,comment);
+     }
+     
      if (fits_get_keytype(const_cast<char*>(valueString.c_str()), &keyType, &status))   
      {
              throw FitsError(status);
